@@ -1,0 +1,3 @@
+#Installation
+
+Launch `make install`
