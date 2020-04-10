@@ -33,17 +33,22 @@ class CallOfProject
     private $projects;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProjectFormLayout")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ProjectFormLayout", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $projectFormLayout;
+
+    /**
+     * @var boolean
+     */
+    private $fromTemplate = false;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -101,5 +106,21 @@ class CallOfProject
         $this->projectFormLayout = $projectFormLayout;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFromTemplate(): bool
+    {
+        return $this->fromTemplate;
+    }
+
+    /**
+     * @param bool $fromTemplate
+     */
+    public function setFromTemplate(bool $fromTemplate): void
+    {
+        $this->fromTemplate = $fromTemplate;
     }
 }

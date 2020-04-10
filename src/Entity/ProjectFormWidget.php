@@ -36,7 +36,7 @@ class ProjectFormWidget
      */
     private $projectFormLayout;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

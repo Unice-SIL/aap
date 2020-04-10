@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CallOfProject{% endblock %}
+
+{% block body %}
+    <h1>CallOfProject</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ call_of_project.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ call_of_project.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('call_of_project_index') }}">back to list</a>
+
+    <a href="{{ path('call_of_project_edit', {'id': call_of_project.id}) }}">edit</a>
+
+    {{ include('call_of_project/_delete_form.html.twig') }}
+{% endblock %}

@@ -42,7 +42,7 @@ class ProjectFormLayout
         $this->projectFormWidgets = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -101,4 +101,11 @@ class ProjectFormLayout
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+
 }
