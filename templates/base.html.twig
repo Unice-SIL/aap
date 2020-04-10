@@ -2,15 +2,22 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
         <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <!-- Google Font: Source Sans Pro -->
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
+
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     </head>
-    <body>
-        <div class="container">
-            {% block body %}{% endblock %}
-        </div>
+    <body class="{{ body_class|default('') }}">
+
+        {% block body %}{% endblock %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

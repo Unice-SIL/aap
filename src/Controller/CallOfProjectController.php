@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\CallOfProject;
 use App\Form\Admin\CallOfProject\CallOfProjectType;

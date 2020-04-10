@@ -1,9 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}CallOfProject index{% endblock %}
 
-{% block body %}
-    <h1>CallOfProject index</h1>
+{% set h1 = 'CallOfProject index' %}
+
+{% block content %}
 
     <table class="table">
         <thead>
@@ -17,7 +18,7 @@
             <tr>
                 <td>{{ call_of_project.description }}</td>
                 <td>
-                    <a href="{{ path('app.admin.call_of_project.edit', {'id': call_of_project.id}) }}">edit</a>
+                    <a href="{{ path('app.call_of_project.edit', {'id': call_of_project.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -28,5 +29,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app.admin.call_of_project.new') }}">Create new</a>
+    <a href="{{ path('app.call_of_project.new') }}">Create new</a>
 {% endblock %}

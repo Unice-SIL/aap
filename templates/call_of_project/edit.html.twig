@@ -1,12 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}Edit CallOfProject{% endblock %}
 
-{% block body %}
-    <h1>Edit CallOfProject</h1>
+{% set h1 =  'Edit CallOfProject' %}
+
+{% block content %}
 
     {{ include('call_of_project/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app.admin.call_of_project.index') }}">back to list</a>
+    <a href="{{ path('app.call_of_project.index') }}">back to list</a>
 
 {% endblock %}

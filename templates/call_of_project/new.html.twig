@@ -1,11 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}New CallOfProject{% endblock %}
 
-{% block body %}
-    <h1>Create new CallOfProject</h1>
+{% set h1 = 'Create new CallOfProject' %}
+
+{% block content %}
 
     {{ include('call_of_project/_form.html.twig') }}
 
-    <a href="{{ path('app.admin.call_of_project.index') }}">back to list</a>
+    <a href="{{ path('app.call_of_project.index') }}">back to list</a>
 {% endblock %}

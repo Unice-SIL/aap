@@ -1,7 +1,6 @@
 import '../scss/app.scss';
 
-require('jquery');
-require('bootstrap');
+require('admin-lte');
 
 $(document).ready(function () {
 
