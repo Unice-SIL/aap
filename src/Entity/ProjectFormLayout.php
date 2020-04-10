@@ -30,7 +30,7 @@ class ProjectFormLayout
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isTemplate;
+    private $isTemplate = false;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormWidget", mappedBy="projectFormLayout", orphanRemoval=true)

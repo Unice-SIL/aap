@@ -3,7 +3,10 @@
 namespace App\Form\Admin\CallOfProject;
 
 use App\Entity\CallOfProject;
+use App\Entity\ProjectFormLayout;
 use App\Form\Admin\ProjectFormLayout\ProjectFormLayoutEmbeddedType;
+use App\Repository\ProjectFormLayoutRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,17 +41,30 @@ class CallOfProjectType extends AbstractType
             /** @var CallOfProject $callOfProject */
             $callOfProject = $builder->getData();
 
+            // If new entity
             if (!$callOfProject || null === $callOfProject->getId()) {
 
-                if ($isFromTemplate) {
-                    $type = null;
-                } else {
+                $type = EntityType::class;
+                $projectFormLayoutOptions = [
+                    'query_builder' => function (ProjectFormLayoutRepository $projectFormLayoutRepository) {
+                        return $projectFormLayoutRepository->getIsTemplateBuilder();
+                    },
+                    'class' => ProjectFormLayout::class
+                ];
+
+                if (!$isFromTemplate) {
                     $type = ProjectFormLayoutEmbeddedType::class;
+                    $projectFormLayoutOptions = [];
                 }
-                    $form->add('projectFormLayout', $type, [
+
+                $form->add('projectFormLayout', $type, array_merge(
+                    [
                         'label' => false
-                    ] );
-            } else {
+                    ],
+                    $projectFormLayoutOptions
+                ));
+
+            } else { //If update entity
                 $form->remove('fromTemplate');
             }
         };

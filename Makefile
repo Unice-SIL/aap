@@ -5,12 +5,12 @@ help:
 
 install: ## Install symfony project
 	composer install
-	#build_assets
+	make build_assets
 	make build
 
 reinstall: ## Reinstall symfony project
 	composer install
-	#build_assets
+	make build_assets
 	make rebuild
 
 rebuild: ## Rebuild database
@@ -20,7 +20,7 @@ rebuild: ## Rebuild database
 build: ## Build database
 	php bin/console doctrine:database:create
 	php bin/console doctrine:migrations:migrate --no-interaction
-	#php bin/console doctrine:fixtures:load --no-interaction --append
+	php bin/console doctrine:fixtures:load --no-interaction --append
 
 build_assets: ## build assets
 	yarn install
