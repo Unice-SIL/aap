@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin\ProjectFormLayout;
+namespace App\Form\ProjectFormLayout;
 
 use App\Entity\ProjectFormLayout;
 use Symfony\Component\Form\AbstractType;
@@ -11,16 +11,14 @@ class ProjectFormLayoutEmbeddedType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name')
-            ->add('isTemplate')
-        ;
+        /*$builder
+            ->add('name');*/
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ProjectFormLayout::class,
+            'data_class' => ProjectFormLayout::class
         ]);
     }
 }

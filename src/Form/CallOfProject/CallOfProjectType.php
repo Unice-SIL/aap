@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Admin\CallOfProject;
+namespace App\Form\CallOfProject;
 
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
-use App\Form\Admin\ProjectFormLayout\ProjectFormLayoutEmbeddedType;
+use App\Form\ProjectFormLayout\ProjectFormLayoutEmbeddedType;
 use App\Repository\ProjectFormLayoutRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -24,7 +24,8 @@ class CallOfProjectType extends AbstractType
             ->add('description')
             ->add('fromTemplate', CheckboxType::class, [
                 'false_values' => ['false', '0', null],
-                'required' => false
+                'required' => false,
+                'mapped' => false
             ]);
         ;
 
@@ -73,10 +74,7 @@ class CallOfProjectType extends AbstractType
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
 
-                /** @var CallOfProject $callOfProject */
-                $callOfProject = $event->getData();
-
-                $formModifier($event->getForm(), $callOfProject->isFromTemplate());
+                $formModifier($event->getForm(), $event->getForm()->get('fromTemplate')->getData());
             }
         );
 

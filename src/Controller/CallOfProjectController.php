@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\CallOfProject;
-use App\Form\Admin\CallOfProject\CallOfProjectType;
+use App\Form\CallOfProject\CallOfProjectType;
+use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,8 @@ class CallOfProjectController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @param CallOfProjectRepository $callOfProjectRepository
+     * @return Response
      */
     public function index(CallOfProjectRepository $callOfProjectRepository): Response
     {
@@ -27,19 +30,21 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
+     * @param Request $request
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, CallOfProjectManagerInterface $callOfProjectManager): Response
     {
-        $callOfProject = new CallOfProject();
+        $callOfProject = $callOfProjectManager->create();
         $form = $this->createForm(CallOfProjectType::class, $callOfProject);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($callOfProject);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('app.admin.call_of_project.index');
+            $callOfProjectManager->save($callOfProject);
+
+            return $this->redirectToRoute('app.call_of_project.form', ['id' => $callOfProject->getId()]);
         }
 
         return $this->render('call_of_project/new.html.twig', [
@@ -69,12 +74,25 @@ class CallOfProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app.admin.call_of_project.index');
+            return $this->redirectToRoute('app.call_of_project.index');
         }
 
         return $this->render('call_of_project/edit.html.twig', [
             'call_of_project' => $callOfProject,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/form", name="form", methods={"GET","POST"})
+     * @param CallOfProject $callOfProject
+     * @return Response
+     */
+    public function form(CallOfProject $callOfProject): Response
+    {
+
+        return $this->render('call_of_project/form.html.twig', [
+            'call_of_project' => $callOfProject,
         ]);
     }
 

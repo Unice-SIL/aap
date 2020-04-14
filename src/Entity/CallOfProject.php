@@ -38,11 +38,6 @@ class CallOfProject
      */
     private $projectFormLayout;
 
-    /**
-     * @var boolean
-     */
-    private $fromTemplate = false;
-
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -108,19 +103,4 @@ class CallOfProject
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isFromTemplate(): bool
-    {
-        return $this->fromTemplate;
-    }
-
-    /**
-     * @param bool $fromTemplate
-     */
-    public function setFromTemplate(bool $fromTemplate): void
-    {
-        $this->fromTemplate = $fromTemplate;
-    }
 }

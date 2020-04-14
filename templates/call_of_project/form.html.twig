@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% set h1 = 'app.entity.call_of_project.page.form.h1'|trans %}
+{% block title %}
+    {{ h1 }}
+{% endblock %}
+
+{% block content %}
+    {{ call_of_project.description }}
+{% endblock %}
+
