@@ -1,8 +1,32 @@
 import '../scss/app.scss';
 
 require('admin-lte');
+require('bootstrap');
+require('datatables.net-bs4');
 
 $(document).ready(function () {
+
+    /**
+     * Project List by Call of Project Datatable
+     */
+    $('#dataTable-projects-list').DataTable({
+        language: {
+            url: $('#dataTable-projects-list').data('translation-url')
+        }
+    });
+
+    /**
+     * Widget modal
+     */
+    $('#widget-form-modal').on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let modal = $(this);
+        let url = button.data('url');
+
+        $.get(url).done(function (html) {
+            modal.find('#form-container').html(html);
+        });
+    });
 
     /**
      *
@@ -10,7 +34,7 @@ $(document).ready(function () {
      * todo: move to a specific file
      * ==================================================
      */
-    let $fromTemplate = $('#call_of_project_fromTemplate');
+    /*let $fromTemplate = $('#call_of_project_fromTemplate');
     // When fromTemplate changed
     $fromTemplate.change(function() {
 
@@ -33,6 +57,6 @@ $(document).ready(function () {
                 );
             }
         });
-    });
+    });*/
     /** ================================================== */
 });

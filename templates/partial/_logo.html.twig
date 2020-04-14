@@ -1,0 +1,7 @@
+<!-- Brand Logo -->
+{% set isSidebarLayout =  layout_class == layout_sidebar_class %}
+{% set logo_class = isSidebarLayout ? 'brand-link' : 'navbar-brand' %}
+<a href="{{ path('app.homepage') }}" class="{{ logo_class }}">
+    <img src="{{ asset('build/logo.png') }}" alt="{{ app_name }}" class="brand-image img-circle elevation-3">
+    <span class="brand-text font-weight-light">{{ app_name }}</span>
+</a>

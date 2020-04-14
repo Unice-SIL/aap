@@ -8,6 +8,7 @@ use App\Entity\CallOfProject;
 
 abstract class AbstractCallOfProjectManager implements CallOfProjectManagerInterface
 {
+
     public function create(): CallOfProject
     {
         return new CallOfProject();

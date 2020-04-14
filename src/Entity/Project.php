@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  */
-class Project
+class Project extends Common
 {
     /**
      * @var UuidInterface
@@ -84,5 +84,10 @@ class Project
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

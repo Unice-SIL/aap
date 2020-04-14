@@ -1,4 +1,18 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {% if form.name is defined %}
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+    {% endif %}
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+    <button class="btn btn-primary">
+        {{ button_label|default('app.action.save'|trans) }}
+    </button>
+    <a href="{{ path('app.homepage') }}" class="btn btn-secondary text-white">
+        {{ 'app.action.canceled'|trans }}
+    </a>
 {{ form_end(form) }}

@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CallOfProjectRepository")
  */
-class CallOfProject
+class CallOfProject extends Common
 {
     /**
      * @var UuidInterface
@@ -33,14 +33,15 @@ class CallOfProject
     private $projects;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ProjectFormLayout", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject", cascade={"persist"})
      */
-    private $projectFormLayout;
+    private $projectFormLayouts;
+
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->projectFormLayouts = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -91,14 +92,43 @@ class CallOfProject
         return $this;
     }
 
-    public function getProjectFormLayout(): ?ProjectFormLayout
+    public function __toString()
     {
-        return $this->projectFormLayout;
+        return $this->getName();
     }
 
-    public function setProjectFormLayout(?ProjectFormLayout $projectFormLayout): self
+    /**
+     * @return Collection|ProjectFormLayout[]
+     */
+    public function getProjectFormLayouts(): Collection
     {
-        $this->projectFormLayout = $projectFormLayout;
+        return $this->projectFormLayouts;
+    }
+
+    public function getProjectFormLayout(): ProjectFormLayout
+    {
+        return $this->getProjectFormLayouts()->first();
+    }
+
+    public function addProjectFormLayout(ProjectFormLayout $projectFormLayout): self
+    {
+        if (!$this->projectFormLayouts->contains($projectFormLayout)) {
+            $this->projectFormLayouts[] = $projectFormLayout;
+            $projectFormLayout->setCallOfProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectFormLayout(ProjectFormLayout $projectFormLayout): self
+    {
+        if ($this->projectFormLayouts->contains($projectFormLayout)) {
+            $this->projectFormLayouts->removeElement($projectFormLayout);
+            // set the owning side to null (unless already changed)
+            if ($projectFormLayout->getCallOfProject() === $this) {
+                $projectFormLayout->setCallOfProject(null);
+            }
+        }
 
         return $this;
     }

@@ -12,9 +12,11 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+{#        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">#}
     </head>
     <body class="{{ body_class|default('') }}">
+
+        {% block modals %}{% endblock %}
 
         {% block body %}{% endblock %}
 
