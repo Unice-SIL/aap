@@ -9,13 +9,19 @@ use Doctrine\Persistence\ObjectManager;
 
 class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
 {
+    const CALL_OF_PROJECT_1 = 'Appel_projet_1';
+
     public function load(ObjectManager $manager)
     {
         $callOfProject = new CallOfProject();
-        $callOfProject->setDescription('Description de de l\'appel à projet');
+        $callOfProject->setName(self::CALL_OF_PROJECT_1);
+        $callOfProject->setDescription('Description de l\'appel à projet');
+        $callOfProject->setCreatedAt(new \DateTime());
+        $callOfProject->setUpdatedAt(new \DateTime());
 
-        $ref = $this->getReference(ProjectFormLayoutFixtures::class . ProjectFormLayoutFixtures::FORM_LAYOUT_1);
-        $callOfProject->setProjectFormLayout($ref);
+        $this->addReference(self::class . self::CALL_OF_PROJECT_1, $callOfProject);
+        $projectFormLayout = $this->getReference(ProjectFormLayoutFixtures::class . ProjectFormLayoutFixtures::FORM_LAYOUT_1);
+        $callOfProject->addProjectFormLayout($projectFormLayout);
 
         $manager->persist($callOfProject);
 

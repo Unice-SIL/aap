@@ -1,0 +1,25 @@
+{% extends 'layout_sidebar.html.twig' %}
+
+{% set h1 = 'app.call_of_project.informations.h1'|trans %}
+{% block title %}
+    {{ h1 }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body p-5">
+            <div class="row">
+                <div class="col-12">
+                    <a href="#" class="btn btn-primary float-right">
+                        {{ 'app.action.update'|trans }}
+                    </a>
+                </div>
+                <div class="col-12">
+                    <h3>{{ 'app.call_of_project.property.description'|trans }}</h3>
+                    {{ call_of_project.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -37,6 +37,11 @@ class ProjectFormLayout
      */
     private $projectFormWidgets;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CallOfProject", inversedBy="projectFormLayouts")
+     */
+    private $callOfProject;
+
     public function __construct()
     {
         $this->projectFormWidgets = new ArrayCollection();
@@ -107,5 +112,16 @@ class ProjectFormLayout
         return $this->getName();
     }
 
+    public function getCallOfProject(): ?CallOfProject
+    {
+        return $this->callOfProject;
+    }
+
+    public function setCallOfProject(?CallOfProject $callOfProject): self
+    {
+        $this->callOfProject = $callOfProject;
+
+        return $this;
+    }
 
 }

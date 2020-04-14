@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app_name: 'Appel à projet'
+    locale: 'fr'
+    container_default: 'container'
+    layout_default_class: 'layout-top-nav'
+    layout_sidebar_class: 'sidebar-mini layout-fixed layout-navbar-fixed'
 
 services:
     # default configuration for services in *this* file
@@ -29,3 +33,7 @@ services:
 
     App\Manager\CallOfProject\CallOfProjectManagerInterface:
         alias: App\Manager\CallOfProject\DoctrineCallOfProjectManager
+
+    _instanceof:
+        App\Widget\WidgetInterface:
+            tags: ['app.widget']

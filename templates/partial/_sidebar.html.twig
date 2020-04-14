@@ -1,32 +1,64 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-        <img src="{{ asset('build/logo.png') }}" alt="{{ app_name }}" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">{{ app_name }}</span>
-    </a>
+
+    {{ include('partial/_logo.html.twig') }}
 
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        {#<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        <div class="user-panel mt-3 pb-3 mb-3">
+            <div class="info d-block">
+                <div class="text-center text-white">{{ call_of_project }}</div>
             </div>
-            <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-            </div>
-        </div>#}
+        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                {% set id = app.request.attributes.get('id') %}
                 <li class="nav-item">
-                    <a href="{{ path('app.call_of_project.index') }}" class="nav-link">
+                    <a href="{{ path('app.call_of_project.projects', {'id' : id}) }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            {{ 'app.sidebar.item.call_of_project.label'|trans }}
+                            {{ 'app.sidebar.item.projects.label'|trans }}
                         </p>
                     </a>
+                </li>
+
+                <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-circle"></i>
+                        <p>
+                            {{ 'app.sidebar.item.admin.label'|trans }}
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ path('app.call_of_project.informations', {'id' : id}) }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ 'app.sidebar.item.admin.infos'|trans }}</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ path('app.call_of_project.form', {'id' : id}) }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ 'app.sidebar.item.admin.project_form'|trans }}</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ 'app.sidebar.item.admin.permissions'|trans }}</p>
+                            </a>
+                        </li>
+
+                    </ul>
+
                 </li>
             </ul>
         </nav>

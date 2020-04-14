@@ -1,0 +1,19 @@
+app:
+  sidebar:
+    item:
+      projects:
+        label: Projets
+      admin:
+        label: 'Administration'
+        infos: 'Informations'
+        project_form: 'Formulaire Projet'
+        permissions: 'Permissions'
+  widget:
+    form_choice_widget: Champ Choix multiple
+    form_text_widget: Champ Texte
+    html_title_widget: Titre
+  modal:
+    widget_form:
+      action:
+        close: 'Annuler'
+        save: 'Enregistrer'

@@ -3,6 +3,9 @@
 
 namespace App\Controller;
 
+use App\Entity\CallOfProject;
+use App\Entity\Project;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,11 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/", name="app.homepage")
+     * @Route("/", name="homepage")
+     * @param EntityManagerInterface $em
      * @return RedirectResponse
      */
-    public function home()
+    public function home(EntityManagerInterface $em)
     {
-        return $this->redirectToRoute('app.call_of_project.index');
+        return $this->render('page/dashboard.html.twig', [
+            'call_of_projects' => $em->getRepository(CallOfProject::class)->findAll(), //todo get only the user ones (last 5)
+            'projects' => $em->getRepository(Project::class)->findAll(), //todo get only the user ones (last 5)
+        ]);
     }
 }
