@@ -17,3 +17,6 @@ app:
       action:
         close: 'Annuler'
         save: 'Enregistrer'
+login.form.username.label: Identifiant
+login.form.password.label: Mot de passe
+login.form.button.submit: Se connecter
