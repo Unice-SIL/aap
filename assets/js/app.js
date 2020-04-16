@@ -6,6 +6,24 @@ require('datatables.net-bs4');
 
 $(document).ready(function () {
 
+    $('.dataTable').DataTable();
+
+    /**
+     * Widget modal
+     */
+    $('#widget-form-modal').on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let modal = $(this);
+        let data = {
+            widgetName: button.data('widget-name'),
+        };
+        let url = modal.data('url');
+
+        $.get(url, data).done(function (html) {
+            modal.find('#form-container').html(html);
+        });
+    });
+
     /**
      * Project List by Call of Project Datatable
      */

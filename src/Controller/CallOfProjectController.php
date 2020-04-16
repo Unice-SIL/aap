@@ -138,6 +138,38 @@ class CallOfProjectController extends AbstractController
 
 
     /**
+     * @Route("/{id}/get-widget-form", name="get_widget_form", methods={"GET"})
+     * @param CallOfProject $callOfProject
+     * @param WidgetManager $widgetManager
+     * @param Request $request
+     * @return Response
+     */
+    public function getWidgetForm(
+        CallOfProject $callOfProject,
+        WidgetManager $widgetManager,
+        Request $request
+    ): Response
+    {
+        $widgetName = $request->query->get('widgetName');
+
+        if (!isset($widgetManager->getWidgets()[$widgetName])) {
+            return $this->json(['success' => false]);
+        }
+
+        $widget = $widgetManager->getWidgets()[$widgetName];
+
+        if (!$widget instanceof  FormWidgetInterface) {
+            return $this->json(['success' => false]);
+        }
+
+        return $this->render($widget->getTemplate(), [
+            'form' => $widget->getForm()->createView()
+        ]);
+
+
+    }
+
+    /**
      * Route("/{id}", name="delete", methods={"DELETE"})
      */
     /*public function delete(Request $request, CallOfProject $callOfProject): Response
