@@ -1,0 +1,102 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    A définir
+{% endblock %}
+
+{% set h1 = 'app.dashboard.h1'|trans %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header border-transparent">
+                    <h3 class="card-title">{{ 'app.dashboard.my_projects.title'|trans }}</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table m-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>{{ 'app.call_of_project.property.name'|trans }}</th>
+                                    <th>{{ 'app.call_of_project.property.status'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for  project in projects %}
+                                    <tr>
+                                        <td>
+                                            {{ loop.index }}
+                                        </td>
+                                        <td>
+                                            <a href="#">
+                                                {{ project.name }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-success">Shipped</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer clearfix">
+                    <a href="#" class="btn btn-sm btn-info float-left">{{ 'app.action.new'|trans }}</a>
+                    <a href="#" class="btn btn-sm btn-secondary float-right">{{ 'app.action.list_all'|trans }}</a>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header border-transparent">
+                    <h3 class="card-title">{{ 'app.dashboard.my_calls_of_project.title'|trans }}</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table m-0">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{{ 'app.call_of_project.property.name'|trans }}</th>
+                                <th>{{ 'app.call_of_project.property.status'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for  call_of_project in call_of_projects %}
+                                    <tr>
+                                        <td>
+                                            {{ loop.index }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}">
+                                                {{ call_of_project.name }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-success">Shipped</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer clearfix">
+                    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-sm btn-info float-left">{{ 'app.action.new'|trans }}</a>
+                    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-sm btn-secondary float-right">{{ 'app.action.list_all'|trans }}</a>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

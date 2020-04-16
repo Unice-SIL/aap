@@ -1,12 +1,18 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}New CallOfProject{% endblock %}
+{% block title %}
+    {{ 'app.call_of_project.new.h1'|trans }}
+{% endblock %}
 
-{% set h1 = 'Create new CallOfProject' %}
-
+{% block h1 %}{% endblock %}
 {% block content %}
 
-    {{ include('call_of_project/_form.html.twig') }}
+    <div class="card">
 
-    <a href="{{ path('app.call_of_project.index') }}">back to list</a>
+        <div class="card-body p-5">
+            <h1 class="mb-5">{{ 'app.call_of_project.new.h1'|trans }}</h1>
+            {{ include('call_of_project/_form.html.twig') }}
+        </div>
+    </div>
+
 {% endblock %}

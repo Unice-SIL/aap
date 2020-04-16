@@ -1,0 +1,39 @@
+{% extends 'layout_sidebar.html.twig' %}
+
+{% set h1 = 'app.call_of_project.project_list.h1'|trans %}
+{% block title %}
+    {{ h1 }}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-hover table-responsive dataTable">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{ 'app.project.property.name' }}</th>
+                    <th>{{ 'app.project.property.created_by' }}</th>
+                    <th>{{ 'app.project.property.created_at' }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for project in call_of_project.projects %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.createdBy }}</td>
+                        <td>{{ project.createdAt|date('d-m-Y') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">{{ 'app.table.no_results_found'|trans }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

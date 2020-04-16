@@ -4,6 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app_name: 'Appel à projet'
+    locale: 'fr'
+    container_default: 'container'
+    layout_default_class: 'layout-top-nav'
+    layout_sidebar_class: 'sidebar-mini layout-fixed layout-navbar-fixed'
 
 services:
     # default configuration for services in *this* file
@@ -25,3 +30,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Manager\CallOfProject\CallOfProjectManagerInterface:
+        alias: App\Manager\CallOfProject\DoctrineCallOfProjectManager
+
+    _instanceof:
+        App\Widget\WidgetInterface:
+            tags: ['app.widget']

@@ -23,7 +23,7 @@ class ProjectFormLayout
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $name;
 
@@ -36,6 +36,11 @@ class ProjectFormLayout
      * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormWidget", mappedBy="projectFormLayout", orphanRemoval=true)
      */
     private $projectFormWidgets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CallOfProject", inversedBy="projectFormLayouts")
+     */
+    private $callOfProject;
 
     public function __construct()
     {
@@ -107,5 +112,16 @@ class ProjectFormLayout
         return $this->getName();
     }
 
+    public function getCallOfProject(): ?CallOfProject
+    {
+        return $this->callOfProject;
+    }
+
+    public function setCallOfProject(?CallOfProject $callOfProject): self
+    {
+        $this->callOfProject = $callOfProject;
+
+        return $this;
+    }
 
 }
