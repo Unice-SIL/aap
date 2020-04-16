@@ -34,11 +34,6 @@ class CallOfProjectSubscriber implements EventSubscriber
             $callOfProject->addProjectFormLayout($projectFormLayout);
         }
 
-        $projectFormWidgets = $callOfProject->getProjectFormLayout()->getProjectFormWidgets();
-
-        dd($projectFormWidgets->map(function($projectFormWidget) {
-            return $projectFormWidget->getPosition();
-        }));
     }
 
 }
