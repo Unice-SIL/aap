@@ -9,4 +9,10 @@ interface WidgetInterface
     const TYPE_DATE = 'date';
 
     public function getName(): string;
+
+    public function getFormType(): string;
+
+    public function getTemplate(): string;
+
+    public function getType(): string;
 }

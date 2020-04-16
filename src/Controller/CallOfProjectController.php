@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\CallOfProject;
+use App\Entity\ProjectFormWidget;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\WidgetManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +33,6 @@ class CallOfProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $callOfProjectManager->save($callOfProject);
 
             return $this->redirectToRoute('app.call_of_project.projects', [
@@ -97,15 +98,44 @@ class CallOfProjectController extends AbstractController
      * @Route("/{id}/form", name="form", methods={"GET","POST"})
      * @param CallOfProject $callOfProject
      * @param WidgetManager $widgetManager
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function form(CallOfProject $callOfProject, WidgetManager $widgetManager): Response
+    public function form(
+        CallOfProject $callOfProject,
+        WidgetManager $widgetManager,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response
     {
+        $widgetName = $request->query->get('widgetName');
+
+        if ($widget = $widgetManager->getWidget($widgetName)) {
+            $form = $this->createForm($widget->getFormType(), $widget);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() and $form->isValid()) {
+                //todo: create a manager
+                $projectFormWidget = new ProjectFormWidget();
+                $projectFormWidget->setWidget(serialize($widget));
+                $callOfProject->getProjectFormLayout()->addProjectFormWidget($projectFormWidget);
+
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app.call_of_project.form', [
+                    'id' => $callOfProject->getId()
+                ]);
+            }
+        }
+
         return $this->render('call_of_project/form.html.twig', [
             'call_of_project' => $callOfProject,
             'widget_manager' => $widgetManager
         ]);
     }
+
 
     /**
      * @Route("/{id}/get-widget-form", name="get_widget_form", methods={"GET"})

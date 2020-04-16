@@ -34,6 +34,19 @@ services:
     App\Manager\CallOfProject\CallOfProjectManagerInterface:
         alias: App\Manager\CallOfProject\DoctrineCallOfProjectManager
 
+    App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface:
+        alias: App\Manager\ProjectFormLayout\DoctrineProjectFormLayoutManager
+
+    App\EventSubscriber\CallOfProjectSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+    App\EventSubscriber\ProjectFormWidgetSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
     _instanceof:
-        App\Widget\WidgetInterface:
-            tags: ['app.widget']
+        App\Widget\FormWidget\FormWidgetInterface:
+            tags: ['app.form_widget']
+        App\Widget\HtmlWidget\HtmlWidgetInterface:
+            tags: ['app.html_widget']

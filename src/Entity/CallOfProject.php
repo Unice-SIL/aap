@@ -33,7 +33,7 @@ class CallOfProject extends Common
     private $projects;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject")
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject", cascade={"persist"})
      */
     private $projectFormLayouts;
 
@@ -103,6 +103,11 @@ class CallOfProject extends Common
     public function getProjectFormLayouts(): Collection
     {
         return $this->projectFormLayouts;
+    }
+
+    public function getProjectFormLayout(): ProjectFormLayout
+    {
+        return $this->getProjectFormLayouts()->first();
     }
 
     public function addProjectFormLayout(ProjectFormLayout $projectFormLayout): self

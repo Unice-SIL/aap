@@ -9,14 +9,11 @@ app:
         project_form: 'Formulaire Projet'
         permissions: 'Permissions'
   widget:
-    form_choice_widget: Champ Choix multiple
-    form_text_widget: Champ Texte
-    html_title_widget: Titre
+    App\Widget\FormWidget\ChoiceWidget: Champ Choix multiple
+    App\Widget\FormWidget\TextWidget: Champ Texte
+    App\Widget\HtmlWidget\TitleWidget: Titre
   modal:
     widget_form:
       action:
         close: 'Annuler'
         save: 'Enregistrer'
-login.form.username.label: Identifiant
-login.form.password.label: Mot de passe
-login.form.button.submit: Se connecter

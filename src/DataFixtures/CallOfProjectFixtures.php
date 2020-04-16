@@ -16,8 +16,6 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject = new CallOfProject();
         $callOfProject->setName(self::CALL_OF_PROJECT_1);
         $callOfProject->setDescription('Description de l\'appel à projet');
-        $callOfProject->setCreatedAt(new \DateTime());
-        $callOfProject->setUpdatedAt(new \DateTime());
 
         $this->addReference(self::class . self::CALL_OF_PROJECT_1, $callOfProject);
         $projectFormLayout = $this->getReference(ProjectFormLayoutFixtures::class . ProjectFormLayoutFixtures::FORM_LAYOUT_1);

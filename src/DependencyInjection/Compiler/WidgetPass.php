@@ -22,11 +22,19 @@ class WidgetPass implements CompilerPassInterface
 
         $definition = $container->findDefinition(WidgetManager::class);
 
-        // find all service IDs with the app.mail_transport tag
-        $taggedServices = $container->findTaggedServiceIds('app.widget');
+        $formWidgetTaggedServices = $container->findTaggedServiceIds('app.form_widget');
 
-        foreach ($taggedServices as $id => $tags) {
-            // add the transport service to the TransportChain service
+        foreach ($formWidgetTaggedServices as $id => $tags) {
+
+            $definition->addMethodCall('addFormWidget', [new Reference($id)]);
+            $definition->addMethodCall('addWidget', [new Reference($id)]);
+        }
+
+        $htmlWidgetTaggedServices = $container->findTaggedServiceIds('app.html_widget');
+
+        foreach ($htmlWidgetTaggedServices as $id => $tags) {
+
+            $definition->addMethodCall('addHtmlWidget', [new Reference($id)]);
             $definition->addMethodCall('addWidget', [new Reference($id)]);
         }
     }

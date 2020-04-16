@@ -1,4 +1,10 @@
 {{ form_start(form) }}
+    {% if form.name is defined %}
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+    {% endif %}
     <div class="form-group">
         {{ form_label(form.description) }}
         {{ form_widget(form.description) }}

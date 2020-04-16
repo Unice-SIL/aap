@@ -4,6 +4,7 @@ namespace App\Form\CallOfProject;
 
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
+use App\EventSubscriber\Form\CallOfProjectInformationTypeSubscriber;
 use App\Form\ProjectFormLayout\ProjectFormLayoutEmbeddedType;
 use App\Repository\ProjectFormLayoutRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,6 +18,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CallOfProjectInformationType extends AbstractType
 {
+    /**
+     * @var CallOfProjectInformationTypeSubscriber
+     */
+    private $callOfProjectInformationTypeSubscriber;
+
+
+    /**
+     * CallOfProjectInformationType constructor.
+     * @param CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber
+     */
+    public function __construct(CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber)
+    {
+        $this->callOfProjectInformationTypeSubscriber = $callOfProjectInformationTypeSubscriber;
+    }
+
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,6 +43,7 @@ class CallOfProjectInformationType extends AbstractType
                 ],
                 'label' => 'app.call_of_project.property.description'
             ])
+            ->addEventSubscriber($this->callOfProjectInformationTypeSubscriber)
             /*->add('fromTemplate', CheckboxType::class, [
                 'false_values' => ['false', '0', null],
                 'required' => false,

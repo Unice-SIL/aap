@@ -4,12 +4,15 @@
 namespace App\Widget\HtmlWidget;
 
 
+use App\Form\Widget\HtmlWidget\HtmlTitleWidgetType;
+use App\Widget\WidgetInterface;
+use Symfony\Component\Form\FormInterface;
+
 class TitleWidget extends HtmlWidgetAbstract implements HtmlWidgetInterface
 {
-    const NAME = 'html_title_widget';
-
-    public function getName(): string
+    public function getFormType(): string
     {
-        return self::NAME;
+        return HtmlTitleWidgetType::class;
     }
+
 }

@@ -80,8 +80,6 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
             $project = new Project();
             $project->setName($projectFixture['name']);
-            $project->setCreatedAt(new \DateTime());
-            $project->setUpdatedAt(new \DateTime());
             $project->setCallOfProject($this->getReference(CallOfProjectFixtures::class . $projectFixture['call_of_project']));
             $manager->persist($project);
         }

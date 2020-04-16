@@ -9,17 +9,23 @@ $(document).ready(function () {
     $('.dataTable').DataTable();
 
     /**
+     * Project List by Call of Project Datatable
+     */
+    $('#dataTable-projects-list').DataTable({
+        language: {
+            url: $('#dataTable-projects-list').data('translation-url')
+        }
+    });
+
+    /**
      * Widget modal
      */
     $('#widget-form-modal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
         let modal = $(this);
-        let data = {
-            widgetName: button.data('widget-name'),
-        };
-        let url = modal.data('url');
+        let url = button.data('url');
 
-        $.get(url, data).done(function (html) {
+        $.get(url).done(function (html) {
             modal.find('#form-container').html(html);
         });
     });

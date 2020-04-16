@@ -33,7 +33,12 @@ class ProjectFormLayout
     private $isTemplate = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormWidget", mappedBy="projectFormLayout", orphanRemoval=true)
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\ProjectFormWidget",
+     *      mappedBy="projectFormLayout",
+     *      orphanRemoval=true,
+     *      cascade={"persist"}
+     *     )
      */
     private $projectFormWidgets;
 
