@@ -10,7 +10,8 @@ app:
         permissions: 'Permissions'
   widget:
     App\Widget\FormWidget\ChoiceWidget: Champ Choix multiple
-    App\Widget\FormWidget\TextWidget: Champ Texte
+    App\Widget\FormWidget\TextWidget: Texte court
+    App\Widget\FormWidget\TextAreaWidget: Texte long
     App\Widget\HtmlWidget\TitleWidget: Titre
   modal:
     widget_form:

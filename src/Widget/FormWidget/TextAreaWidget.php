@@ -6,9 +6,10 @@ namespace App\Widget\FormWidget;
 
 use App\Form\Widget\FormWidget\FormTextWidgetType;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class TextWidget extends FormWidgetAbstract implements FormWidgetInterface
+class TextAreaWidget extends FormWidgetAbstract implements FormWidgetInterface
 {
     public function getType(): string
     {
@@ -22,7 +23,7 @@ class TextWidget extends FormWidgetAbstract implements FormWidgetInterface
 
     public function getSymfonyType(): string
     {
-        return TextType::class;
+        return TextareaType::class;
     }
 
     public function getDataTransformer(): DataTransformerInterface

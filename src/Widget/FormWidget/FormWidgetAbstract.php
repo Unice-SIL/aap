@@ -14,6 +14,9 @@ abstract class FormWidgetAbstract extends AbstractWidget
     /** @var string|null */
     protected $required;
 
+    /** @var array */
+    protected $options = [];
+
     /**
      * @return string|null
      */
@@ -46,5 +49,32 @@ abstract class FormWidgetAbstract extends AbstractWidget
         $this->required = $required;
     }
 
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        $this->configureOptions();
+
+        return array_merge([
+            'label' => $this->getLabel(),
+            'required' => $this->getRequired(),
+        ], $this->options);
+    }
+
+    /**
+     * @param array $options
+     * @return FormWidgetAbstract
+     */
+    protected function setOptions(array $options): self
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    protected function configureOptions(): void
+    {
+    }
 
 }

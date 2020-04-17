@@ -3,6 +3,7 @@
 namespace App\Form\Widget\FormWidget;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class FormWidgetType  extends AbstractType
@@ -11,7 +12,9 @@ class FormWidgetType  extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('required')
+            ->add('required', CheckboxType::class, [
+                'required' => false
+            ])
         ;
     }
 

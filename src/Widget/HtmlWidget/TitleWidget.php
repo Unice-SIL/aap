@@ -5,8 +5,6 @@ namespace App\Widget\HtmlWidget;
 
 
 use App\Form\Widget\HtmlWidget\HtmlTitleWidgetType;
-use App\Widget\WidgetInterface;
-use Symfony\Component\Form\FormInterface;
 
 class TitleWidget extends HtmlWidgetAbstract implements HtmlWidgetInterface
 {
@@ -15,4 +13,8 @@ class TitleWidget extends HtmlWidgetAbstract implements HtmlWidgetInterface
         return HtmlTitleWidgetType::class;
     }
 
+    public function getHtmlTag(): string
+    {
+        return 'h2';
+    }
 }

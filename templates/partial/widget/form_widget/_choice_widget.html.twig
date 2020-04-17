@@ -1,4 +1,51 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ include('partial/widget/form_widget/_widget_form_modal_buttons.html.twig') }}
+    {{ form_row(form.label) }}
+    {{ form_row(form.required) }}
+
+    {% macro displayOptions(choiceForm) %}
+        <li class="item-collection">
+            <div class="row mb-2">
+                <div class="col-md-10 d-flex flex-column justify-content-end">
+                    {{ form_widget(choiceForm) }}
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-danger btn-block remove-collection-widget mb-0"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </li>
+    {% endmacro %}
+
+
+    {{ form_label(form.choices) }}
+    <div class="alert alert-info no-item" {{ form.choices|length > 0 ? 'style="display:none;"' }}>Aucune options n'a été ajoutée</div>
+
+    <ul id="material-fields-list" class="list-unstyled collection-wrapper"
+        data-prototype="{{ _self.displayOptions(form.choices.vars.prototype)|e('html_attr') }}"
+        data-widget-tags="{{ '<li></li>'|e }}"
+        data-widget-counter="{{ form.choices|length }}">
+        {% for choiceForm in form.choices %}
+            <li>
+                {{ _self.displayOptions(choiceForm) }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {# prevents weird label from showing up in new #}
+    {{ form_widget(form.choices) }}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+
+                <button type="button"
+                        class="add-another-collection-widget btn btn-primary btn-block mr-0"
+                        data-list-selector="#material-fields-list"
+                >
+                    Ajouter une option
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {{ include('partial/widget/_widget_form_modal_buttons.html.twig') }}
 {{ form_end(form) }}

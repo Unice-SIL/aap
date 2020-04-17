@@ -101,6 +101,7 @@ class CallOfProjectController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @return Response
+     * @throws \Exception
      */
     public function form(
         CallOfProject $callOfProject,
@@ -130,9 +131,11 @@ class CallOfProjectController extends AbstractController
             }
         }
 
+        $dynamicForm = $widgetManager->getDynamicForm($callOfProject->getProjectFormLayout());
         return $this->render('call_of_project/form.html.twig', [
             'call_of_project' => $callOfProject,
-            'widget_manager' => $widgetManager
+            'widget_manager' => $widgetManager,
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml($dynamicForm),
         ]);
     }
 
