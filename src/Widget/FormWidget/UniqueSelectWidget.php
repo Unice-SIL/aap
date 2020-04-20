@@ -11,9 +11,5 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UniqueSelectWidget extends AbstractChoiceWidget implements FormWidgetInterface
 {
-    public function getFormType(): string
-    {
-        return FormChoiceWidgetType::class;
-    }
 
 }

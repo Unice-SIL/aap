@@ -1,4 +1,9 @@
 app:
+  action:
+    edit: Modifier
+    delete: Supprimer
+    new: Ajouter
+    list_all: Tout voir
   sidebar:
     item:
       projects:
@@ -20,3 +25,6 @@ app:
       action:
         close: 'Annuler'
         save: 'Enregistrer'
+  project_form_widget:
+    modal:
+      delete_warning_title: 'Êtes-vous sûr de vouloir supprimer ce widget?'

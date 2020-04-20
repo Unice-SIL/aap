@@ -11,8 +11,8 @@ abstract class AbstractFormWidget extends AbstractWidget
     /** @var string|null */
     protected $label;
 
-    /** @var string|null */
-    protected $required;
+    /** @var bool */
+    protected $required = false;
 
     /** @var array */
     protected $options = [];
@@ -34,17 +34,17 @@ abstract class AbstractFormWidget extends AbstractWidget
     }
 
     /**
-     * @return string|null
+     * @return bool
      */
-    public function getRequired(): ?string
+    public function getRequired(): bool
     {
         return $this->required;
     }
 
     /**
-     * @param string|null $required
+     * @param bool $required
      */
-    public function setRequired(?string $required): void
+    public function setRequired(bool $required): void
     {
         $this->required = $required;
     }
