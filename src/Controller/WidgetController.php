@@ -40,7 +40,7 @@ class WidgetController extends AbstractController
             return $this->json(['success' => false]);
         }
 
-        $form = $this->createForm($widget->getFormType(), null, [
+        $form = $this->createForm($widget->getFormType(), $widget, [
             'action' => $router->generate('app.call_of_project.form', [
                 'id' => $projectFormLayout->getCallOfProject()->getId(),
                 'widgetName' => $widgetName

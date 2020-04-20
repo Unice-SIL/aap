@@ -32,4 +32,9 @@ abstract class HtmlWidgetAbstract extends AbstractWidget
     {
         return WidgetInterface::TYPE_TEXT;
     }
+
+    public function render(): string
+    {
+        return '<' . $this->getHtmlTag() . '>' . $this->getContent() . '</' . $this->getHtmlTag() .'>';
+    }
 }

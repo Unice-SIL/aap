@@ -15,10 +15,15 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-/*    public function getFunctions(): array
+    public function getFunctions(): array
     {
         return [
-            new TwigFunction('function_name', [$this, 'doSomething']),
+            new TwigFunction('instanceof', [$this, 'instanceof']),
         ];
-    }*/
+    }
+
+    public function instanceof($instance, $classFulName) {
+
+        return $instance instanceof $classFulName;
+    }
 }

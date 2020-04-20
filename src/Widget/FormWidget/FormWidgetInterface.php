@@ -9,5 +9,7 @@ interface FormWidgetInterface extends WidgetInterface
 {
     public function getSymfonyType(): string;
 
+    public function getOptions(): array;
+
     public function getDataTransformer(): DataTransformerInterface;
 }

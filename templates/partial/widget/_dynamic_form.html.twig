@@ -1,0 +1,15 @@
+
+{{ form_start(form) }}
+
+    {% for widget in widgets %}
+
+        {% if instanceof(widget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
+            {{ form_row(form.children[widget.position]) }}
+        {% else %}
+            {{ widget.widget.render|raw }}
+        {% endif %}
+
+    {% endfor %}
+
+
+{{ form_end(form, {'render_rest': false}) }}
