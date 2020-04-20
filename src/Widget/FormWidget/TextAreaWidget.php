@@ -31,5 +31,16 @@ class TextAreaWidget extends AbstractFormWidget implements FormWidgetInterface
         // TODO: Implement getDataTransformer() method.
     }
 
+    protected function configureOptions(): void
+    {
+        parent::configureOptions();
+
+        $this->addOptions([
+            'attr' => [
+                'rows' => 4
+            ]
+        ]);
+    }
+
 
 }

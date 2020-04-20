@@ -114,14 +114,14 @@ class WidgetManager
         $widgets = $projectFormLayout->getProjectFormWidgets()->map(function ($widget){
             return [
                 'widget' => unserialize($widget->getWidget()),
-                'position' => $widget->getPosition()
+                'projectFormWidget' => $widget
             ];
         });
 
         $widgets = $widgets->getIterator();
 
         $widgets->uasort(function ($a, $b) {
-            return $a['position'] <=> $b['position'];
+            return $a['projectFormWidget']->getPosition() <=> $b['projectFormWidget']->getPosition();
         });
 
         return $this->twig->render('partial/widget/_dynamic_form.html.twig', [

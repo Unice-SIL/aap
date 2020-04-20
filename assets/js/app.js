@@ -7,6 +7,25 @@ require('datatables.net-bs4');
 $(document).ready(function () {
 
     /**
+     * delte element modal
+     */
+    $(document).on('click', '.delete-button-modal', function (e) {
+        e.preventDefault();
+
+        let modal = $('#delete-form-modal');
+        let title = $(this).data('modal-title');
+
+        let form = $(this).closest('form').clone().removeAttr('class').addClass('d-inline') ;
+        form.find('.delete-button-modal').removeAttr('class').addClass('btn btn-danger');
+
+        modal.find('.modal-title').text(title);
+        let body = modal.find('.modal-body');
+        body.find('form').remove();
+        body.append(form);
+        modal.modal('show');
+    });
+
+    /**
      * CollectionType js
      * ================================================================
      */
