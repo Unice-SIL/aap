@@ -4,11 +4,10 @@
 namespace App\Widget\FormWidget;
 
 
-use App\Form\Widget\FormWidget\FormChoiceWidgetType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class ChoiceWidget extends FormWidgetAbstract implements FormWidgetInterface
+abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWidgetInterface
 {
     /** @var array  */
     private $choices = [];
@@ -16,11 +15,6 @@ class ChoiceWidget extends FormWidgetAbstract implements FormWidgetInterface
     public function getType(): string
     {
         return self::TYPE_TEXT;
-    }
-
-    public function getFormType(): string
-    {
-        return FormChoiceWidgetType::class;
     }
 
     public function getSymfonyType(): string
@@ -58,9 +52,14 @@ class ChoiceWidget extends FormWidgetAbstract implements FormWidgetInterface
 
     protected function configureOptions(): void
     {
-        $this->setOptions([
+        parent::configureOptions();
+        $this->addOptions([
             'choices' => array_flip($this->getChoices())
         ]);
     }
 
+    public function getTemplate(): string
+    {
+        return 'partial/widget/form_widget/_choice_widget.html.twig';
+    }
 }

@@ -7,7 +7,7 @@ namespace App\Widget\HtmlWidget;
 use App\Widget\AbstractWidget;
 use App\Widget\WidgetInterface;
 
-abstract class HtmlWidgetAbstract extends AbstractWidget
+abstract class AbstractHtmlWidget extends AbstractWidget
 {
     /** @var string|null */
     protected $content;

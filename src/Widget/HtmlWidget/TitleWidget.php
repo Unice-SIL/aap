@@ -6,7 +6,7 @@ namespace App\Widget\HtmlWidget;
 
 use App\Form\Widget\HtmlWidget\HtmlTitleWidgetType;
 
-class TitleWidget extends HtmlWidgetAbstract implements HtmlWidgetInterface
+class TitleWidget extends AbstractHtmlWidget implements HtmlWidgetInterface
 {
     public function getFormType(): string
     {

@@ -9,7 +9,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class TextAreaWidget extends FormWidgetAbstract implements FormWidgetInterface
+class TextAreaWidget extends AbstractFormWidget implements FormWidgetInterface
 {
     public function getType(): string
     {
