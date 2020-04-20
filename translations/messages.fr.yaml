@@ -9,7 +9,9 @@ app:
         project_form: 'Formulaire Projet'
         permissions: 'Permissions'
   widget:
-    App\Widget\FormWidget\ChoiceWidget: Champ Choix multiple
+    App\Widget\FormWidget\UniqueSelectWidget: Liste déroulante
+    App\Widget\FormWidget\CheckboxWidget: Choix multiple
+    App\Widget\FormWidget\RadioboxWidget: Choix unique
     App\Widget\FormWidget\TextWidget: Texte court
     App\Widget\FormWidget\TextAreaWidget: Texte long
     App\Widget\HtmlWidget\TitleWidget: Titre

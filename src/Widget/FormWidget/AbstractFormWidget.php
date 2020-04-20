@@ -6,7 +6,7 @@ namespace App\Widget\FormWidget;
 
 use App\Widget\AbstractWidget;
 
-abstract class FormWidgetAbstract extends AbstractWidget
+abstract class AbstractFormWidget extends AbstractWidget
 {
     /** @var string|null */
     protected $label;
@@ -55,26 +55,25 @@ abstract class FormWidgetAbstract extends AbstractWidget
     public function getOptions(): array
     {
         $this->configureOptions();
+        return $this->options;
 
-        return array_merge([
-            'label' => $this->getLabel(),
-            'required' => $this->getRequired(),
-        ], $this->options);
-    }
-
-    /**
-     * @param array $options
-     * @return FormWidgetAbstract
-     */
-    protected function setOptions(array $options): self
-    {
-        $this->options = $options;
-
-        return $this;
     }
 
     protected function configureOptions(): void
     {
+        $this->addOptions(
+            [
+                'label' => $this->getLabel(),
+                'required' => $this->getRequired(),
+            ]
+        );
+    }
+
+    protected function addOptions(array $options)
+    {
+        foreach ($options as $key => $value) {
+            $this->options[$key] = $value;
+        }
     }
 
 }
