@@ -1,9 +1,49 @@
 app:
+
+  table:
+    no_results_found: Aucun élément n'a été trouvé
+
+  project:
+    constant:
+      draft: Brouillon
+    property:
+      created_at: Date de création
+      created_by: Créateur
+      status: Statut
+      name: Nom
+  call_of_project:
+    form:
+        h1: Configuration du projet
+    constant:
+      draft: Brouillon
+    informations:
+      h1: Informations
+    project_list:
+      h1: Liste des projets
+    new:
+      h1: Ajouter un appel à projets
+    property:
+      description: Description
+      status: Statut
+      name: Nom
+    organized_by: Organisé par
+  dashboard:
+    my_calls_of_project:
+      title: Appel s à projets que je gère
+    my_projects:
+      title: Mes projets
+    h1: Tableau de bord
+  navbar:
+    item:
+      dashboard:
+        label: Tableau de bord
   action:
+    save: Enregistrer
     edit: Modifier
     delete: Supprimer
     new: Ajouter
     list_all: Tout voir
+    canceled: Annuler
   sidebar:
     item:
       projects:
@@ -14,6 +54,10 @@ app:
         project_form: 'Formulaire Projet'
         permissions: 'Permissions'
   widget:
+    html_widget:
+      label: Textes
+    form_widget:
+      label: Questions
     App\Widget\FormWidget\UniqueSelectWidget: Liste déroulante
     App\Widget\FormWidget\CheckboxWidget: Choix multiple
     App\Widget\FormWidget\RadioboxWidget: Choix unique
@@ -21,10 +65,18 @@ app:
     App\Widget\FormWidget\TextAreaWidget: Texte long
     App\Widget\HtmlWidget\TitleWidget: Titre
   modal:
+    widget:
+      title: Ajouter un widget
     widget_form:
       action:
         close: 'Annuler'
         save: 'Enregistrer'
   project_form_widget:
+    humanize: Widget
     modal:
       delete_warning_title: 'Êtes-vous sûr de vouloir supprimer ce widget?'
+  flash_message:
+    success: Ajout de l'élément "%item%" réalisé avec succès
+
+  footer:
+    copyright: Tous droits reservés

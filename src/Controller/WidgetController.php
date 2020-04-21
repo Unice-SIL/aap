@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\ProjectFormLayout;
 use App\Entity\ProjectFormWidget;
+use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class WidgetController
@@ -66,7 +68,7 @@ class WidgetController extends AbstractController
     ): Response
     {
 
-        $widget = unserialize($projectFormWidget->getWidget());
+        $widget = $projectFormWidget->getWidget();
 
         $form = $this->createForm($widget->getFormType(), $widget, [
             'action' => $router->generate('app.widget.edit', [
@@ -84,25 +86,33 @@ class WidgetController extends AbstractController
      * @param ProjectFormWidget $projectFormWidget
      * @param Request $request
      * @param EntityManagerInterface $em
+     * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
+     * @param TranslatorInterface $translator
      * @return Response
      */
     public function edit(
         ProjectFormWidget $projectFormWidget,
         Request $request,
-        EntityManagerInterface $em
+        ProjectFormWidgetManagerInterface $projectFormWidgetManager,
+        TranslatorInterface $translator
+
     ): Response
     {
 
-        $widget = unserialize($projectFormWidget->getWidget());
+        $widget = $projectFormWidget->getWidget();
 
         $form = $this->createForm($widget->getFormType(), $widget);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            //todo: use a manager
-            //todo: add messageFlash
-            $projectFormWidget->setWidget(serialize($widget));
-            $em->flush();
+
+            $this->addFlash('success', $translator->trans('app.flash_message.success', [
+                '%item%' => $translator->trans('app.project_form_widget.humanize')
+            ]));
+
+            $projectFormWidget->setWidget($widget);
+
+            $projectFormWidgetManager->update($projectFormWidget);
         }
 
         return $this->redirectToRoute('app.call_of_project.form', [

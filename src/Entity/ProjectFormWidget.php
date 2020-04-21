@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Widget\WidgetInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -53,14 +54,14 @@ class ProjectFormWidget
         return $this;
     }
 
-    public function getWidget(): ?string
+    public function getWidget(): ?WidgetInterface
     {
-        return $this->widget;
+        return unserialize($this->widget);
     }
 
-    public function setWidget(string $widget): self
+    public function setWidget(WidgetInterface $widget): self
     {
-        $this->widget = $widget;
+        $this->widget = serialize($widget);
 
         return $this;
     }

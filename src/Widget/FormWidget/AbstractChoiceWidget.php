@@ -5,7 +5,6 @@ namespace App\Widget\FormWidget;
 
 
 use App\Form\Widget\FormWidget\FormChoiceWidgetType;
-use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWidgetInterface
@@ -26,11 +25,6 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
     public function getSymfonyType(): string
     {
         return ChoiceType::class;
-    }
-
-    public function getDataTransformer(): DataTransformerInterface
-    {
-        // TODO: Implement getDataTransformer() method.
     }
 
     /**

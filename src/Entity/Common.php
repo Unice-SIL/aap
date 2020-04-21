@@ -21,6 +21,12 @@ class Common
     private $name;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=30)
+     */
+    private $status;
+
+    /**
      * @return string|null
      */
     public function getName(): ?string
@@ -34,6 +40,25 @@ class Common
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return CallOfProject
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
 }

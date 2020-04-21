@@ -20,8 +20,16 @@ class HomeController extends AbstractController
     public function home(EntityManagerInterface $em)
     {
         return $this->render('page/dashboard.html.twig', [
-            'call_of_projects' => $em->getRepository(CallOfProject::class)->findAll(), //todo get only the user ones (last 5)
-            'projects' => $em->getRepository(Project::class)->findAll(), //todo get only the user ones (last 5)
+            'call_of_projects' => $em->getRepository(CallOfProject::class)->findBy(
+                ['createdBy' => $this->getUser()],
+                ['createdAt' => 'ASC'],
+                5
+            ),
+            'projects' => $em->getRepository(Project::class)->findBy(
+                ['createdBy' => $this->getUser()],
+                ['createdAt' => 'ASC'],
+                5
+            ),
         ]);
     }
 }

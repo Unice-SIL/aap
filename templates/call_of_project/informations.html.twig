@@ -7,18 +7,18 @@
 
 {% block content %}
     <div class="card">
-        <div class="card-body p-5">
-            <div class="row">
-                <div class="col-12">
-                    <a href="#" class="btn btn-primary float-right">
-                        {{ 'app.action.update'|trans }}
-                    </a>
-                </div>
-                <div class="col-12">
-                    <h3>{{ 'app.call_of_project.property.description'|trans }}</h3>
-                    {{ call_of_project.description }}
-                </div>
-            </div>
+        <div class="card-header">
+            <a href="#" class="btn btn-primary float-right">
+                {{ 'app.action.edit'|trans }}
+            </a>
+            <h2 class="d-inline-block mr-3">{{ call_of_project }}</h2>
+            {{ include('call_of_project/_status_badge.html.twig', { 'call_of_project' : call_of_project}) }}
+
+        </div>
+        <div class="card-body py-5">
+            <span class="text-bold">{{ 'app.call_of_project.organized_by'|trans }} {{ call_of_project.createdBy }}</span>
+            <span class="text-bold float-right">{{ call_of_project.createdAt|date('d-m-Y:h-i-s') }}</span>
+            <p class="mt-4">{{ call_of_project.description }}</p>
         </div>
     </div>
 {% endblock %}

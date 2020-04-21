@@ -29,7 +29,7 @@ abstract class AbstractWidget
         return $templateName;
     }
 
-    public function getName(): string
+    final public function getName(): string
     {
         return static::class;
     }

@@ -3,8 +3,22 @@ import '../scss/app.scss';
 require('admin-lte');
 require('bootstrap');
 require('datatables.net-bs4');
+require('toastr');
 
 $(document).ready(function () {
+
+    /**
+     * Flash message => toastr
+     */
+    $('.flash-message').each(function () {
+        let label = $(this).data('label');
+        let message = $(this).data('message');
+
+        if (typeof toastr[label] === 'function') {
+            toastr[label](message);
+        }
+
+    });
 
     /**
      * delte element modal
@@ -122,7 +136,6 @@ $(document).ready(function () {
     /**
      *
      * Call of Project form admin
-     * todo: move to a specific file
      * ==================================================
      */
     /*let $fromTemplate = $('#call_of_project_fromTemplate');

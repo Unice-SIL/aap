@@ -71,6 +71,7 @@ Encore
         $: 'jquery',
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
+        'toastr': 'toastr',
     })
 
     // uncomment if you use API Platform Admin (composer req api-admin)

@@ -6,6 +6,7 @@ use App\Entity\CallOfProject;
 use App\Entity\ProjectFormWidget;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
+use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -100,6 +101,7 @@ class CallOfProjectController extends AbstractController
      * @param WidgetManager $widgetManager
      * @param Request $request
      * @param EntityManagerInterface $entityManager
+     * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
      * @return Response
      * @throws \Exception
      */
@@ -107,7 +109,8 @@ class CallOfProjectController extends AbstractController
         CallOfProject $callOfProject,
         WidgetManager $widgetManager,
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ProjectFormWidgetManagerInterface $projectFormWidgetManager
     ): Response
     {
         $widgetName = $request->query->get('widgetName');
@@ -118,12 +121,12 @@ class CallOfProjectController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() and $form->isValid()) {
-                //todo: create a manager
-                $projectFormWidget = new ProjectFormWidget();
-                $projectFormWidget->setWidget(serialize($widget));
+
+                $projectFormWidget = $projectFormWidgetManager->create();
+                $projectFormWidget->setWidget($widget);
                 $callOfProject->getProjectFormLayout()->addProjectFormWidget($projectFormWidget);
 
-                $entityManager->flush();
+                $projectFormWidgetManager->save($projectFormWidget);
 
                 return $this->redirectToRoute('app.call_of_project.form', [
                     'id' => $callOfProject->getId()

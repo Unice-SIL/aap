@@ -1,6 +1,6 @@
 {% extends 'layout_sidebar.html.twig' %}
 
-{% set h1 = 'app.entity.call_of_project.page.form.h1'|trans %}
+{% set h1 = 'app.call_of_project.form.h1'|trans %}
 {% block title %}
     {{ h1 }}
 {% endblock %}
@@ -21,48 +21,54 @@
             </div>
         </div>
         <div class="col-4">
-            <div class="row">
-                <div class="col-12">
-                    <h2>{{ 'app.widget.form_widget.label' }}</h2>
-                    <ul class="list-group">
-                        {% for widget in widget_manager.formWidgets %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ ('app.widget.' ~ widget.name)|trans }}
-                                <button
-                                        type="button"
-                                        class="btn btn-primary float-right"
-                                        data-toggle="modal"
-                                        data-target="#widget-form-modal"
-                                        data-url="{{ path('app.widget.get_widget_form', {
-                                            'widgetName' : widget.name,
-                                            'id' : call_of_project.projectFormLayouts.first.id
-                                        }) }}"
-                                >
-                                    +
-                                </button>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="col-12">
-                    <h2>{{ 'app.widget.html_widget.label' }}</h2>
-                    {% for widget in widget_manager.htmlWidgets %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ ('app.widget.' ~ widget.name)|trans }}
-                            <button
-                                    type="button"
-                                    class="btn btn-primary float-right"
-                                    data-toggle="modal"
-                                    data-target="#widget-form-modal"
-                                    data-url="{{ path('app.widget.get_widget_form', {
-                                        'widgetName' : widget.name,
-                                        'id' : call_of_project.projectFormLayouts.first.id
-                                    }) }}"
-                            >
-                                +
-                            </button>
-                        </li>
-                    {% endfor %}
+            <div class="card">
+                <div class="row">
+                    <div class="col-12">
+
+                            <h2 class="p-3">{{ 'app.widget.form_widget.label'|trans }}</h2>
+                            <ul class="list-group">
+                                {% for widget in widget_manager.formWidgets %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ ('app.widget.' ~ widget.name)|trans }}
+                                        <button
+                                                type="button"
+                                                class="btn btn-primary float-right"
+                                                data-toggle="modal"
+                                                data-target="#widget-form-modal"
+                                                data-url="{{ path('app.widget.get_widget_form', {
+                                                    'widgetName' : widget.name,
+                                                    'id' : call_of_project.projectFormLayouts.first.id
+                                                }) }}"
+                                        >
+                                            +
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                    </div>
+                    <div class="col-12">
+
+                            <h2 class="p-3">{{ 'app.widget.html_widget.label'|trans }}</h2>
+                            <ul class="list-group">
+                                {% for widget in widget_manager.htmlWidgets %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ ('app.widget.' ~ widget.name)|trans }}
+                                        <button
+                                                type="button"
+                                                class="btn btn-primary float-right"
+                                                data-toggle="modal"
+                                                data-target="#widget-form-modal"
+                                                data-url="{{ path('app.widget.get_widget_form', {
+                                                    'widgetName' : widget.name,
+                                                    'id' : call_of_project.projectFormLayouts.first.id
+                                                }) }}"
+                                        >
+                                            +
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                    </div>
                 </div>
             </div>
         </div>

@@ -25,10 +25,4 @@ class TextWidget extends AbstractFormWidget implements FormWidgetInterface
         return TextType::class;
     }
 
-    public function getDataTransformer(): DataTransformerInterface
-    {
-        // TODO: Implement getDataTransformer() method.
-    }
-
-
 }

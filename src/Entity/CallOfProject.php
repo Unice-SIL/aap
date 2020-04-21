@@ -12,6 +12,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class CallOfProject extends Common
 {
+    const STATUS_DRAFT = 'draft';
     /**
      * @var UuidInterface
      *
@@ -42,6 +43,7 @@ class CallOfProject extends Common
     {
         $this->projects = new ArrayCollection();
         $this->projectFormLayouts = new ArrayCollection();
+        $this->setStatus(self::STATUS_DRAFT);
     }
 
     public function getId(): ?string

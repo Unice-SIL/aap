@@ -1,17 +1,17 @@
 {% extends 'layout.html.twig' %}
 
+{% set h1 = 'app.dashboard.h1'|trans %}
 {% block title %}
-    A définir
+    {{ h1 }}
 {% endblock %}
 
-{% set h1 = 'app.dashboard.h1'|trans %}
 
 {% block content %}
     <div class="row">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header border-transparent">
-                    <h3 class="card-title">{{ 'app.dashboard.my_projects.title'|trans }}</h3>
+                    <h3 class="card-title font-weight-bold">{{ 'app.dashboard.my_projects.title'|trans }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
@@ -20,12 +20,12 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ 'app.call_of_project.property.name'|trans }}</th>
-                                    <th>{{ 'app.call_of_project.property.status'|trans }}</th>
+                                    <th>{{ 'app.project.property.name'|trans }}</th>
+                                    <th>{{ 'app.project.property.status'|trans }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for  project in projects %}
+                                {% for project in projects %}
                                     <tr>
                                         <td>
                                             {{ loop.index }}
@@ -36,7 +36,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <span class="badge badge-success">Shipped</span>
+                                            {{ include('project/_status_badge.html.twig', { 'project' : project}) }}
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -56,7 +56,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header border-transparent">
-                    <h3 class="card-title">{{ 'app.dashboard.my_calls_of_project.title'|trans }}</h3>
+                    <h3 class="card-title font-weight-bold">{{ 'app.dashboard.my_calls_of_project.title'|trans }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
@@ -70,7 +70,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                {% for  call_of_project in call_of_projects %}
+                                {% for call_of_project in call_of_projects %}
                                     <tr>
                                         <td>
                                             {{ loop.index }}
@@ -81,7 +81,8 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <span class="badge badge-success">Shipped</span>
+                                        <td>
+                                            {{ include('call_of_project/_status_badge.html.twig', { 'call_of_project' : call_of_project}) }}
                                         </td>
                                     </tr>
                                 {% endfor %}
