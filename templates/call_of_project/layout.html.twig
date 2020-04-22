@@ -1,0 +1,59 @@
+{% extends 'sidebar_layout.html.twig' %}
+
+{% block sidebar %}
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+        {{ include('partial/_logo.html.twig') }}
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3">
+                <div class="info d-block">
+                    <div class="text-center text-white">{{ call_of_project }}</div>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                    {% set id = app.request.attributes.get('id') %}
+
+                    <li class="nav-item">
+                        <a href="{{ path('app.call_of_project.informations', {'id' : id}) }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>{{ 'app.sidebar.item.admin.infos'|trans }}</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ path('app.call_of_project.projects', {'id' : id}) }}" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                {{ 'app.sidebar.item.projects.label'|trans }}
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>{{ 'app.sidebar.item.admin.permissions'|trans }}</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ path('app.call_of_project.form', {'id' : id}) }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>{{ 'app.sidebar.item.admin.project_form'|trans }}</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+{% endblock %}

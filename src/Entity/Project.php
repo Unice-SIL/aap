@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
@@ -13,15 +12,6 @@ use Ramsey\Uuid\UuidInterface;
 class Project extends Common
 {
     const STATUS_DRAFT = 'draft';
-    /**
-     * @var UuidInterface
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CallOfProject", inversedBy="projects")
@@ -38,11 +28,6 @@ class Project extends Common
     {
         $this->projectContents = new ArrayCollection();
         $this->setStatus(self::STATUS_DRAFT);
-    }
-
-    public function getId(): ?string
-    {
-        return $this->id;
     }
 
     public function getCallOfProject(): ?CallOfProject

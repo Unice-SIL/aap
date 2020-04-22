@@ -3,9 +3,43 @@ import '../scss/app.scss';
 require('admin-lte');
 require('bootstrap');
 require('datatables.net-bs4');
-require('toastr');
+require('moment/locale/fr');
+require('tempusdominus-bootstrap-4');
+
 
 $(document).ready(function () {
+
+    /**
+     * Datetime picker
+     */
+    function initDatetimePicker() {
+        $('input.datetimepicker-input[data-linked-target]').each(function() {
+
+            let first = $(this).closest('.dateimepicker-container');
+            let id = $(this).data('linked-target');
+            let second = $('input.datetimepicker-input[data-linked-id=' + id + ']').closest('.dateimepicker-container');
+
+
+            first.datetimepicker({
+                allowInputToggle: false,
+                sideBySide: true
+            });
+            second.datetimepicker({
+                allowInputToggle: false,
+                useCurrent: false,
+                sideBySide: true
+            });
+            first.on("change.datetimepicker", function (e) {
+                second.datetimepicker('minDate', e.date);
+            });
+            second.on("change.datetimepicker", function (e) {
+                first.datetimepicker('maxDate', e.date);
+            });
+
+        });
+    }
+
+    initDatetimePicker();
 
     /**
      * Flash message => toastr
@@ -21,16 +55,17 @@ $(document).ready(function () {
     });
 
     /**
-     * delte element modal
+     * delete element modal
      */
     $(document).on('click', '.delete-button-modal', function (e) {
         e.preventDefault();
 
         let modal = $('#delete-form-modal');
         let title = $(this).data('modal-title');
+        let deleteLabel = $(this).data('modal-delete-label');
 
         let form = $(this).closest('form').clone().removeAttr('class').addClass('d-inline') ;
-        form.find('.delete-button-modal').removeAttr('class').addClass('btn btn-danger');
+        form.find('.delete-button-modal').removeAttr('class').addClass('btn btn-danger').text(deleteLabel);
 
         modal.find('.modal-title').text(title);
         let body = modal.find('.modal-body');
@@ -46,7 +81,7 @@ $(document).ready(function () {
     //Add a listener on remove activity button
     $(document).on('click', '.remove-collection-widget', function(e) {
         e.preventDefault();
-        var item = $(this).closest('.item-collection');
+        let item = $(this).closest('.item-collection');
         let list = item.closest('ul');
         item.slideUp(500, function() {
             $(this).remove();
@@ -67,13 +102,13 @@ $(document).ready(function () {
 
     //Add a listener on add activity button
     $(document).on('click', '.add-another-collection-widget', function (e) {
-        var list = $($(this).attr('data-list-selector'));
+        let list = $($(this).attr('data-list-selector'));
 
         // Try to find the counter of the list or use the length of the list
-        var counter = list.data('widget-counter') || list.children().length;
+        let counter = list.data('widget-counter') || list.children().length;
 
         // grab the prototype template
-        var newWidget = list.attr('data-prototype');
+        let newWidget = list.attr('data-prototype');
         // replace the "__name__" used in the id and name of the prototype
         // with a number that's unique to your emails
         // end name attribute looks like name="contact[emails][2]"
@@ -85,7 +120,7 @@ $(document).ready(function () {
         list.data('widget-counter', counter);
 
         // create a new list element and add it to the list
-        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+        let newElem = $(list.attr('data-widget-tags')).html(newWidget);
         newElem.hide().appendTo(list).slideDown();
 
         let number = 1;
@@ -114,15 +149,32 @@ $(document).ready(function () {
     /**
      * Project List by Call of Project Datatable
      */
-    $('#dataTable-projects-list').DataTable({
-        language: {
-            url: $('#dataTable-projects-list').data('translation-url')
-        }
+    let dataTables = $('.dataTable');
+
+    dataTables.each(function () {
+
+        let dataTable = $(this);
+        dataTable.DataTable({
+            language: {
+                url: dataTable.data('translation-url')
+            }
+        });
     });
 
+
+    /**
+     * Call of Project edit modal
+     */
+    $('#call-of-project-information-form-modal').modal({
+        backdrop: 'static'
+    });
     /**
      * Widget modal
      */
+    $('#widget-form-modal').modal({
+        backdrop: 'static',
+        show: false
+    });
     $('#widget-form-modal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
         let modal = $(this);

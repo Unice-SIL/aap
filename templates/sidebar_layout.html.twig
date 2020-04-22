@@ -1,0 +1,16 @@
+{% extends 'base_layout.html.twig' %}
+
+{% set body_class = 'sidebar-mini layout-fixed layout-navbar-fixed ' ~ body_class|default('') %}
+{% set isSidebarLayout = true %}
+
+{% block content_wrapper %}
+
+    <div class="content pt-5">
+        <div class="container-fluid">
+            {% block content %}
+                <!-- /.container-fluid -->
+            {% endblock %}
+        </div>
+    </div>
+    <!-- /.content -->
+{% endblock %}

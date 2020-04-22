@@ -72,6 +72,7 @@ Encore
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         'toastr': 'toastr',
+        'moment': 'moment',
     })
 
     // uncomment if you use API Platform Admin (composer req api-admin)

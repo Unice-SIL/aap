@@ -1,0 +1,14 @@
+<div class="modal fade" id="call-of-project-information-form-modal" data-show="{{ open_edition_form_modal ? 'true' : 'false' }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-title">{{ 'app.modal.call_of_project_informations_form.title'|trans }}</h4>
+
+                {{ include('call_of_project/_form.html.twig', {'context' : 'modal'}) }}
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

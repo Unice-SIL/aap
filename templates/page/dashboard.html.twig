@@ -1,30 +1,36 @@
-{% extends 'layout.html.twig' %}
-
-{% set h1 = 'app.dashboard.h1'|trans %}
-{% block title %}
-    {{ h1 }}
-{% endblock %}
-
+{% extends 'top_navbar_layout.html.twig' %}
 
 {% block content %}
+    <h1 class="mb-4">{{ 'app.dashboard.h1'|trans }}</h1>
     <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header border-transparent">
-                    <h3 class="card-title font-weight-bold">{{ 'app.dashboard.my_projects.title'|trans }}</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table m-0">
-                            <thead>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="min-height: 538px">
+                        <h3 class="border-bottom pb-1">{{ 'app.dashboard.my_projects.title'|trans }}</h3>
+                        <div class="row text-center py-3">
+                            <div class="col-6 px-5 border-right">
+                                <p class="text-primary text-bold mb-1" style="font-size: 25px">{{ projects|length }}</p>
+                                <p>
+                                    {{ 'app.dashboard.projects_dropped'|transchoice(projects|length) }}
+                                </p>
+                            </div>
+                            <div class="col-6 px-5 mt-2">
+                                <div class="form-group">
+                                    <button class="btn btn-primary">{{ 'app.dashboard.drop_new_project'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="text-decoration: underline">{{ 'app.dashboard.last_dropped_projects'|transchoice(projects|length) }}</p>
+                        <div class="table-responsive">
+                            <table class="table m-0 table-striped">
+                                <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ 'app.project.property.name'|trans }}</th>
-                                    <th>{{ 'app.project.property.status'|trans }}</th>
+                                    <th>{{ 'app.project.property.name.label'|trans }}</th>
+                                    <th>{{ 'app.project.property.status.label'|trans }}</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 {% for project in projects %}
                                     <tr>
                                         <td>
@@ -40,36 +46,46 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.table-responsive -->
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                        <a href="#" class="text-primary float-right">{{ 'app.dashboard.list_all_projects'|trans }}</a>
+                    </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer clearfix">
-                    <a href="#" class="btn btn-sm btn-info float-left">{{ 'app.action.new'|trans }}</a>
-                    <a href="#" class="btn btn-sm btn-secondary float-right">{{ 'app.action.list_all'|trans }}</a>
-                </div>
-                <!-- /.card-footer -->
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header border-transparent">
-                    <h3 class="card-title font-weight-bold">{{ 'app.dashboard.my_calls_of_project.title'|trans }}</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table m-0">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>{{ 'app.call_of_project.property.name'|trans }}</th>
-                                <th>{{ 'app.call_of_project.property.status'|trans }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="min-height: 538px">
+                        <h3 class="border-bottom pb-1">{{ 'app.dashboard.my_calls_of_project.title'|trans }}</h3>
+                        <div class="row text-center py-3">
+                            <div class="col-6 px-5 border-right">
+                                <p class="text-primary text-bold mb-1" style="font-size: 25px">{{ call_of_projects|length }}</p>
+                                <p>
+                                    {{ 'app.dashboard.call_of_projects_dropped'|transchoice(call_of_projects|length) }}
+                                </p>
+                            </div>
+                            <div class="col-6 px-5 mt-2">
+                                <div class="form-group">
+                                    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="text-decoration: underline">{{ 'app.dashboard.last_dropped_call_of_project'|transchoice(call_of_projects|length) }}</p>
+                        <div class="table-responsive">
+                            <table class="table m-0 table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>{{ 'app.call_of_project.property.name.label'|trans }}</th>
+                                    <th>{{ 'app.call_of_project.property.status.label'|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                 {% for call_of_project in call_of_projects %}
                                     <tr>
                                         <td>
@@ -86,18 +102,17 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.table-responsive -->
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                        <a href="{{ path('app.call_of_project.new') }}" class="text-primary float-right">{{ 'app.dashboard.list_all_call_of_projects'|trans }}</a>
+                    </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer clearfix">
-                    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-sm btn-info float-left">{{ 'app.action.new'|trans }}</a>
-                    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-sm btn-secondary float-right">{{ 'app.action.list_all'|trans }}</a>
-                </div>
-                <!-- /.card-footer -->
             </div>
         </div>
-    </div>
 {% endblock %}

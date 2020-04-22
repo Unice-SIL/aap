@@ -23,6 +23,9 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject->setName(self::CALL_OF_PROJECT_1);
         $callOfProject->setDescription('Description de l\'appel à projet');
 
+        $callOfProject->setStartDate((new \DateTime())->modify('-1 day'));
+        $callOfProject->setEndDate((new \DateTime())->modify('+1 day'));
+
         $this->addReference(self::class . self::CALL_OF_PROJECT_1, $callOfProject);
 
         /** @var ProjectFormLayout $projectFormLayout */
@@ -41,6 +44,9 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject = new CallOfProject();
         $callOfProject->setName(self::CALL_OF_PROJECT_2);
         $callOfProject->setDescription('Description de l\'appel à projet');
+
+        $callOfProject->setStartDate((new \DateTime())->modify('-1 day'));
+        $callOfProject->setEndDate((new \DateTime())->modify('+1 day'));
 
         $this->addReference(self::class . self::CALL_OF_PROJECT_2, $callOfProject);
 

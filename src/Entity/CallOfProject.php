@@ -5,26 +5,21 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CallOfProjectRepository")
  */
 class CallOfProject extends Common
 {
-    const STATUS_DRAFT = 'draft';
-    /**
-     * @var UuidInterface
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    private $id;
+    const STATUS_CLOSED = 'closed';
+    const STATUS_OPENED = 'opened';
+    const STATUS_REVIEW = 'review';
+    const STATUS_ARCHIVED = 'archived';
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -32,6 +27,23 @@ class CallOfProject extends Common
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="callOfProject", orphanRemoval=true)
      */
     private $projects;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime
+     */
+    private $startDate;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime
+     * @Assert\Expression("value > this.getStartDate()", message="app.call_of_project.errors.date_bigger_than_start_date")
+     */
+    private $endDate;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject", cascade={"persist"})
@@ -43,12 +55,6 @@ class CallOfProject extends Common
     {
         $this->projects = new ArrayCollection();
         $this->projectFormLayouts = new ArrayCollection();
-        $this->setStatus(self::STATUS_DRAFT);
-    }
-
-    public function getId(): ?string
-    {
-        return $this->id;
     }
 
     public function getDescription(): ?string
@@ -135,4 +141,47 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return \DateTime|null
+     */
+    public function getStartDate(): ?\DateTime
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @param \DateTime|null $startDate
+     */
+    public function setStartDate(?\DateTime $startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEndDate(): ?\DateTime
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @param \DateTime|null $endDate
+     */
+    public function setEndDate(?\DateTime $endDate): void
+    {
+        $this->endDate = $endDate;
+    }
+
+    public function getStatus(): string
+    {
+        $currentDate = new \DateTime();
+        if ($currentDate < $this->getStartDate()) {
+            return self::STATUS_CLOSED;
+        } elseif ($this->getStartDate() <= $currentDate and $currentDate <= $this->getEndDate()) {
+            return self::STATUS_OPENED;
+        } else {
+            return self::STATUS_ARCHIVED;
+        }
+    }
 }

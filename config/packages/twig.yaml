@@ -5,8 +5,6 @@ twig:
     exception_controller: null
     form_themes:
         - 'bootstrap_4_layout.html.twig'
+        - 'form/custom_types.html.twig'
     globals:
         app_name: '%app_name%'
-        layout_default_class: '%layout_default_class%'
-        layout_sidebar_class: '%layout_sidebar_class%'
-        container_default: '%container_default%'

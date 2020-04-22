@@ -1,0 +1,8 @@
+{% block date_time_picker_widget %}
+    <div class="input-group date dateimepicker-container" id="datetimepicker-{{ form.vars.id }}" data-target-input="nearest">
+        {{ form_widget(form, { 'attr' : {'data-target' : '#datetimepicker-' ~ form.vars.id }}) }}
+        <div class="input-group-append" data-target="#datetimepicker-{{ form.vars.id }}" data-toggle="datetimepicker">
+            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
+    </div>
+{% endblock %}

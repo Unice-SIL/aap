@@ -1,38 +1,50 @@
 
 {{ form_start(form) }}
-    <div class="row">
-
-        {% for projectFormWidget in projectFormWidgets %}
-            <div class="col-10 mb-5">
-                {% if instanceof(projectFormWidget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
-                    {{ form_label(form.children[projectFormWidget.position], null, {'label_attr' : {'class' : 'py-1 text-bold'}}) }}
-                    {{ form_widget(form.children[projectFormWidget.position]) }}
-                {% else %}
-                    {{ projectFormWidget.widget.render|raw }}
-                {% endif %}
-            </div>
-            <div class="col-2 d-flex flex-column">
-                <button type="button" class="btn btn-primary mb-1"
-                        data-toggle="modal"
-                        data-target="#widget-form-modal"
-                        data-url="{{ path('app.widget.get_filled_widget_form', {
-                            'id' : projectFormWidget.id
-                        }) }}"
-                >
-                    {{ 'app.action.edit'|trans }}
-                </button>
-                <div class="project-form-widget-delete">
-
-                    {# this is to prevent weird behavior due to html form nested #}
-                    {% if loop.first %}
-                        <form action=""></form>
+    {% for projectFormWidget in projectFormWidgets %}
+        <div class="card card-body pt-1">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <i class="fas fa-ellipsis-h text-gray" style="font-size: 25px"></i>
+                </div>
+                <div class="col-11 d-flex flex-column justify-content-center">
+                    {% if instanceof(projectFormWidget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
+                        {{ form_label(form.children[projectFormWidget.position], null, {'label_attr' : {'class' : 'py-1 text-bold'}}) }}
+                        {{ form_widget(form.children[projectFormWidget.position]) }}
+                    {% else %}
+                        {{ projectFormWidget.widget.render|raw }}
                     {% endif %}
+                </div>
+                <div class="col-1 d-flex flex-column justify-content-center align-items-end">
+                    <button type="button" class="btn btn-primary mb-1 widget-button"
+                            data-toggle="modal"
+                            data-target="#widget-form-modal"
+                            data-url="{{ path('app.widget.get_filled_widget_form', {
+                                'id' : projectFormWidget.id
+                            }) }}"
+                    >
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-warning mb-1 widget-button text-white">
+                        <i class="far fa-clone"></i>
+                    </button>
+                    <div class="project-form-widget-delete">
 
-                    {{ include('widget/_delete_form.html.twig', { 'widget' : projectFormWidget}) }}
+                        {# this is to prevent weird behavior due to html form nested #}
+                        {% if loop.first %}
+                            <form action=""></form>
+                        {% endif %}
+
+                        {{ include('widget/_delete_form.html.twig', {
+                            'widget' : projectFormWidget,
+                            'content' : '<i class="fa fa-trash"></i>',
+                            'class' : 'widget-button'
+                        }) }}
+                    </div>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
+
 
 
 {{ form_end(form, {'render_rest': false}) }}

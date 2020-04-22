@@ -1,0 +1,4 @@
+app:
+  call_of_project:
+    errors:
+      date_bigger_than_start_date: Cette date devrait être plus grande que la date de début

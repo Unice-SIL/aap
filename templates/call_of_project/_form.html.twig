@@ -9,10 +9,30 @@
         {{ form_label(form.description) }}
         {{ form_widget(form.description) }}
     </div>
+    <div class="row">
+        <div class="col-12 text-bold mb-2">
+            {{ 'app.call_of_project.open_date.label'|trans }}
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                {{ form_label(form.startDate) }}
+                {{ form_widget(form.startDate) }}
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                {{ form_label(form.endDate) }}
+                {{ form_widget(form.endDate) }}
+            </div>
+        </div>
+    </div>
     <button class="btn btn-primary">
         {{ button_label|default('app.action.save'|trans) }}
     </button>
-    <a href="{{ path('app.homepage') }}" class="btn btn-secondary text-white">
-        {{ 'app.action.canceled'|trans }}
-    </a>
+
+    {% if context|default('default') == 'modal' %}
+        <a class="btn btn-secondary text-white" data-dismiss="modal">
+            {{ 'app.action.canceled'|trans }}
+        </a>
+    {% endif %}
 {{ form_end(form) }}

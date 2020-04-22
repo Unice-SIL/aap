@@ -5,18 +5,39 @@ namespace App\Entity;
 
 use App\Traits\BlameableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\MappedSuperclass;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\InheritanceType;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/** @MappedSuperclass */
+/**
+ * @Entity
+ * @InheritanceType("JOINED")
+ * @DiscriminatorColumn(name="discr", type="string")
+ * @DiscriminatorMap({"common" = "Common", "project" = "Project", "call_of_project" = "CallOfProject"})
+ */
 class Common
 {
     use TimestampableEntity;
     use BlameableEntity;
 
     /**
+     * @var UuidInterface
+     *
+     * @ORM\Id
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     */
+    private $id;
+
+    /**
      * @var string|null
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -25,6 +46,11 @@ class Common
      * @ORM\Column(type="string", length=30)
      */
     private $status;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
 
     /**
      * @return string|null
