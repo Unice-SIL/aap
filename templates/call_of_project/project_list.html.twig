@@ -5,7 +5,6 @@
     {{ h1 }}
 {% endblock %}
 
-
 {% block content %}
 
     <div class="card">
@@ -17,9 +16,10 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>{{ 'app.project.property.name'|trans }}</th>
-                    <th>{{ 'app.project.property.created_by'|trans }}</th>
-                    <th>{{ 'app.project.property.created_at'|trans }}</th>
+                    <th>{{ 'app.project.property.name.label'|trans }}</th>
+                    <th>{{ 'app.project.property.created_by.label'|trans }}</th>
+                    <th>{{ 'app.project.property.created_at.label'|trans }}</th>
+                    <th>{{ 'app.project.property.status.label'|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,11 +28,15 @@
                         <td>{{ loop.index }}</td>
                         <td>{{ project.name }}</td>
                         <td>{{ project.createdBy }}</td>
-                        <td>{{ project.createdAt|date('d-m-Y') }}</td>
+                        <td>{{ project.createdAt|date('d/m/Y h:i') }}</td>
+                        <td>{{ include('project/_status_badge.html.twig', { 'project' : project}) }}</td>
                     </tr>
                 {% else %}
                     <tr>
                         <td colspan="4">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -14,7 +14,12 @@ class CallOfProjectInformationTypeSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
 
         if (!$callOfProject || null === $callOfProject->getId()) {
-            $form->add('name');
+            $form->add('name', null, [
+                'label' => 'app.call_of_project.property.name.label',
+                'attr' => [
+                    'placeholder' => 'app.call_of_project.property.name.placeholder'
+                ],
+            ]);
         }
     }
 

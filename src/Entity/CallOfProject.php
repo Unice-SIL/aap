@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CallOfProjectRepository")
@@ -25,6 +26,7 @@ class CallOfProject extends Common
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $description;
 
@@ -32,6 +34,22 @@ class CallOfProject extends Common
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="callOfProject", orphanRemoval=true)
      */
     private $projects;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime
+     */
+    private $startDate;
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime
+     */
+    private $endDate;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject", cascade={"persist"})
@@ -135,4 +153,35 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return \DateTime|null
+     */
+    public function getStartDate(): ?\DateTime
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @param \DateTime|null $startDate
+     */
+    public function setStartDate(?\DateTime $startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEndDate(): ?\DateTime
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @param \DateTime|null $endDate
+     */
+    public function setEndDate(?\DateTime $endDate): void
+    {
+        $this->endDate = $endDate;
+    }
 }

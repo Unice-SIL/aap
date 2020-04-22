@@ -7,6 +7,7 @@ use App\Traits\BlameableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /** @MappedSuperclass */
 class Common
@@ -17,6 +18,7 @@ class Common
     /**
      * @var string|null
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 

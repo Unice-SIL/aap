@@ -6,10 +6,12 @@ use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\EventSubscriber\Form\CallOfProjectInformationTypeSubscriber;
 use App\Form\ProjectFormLayout\ProjectFormLayoutEmbeddedType;
+use App\Form\Type\FlatpickrType;
 use App\Repository\ProjectFormLayoutRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -38,10 +40,17 @@ class CallOfProjectInformationType extends AbstractType
     {
         $builder
             ->add('description', null, [
+                'label' => 'app.call_of_project.property.description.label',
                 'attr' => [
-                    'rows' => 8
-                ],
-                'label' => 'app.call_of_project.property.description'
+                    'rows' => 8,
+                    'placeholder' => 'app.call_of_project.property.description.placeholder'
+                ]
+            ])
+            ->add('startDate', FlatpickrType::class, [
+                'label' => 'app.call_of_project.property.start_date.label',
+            ])
+            ->add('endDate', FlatpickrType::class, [
+                'label' => 'app.call_of_project.property.end_date.label',
             ])
             ->addEventSubscriber($this->callOfProjectInformationTypeSubscriber)
             /*->add('fromTemplate', CheckboxType::class, [
