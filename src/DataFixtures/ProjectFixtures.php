@@ -28,51 +28,63 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
         $projects = [
             self::PROJECT_1 => [
               'name' => self::PROJECT_1,
-              'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+              'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1,
+                'createdBy' => UserFixtures::USER_ADMIN
             ],
             self::PROJECT_2 => [
                 'name' => self::PROJECT_2,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1,
+                'createdBy' => UserFixtures::USER_ADMIN
             ],
             self::PROJECT_3 => [
                 'name' => self::PROJECT_3,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1,
+                'createdBy' => UserFixtures::USER_ADMIN
             ],
             self::PROJECT_4 => [
                 'name' => self::PROJECT_4,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1,
+                'createdBy' => UserFixtures::USER_ADMIN
             ],
             self::PROJECT_5 => [
                 'name' => self::PROJECT_5,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1,
+                'createdBy' => UserFixtures::USER_ADMIN
             ],
             self::PROJECT_6 => [
                 'name' => self::PROJECT_6,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_2,
+                'createdBy' => UserFixtures::USER_ADMIN
             ],
             self::PROJECT_7 => [
                 'name' => self::PROJECT_7,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_2,
+                'createdBy' => UserFixtures::USER_USER1
             ],
             self::PROJECT_8 => [
                 'name' => self::PROJECT_8,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_2,
+                'createdBy' => UserFixtures::USER_USER1
             ],
             self::PROJECT_9 => [
                 'name' => self::PROJECT_9,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_2,
+                'createdBy' => UserFixtures::USER_USER1
             ],
             self::PROJECT_10 => [
                 'name' => self::PROJECT_10,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_2,
+                'createdBy' => UserFixtures::USER_USER1
             ],
             self::PROJECT_11 => [
                 'name' => self::PROJECT_11,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_2,
+                'createdBy' => UserFixtures::USER_USER1
             ],
             self::PROJECT_12 => [
                 'name' => self::PROJECT_12,
-                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_1
+                'call_of_project' => CallOfProjectFixtures::CALL_OF_PROJECT_2,
+                'createdBy' => UserFixtures::USER_USER1
             ],
         ];
 
@@ -81,6 +93,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             $project = new Project();
             $project->setName($projectFixture['name']);
             $project->setCallOfProject($this->getReference(CallOfProjectFixtures::class . $projectFixture['call_of_project']));
+            $project->setCreatedBy($this->getReference(UserFixtures::class . $projectFixture['createdBy']));
             $manager->persist($project);
         }
 
@@ -93,7 +106,8 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            CallOfProjectFixtures::class
+            CallOfProjectFixtures::class,
+            UserFixtures::class,
         ];
     }
 }

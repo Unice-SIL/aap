@@ -21,7 +21,7 @@ class DynamicWidgetsType extends AbstractType
 
         foreach ($projectFormLayout->getProjectFormWidgets() as $projectFormWidget) {
 
-            $widget = unserialize($projectFormWidget->getWidget());
+            $widget = $projectFormWidget->getWidget();
 
             if ($widget instanceof FormWidgetInterface) {
                 $builder->add($projectFormWidget->getPosition(), $widget->getSymfonyType(), $widget->getOptions());

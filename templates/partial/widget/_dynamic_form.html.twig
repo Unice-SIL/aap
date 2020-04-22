@@ -2,13 +2,13 @@
 {{ form_start(form) }}
     <div class="row">
 
-        {% for widget in widgets %}
+        {% for projectFormWidget in projectFormWidgets %}
             <div class="col-10 mb-5">
-                {% if instanceof(widget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
-                    {{ form_label(form.children[widget.projectFormWidget.position], null, {'label_attr' : {'class' : 'py-1 text-bold'}}) }}
-                    {{ form_widget(form.children[widget.projectFormWidget.position]) }}
+                {% if instanceof(projectFormWidget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
+                    {{ form_label(form.children[projectFormWidget.position], null, {'label_attr' : {'class' : 'py-1 text-bold'}}) }}
+                    {{ form_widget(form.children[projectFormWidget.position]) }}
                 {% else %}
-                    {{ widget.widget.render|raw }}
+                    {{ projectFormWidget.widget.render|raw }}
                 {% endif %}
             </div>
             <div class="col-2 d-flex flex-column">
@@ -16,19 +16,19 @@
                         data-toggle="modal"
                         data-target="#widget-form-modal"
                         data-url="{{ path('app.widget.get_filled_widget_form', {
-                            'id' : widget.projectFormWidget.id
+                            'id' : projectFormWidget.id
                         }) }}"
                 >
                     {{ 'app.action.edit'|trans }}
                 </button>
                 <div class="project-form-widget-delete">
 
-                    {#todo: this to prevent weird behavior due to html form nested#}
+                    {# this is to prevent weird behavior due to html form nested #}
                     {% if loop.first %}
                         <form action=""></form>
                     {% endif %}
 
-                    {{ include('widget/_delete_form.html.twig', { 'widget' : widget.projectFormWidget}) }}
+                    {{ include('widget/_delete_form.html.twig', { 'widget' : projectFormWidget}) }}
                 </div>
             </div>
         {% endfor %}

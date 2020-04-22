@@ -26,11 +26,6 @@ class TextAreaWidget extends AbstractFormWidget implements FormWidgetInterface
         return TextareaType::class;
     }
 
-    public function getDataTransformer(): DataTransformerInterface
-    {
-        // TODO: Implement getDataTransformer() method.
-    }
-
     protected function configureOptions(): void
     {
         parent::configureOptions();

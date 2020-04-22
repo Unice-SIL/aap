@@ -42,7 +42,6 @@ class WidgetManager
 
     public function addWidget(WidgetInterface $widget)
     {
-        //todo: test unicity of index
         $this->widgets[$widget->getName()] = $widget;
     }
 
@@ -65,7 +64,6 @@ class WidgetManager
 
     public function addFormWidget(FormWidgetInterface $formWidget)
     {
-        //todo: test unicity of index
         $this->formWidgets[$formWidget->getName()] = $formWidget;
     }
 
@@ -79,7 +77,6 @@ class WidgetManager
 
     public function addHtmlWidget(HtmlWidgetInterface $htmlWidget)
     {
-        //todo: test unicity of index
         $this->htmlWidgets[$htmlWidget->getName()] = $htmlWidget;
     }
 
@@ -111,22 +108,16 @@ class WidgetManager
         /** @var ProjectFormLayout $projectFormLayout */
         $projectFormLayout = $dynamicForm->getConfig()->getOptions()['project_form_layout'];
 
-        $widgets = $projectFormLayout->getProjectFormWidgets()->map(function ($widget){
-            return [
-                'widget' => unserialize($widget->getWidget()),
-                'projectFormWidget' => $widget
-            ];
+        $projectFormWidgets = $projectFormLayout->getProjectFormWidgets()->getIterator();
+
+        $projectFormWidgets->uasort(function ($a, $b) {
+            return $a->getPosition() <=> $b->getPosition();
         });
 
-        $widgets = $widgets->getIterator();
-
-        $widgets->uasort(function ($a, $b) {
-            return $a['projectFormWidget']->getPosition() <=> $b['projectFormWidget']->getPosition();
-        });
 
         return $this->twig->render('partial/widget/_dynamic_form.html.twig', [
             'form' => $dynamicForm->createView(),
-            'widgets' => $widgets
+            'projectFormWidgets' => $projectFormWidgets
         ]);
     }
 }

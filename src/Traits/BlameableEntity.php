@@ -19,7 +19,7 @@ trait BlameableEntity
     /**
      * @var User|null
      *
-     * @Gedmo\Blameable(on="updated")
+     * @Gedmo\Blameable(on="update")
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      */
     private $updatedBy;

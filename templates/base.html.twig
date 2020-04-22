@@ -18,6 +18,22 @@
 
         {% block modals %}{% endblock %}
 
+        {% for label, messages in app.flashes %}
+
+            {% if constant('App\\Constant\\CssMatching::BOOTSTRAP_TO_TOASTR')[label] is defined %}
+                {% set label = constant('App\\Constant\\CssMatching::BOOTSTRAP_TO_TOASTR')[label] %}
+            {% endif %}
+
+            {% for message in messages %}
+                <div
+                        class="flash-message"
+                        data-label="{{ label }}"
+                        data-message="{{ message }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         {% block body %}{% endblock %}
 
         {% block javascripts %}
