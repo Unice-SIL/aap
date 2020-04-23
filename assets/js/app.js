@@ -3,8 +3,8 @@ import '../scss/app.scss';
 require('admin-lte');
 require('bootstrap');
 require('datatables.net-bs4');
-require('flatpickr');
-const France = require('flatpickr/dist/l10n/fr').default.fr;
+require('moment/locale/fr');
+require('tempusdominus-bootstrap-4');
 
 
 $(document).ready(function () {
@@ -12,12 +12,34 @@ $(document).ready(function () {
     /**
      * Datetime picker
      */
-    flatpickr.localize(France);
+    function initDatetimePicker() {
+        $('input.datetimepicker-input[data-linked-target]').each(function() {
 
-    flatpickr($('.flatpickr'), {
-        enableTime: true,
-        dateFormat: 'd-m-Y H:i',
-    });
+            let first = $(this).closest('.dateimepicker-container');
+            let id = $(this).data('linked-target');
+            let second = $('input.datetimepicker-input[data-linked-id=' + id + ']').closest('.dateimepicker-container');
+
+
+            first.datetimepicker({
+                allowInputToggle: false,
+                sideBySide: true
+            });
+            second.datetimepicker({
+                allowInputToggle: false,
+                useCurrent: false,
+                sideBySide: true
+            });
+            first.on("change.datetimepicker", function (e) {
+                second.datetimepicker('minDate', e.date);
+            });
+            second.on("change.datetimepicker", function (e) {
+                first.datetimepicker('maxDate', e.date);
+            });
+
+        });
+    }
+
+    initDatetimePicker();
 
     /**
      * Flash message => toastr
@@ -127,15 +149,32 @@ $(document).ready(function () {
     /**
      * Project List by Call of Project Datatable
      */
-    $('#dataTable-projects-list').DataTable({
-        language: {
-            url: $('#dataTable-projects-list').data('translation-url')
-        }
+    let dataTables = $('.dataTable');
+
+    dataTables.each(function () {
+
+        let dataTable = $(this);
+        dataTable.DataTable({
+            language: {
+                url: dataTable.data('translation-url')
+            }
+        });
     });
 
+
+    /**
+     * Call of Project edit modal
+     */
+    $('#call-of-project-information-form-modal').modal({
+        backdrop: 'static'
+    });
     /**
      * Widget modal
      */
+    $('#widget-form-modal').modal({
+        backdrop: 'static',
+        show: false
+    });
     $('#widget-form-modal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
         let modal = $(this);

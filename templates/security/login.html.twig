@@ -12,16 +12,16 @@
 
                 {% if app.user %}
                     <div class="mb-3">
-                        You are logged in as {{ app.user.username }}, <a href="{{ path('app.logout') }}">Logout</a>
+                        {{ 'app.login.form.connected_as'|trans }} {{ app.user.username }}, <a href="{{ path('app.logout') }}">{{ 'app.login.form.logout'|trans }}</a>
                     </div>
                 {% endif %}
 
                 <div class="form-group">
-                    <label for="inputUsername">{% trans %}login.form.username.label{% endtrans %}</label>
+                    <label for="inputUsername">{% trans %}app.login.form.username.label{% endtrans %}</label>
                     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword">{% trans %}login.form.password.label{% endtrans %}</label>
+                    <label for="inputPassword">{% trans %}app.login.form.password.label{% endtrans %}</label>
                     <input type="password" name="password" id="inputPassword" class="form-control" required>
                 </div>
                 <input type="hidden" name="_csrf_token"
@@ -40,7 +40,7 @@
                 #}
                 <div class="form-group">
                     <button class="btn btn-lg btn-primary" type="submit">
-                        {% trans %}login.form.button.submit{% endtrans %}
+                        {% trans %}app.login.form.button.submit{% endtrans %}
                     </button>
                 </div>
             </form>

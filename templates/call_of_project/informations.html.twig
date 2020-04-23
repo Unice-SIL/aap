@@ -1,8 +1,8 @@
-{% extends 'layout_sidebar.html.twig' %}
+{% extends 'call_of_project/layout.html.twig' %}
 
-{% set h1 = 'app.call_of_project.informations.h1'|trans %}
-{% block title %}
-    {{ h1 }}
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/modal/_call_of_project_informations_form.html.twig') }}
 {% endblock %}
 
 {% block modals %}
@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block content %}
+    <h1 class="mb-4">{{ 'app.call_of_project.informations.h1'|trans }}</h1>
     <div class="card">
         <div class="card-header">
             <button  class="btn btn-primary float-right"

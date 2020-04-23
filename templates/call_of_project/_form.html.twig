@@ -29,11 +29,10 @@
     <button class="btn btn-primary">
         {{ button_label|default('app.action.save'|trans) }}
     </button>
-    <a
-            {{ context|default('default') != 'modal' ? 'href=' ~ path('app.homepage')}}
-            class="btn btn-secondary text-white"
-            {{ context|default('default') == 'modal' ? 'data-dismiss="modal"'}}
-    >
-        {{ 'app.action.canceled'|trans }}
-    </a>
+
+    {% if context|default('default') == 'modal' %}
+        <a class="btn btn-secondary text-white" data-dismiss="modal">
+            {{ 'app.action.canceled'|trans }}
+        </a>
+    {% endif %}
 {{ form_end(form) }}

@@ -83,21 +83,31 @@ class CallOfProjectController extends AbstractController
      */
     public function informations(Request $request, CallOfProject $callOfProject): Response
     {
+        $callOfProjectClone = clone $callOfProject;
+
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $openEditionFormModal = false;
+        if ($form->isSubmitted()) {
 
-            $this->getDoctrine()->getManager()->flush();
+            if ($form->isValid()) {
 
-            return $this->redirectToRoute('app.call_of_project.informations', [
-                'id' => $callOfProject->getId()
-            ]);
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('app.call_of_project.informations', [
+                    'id' => $callOfProject->getId()
+                ]);
+            }
+
+            $openEditionFormModal = true;
+
         }
 
         return $this->render('call_of_project/informations.html.twig', [
-            'call_of_project' => $callOfProject,
+            'call_of_project' => $callOfProjectClone,
             'form' => $form->createView(),
+            'open_edition_form_modal' => $openEditionFormModal
         ]);
     }
 

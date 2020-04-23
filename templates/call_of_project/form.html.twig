@@ -1,9 +1,9 @@
-{% extends 'layout_sidebar.html.twig' %}
+{% extends 'call_of_project/layout.html.twig' %}
 
-{% set h1 = 'app.call_of_project.form.h1'|trans %}
-{% set page_class = 'call-of-project-form control-sidebar-push  control-sidebar-slide-open' %}
+{% set body_class = 'call-of-project-form control-sidebar-push  control-sidebar-slide-open' %}
+
 {% block title %}
-    {{ h1 }}
+    {{ 'app.call_of_project.form.h1'|trans }}
 {% endblock %}
 
 {% block modals %}
@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+    <h1 class="mb-4">{{ 'app.call_of_project.form.h1'|trans }}</h1>
     {{ dynamic_form_html|raw }}
 {% endblock %}
 

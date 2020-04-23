@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="wrapper">
+
+        {% block navbar %}
+            {{ include('partial/_navbar.html.twig') }}
+        {% endblock %}
+
+        {% block sidebar %}
+        {% endblock %}
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" >
+
+            {% block content_wrapper %}
+            {% endblock %}
+        </div>
+        <!-- /.content-wrapper -->
+
+        {% block footer %}
+            {{ include('partial/_footer.html.twig') }}
+        {% endblock %}
+
+        {% block control_sidebar %}
+        {% endblock %}
+
+
+        <div id="sidebar-overlay"></div>
+    </div>
+
+
+{% endblock %}

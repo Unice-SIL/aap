@@ -6,7 +6,7 @@ use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\EventSubscriber\Form\CallOfProjectInformationTypeSubscriber;
 use App\Form\ProjectFormLayout\ProjectFormLayoutEmbeddedType;
-use App\Form\Type\FlatpickrType;
+use App\Form\Type\DateTimePickerType;
 use App\Repository\ProjectFormLayoutRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -20,21 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CallOfProjectInformationType extends AbstractType
 {
-    /**
-     * @var CallOfProjectInformationTypeSubscriber
-     */
-    private $callOfProjectInformationTypeSubscriber;
-
-
-    /**
-     * CallOfProjectInformationType constructor.
-     * @param CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber
-     */
-    public function __construct(CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber)
-    {
-        $this->callOfProjectInformationTypeSubscriber = $callOfProjectInformationTypeSubscriber;
-    }
-
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -46,13 +31,24 @@ class CallOfProjectInformationType extends AbstractType
                     'placeholder' => 'app.call_of_project.property.description.placeholder'
                 ]
             ])
-            ->add('startDate', FlatpickrType::class, [
+            ->add('startDate', DateTimePickerType::class, [
                 'label' => 'app.call_of_project.property.start_date.label',
+                'attr' => [
+                    'data-linked-target' => $uniqid = uniqid(),
+                ]
             ])
-            ->add('endDate', FlatpickrType::class, [
+            ->add('endDate', DateTimePickerType::class, [
                 'label' => 'app.call_of_project.property.end_date.label',
+                'attr' => [
+                    'data-linked-id' => $uniqid
+                ]
             ])
-            ->addEventSubscriber($this->callOfProjectInformationTypeSubscriber)
+            ->add('name', null, [
+                'label' => 'app.call_of_project.property.name.label',
+                'attr' => [
+                    'placeholder' => 'app.call_of_project.property.name.placeholder'
+                ],
+            ]);
             /*->add('fromTemplate', CheckboxType::class, [
                 'false_values' => ['false', '0', null],
                 'required' => false,

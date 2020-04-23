@@ -1,5 +1,15 @@
 app:
 
+  login:
+    form:
+      password:
+        label: Mot de passe
+      username:
+        label: Nom d'utilisateur
+      button:
+        submit: Se connecter
+      logout: Se déconnecter
+      connected_as: Vous êtes connecté en tant que
   table:
     no_results_found: Aucun élément n'a été trouvé
 
@@ -19,7 +29,10 @@ app:
     form:
         h1: Configuration du projet
     constant:
-      draft: Brouillon
+      opened: Ouvert
+      closed: Fermé
+      review: En attente de résultat
+      archived: Archivé
     informations:
       h1: Informations
     project_list:
@@ -51,8 +64,8 @@ app:
     my_projects:
       title: Mes projets
     h1: Tableau de bord
-    project: ]-Inf,1]projet|]1,Inf]projets
-    project_dropped: 'Vous avez déposé'
+    projects_dropped: ]-Inf,1]Projet déposé|]1,Inf]Projets déposés
+    call_of_projects_dropped: ]-Inf,1]Appel à projets|]1,Inf]Appels à projets
     drop_new_project: 'Déposer un nouveau projet'
     create_new_call_of_projects: 'Créer un nouvel appel à projets'
     last_dropped_projects: ]-Inf,1]Dernier projet déposé|]1,Inf]Derniers projets déposés
