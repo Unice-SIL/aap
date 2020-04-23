@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CallOfProject extends Common
 {
+    const STATUS_INIT = 'init';
     const STATUS_CLOSED = 'closed';
     const STATUS_OPENED = 'opened';
     const STATUS_REVIEW = 'review';
@@ -55,6 +56,7 @@ class CallOfProject extends Common
     {
         $this->projects = new ArrayCollection();
         $this->projectFormLayouts = new ArrayCollection();
+        $this->setStatus(self::STATUS_INIT);
     }
 
     public function getDescription(): ?string
