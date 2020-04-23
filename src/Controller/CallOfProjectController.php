@@ -22,6 +22,21 @@ class CallOfProjectController extends AbstractController
 {
 
     /**
+     * @Route("/", name="index", methods={"GET"})
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function index(EntityManagerInterface $em)
+    {
+        return $this->render('call_of_project/index.html.twig', [
+            'call_of_projects' => $em->getRepository(CallOfProject::class)->findBy(
+                ['createdBy' => $this->getUser()],
+                ['createdAt' => 'ASC']
+            ),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="new", methods={"GET","POST"})
      * @param Request $request
      * @param CallOfProjectManagerInterface $callOfProjectManager
@@ -34,9 +49,10 @@ class CallOfProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $callOfProjectManager->save($callOfProject);
 
-            return $this->redirectToRoute('app.call_of_project.projects', [
+            return $this->redirectToRoute('app.call_of_project.form', [
                 'id' => $callOfProject->getId()
             ]);
         }
@@ -61,35 +77,25 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/informations", name="informations", methods={"GET"})
+     * @Route("/{id}/informations", name="informations", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
      * @return Response
      */
-    public function informations(CallOfProject $callOfProject): Response
-    {
-        return $this->render('call_of_project/informations.html.twig', [
-            'call_of_project' => $callOfProject,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param CallOfProject $callOfProject
-     * @return Response
-     */
-    public function edit(Request $request, CallOfProject $callOfProject): Response
+    public function informations(Request $request, CallOfProject $callOfProject): Response
     {
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app.call_of_project.index');
+            return $this->redirectToRoute('app.call_of_project.informations', [
+                'id' => $callOfProject->getId()
+            ]);
         }
 
-        return $this->render('call_of_project/edit.html.twig', [
+        return $this->render('call_of_project/informations.html.twig', [
             'call_of_project' => $callOfProject,
             'form' => $form->createView(),
         ]);

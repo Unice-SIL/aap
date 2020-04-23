@@ -1,0 +1,45 @@
+{% extends 'layout.html.twig' %}
+
+{% set h1 = 'app.call_of_project.index.h1'|trans %}
+{% block title %}
+    {{ h1 }}
+{% endblock %}
+
+{% block preH1 %}
+    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary float-right">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>
+{% endblock %}
+{% block h1  %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="table-responsive">
+        <table class="table m-0 table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'app.call_of_project.property.name.label'|trans }}</th>
+                <th>{{ 'app.call_of_project.property.status.label'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for call_of_project in call_of_projects %}
+                <tr>
+                    <td>
+                        {{ loop.index }}
+                    </td>
+                    <td>
+                        <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}">
+                            {{ call_of_project.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ include('call_of_project/_status_badge.html.twig', { 'call_of_project' : call_of_project}) }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

@@ -7,10 +7,14 @@ app:
     constant:
       draft: Brouillon
     property:
-      created_at: Date de création
-      created_by: Créateur
-      status: Statut
-      name: Nom
+      created_at:
+        label: Date de création
+      created_by:
+        label: Créateur
+      status:
+        label: Statut
+      name:
+        label: Titre
   call_of_project:
     form:
         h1: Configuration du projet
@@ -21,22 +25,50 @@ app:
     project_list:
       h1: Liste des projets
     new:
-      h1: Ajouter un appel à projets
+      h1: Création d'un nouvel appel à projets
     property:
-      description: Description
-      status: Statut
-      name: Nom
+      start_date:
+        label: Du
+      end_date:
+        label: au
+      description:
+        label: Description
+        placeholder: Veuillez renseigner une description (facultatif)
+      status:
+        label: Statut
+      name:
+        label: Titre
+        placeholder: Titre de l'appel à projet
     organized_by: Organisé par
+    open_date:
+      label: Date d'ouverture au dépôt de projets
+    opened_date: 'Ouverture du %startDate% au %endDate%'
+    index:
+      h1: 'Liste de vos appels à projets'
   dashboard:
     my_calls_of_project:
-      title: Appel s à projets que je gère
+      title: Appels à projets que je gère
     my_projects:
       title: Mes projets
     h1: Tableau de bord
+    project: ]-Inf,1]projet|]1,Inf]projets
+    project_dropped: 'Vous avez déposé'
+    drop_new_project: 'Déposer un nouveau projet'
+    create_new_call_of_projects: 'Créer un nouvel appel à projets'
+    last_dropped_projects: ]-Inf,1]Dernier projet déposé|]1,Inf]Derniers projets déposés
+    list_all_projects: 'Voir la liste complète des projets'
+    last_dropped_call_of_project: ]-Inf,1]Dernier appel à projet déposé|]1,Inf]Derniers appels à projets déposés
+    list_all_call_of_projects: 'Voir la liste complète des appels à projets'
   navbar:
     item:
       dashboard:
         label: Tableau de bord
+      my_projects:
+        label: 'Mes Projets'
+      my_repports:
+        label: 'Mes rapports'
+      my_call_of_projects:
+        label: 'Mes appels à projets'
   action:
     save: Enregistrer
     edit: Modifier
@@ -51,7 +83,7 @@ app:
       admin:
         label: 'Administration'
         infos: 'Informations'
-        project_form: 'Formulaire Projet'
+        project_form: 'Configuration'
         permissions: 'Permissions'
   widget:
     html_widget:
@@ -71,6 +103,8 @@ app:
       action:
         close: 'Annuler'
         save: 'Enregistrer'
+    call_of_project_informations_form:
+      title: Editer l'appel à projets
   project_form_widget:
     humanize: Widget
     modal:

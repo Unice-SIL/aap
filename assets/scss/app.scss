@@ -1,4 +1,38 @@
+$primary: #04a6ff;
 @import "~admin-lte";
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import "~datatables.net-bs4";
 @import "~toastr";
+@import "~flatpickr";
+
+
+/*
+ Page Call Of Project Form
+*/
+.page-call-of-project-form {
+
+  .widget-button {
+    padding: 4px 10px;
+    width: 35px;
+    border-radius: 25px;
+
+    i {
+      font-size: 15px;
+    }
+  }
+}
+
+/*
+  Control sidebar
+ */
+body.layout-fixed {
+  .control-sidebar {
+    overflow-y: auto;
+    height: calc(100% - (3.5rem + 1px));
+
+    .list-group-item {
+      border-radius: 0;
+      border-left: none;
+    }
+  }
+}
