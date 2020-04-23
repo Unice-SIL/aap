@@ -83,6 +83,8 @@ class CallOfProjectController extends AbstractController
      */
     public function informations(Request $request, CallOfProject $callOfProject): Response
     {
+        $callOfProjectClone = clone $callOfProject;
+
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
         $form->handleRequest($request);
 
@@ -103,7 +105,7 @@ class CallOfProjectController extends AbstractController
         }
 
         return $this->render('call_of_project/informations.html.twig', [
-            'call_of_project' => $callOfProject,
+            'call_of_project' => $callOfProjectClone,
             'form' => $form->createView(),
             'open_edition_form_modal' => $openEditionFormModal
         ]);
