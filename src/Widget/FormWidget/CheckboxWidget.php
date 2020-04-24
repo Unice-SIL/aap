@@ -3,8 +3,6 @@
 
 namespace App\Widget\FormWidget;
 
-use App\Form\Widget\FormWidget\FormChoiceWidgetType;
-
 class CheckboxWidget extends AbstractChoiceWidget implements FormWidgetInterface
 {
 

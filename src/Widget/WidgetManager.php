@@ -6,8 +6,6 @@ namespace App\Widget;
 
 use App\Entity\Project;
 use App\Entity\ProjectContent;
-use App\Entity\ProjectFormLayout;
-use App\Form\Widget\DynamicWidgetsBisType;
 use App\Form\Widget\DynamicWidgetsType;
 use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\HtmlWidget\HtmlWidgetInterface;
@@ -123,11 +121,11 @@ class WidgetManager
                 continue;
             }
 
-            $projectFormWidget = $projectContent->getProjectFormWidget();
-            $position = $projectFormWidget->getPosition();
 
-            $data = $form->get($position)->getData();
-            $content = $projectFormWidget->getWidget()->reverseTransformData($data);
+            $position = $projectContent->getProjectFormWidget()->getPosition();
+
+            $content = $form->get($position)->getData();
+
 
             $projectContent->setContent($content);
 

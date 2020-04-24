@@ -12,11 +12,6 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
     /** @var array  */
     private $choices = [];
 
-    public function getType(): string
-    {
-        return self::TYPE_TEXT;
-    }
-
     public function getFormType(): string
     {
         return FormChoiceWidgetType::class;
