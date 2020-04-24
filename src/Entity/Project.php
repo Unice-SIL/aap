@@ -20,7 +20,7 @@ class Project extends Common
     private $callOfProject;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProjectContent", mappedBy="project", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectContent", mappedBy="project", orphanRemoval=true, cascade={"persist"})
      */
     private $projectContents;
 
@@ -47,7 +47,9 @@ class Project extends Common
      */
     public function getProjectContents(): Collection
     {
-        return $this->projectContents;
+        return $this->projectContents->filter(function ($projectContent) {
+            return null !== $projectContent->getProjectFormWidget();
+        });
     }
 
     public function addProjectContent(ProjectContent $projectContent): self

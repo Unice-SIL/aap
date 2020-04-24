@@ -77,7 +77,13 @@ abstract class AbstractFormWidget extends AbstractWidget
         }
     }
 
-    public function getDataTransformer(): DataTransformerInterface
+    public function transformData($value)
     {
+        return $value;
+    }
+
+    public function reverseTransformData($value)
+    {
+        return $value;
     }
 }

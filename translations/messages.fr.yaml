@@ -58,6 +58,11 @@ app:
     opened_date: 'Ouverture du %startDate% au %endDate%'
     index:
       h1: 'Liste de vos appels à projets'
+    all:
+      h1: Dépôt d'un nouveau projet
+      select_opened_cap: Veuillez sélectionner un appel à projets actuellement ouvert
+    add_project:
+      h1: Dépôt d'un nouveau projet
   dashboard:
     my_calls_of_project:
       title: Appels à projets que je gère

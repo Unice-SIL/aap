@@ -5,6 +5,15 @@ $primary: #04a6ff;
 @import "~toastr";
 @import "~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4";
 
+/**
+  Table
+ */
+table {
+  .disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
 
 /*
  Page Call Of Project Form

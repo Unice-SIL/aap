@@ -6,6 +6,7 @@ use App\Entity\CallOfProject;
 use App\Entity\ProjectFormWidget;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
+use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\WidgetManager;
@@ -33,6 +34,18 @@ class CallOfProjectController extends AbstractController
                 ['createdBy' => $this->getUser()],
                 ['createdAt' => 'ASC']
             ),
+        ]);
+    }
+
+    /**
+     * @Route("/all", name="all", methods={"GET"})
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function all(EntityManagerInterface $em)
+    {
+        return $this->render('call_of_project/all.html.twig', [
+            'call_of_projects' => $em->getRepository(CallOfProject::class)->findAll(),
         ]);
     }
 
@@ -77,7 +90,47 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/add-project", name="add_project", methods={"GET", "POST"})
+     * @param CallOfProject $callOfProject
+     * @param Request $request
+     * @param ProjectManagerInterface $projectManager
+     * @param WidgetManager $widgetManager
+     * @return Response
+     * @throws \Exception
+     */
+    public function addProject(
+        CallOfProject $callOfProject,
+        Request $request,
+        ProjectManagerInterface $projectManager,
+        WidgetManager $widgetManager
+    ): Response
+    {
+        $project = $projectManager->create($callOfProject);
+        $dynamicForm = $widgetManager->getDynamicForm($project);
+
+        $dynamicForm->handleRequest($request);
+
+        if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
+
+            $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
+
+            $projectManager->save($project);
+
+            return $this->redirectToRoute('app.homepage');
+        }
+
+        return $this->render('call_of_project/add_project.html.twig', [
+            'call_of_project' => $callOfProject,
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
+                $dynamicForm,
+                'partial/widget/_dynamic_form.html.twig'
+            ),
+        ]);
+    }
+
+    /**
      * @Route("/{id}/informations", name="informations", methods={"GET", "POST"})
+     * @param Request $request
      * @param CallOfProject $callOfProject
      * @return Response
      */
@@ -116,8 +169,8 @@ class CallOfProjectController extends AbstractController
      * @param CallOfProject $callOfProject
      * @param WidgetManager $widgetManager
      * @param Request $request
-     * @param EntityManagerInterface $entityManager
      * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
+     * @param ProjectManagerInterface $projectManager
      * @return Response
      * @throws \Exception
      */
@@ -125,8 +178,8 @@ class CallOfProjectController extends AbstractController
         CallOfProject $callOfProject,
         WidgetManager $widgetManager,
         Request $request,
-        EntityManagerInterface $entityManager,
-        ProjectFormWidgetManagerInterface $projectFormWidgetManager
+        ProjectFormWidgetManagerInterface $projectFormWidgetManager,
+        ProjectManagerInterface $projectManager
     ): Response
     {
         $widgetName = $request->query->get('widgetName');
@@ -150,24 +203,26 @@ class CallOfProjectController extends AbstractController
             }
         }
 
-        $dynamicForm = $widgetManager->getDynamicForm($callOfProject->getProjectFormLayout());
+        $project = $projectManager->create($callOfProject);
+        $dynamicForm = $widgetManager->getDynamicForm($project);
         return $this->render('call_of_project/form.html.twig', [
             'call_of_project' => $callOfProject,
             'widget_manager' => $widgetManager,
-            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml($dynamicForm),
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
+                $dynamicForm,
+                'partial/widget/_dynamic_form_demo.html.twig'
+            ),
         ]);
     }
 
 
     /**
      * @Route("/{id}/get-widget-form", name="get_widget_form", methods={"GET"})
-     * @param CallOfProject $callOfProject
      * @param WidgetManager $widgetManager
      * @param Request $request
      * @return Response
      */
     public function getWidgetForm(
-        CallOfProject $callOfProject,
         WidgetManager $widgetManager,
         Request $request
     ): Response
