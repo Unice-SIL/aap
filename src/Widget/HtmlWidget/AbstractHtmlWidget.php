@@ -28,11 +28,6 @@ abstract class AbstractHtmlWidget extends AbstractWidget
         $this->content = $content;
     }
 
-    public function getType(): string
-    {
-        return WidgetInterface::TYPE_TEXT;
-    }
-
     public function render(): string
     {
         return '<' . $this->getHtmlTag() . '>' . $this->getContent() . '</' . $this->getHtmlTag() .'>';

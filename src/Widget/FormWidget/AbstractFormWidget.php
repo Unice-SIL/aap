@@ -5,7 +5,6 @@ namespace App\Widget\FormWidget;
 
 
 use App\Widget\AbstractWidget;
-use Symfony\Component\Form\DataTransformerInterface;
 
 abstract class AbstractFormWidget extends AbstractWidget
 {
