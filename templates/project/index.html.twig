@@ -1,0 +1,50 @@
+{% extends 'top_navbar_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.project.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">{{ 'app.project.index.h1'|trans }}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <div class=" py-3">
+                <a href="{{ path('app.call_of_project.all') }}" class="btn btn-primary float-right">{{ 'app.project.index.add_project'|trans }}</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="table-responsive">
+                <table
+                        class="table m-0 table-striped dataTable"
+                        data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+                >
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{ 'app.project.property.name.label'|trans }}</th>
+                        <th>{{ 'app.project.property.status.label'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for project in projects %}
+                        <tr>
+                            <td>
+                                {{ loop.index }}
+                            </td>
+                            <td>
+                                <a href="#">
+                                    {{ project.name }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ include('project/_status_badge.html.twig', { 'project' : project}) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
