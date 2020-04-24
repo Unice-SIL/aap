@@ -2,41 +2,42 @@
 
 namespace App\Form\Widget;
 
-use App\Entity\ProjectFormLayout;
+use App\Entity\Project;
 use App\Widget\FormWidget\FormWidgetInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DynamicWidgetsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $projectFormLayout = $options['project_form_layout'];
+        $project = $builder->getData();
+
+        $builder->add('name', null, [
+            'label' => 'app.project.property.name.label'
+        ]);
         
-        if (!$projectFormLayout instanceof ProjectFormLayout) {
+        if (!$project instanceof Project) {
             return;
         }
 
-
-        foreach ($projectFormLayout->getProjectFormWidgets() as $projectFormWidget) {
+        foreach ($project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets() as $projectFormWidget) {
 
             $widget = $projectFormWidget->getWidget();
 
+            $type = null;
+            $options = [];
+
             if ($widget instanceof FormWidgetInterface) {
-                $builder->add($projectFormWidget->getPosition(), $widget->getSymfonyType(), $widget->getOptions());
-                continue;
+
+                $type = $widget->getSymfonyType();
+                $options = $widget->getOptions();
+
             }
 
-            $builder->add($projectFormWidget->getPosition());
+            $builder->add($projectFormWidget->getPosition(), $type, array_merge($options, ['mapped' => false]));
 
         }
     }
-    
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'project_form_layout' => null
-        ]);
-    }
+
 }

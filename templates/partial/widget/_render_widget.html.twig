@@ -1,0 +1,10 @@
+
+{% set field = form.children[projectFormWidget.position] %}
+
+{% if instanceof(projectFormWidget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
+    {{ form_label(field, null, {'label_attr' : {'class' : 'py-1 text-bold'}}) }}
+    {{ form_widget(field) }}
+{% else %}
+    {{ projectFormWidget.widget.render|raw }}
+    {% do field.setRendered %}
+{% endif %}

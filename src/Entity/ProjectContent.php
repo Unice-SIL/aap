@@ -23,17 +23,7 @@ class ProjectContent
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $textValue;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $numberValue;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateValue;
+    private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="projectContents")
@@ -43,7 +33,7 @@ class ProjectContent
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ProjectFormWidget")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $projectFormWidget;
 
@@ -52,38 +42,14 @@ class ProjectContent
         return $this->id;
     }
 
-    public function getTextValue(): ?string
+    public function getContent(): ?string
     {
-        return $this->textValue;
+        return $this->content;
     }
 
-    public function setTextValue(?string $textValue): self
+    public function setContent(?string $content): self
     {
-        $this->textValue = $textValue;
-
-        return $this;
-    }
-
-    public function getNumberValue(): ?float
-    {
-        return $this->numberValue;
-    }
-
-    public function setNumberValue(?float $numberValue): self
-    {
-        $this->numberValue = $numberValue;
-
-        return $this;
-    }
-
-    public function getDateValue(): ?\DateTimeInterface
-    {
-        return $this->dateValue;
-    }
-
-    public function setDateValue(?\DateTimeInterface $dateValue): self
-    {
-        $this->dateValue = $dateValue;
+        $this->content = $content;
 
         return $this;
     }

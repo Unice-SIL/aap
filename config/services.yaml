@@ -28,12 +28,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Manager\CallOfProject\CallOfProjectManagerInterface:
-        alias: App\Manager\CallOfProject\DoctrineCallOfProjectManager
-
-    App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface:
-        alias: App\Manager\ProjectFormLayout\DoctrineProjectFormLayoutManager
-
     App\EventSubscriber\CallOfProjectSubscriber:
         tags:
             - { name: 'doctrine.event_subscriber' }

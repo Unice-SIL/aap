@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -39,6 +40,7 @@ class ProjectFormLayout
      *      orphanRemoval=true,
      *      cascade={"persist"}
      *     )
+     * @OrderBy({"position" = "ASC"})
      */
     private $projectFormWidgets;
 

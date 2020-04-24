@@ -4,10 +4,14 @@
 namespace App\Widget;
 
 
+use App\Entity\Project;
+use App\Entity\ProjectContent;
 use App\Entity\ProjectFormLayout;
+use App\Form\Widget\DynamicWidgetsBisType;
 use App\Form\Widget\DynamicWidgetsType;
 use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\HtmlWidget\HtmlWidgetInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
@@ -88,36 +92,46 @@ class WidgetManager
         return $this->htmlWidgets;
     }
 
-    public function getDynamicForm(ProjectFormLayout $projectFormLayout): FormInterface
+
+    public function getDynamicForm(Project $project): FormInterface
     {
-        return  $this->formFactory->create(DynamicWidgetsType::class, null, [
-            'project_form_layout' => $projectFormLayout
+        return  $this->formFactory->create(DynamicWidgetsType::class, $project);
+    }
+
+    public function renderDynamicFormHtml(FormInterface $dynamicForm, string $template)
+    {
+        $data = $dynamicForm->getData();
+        if (!$data instanceof Project) {
+            throw new \Exception('You should set a ' . Project::class . ' instance as 
+            data of the given form');
+        }
+
+        /** @var Project $project */
+        $project = $data;
+
+        return $this->twig->render($template, [
+            'form' => $dynamicForm->createView(),
+            'projectFormWidgets' => $project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets()
         ]);
     }
 
-    public function renderDynamicFormHtml(FormInterface $dynamicForm)
+    public function hydrateProjectContentsByForm(Collection $projectContents, FormInterface $form)
     {
-        if (
-            !isset($dynamicForm->getConfig()->getOptions()['project_form_layout'])
-            or !$dynamicForm->getConfig()->getOptions()['project_form_layout'] instanceof ProjectFormLayout
-        ) {
-            throw new \Exception('You should set a ' . ProjectFormLayout::class . ' instance as 
-            "project_form_layout option of the given form');
+        foreach ($projectContents as $projectContent) {
+
+            if (!$projectContent instanceof ProjectContent) {
+                continue;
+            }
+
+            $projectFormWidget = $projectContent->getProjectFormWidget();
+            $position = $projectFormWidget->getPosition();
+
+            $data = $form->get($position)->getData();
+            $content = $projectFormWidget->getWidget()->reverseTransformData($data);
+
+            $projectContent->setContent($content);
+
         }
 
-        /** @var ProjectFormLayout $projectFormLayout */
-        $projectFormLayout = $dynamicForm->getConfig()->getOptions()['project_form_layout'];
-
-        $projectFormWidgets = $projectFormLayout->getProjectFormWidgets()->getIterator();
-
-        $projectFormWidgets->uasort(function ($a, $b) {
-            return $a->getPosition() <=> $b->getPosition();
-        });
-
-
-        return $this->twig->render('partial/widget/_dynamic_form.html.twig', [
-            'form' => $dynamicForm->createView(),
-            'projectFormWidgets' => $projectFormWidgets
-        ]);
     }
 }

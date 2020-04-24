@@ -11,5 +11,7 @@ interface FormWidgetInterface extends WidgetInterface
 
     public function getOptions(): array;
 
-    public function getDataTransformer(): DataTransformerInterface;
+    public function transformData($value);
+
+    public function reverseTransformData($value);
 }

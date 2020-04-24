@@ -22,12 +22,12 @@ class HomeController extends AbstractController
         return $this->render('page/dashboard.html.twig', [
             'call_of_projects' => $em->getRepository(CallOfProject::class)->findBy(
                 ['createdBy' => $this->getUser()],
-                ['createdAt' => 'ASC'],
+                ['createdAt' => 'DESC'],
                 5
             ),
             'projects' => $em->getRepository(Project::class)->findBy(
                 ['createdBy' => $this->getUser()],
-                ['createdAt' => 'ASC'],
+                ['createdAt' => 'DESC'],
                 5
             ),
         ]);
