@@ -1,16 +1,16 @@
 {% extends 'top_navbar_layout.html.twig' %}
 
 {% block title %}
-    {{ 'app.call_of_project.index.h1'|trans }}
+    {{ 'app.project.index.h1'|trans }}
 {% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">{{ 'app.call_of_project.index.h1'|trans }}</h1>
+    <h1 class="mb-4">{{ 'app.project.index.h1'|trans }}</h1>
 
     <div class="card">
         <div class="card-body">
             <div class=" py-3">
-                <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary float-right">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>
+                <a href="{{ path('app.call_of_project.all') }}" class="btn btn-primary float-right">{{ 'app.project.index.add_project'|trans }}</a>
                 <div class="clearfix"></div>
             </div>
             <div class="table-responsive">
@@ -20,20 +20,24 @@
                 >
                     <thead>
                     <tr>
-                        <th>{{ 'app.call_of_project.property.name.label'|trans }}</th>
-                        <th>{{ 'app.call_of_project.property.status.label'|trans }}</th>
+                        <th>{{ 'app.project.property.name.label'|trans }}</th>
+                        <th>{{ 'app.project.property.call_of_project.label'|trans }}</th>
+                        <th>{{ 'app.project.property.status.label'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for call_of_project in call_of_projects %}
+                    {% for project in projects %}
                         <tr>
                             <td>
-                                <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}">
-                                    {{ call_of_project.name }}
+                                <a href="#">
+                                    {{ project.name }}
                                 </a>
                             </td>
                             <td>
-                                {{ include('call_of_project/_status_badge.html.twig', { 'call_of_project' : call_of_project}) }}
+                                {{ project.callOfProject }}
+                            </td>
+                            <td>
+                                {{ include('project/_status_badge.html.twig', { 'project' : project}) }}
                             </td>
                         </tr>
                     {% endfor %}
@@ -44,4 +48,3 @@
     </div>
 
 {% endblock %}
-
