@@ -210,7 +210,7 @@ class CallOfProjectController extends AbstractController
             'widget_manager' => $widgetManager,
             'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
                 $dynamicForm,
-                'partial/widget/_dynamic_form_demo.html.twig',
+                'partial/widget/_dynamic_form_demo.html.twig'
             ),
         ]);
     }
