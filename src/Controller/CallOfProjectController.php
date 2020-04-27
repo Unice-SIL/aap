@@ -204,7 +204,7 @@ class CallOfProjectController extends AbstractController
         }
 
         $project = $projectManager->create($callOfProject);
-        $dynamicForm = $widgetManager->getDynamicForm($project);
+        $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => true]);
         return $this->render('call_of_project/form.html.twig', [
             'call_of_project' => $callOfProject,
             'widget_manager' => $widgetManager,

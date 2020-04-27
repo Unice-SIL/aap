@@ -91,13 +91,14 @@ class WidgetManager
     }
 
 
-    public function getDynamicForm(Project $project): FormInterface
+    public function getDynamicForm(Project $project, array $options = []): FormInterface
     {
-        return  $this->formFactory->create(DynamicWidgetsType::class, $project);
+        return  $this->formFactory->create(DynamicWidgetsType::class, $project, $options);
     }
 
     public function renderDynamicFormHtml(FormInterface $dynamicForm, string $template)
     {
+
         $data = $dynamicForm->getData();
         if (!$data instanceof Project) {
             throw new \Exception('You should set a ' . Project::class . ' instance as 
@@ -107,9 +108,18 @@ class WidgetManager
         /** @var Project $project */
         $project = $data;
 
+        $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets();
+
+        if (
+            isset($dynamicForm->getConfig()->getOptions()['allWidgets'])
+            and $dynamicForm->getConfig()->getOptions()['allWidgets']
+        ) {
+            $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getAllProjectFormWidgets();
+        }
+
         return $this->twig->render($template, [
             'form' => $dynamicForm->createView(),
-            'projectFormWidgets' => $project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets()
+            'projectFormWidgets' => $projectFormWidgets
         ]);
     }
 

@@ -55,17 +55,18 @@ $(document).ready(function () {
     });
 
     /**
-     * delete element modal
+     * alert modal
      */
-    $(document).on('click', '.delete-button-modal', function (e) {
+    $(document).on('click', '.alert-button-modal', function (e) {
         e.preventDefault();
 
-        let modal = $('#delete-form-modal');
+        let modal = $('#alert-form-modal');
         let title = $(this).data('modal-title');
-        let deleteLabel = $(this).data('modal-delete-label');
+        let alertLabel = $(this).data('modal-warning-label');
+        let alertClass = $(this).data('modal-warning-class');
 
         let form = $(this).closest('form').clone().removeAttr('class').addClass('d-inline') ;
-        form.find('.delete-button-modal').removeAttr('class').addClass('btn btn-danger').text(deleteLabel);
+        form.find('.alert-button-modal').removeAttr('class').addClass(alertClass).text(alertLabel);
 
         modal.find('.modal-title').text(title);
         let body = modal.find('.modal-body');

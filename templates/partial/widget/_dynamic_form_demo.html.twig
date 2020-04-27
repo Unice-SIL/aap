@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    {% for projectFormWidget in projectFormWidgets %}
+    {% for projectFormWidget in projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == true) %}
         <div class="row">
             <div class="col-12">
 
@@ -42,11 +42,40 @@
                                         <form action=""></form>
                                     {% endif %}
 
-                                    {{ include('widget/_delete_form.html.twig', {
+                                    {{ include('widget/_trash_toggle_form.html.twig', {
                                         'widget' : projectFormWidget,
                                         'content' : '<i class="fa fa-trash"></i>',
                                         'class' : 'widget-button'
                                     }) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <hr>
+    <h2>{{ 'app.common.trash'|trans }}</h2>
+    {% for projectFormWidget in projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == false) %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body disabled">
+                        <div class="row">
+                            <div class="col-11 d-flex flex-column justify-content-center disabled">
+                                {{ include('partial/widget/_render_widget.html.twig', { options : {'attr' : {'disabled' : true }}} ) }}
+                            </div>
+                            <div class="col-1 d-flex flex-column justify-content-center align-items-end">
+                                <div class="project-form-widget-delete">
+
+                                    {# this is to prevent weird behavior due to html form nested #}
+                                    {% if loop.first %}
+                                        <form action=""></form>
+                                    {% endif %}
+
+                                    {{ include('widget/_trash_toggle_form.html.twig', {'widget' : projectFormWidget}) }}
                                 </div>
                             </div>
                         </div>

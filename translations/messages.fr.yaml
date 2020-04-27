@@ -99,6 +99,7 @@ app:
     new: Ajouter
     list_all: Tout voir
     canceled: Annuler
+    trash: 'Corbeille'
   sidebar:
     item:
       projects:
@@ -126,14 +127,20 @@ app:
       action:
         close: 'Annuler'
         save: 'Enregistrer'
+        reactivate: 'Réactiver'
     call_of_project_informations_form:
       title: Editer l'appel à projets
   project_form_widget:
     humanize: Widget
     modal:
-      delete_warning_title: 'Êtes-vous sûr de vouloir supprimer ce widget?'
+      trash_warning_title: 'Êtes-vous sûr de vouloir mettre ce widget dans la corbeille?'
+      reactivate_warning_title: 'Êtes-vous sûr de vouloir réactiver ce widget?'
+    edition_on_trash_widget_denied: 'Vous ne pouvez pas modifier un widget dans la corbeille '
   flash_message:
     success: Ajout de l'élément "%item%" réalisé avec succès
+    edit_success: Modification de l'élément "%item%" réalisé avec succès'
 
   footer:
     copyright: Tous droits reservés
+  common:
+    trash: 'Corbeille'

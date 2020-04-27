@@ -20,4 +20,9 @@ class CssMatching
     const PROJECT_STATUS_TO_BOOTSTRAP = [
         'draft' => 'warning'
     ];
+
+    const PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP = [
+      true => 'danger',
+      false => 'success',
+    ];
 }

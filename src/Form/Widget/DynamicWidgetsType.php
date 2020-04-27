@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Widget\FormWidget\FormWidgetInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DynamicWidgetsType extends AbstractType
 {
@@ -21,7 +22,13 @@ class DynamicWidgetsType extends AbstractType
             return;
         }
 
-        foreach ($project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets() as $projectFormWidget) {
+        $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets();
+
+        if ($options['allWidgets']) {
+            $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getAllProjectFormWidgets();
+        }
+
+        foreach ($projectFormWidgets as $projectFormWidget) {
 
             $widget = $projectFormWidget->getWidget();
 
@@ -40,4 +47,10 @@ class DynamicWidgetsType extends AbstractType
         }
     }
 
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'allWidgets' => false
+        ]);
+    }
 }
