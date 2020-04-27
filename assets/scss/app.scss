@@ -5,13 +5,32 @@ $primary: #04a6ff;
 @import "~toastr";
 @import "~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4";
 
+@mixin disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/**
+  Card
+ */
+.card-body {
+  .disabled {
+    * {
+      @include disabled;
+    }
+  }
+}
+
+.card-body.disabled {
+  cursor: not-allowed;
+}
+
 /**
   Table
  */
 table {
   .disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+    @include disabled;
   }
 }
 

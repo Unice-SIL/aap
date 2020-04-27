@@ -32,6 +32,12 @@ class ProjectFormWidget
     private $widget;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive = true;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ProjectFormLayout", inversedBy="projectFormWidgets")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -76,5 +82,29 @@ class ProjectFormWidget
         $this->projectFormLayout = $projectFormLayout;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActiveToggle()
+    {
+        return $this->isActive = !$this->isActive();
     }
 }

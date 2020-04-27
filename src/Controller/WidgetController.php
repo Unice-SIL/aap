@@ -85,7 +85,6 @@ class WidgetController extends AbstractController
      * @Route("/{id}/edit", name="edit", methods={"POST"})
      * @param ProjectFormWidget $projectFormWidget
      * @param Request $request
-     * @param EntityManagerInterface $em
      * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
      * @param TranslatorInterface $translator
      * @return Response
@@ -99,6 +98,9 @@ class WidgetController extends AbstractController
     ): Response
     {
 
+        if (!$projectFormWidget->isActive()) {
+            throw $this->createAccessDeniedException($translator->trans('app.project_form_widget.edition_on_trash_widget_denied'));
+        }
         $widget = $projectFormWidget->getWidget();
 
         $form = $this->createForm($widget->getFormType(), $widget);
@@ -106,7 +108,7 @@ class WidgetController extends AbstractController
 
         if ($form->isSubmitted() and $form->isValid()) {
 
-            $this->addFlash('success', $translator->trans('app.flash_message.success', [
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', [
                 '%item%' => $translator->trans('app.project_form_widget.humanize')
             ]));
 
@@ -121,17 +123,37 @@ class WidgetController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * Route("/{id}", name="delete", methods={"DELETE"})
      * @param Request $request
      * @param ProjectFormWidget $projectFormWidget
      * @return Response
      */
-    public function delete(Request $request, ProjectFormWidget $projectFormWidget): Response
+    /*public function delete(Request $request, ProjectFormWidget $projectFormWidget): Response
     {
         if ($this->isCsrfTokenValid('delete'.$projectFormWidget->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($projectFormWidget);
             $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app.call_of_project.form', [
+            'id' => $projectFormWidget->getProjectFormLayout()->getCallOfProject()->getId()
+        ]);
+    }*/
+
+    /**
+     * @Route("/{id}", name="trash_toggle", methods={"POST"})
+     * @param Request $request
+     * @param ProjectFormWidget $projectFormWidget
+     * @return Response
+     */
+    public function trashToggle(Request $request, ProjectFormWidget $projectFormWidget): Response
+    {
+        if ($this->isCsrfTokenValid('trash_toggle'.$projectFormWidget->getId(), $request->request->get('_token'))) {
+
+            $projectFormWidget->isActiveToggle();
+
+            $this->getDoctrine()->getManager()->flush();
         }
 
         return $this->redirectToRoute('app.call_of_project.form', [

@@ -88,6 +88,16 @@ class ProjectFormLayout
      */
     public function getProjectFormWidgets(): Collection
     {
+        return $this->projectFormWidgets->filter(function ($projectFormWidget) {
+            return $projectFormWidget->isActive();
+        });
+    }
+
+    /**
+     * @return Collection|ProjectFormWidget[]
+     */
+    public function getAllProjectFormWidgets(): Collection
+    {
         return $this->projectFormWidgets;
     }
 

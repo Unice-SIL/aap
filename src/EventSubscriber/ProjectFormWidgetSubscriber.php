@@ -31,7 +31,7 @@ class ProjectFormWidgetSubscriber implements EventSubscriber
 
         if (!$projectFormWidget->getPosition()) {
 
-            $projectFormWidgets = $projectFormWidget->getProjectFormLayout()->getProjectFormWidgets();
+            $projectFormWidgets = $projectFormWidget->getProjectFormLayout()->getAllProjectFormWidgets();
 
             $positions = $projectFormWidgets->map(function($projectFormWidget) {
                 return $projectFormWidget->getPosition();
