@@ -25,6 +25,8 @@ app:
         label: Statut
       name:
         label: Titre
+      call_of_project:
+        label: Appel à projets
     index:
       h1: Liste de vos projets
       add_project: Déposer un projet

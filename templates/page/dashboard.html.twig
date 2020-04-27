@@ -25,7 +25,6 @@
                             <table class="table m-0 table-striped">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>{{ 'app.project.property.name.label'|trans }}</th>
                                     <th>{{ 'app.project.property.status.label'|trans }}</th>
                                 </tr>
@@ -33,9 +32,6 @@
                                 <tbody>
                                 {% for project in projects %}
                                     <tr>
-                                        <td>
-                                            {{ loop.index }}
-                                        </td>
                                         <td>
                                             <a href="#">
                                                 {{ project.name }}
@@ -80,7 +76,6 @@
                             <table class="table m-0 table-striped">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>{{ 'app.call_of_project.property.name.label'|trans }}</th>
                                     <th>{{ 'app.call_of_project.property.status.label'|trans }}</th>
                                 </tr>
@@ -88,9 +83,6 @@
                                 <tbody>
                                 {% for call_of_project in call_of_projects %}
                                     <tr>
-                                        <td>
-                                            {{ loop.index }}
-                                        </td>
                                         <td>
                                             <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}">
                                                 {{ call_of_project.name }}

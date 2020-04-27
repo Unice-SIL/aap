@@ -11,7 +11,6 @@
             >
                 <thead>
                 <tr>
-                    <th>#</th>
                     <th>{{ 'app.project.property.name.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_at.label'|trans }}</th>
@@ -21,7 +20,6 @@
                 <tbody>
                 {% for project in call_of_project.projects %}
                     <tr>
-                        <td>{{ loop.index }}</td>
                         <td>{{ project.name }}</td>
                         <td>{{ project.createdBy }}</td>
                         <td>{{ project.createdAt|date('d/m/Y h:i') }}</td>

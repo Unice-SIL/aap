@@ -16,6 +16,7 @@ class ProjectFormWidgetSubscriber implements EventSubscriber
     {
         return [
             Events::prePersist,
+            Events::postRemove,
         ];
     }
 

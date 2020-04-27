@@ -20,8 +20,8 @@
                 >
                     <thead>
                     <tr>
-                        <th>#</th>
                         <th>{{ 'app.project.property.name.label'|trans }}</th>
+                        <th>{{ 'app.project.property.call_of_project.label'|trans }}</th>
                         <th>{{ 'app.project.property.status.label'|trans }}</th>
                     </tr>
                     </thead>
@@ -29,12 +29,12 @@
                     {% for project in projects %}
                         <tr>
                             <td>
-                                {{ loop.index }}
-                            </td>
-                            <td>
                                 <a href="#">
                                     {{ project.name }}
                                 </a>
+                            </td>
+                            <td>
+                                {{ project.callOfProject }}
                             </td>
                             <td>
                                 {{ include('project/_status_badge.html.twig', { 'project' : project}) }}
