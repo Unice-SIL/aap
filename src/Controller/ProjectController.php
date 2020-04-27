@@ -27,7 +27,7 @@ class ProjectController extends AbstractController
         return $this->render('project/index.html.twig', [
             'projects' => $em->getRepository(Project::class)->findBy(
                 ['createdBy' => $this->getUser()],
-                ['createdAt' => 'DESC'],
+                ['createdAt' => 'DESC']
             ),
         ]);
     }
