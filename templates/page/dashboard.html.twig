@@ -33,7 +33,7 @@
                                 {% for project in projects %}
                                     <tr>
                                         <td>
-                                            <a href="#">
+                                            <a href="{{ path('app.project.edit', { 'id' : project.id}) }}">
                                                 {{ project.name }}
                                             </a>
                                         </td>

@@ -30,6 +30,8 @@ app:
     index:
       h1: Liste de vos projets
       add_project: Déposer un projet
+    edit:
+      h1: 'Editer le projet'
   call_of_project:
     form:
         h1: Configuration du projet
@@ -144,3 +146,4 @@ app:
     copyright: Tous droits reservés
   common:
     trash: 'Corbeille'
+  call_of_project_label: 'Appel à projets'

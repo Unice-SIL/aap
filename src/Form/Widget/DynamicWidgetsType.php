@@ -3,6 +3,7 @@
 namespace App\Form\Widget;
 
 use App\Entity\Project;
+use App\Entity\ProjectContent;
 use App\Widget\FormWidget\FormWidgetInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,7 @@ class DynamicWidgetsType extends AbstractType
             return;
         }
 
+        $projectContents = $project->getProjectContents();
         $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets();
 
         if ($options['allWidgets']) {
@@ -37,12 +39,22 @@ class DynamicWidgetsType extends AbstractType
 
             if ($widget instanceof FormWidgetInterface) {
 
+                /** @var ProjectContent $projectContent */
+                $projectContent = $projectContents->filter(function ($projectContent) use ($projectFormWidget) {
+                    return $projectContent->getProjectFormWidget() === $projectFormWidget;
+                })->first();
+
+                $data = $projectContent->getContent();
+
                 $type = $widget->getSymfonyType();
                 $options = $widget->getOptions();
 
             }
 
-            $builder->add($projectFormWidget->getPosition(), $type, array_merge($options, ['mapped' => false]));
+            $builder->add($projectFormWidget->getPosition(), $type, array_merge($options, [
+                'mapped' => false,
+                'data' => $data ?? null
+            ]));
 
         }
     }

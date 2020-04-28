@@ -38,7 +38,7 @@ abstract class AbstractProjectManager implements ProjectManagerInterface
      * Add a ProjectContent for every ProjectFormWidget if doesn't exists
      * @param Project $project
      */
-    public function refreshProjectContents(Project $project)
+    public function refreshProjectContents(Project $project): void
     {
         $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets();
         $projectContents = $project->getProjectContents();
@@ -48,15 +48,15 @@ abstract class AbstractProjectManager implements ProjectManagerInterface
             if (!$projectFormWidget->getWidget() instanceof FormWidgetInterface) {
                 continue;
             }
-
-            $projectContents = $projectContents->filter(function ($projectContent) use ($projectFormWidget) {
-                return $projectContent->getProjectFormWidget();
+            $projectContentsFiltered = $projectContents->filter(function ($projectContent) use ($projectFormWidget) {
+                return $projectContent->getProjectFormWidget() === $projectFormWidget;
             });
 
-            if ($projectContents->isEmpty()) {
+            if ($projectContentsFiltered->isEmpty()) {
                 $projectContent = $this->projectContentManager->create($projectFormWidget);
                 $project->addProjectContent($projectContent);
             }
+
         }
 
     }

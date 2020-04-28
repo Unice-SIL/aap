@@ -1,0 +1,17 @@
+{% extends 'top_navbar_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.project.edit.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">{{ 'app.project.edit.h1'|trans }}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h2>{{ 'app.call_of_project_label'|trans }} "{{ project.callOfProject.name }}"</h2>
+            {{ dynamic_form_html|raw }}
+        </div>
+    </div>
+{% endblock %}
+
