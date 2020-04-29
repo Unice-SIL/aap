@@ -19,15 +19,15 @@ class TextAreaWidget extends AbstractFormWidget implements FormWidgetInterface
         return TextareaType::class;
     }
 
-    protected function configureOptions(): void
+    protected function configureOptions(): array
     {
-        parent::configureOptions();
+        $options = parent::configureOptions();
 
-        $this->addOptions([
-            'attr' => [
-                'rows' => 4
-            ]
-        ]);
+        $attr = $options['attr'] ?? [];
+        $attr['rows'] = 4;
+        $this->addOptions(['attr' => $attr]);
+
+        return $this->options;
     }
 
 

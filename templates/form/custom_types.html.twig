@@ -6,3 +6,34 @@
         </div>
     </div>
 {% endblock %}
+
+{% block app_widget_validation_widget %}
+    {% for child in form.children %}
+        <div>
+            <span
+                    data-toggle="collapse"
+                    href="#collapse-{{ child.active.vars.id }}"
+                    role="button"
+                    aria-expanded="{{ child.active.vars.checked ? 'true' : 'false' }}"
+                    aria-controls="collapseExample"
+            >
+                <input type="checkbox" id="{{ child.active.vars.id }}" name="{{ child.active.vars.full_name }}" {{ child.active.vars.checked ? 'checked="checked"' }}>
+                {% do child.active.setRendered(true) %}
+                <label for="{{ child.active.vars.id }}">
+                    {% set active_field_label = child.vars.label ?? child.vars.name %}
+                    {{ active_field_label|trans }}
+                </label>
+            </span>
+        </div>
+        {% set parameters = child.children|filter((child, key) => key != 'active') %}
+            {% if parameters|length > 0 %}
+                <div class="collapse {{ child.active.vars.checked ? 'show' }}" id="collapse-{{ child.active.vars.id }}">
+                    <div class="card card-body">
+                        {% for field in parameters %}
+                            {{ form_row(field) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -9,80 +9,47 @@
             </div>
         </div>
     </div>
-    {% for projectFormWidget in projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == true) %}
-        <div class="row">
-            <div class="col-12">
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <i class="fas fa-ellipsis-h text-gray" style="font-size: 25px"></i>
-                            </div>
-                            <div class="col-11 d-flex flex-column justify-content-center">
-                                {{ include('partial/widget/_render_widget.html.twig') }}
-                            </div>
-                            <div class="col-1 d-flex flex-column justify-content-center align-items-end">
-                                <button type="button" class="btn btn-primary mb-1 widget-button"
-                                        data-toggle="modal"
-                                        data-target="#widget-form-modal"
-                                        data-url="{{ path('app.widget.get_filled_widget_form', {
-                                            'id' : projectFormWidget.id
-                                        }) }}"
-                                >
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button class="btn btn-warning mb-1 widget-button text-white">
-                                    <i class="far fa-clone"></i>
-                                </button>
-                                <div class="project-form-widget-delete">
-
-                                    {# this is to prevent weird behavior due to html form nested #}
-                                    {% if loop.first %}
-                                        <form action=""></form>
-                                    {% endif %}
-
-                                    {{ include('widget/_trash_toggle_form.html.twig', {
-                                        'widget' : projectFormWidget,
-                                        'content' : '<i class="fa fa-trash"></i>',
-                                        'class' : 'widget-button'
-                                    }) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+    <div id="active-widget-container" class="row">
+        {% for project_form_widget in projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == true) %}
+                {{ include('partial/widget/_project_form_widget_card_edition.html.twig') }}
+        {% endfor %}
+    </div>
 
     <hr>
-    <h2>{{ 'app.common.trash'|trans }}</h2>
-    {% for projectFormWidget in projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == false) %}
+    <h2>{{ 'app.common.trash.label'|trans }}</h2>
+
+    {% set trash = projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == false) %}
+    {% if  trash|length > 0 %}
         <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body disabled">
-                        <div class="row">
-                            <div class="col-11 d-flex flex-column justify-content-center disabled">
-                                {{ include('partial/widget/_render_widget.html.twig', { options : {'attr' : {'disabled' : true }}} ) }}
-                            </div>
-                            <div class="col-1 d-flex flex-column justify-content-center align-items-end">
-                                <div class="project-form-widget-delete">
+            {% for project_form_widget in trash %}
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body disabled">
+                            <div class="row">
+                                <div class="col-11 d-flex flex-column justify-content-center disabled">
+                                    {{ include('partial/widget/_render_widget.html.twig', { options : {'attr' : {'disabled' : true }}} ) }}
+                                </div>
+                                <div class="col-1 d-flex flex-column justify-content-center align-items-end">
+                                    <div class="project-form-widget-delete">
 
-                                    {# this is to prevent weird behavior due to html form nested #}
-                                    {% if loop.first %}
-                                        <form action=""></form>
-                                    {% endif %}
+                                        {# this is to prevent weird behavior due to html form nested #}
+                                        {% if loop.first %}
+                                            <form action=""></form>
+                                        {% endif %}
 
-                                    {{ include('widget/_trash_toggle_form.html.twig', {'widget' : projectFormWidget}) }}
+                                        {{ include('widget/_trash_toggle_form.html.twig', {'widget' : project_form_widget}) }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            {{ 'app.common.trash.no_element'|trans }}
+        </div>
+    {% endif %}
 
 {{ form_end(form) }}

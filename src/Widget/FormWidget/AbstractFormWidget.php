@@ -5,17 +5,37 @@ namespace App\Widget\FormWidget;
 
 
 use App\Widget\AbstractWidget;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractFormWidget extends AbstractWidget
+abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetInterface
 {
-    /** @var string|null */
+    /**
+     * @var string|null
+     * @Assert\NotBlank()
+     */
     protected $label;
+
+    /** @var bool */
+    protected $visibilityLabel = true;
 
     /** @var bool */
     protected $required = false;
 
+    /** @var string|null */
+    protected $placeholder;
+
+    /** @var string|null */
+    protected $style;
+
     /** @var array */
     protected $options = [];
+
+    /**
+     * @var array
+     * @Assert\Valid
+     */
+    protected $dynamicConstraints = [];
 
     /**
      * @return string|null
@@ -36,7 +56,23 @@ abstract class AbstractFormWidget extends AbstractWidget
     /**
      * @return bool
      */
-    public function getRequired(): bool
+    public function getVisibilityLabel(): bool
+    {
+        return $this->visibilityLabel;
+    }
+
+    /**
+     * @param bool $visibilityLabel
+     */
+    public function setVisibilityLabel(bool $visibilityLabel): void
+    {
+        $this->visibilityLabel = $visibilityLabel;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequired(): bool
     {
         return $this->required;
     }
@@ -50,23 +86,61 @@ abstract class AbstractFormWidget extends AbstractWidget
     }
 
     /**
+     * @return string|null
+     */
+    public function getPlaceholder(): ?string
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param string|null $placeholder
+     */
+    public function setPlaceholder(?string $placeholder): void
+    {
+        $this->placeholder = $placeholder;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStyle(): ?string
+    {
+        return $this->style;
+    }
+
+    /**
+     * @param string|null $style
+     */
+    public function setStyle(?string $style): void
+    {
+        $this->style = $style;
+    }
+
+    /**
      * @return array
      */
     public function getOptions(): array
     {
         $this->configureOptions();
         return $this->options;
-
     }
 
-    protected function configureOptions(): void
+    protected function configureOptions(): array
     {
         $this->addOptions(
             [
                 'label' => $this->getLabel(),
-                'required' => $this->getRequired(),
+                'required' => $this->isRequired(),
+                'attr' => [
+                    'placeholder' => $this->getPlaceholder(),
+                    'style' => $this->getStyle()
+                ],
+                'constraints' => $this->getConstraints()
             ]
         );
+
+        return $this->options;
     }
 
     protected function addOptions(array $options)
@@ -84,5 +158,49 @@ abstract class AbstractFormWidget extends AbstractWidget
     public function reverseTransformData($value)
     {
         return $value;
+    }
+
+    abstract public function getSymfonyType(): string;
+
+    abstract public function getFormType(): string;
+
+    public function getConstraints(): array
+    {
+        $constraints = [];
+        if ($this->isRequired()) {
+            $constraints['not_blank'] = new NotBlank();
+        }
+
+        $dynamicConstraints = array_filter($this->getDynamicConstraints(), function ($dynamicConstraint){
+            return $dynamicConstraint->isActive();
+        });
+
+        $dynamicConstraints = array_map(function ($dynamicConstraint) {
+            return $dynamicConstraint->getSymfonyConstraint();
+        }, $dynamicConstraints);
+
+        return array_merge($constraints, $dynamicConstraints);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getDynamicConstraints(): array
+    {
+        return $this->dynamicConstraints;
+    }
+
+    /**
+     * @param array $dynamicConstraints
+     */
+    public function setDynamicConstraints(array $dynamicConstraints): void
+    {
+        $this->dynamicConstraints = $dynamicConstraints;
+    }
+
+    public function getDynamicConstraintsType(): ?string
+    {
+        return null;
     }
 }

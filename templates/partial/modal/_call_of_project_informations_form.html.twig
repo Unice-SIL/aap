@@ -1,4 +1,4 @@
-<div class="modal fade" id="call-of-project-information-form-modal" data-show="{{ open_edition_form_modal ? 'true' : 'false' }}">
+<div class="modal fade" id="call-of-project-information-form-modal" data-show="{{ open_edition_form_modal|default(false) ? 'true' : 'false' }}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">

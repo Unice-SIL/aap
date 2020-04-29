@@ -44,19 +44,21 @@ class DynamicWidgetsType extends AbstractType
                     return $projectContent->getProjectFormWidget() === $projectFormWidget;
                 })->first();
 
-                $data = $projectContent->getContent();
+                if ($projectContent instanceof ProjectContent) {
+                    $data = $projectContent->getContent();
+                }
 
                 $type = $widget->getSymfonyType();
                 $options = $widget->getOptions();
-
             }
 
             $builder->add($projectFormWidget->getPosition(), $type, array_merge($options, [
                 'mapped' => false,
-                'data' => $data ?? null
+                'data' => $data ?? null,
             ]));
 
         }
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

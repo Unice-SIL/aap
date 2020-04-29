@@ -12,34 +12,30 @@ $(document).ready(function () {
     /**
      * Datetime picker
      */
-    function initDatetimePicker() {
-        $('input.datetimepicker-input[data-linked-target]').each(function() {
+    $('input.datetimepicker-input[data-linked-target]').each(function() {
 
-            let first = $(this).closest('.dateimepicker-container');
-            let id = $(this).data('linked-target');
-            let second = $('input.datetimepicker-input[data-linked-id=' + id + ']').closest('.dateimepicker-container');
+        let first = $(this).closest('.dateimepicker-container');
+        let id = $(this).data('linked-target');
+        let second = $('input.datetimepicker-input[data-linked-id=' + id + ']').closest('.dateimepicker-container');
 
 
-            first.datetimepicker({
-                allowInputToggle: false,
-                sideBySide: true
-            });
-            second.datetimepicker({
-                allowInputToggle: false,
-                useCurrent: false,
-                sideBySide: true
-            });
-            first.on("change.datetimepicker", function (e) {
-                second.datetimepicker('minDate', e.date);
-            });
-            second.on("change.datetimepicker", function (e) {
-                first.datetimepicker('maxDate', e.date);
-            });
-
+        first.datetimepicker({
+            allowInputToggle: false,
+            sideBySide: true
         });
-    }
+        second.datetimepicker({
+            allowInputToggle: false,
+            useCurrent: false,
+            sideBySide: true
+        });
+        first.on("change.datetimepicker", function (e) {
+            second.datetimepicker('minDate', e.date);
+        });
+        second.on("change.datetimepicker", function (e) {
+            first.datetimepicker('maxDate', e.date);
+        });
 
-    initDatetimePicker();
+    });
 
     /**
      * Flash message => toastr
@@ -169,6 +165,7 @@ $(document).ready(function () {
     $('#call-of-project-information-form-modal').modal({
         backdrop: 'static'
     });
+
     /**
      * Widget modal
      */
@@ -176,6 +173,7 @@ $(document).ready(function () {
         backdrop: 'static',
         show: false
     });
+
     $('#widget-form-modal').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
         let modal = $(this);
@@ -184,6 +182,39 @@ $(document).ready(function () {
         $.get(url).done(function (html) {
             modal.find('#form-container').html(html);
         });
+    });
+
+    /**
+     * Widget Form
+     */
+    $(document).on('submit', '.form-widget', function (e) {
+        e.preventDefault();
+
+        let form = $(this);
+
+        $.post(form.attr('action'), form.serialize(), function (html) {
+
+            let element = $(html);
+
+            if (element.hasClass('form-widget')) {
+
+                $('.form-widget').replaceWith(element);
+                return;
+            }
+
+            if (element.data('widget-edit')) {
+                $('#' + element.attr('id')).replaceWith(element);
+            } else {
+                $('#active-widget-container').append(element);
+            }
+
+            $('#widget-form-modal').modal('hide');
+
+            $([document.documentElement, document.body]).animate({
+                scrollTop: element.offset().top - $('#main-navbar').outerHeight()
+            }, 500);
+
+        })
     });
 
     /**

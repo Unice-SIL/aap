@@ -30,7 +30,7 @@
                             style="line-height:1.3; border-radius:25px"
                             data-toggle="modal"
                             data-target="#widget-form-modal"
-                            data-url="{{ path('app.widget.get_widget_form', {
+                            data-url="{{ path('app.project_form_layout.add_widget', {
                                 'widgetName' : widget.name,
                                 'id' : call_of_project.projectFormLayouts.first.id
                             }) }}"
@@ -52,7 +52,7 @@
                             class="btn btn-primary float-right"
                             data-toggle="modal"
                             data-target="#widget-form-modal"
-                            data-url="{{ path('app.widget.get_widget_form', {
+                            data-url="{{ path('app.project_form_layout.add_widget', {
                                 'widgetName' : widget.name,
                                 'id' : call_of_project.projectFormLayouts.first.id
                             }) }}"

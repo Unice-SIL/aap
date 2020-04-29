@@ -128,5 +128,6 @@ class CallOfProjectInformationType extends AbstractType
         $resolver->setDefaults([
             'data_class' => CallOfProject::class,
         ]);
+
     }
 }

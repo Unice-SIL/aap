@@ -1,5 +1,6 @@
 {{ form_start(form) }}
     {{ form_row(form.label) }}
+    {{ form_row(form.visibilityLabel) }}
     {{ form_row(form.required) }}
 
     {% macro displayOptions(choiceForm) %}
@@ -46,6 +47,8 @@
             </div>
         </div>
     </div>
+
+    {{ form_row(form.style) }}
 
     {{ include('partial/widget/_widget_form_modal_buttons.html.twig') }}
 {{ form_end(form) }}

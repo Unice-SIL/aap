@@ -13,4 +13,9 @@ class HtmlTitleWidgetType extends AbstractType
             ->add('content')
         ;
     }
+
+    public function getParent()
+    {
+        return HtmlWidgetType::class;
+    }
 }

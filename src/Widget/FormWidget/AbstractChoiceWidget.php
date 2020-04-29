@@ -45,12 +45,14 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
         return $this;
     }
 
-    protected function configureOptions(): void
+    protected function configureOptions(): array
     {
         parent::configureOptions();
         $this->addOptions([
             'choices' => array_flip($this->getChoices())
         ]);
+
+        return $this->options;
     }
 
     public function getTemplate(): string
