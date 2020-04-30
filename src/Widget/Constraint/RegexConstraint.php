@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Regex;
 
 /**
- * @AppAssert\RegexRequiredIfActive()
+ * @AppAssert\PatternRequiredIfActive()
  */
 class RegexConstraint extends AbstractConstraint
 {

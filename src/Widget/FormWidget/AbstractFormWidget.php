@@ -28,9 +28,6 @@ abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetIn
     /** @var string|null */
     protected $style;
 
-    /** @var array */
-    protected $options = [];
-
     /**
      * @var array
      * @Assert\Valid
@@ -122,32 +119,15 @@ abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetIn
      */
     public function getOptions(): array
     {
-        $this->configureOptions();
-        return $this->options;
-    }
-
-    protected function configureOptions(): array
-    {
-        $this->addOptions(
-            [
-                'label' => $this->getLabel(),
-                'required' => $this->isRequired(),
-                'attr' => [
-                    'placeholder' => $this->getPlaceholder(),
-                    'style' => $this->getStyle()
-                ],
-                'constraints' => $this->getConstraints()
-            ]
-        );
-
-        return $this->options;
-    }
-
-    protected function addOptions(array $options)
-    {
-        foreach ($options as $key => $value) {
-            $this->options[$key] = $value;
-        }
+        return             [
+            'label' => $this->getLabel(),
+            'required' => $this->isRequired(),
+            'attr' => [
+                'placeholder' => $this->getPlaceholder(),
+                'style' => $this->getStyle()
+            ],
+            'constraints' => $this->getConstraints()
+        ];
     }
 
     public function transformData($value)

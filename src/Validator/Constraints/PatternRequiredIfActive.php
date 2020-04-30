@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class RegexRequiredIfActive extends Constraint
+class PatternRequiredIfActive extends Constraint
 {
     public $message = 'app.widget.errors.validation.regex_required_if_active';
 

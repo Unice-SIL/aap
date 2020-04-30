@@ -2,7 +2,6 @@
 
 namespace App\Form\Widget\FormWidget;
 
-use App\Form\Type\DynamicValidationType;
 use App\Form\Widget\WidgetType;
 use App\Widget\FormWidget\FormWidgetInterface;
 use Symfony\Component\Form\AbstractType;
@@ -34,10 +33,6 @@ class FormWidgetType  extends AbstractType
             ])
             ->add('placeholder', null, [
                 'label' => 'app.form.widget.placeholder.label',
-                'required' => false
-            ])
-            ->add('style', null, [
-                'label' => 'app.form.widget.style.label',
                 'required' => false
             ])
         ;

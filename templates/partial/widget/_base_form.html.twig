@@ -1,0 +1,41 @@
+<nav class="mt-2">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a
+            class="nav-item nav-link active"
+            id="nav-general-tab"
+            data-toggle="tab"
+            href="#nav-general"
+            role="tab"
+            aria-controls="nav-general"
+            aria-selected="true"
+        >
+            {{ 'app.widget.form_widget.category.general'|trans }}
+        </a>
+        <a
+            class="nav-item nav-link"
+            id="nav-advanced-tab"
+            data-toggle="tab"
+            href="#nav-advanced"
+            role="tab"
+            aria-controls="nav-advanced"
+            aria-selected="false"
+        >
+            {{ 'app.widget.form_widget.category.advanced'|trans }}
+        </a>
+    </div>
+</nav>
+
+{{ form_start(form) }}
+    <div class="tab-content p-3" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab">
+            {% block general %}
+            {% endblock %}
+        </div>
+        <div class="tab-pane fade" id="nav-advanced" role="tabpanel" aria-labelledby="nav-advanced-tab">
+            {% block advanced %}
+            {% endblock %}
+        </div>
+    </div>
+
+    {{ include('partial/widget/_widget_form_modal_buttons.html.twig') }}
+{{ form_end(form) }}

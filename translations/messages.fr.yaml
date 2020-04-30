@@ -1,9 +1,19 @@
 app:
   form:
     widget:
+      content:
+        label: Texte
+      html_tag:
+        label: Type
       validation:
+        count:
+          label: Limite
         regex:
           label: Regex
+        greater_than_or_equal:
+          label: Minimum
+        less_than_or_equal:
+          label: Maximum
         length:
           label: Longeur
         email:
@@ -140,12 +150,20 @@ app:
       label: Textes
     form_widget:
       label: Questions
+      category:
+        general: 'Général'
+        advanced: 'Avancé'
     App\Widget\FormWidget\UniqueSelectWidget: Liste déroulante
     App\Widget\FormWidget\CheckboxWidget: Choix multiple
     App\Widget\FormWidget\RadioboxWidget: Choix unique
     App\Widget\FormWidget\TextWidget: Texte court
     App\Widget\FormWidget\TextAreaWidget: Texte long
+    App\Widget\FormWidget\IntegerWidget: Nombre
+    App\Widget\FormWidget\RangeWidget: Intervalle
+    App\Widget\FormWidget\DateTimeWidget: Date et Heure
+    App\Widget\FormWidget\DateWidget: Date
     App\Widget\HtmlWidget\TitleWidget: Titre
+    App\Widget\HtmlWidget\InformationWidget: Information
   modal:
     widget:
       title: Ajouter un widget

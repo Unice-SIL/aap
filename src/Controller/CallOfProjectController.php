@@ -106,7 +106,6 @@ class CallOfProjectController extends AbstractController
         $dynamicForm->handleRequest($request);
 
         if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
-
             $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
 
             $projectManager->save($project);

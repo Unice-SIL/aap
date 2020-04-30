@@ -3,18 +3,22 @@
 
 namespace App\Widget\FormWidget;
 
+use App\Form\Widget\Validation\CheckboxWidgetValidationType;
+
 class CheckboxWidget extends AbstractChoiceWidget implements FormWidgetInterface
 {
-
-    protected function configureOptions(): array
+    public function getOptions(): array
     {
-        parent::configureOptions();
-        $this->addOptions([
+        return array_merge_recursive(parent::getOptions(), [
             'expanded' => true,
             'multiple' => true,
         ]);
-
-        return $this->options;
     }
+
+    public function getDynamicConstraintsType(): ?string
+    {
+        return CheckboxWidgetValidationType::class;
+    }
+
 
 }

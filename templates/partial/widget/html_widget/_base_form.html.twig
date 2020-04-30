@@ -1,0 +1,12 @@
+{% extends 'partial/widget/_base_form.html.twig' %}
+{% block general %}
+    {% if form.content is defined %}
+        {{ form_row(form.content) }}
+    {% endif %}
+{% endblock %}
+
+{% block advanced %}
+    {% if form.style is defined %}
+        {{ form_row(form.style) }}
+    {% endif %}
+{% endblock %}

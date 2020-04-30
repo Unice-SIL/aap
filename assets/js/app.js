@@ -10,7 +10,7 @@ require('tempusdominus-bootstrap-4');
 $(document).ready(function () {
 
     /**
-     * Datetime picker
+     * Datetime picker (or only Date)
      */
     $('input.datetimepicker-input[data-linked-target]').each(function() {
 
@@ -36,6 +36,22 @@ $(document).ready(function () {
         });
 
     });
+
+    $('.datetimepicker-input').each(function () {
+        let element = $(this).closest('.dateimepicker-container');
+        element.datetimepicker({
+            sideBySide: true
+        });
+    });
+
+    $('.datepicker-input').each(function () {
+        let element = $(this).closest('.dateimepicker-container');
+        element.datetimepicker({
+            format: 'L',
+            sideBySide: true
+        });
+    });
+
 
     /**
      * Flash message => toastr

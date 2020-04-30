@@ -5,7 +5,7 @@ namespace App\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class RegexRequiredIfActiveValidator extends ConstraintValidator
+class PatternRequiredIfActiveValidator extends ConstraintValidator
 {
     public function validate($entity, Constraint $constraint)
     {
