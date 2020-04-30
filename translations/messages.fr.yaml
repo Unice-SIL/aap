@@ -152,7 +152,7 @@ app:
       label: Questions
       category:
         general: 'Général'
-        advanced: 'Avancé'
+        advanced: 'Paramètres avancés'
     App\Widget\FormWidget\UniqueSelectWidget: Liste déroulante
     App\Widget\FormWidget\CheckboxWidget: Choix multiple
     App\Widget\FormWidget\RadioboxWidget: Choix unique
