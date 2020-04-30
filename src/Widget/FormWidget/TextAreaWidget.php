@@ -34,4 +34,10 @@ class TextAreaWidget extends AbstractFormWidget implements FormWidgetInterface
         ]);
     }
 
+    public function getPosition(): int
+    {
+        return 2;
+    }
+
+
 }

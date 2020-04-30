@@ -25,9 +25,7 @@ class WidgetPass implements CompilerPassInterface
         $formWidgetTaggedServices = $container->findTaggedServiceIds('app.form_widget');
 
         foreach ($formWidgetTaggedServices as $id => $tags) {
-
             $definition->addMethodCall('addFormWidget', [new Reference($id)]);
-            $definition->addMethodCall('addWidget', [new Reference($id)]);
         }
 
         $htmlWidgetTaggedServices = $container->findTaggedServiceIds('app.html_widget');
@@ -35,7 +33,6 @@ class WidgetPass implements CompilerPassInterface
         foreach ($htmlWidgetTaggedServices as $id => $tags) {
 
             $definition->addMethodCall('addHtmlWidget', [new Reference($id)]);
-            $definition->addMethodCall('addWidget', [new Reference($id)]);
         }
     }
 }

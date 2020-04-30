@@ -20,5 +20,8 @@ class CheckboxWidget extends AbstractChoiceWidget implements FormWidgetInterface
         return CheckboxWidgetValidationType::class;
     }
 
-
+    public function getPosition(): int
+    {
+        return 7;
+    }
 }

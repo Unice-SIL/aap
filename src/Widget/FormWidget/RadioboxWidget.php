@@ -12,4 +12,8 @@ class RadioboxWidget extends AbstractChoiceWidget implements FormWidgetInterface
         ]);
     }
 
+    public function getPosition(): int
+    {
+        return 6;
+    }
 }

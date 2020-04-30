@@ -92,5 +92,9 @@ class RangeWidget extends AbstractFormWidget implements FormWidgetInterface
         return parent::getConstraints();
     }
 
+    public function getPosition(): int
+    {
+        return 4;
+    }
 
 }
