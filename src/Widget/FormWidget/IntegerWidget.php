@@ -26,4 +26,8 @@ class IntegerWidget extends AbstractFormWidget implements FormWidgetInterface
         return IntegerWidgetValidationType::class;
     }
 
+    public function getPosition(): int
+    {
+        return 3;
+    }
 }

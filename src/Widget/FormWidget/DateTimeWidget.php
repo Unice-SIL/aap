@@ -34,5 +34,8 @@ class DateTimeWidget extends AbstractFormWidget implements FormWidgetInterface
         return serialize($value);
     }
 
-
+    public function getPosition(): int
+    {
+        return 9;
+    }
 }

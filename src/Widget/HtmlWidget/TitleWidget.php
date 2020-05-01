@@ -47,4 +47,9 @@ class TitleWidget extends AbstractHtmlWidget implements HtmlWidgetInterface
           'h6',
         ];
     }
+
+    public function getPosition(): int
+    {
+        return 1;
+    }
 }

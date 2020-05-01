@@ -37,3 +37,17 @@
             {% endif %}
     {% endfor %}
 {% endblock %}
+
+{% block range_widget %}
+    <fieldset>
+        {% set type = type|default('range') %}
+        {% set attr = attr|merge({'onInput' : 'output_' ~ id~ '.value=parseInt(' ~ id ~ '.value)'}) %}
+        {{- block('form_widget_simple') -}}
+        {% if value %}
+            {% set value = value %}
+        {% else %}
+            {% set value = attr.max is defined and attr.min is defined ? (attr.max - attr.min) / 2 : '--' %}
+        {% endif %}
+        <output id="{{ 'output_' ~ id }}">{{ value }}</output>
+    </fieldset>
+{% endblock %}

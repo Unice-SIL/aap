@@ -18,5 +18,8 @@ class InformationWidget extends AbstractHtmlWidget implements HtmlWidgetInterfac
         return 'p';
     }
 
-
+    public function getPosition(): int
+    {
+        return 2;
+    }
 }

@@ -26,4 +26,10 @@ class TextWidget extends AbstractFormWidget implements FormWidgetInterface
         return TextWidgetValidationType::class;
     }
 
+    public function getPosition(): int
+    {
+        return 1;
+    }
+
+
 }
