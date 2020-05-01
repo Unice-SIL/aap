@@ -9,4 +9,6 @@ interface WidgetInterface
     public function getFormType(): string;
 
     public function getTemplate(): string;
+
+    public function getPosition(): int;
 }

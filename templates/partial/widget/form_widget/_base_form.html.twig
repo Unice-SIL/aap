@@ -1,0 +1,30 @@
+{% extends 'partial/widget/_base_form.html.twig' %}
+{% block general %}
+    {% if form.label is defined %}
+        {{ form_row(form.label) }}
+    {% endif %}
+    {% if form.visibilityLabel is defined %}
+        {{ form_row(form.visibilityLabel) }}
+    {% endif %}
+    {% if form.required is defined %}
+        {{ form_row(form.required) }}
+    {% endif %}
+    {% if form.placeholder is defined %}
+        {{ form_row(form.placeholder) }}
+    {% endif %}
+{% endblock %}
+
+{% if form.dynamicConstraints is defined and  not form.dynamicConstraints.vars.valid %}
+    {% set is_advanced_open = true %}
+{% endif %}
+
+{% block advanced %}
+
+    {% if form.dynamicConstraints is defined %}
+        {{ form_row(form.dynamicConstraints) }}
+    {% endif %}
+
+    {% if form.style is defined %}
+        {{ form_row(form.style) }}
+    {% endif %}
+{% endblock %}

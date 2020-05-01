@@ -1,6 +1,6 @@
 {{ form_start(form) }}
     {{ form_row(form.name) }}
-    {% for projectFormWidget in projectFormWidgets %}
+    {% for project_form_widget in projectFormWidgets %}
         <div class="form-group">
             {{ include('partial/widget/_render_widget.html.twig') }}
         </div>

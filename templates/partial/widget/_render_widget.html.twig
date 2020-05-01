@@ -1,10 +1,12 @@
 
-{% set field = form.children[projectFormWidget.position] %}
+{% set field = form.children[project_form_widget.position] %}
 
-{% if instanceof(projectFormWidget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
-    {{ form_label(field, null, {'label_attr' : {'class' : 'py-1 text-bold'}}) }}
+{% if instanceof(project_form_widget.widget, 'App\\Widget\\FormWidget\\FormWidgetInterface') %}
+    {% if project_form_widget.widget.visibilityLabel %}
+        {{ form_label(field, null, {'label_attr' : {'class' : 'py-1 text-bold'}}) }}
+    {% endif %}
     {{ form_widget(field, options|default({})) }}
 {% else %}
-    {{ projectFormWidget.widget.render|raw }}
+    {{ project_form_widget.widget.render|raw }}
     {% do field.setRendered %}
 {% endif %}

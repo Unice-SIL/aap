@@ -1,6 +1,8 @@
-{{ form_start(form) }}
-    {{ form_row(form.label) }}
-    {{ form_row(form.required) }}
+{% extends 'partial/widget/form_widget/_base_form.html.twig' %}
+
+{% block general %}
+
+    {{ parent() }}
 
     {% macro displayOptions(choiceForm) %}
         <li class="item-collection">
@@ -46,6 +48,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-    {{ include('partial/widget/_widget_form_modal_buttons.html.twig') }}
-{{ form_end(form) }}
+{% block advanced %}
+    {{ parent() }}
+{% endblock %}

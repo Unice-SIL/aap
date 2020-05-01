@@ -5,6 +5,7 @@ namespace App\Widget\FormWidget;
 
 
 use App\Form\Widget\FormWidget\FormTextWidgetType;
+use App\Form\Widget\Validation\TextWidgetValidationType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class TextAreaWidget extends AbstractFormWidget implements FormWidgetInterface
@@ -19,15 +20,23 @@ class TextAreaWidget extends AbstractFormWidget implements FormWidgetInterface
         return TextareaType::class;
     }
 
-    protected function configureOptions(): void
+    public function getDynamicConstraintsType(): ?string
     {
-        parent::configureOptions();
+        return TextWidgetValidationType::class;
+    }
 
-        $this->addOptions([
+    public function getOptions(): array
+    {
+        return array_merge_recursive(parent::getOptions(), [
             'attr' => [
-                'rows' => 4
+                'rows' => 4,
             ]
         ]);
+    }
+
+    public function getPosition(): int
+    {
+        return 2;
     }
 
 

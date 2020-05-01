@@ -40,11 +40,7 @@ class WidgetManager
         $this->htmlWidgets = [];
         $this->formFactory = $formFactory;
         $this->twig = $twig;
-    }
 
-    public function addWidget(WidgetInterface $widget)
-    {
-        $this->widgets[$widget->getName()] = $widget;
     }
 
     /**
@@ -52,7 +48,7 @@ class WidgetManager
      */
     public function getWidgets(): array
     {
-        return $this->widgets;
+        return array_merge($this->getFormWidgets(), $this->getHtmlWidgets());
     }
 
     public function getWidget(?string $name): ?WidgetInterface
@@ -74,6 +70,13 @@ class WidgetManager
      */
     public function getFormWidgets(): array
     {
+        if (!isset($this->formWidgetsSorted)) {
+            $this->formWidgetsSorted = true;
+            uasort($this->formWidgets, function ($a, $b){
+                return $a->getPosition() <=> $b->getPosition();
+            });
+        }
+
         return $this->formWidgets;
     }
 
@@ -87,6 +90,13 @@ class WidgetManager
      */
     public function getHtmlWidgets(): array
     {
+        if (!isset($this->htmlWidgetsSorted)) {
+            $this->htmlWidgetsSorted = true;
+            uasort($this->htmlWidgets, function ($a, $b){
+                return $a->getPosition() <=> $b->getPosition();
+            });
+        }
+
         return $this->htmlWidgets;
     }
 

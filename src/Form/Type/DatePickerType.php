@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FlatpickrType extends AbstractType
+class DatePickerType extends AbstractType
 {
     public function getParent()
     {
@@ -20,7 +20,7 @@ class FlatpickrType extends AbstractType
         $attr = $view->vars['attr'];
 
         $class = isset($attr['class']) ? $attr['class'].' ' : '';
-        $class .= 'flatpickr';
+        $class .= 'datepicker-input';
         $attr['class'] = $class;
 
         $autocomplete = isset($attr['autocomplete']) ? $attr['autocomplete'] : 'off';
@@ -33,7 +33,12 @@ class FlatpickrType extends AbstractType
     {
         $resolver->setDefaults([
             'widget' => 'single_text',
-            'format' => 'dd-MM-yyyy HH:mm',
+            'format' => 'dd/MM/yyyy',
         ]);
     }
+
+    public function getBlockPrefix(){
+         return 'date_time_picker';
+    }
+
 }

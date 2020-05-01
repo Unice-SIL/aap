@@ -1,0 +1,12 @@
+{% extends 'partial/widget/form_widget/_base_form.html.twig' %}
+
+{% block general %}
+    {{ parent() }}
+    {{ form_row(form.min) }}
+    {{ form_row(form.max) }}
+{% endblock %}
+
+{% block advanced %}
+    {{ parent() }}
+{% endblock %}
+

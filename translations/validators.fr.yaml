@@ -1,4 +1,10 @@
 app:
+  widget:
+    errors:
+      validation:
+        min_or_max_if_active: Veuillez choisir au moins un champ parmi "min" et "max"
+        regex_required_if_active: Veuillez renseigner la Regex
+        value_required_if_active: Cette valeur est obligatoire
   call_of_project:
     errors:
       date_bigger_than_start_date: Cette date devrait être plus grande que la date de début

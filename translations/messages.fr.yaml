@@ -1,4 +1,37 @@
 app:
+  form:
+    widget:
+      content:
+        label: Texte
+      html_tag:
+        label: Type
+      validation:
+        count:
+          label: Limite
+        regex:
+          label: Regex
+        greater_than_or_equal:
+          label: Minimum
+        less_than_or_equal:
+          label: Maximum
+        length:
+          label: Longeur
+        email:
+          label: Email
+        url:
+          label: Url
+      dynamic_constraints:
+        label: Contraintes de validation
+      style:
+        label: Style Css
+      placeholder:
+        label: Placeholder
+      required:
+        label: Obligatoire
+      visibility_label:
+        label: Label visible
+      label:
+        label: Label
 
   login:
     form:
@@ -70,6 +103,7 @@ app:
       select_opened_cap: Veuillez sélectionner un appel à projets actuellement ouvert
     add_project:
       h1: Dépôt d'un nouveau projet
+      not_opened: Ce projet n'est pas ouvert
   dashboard:
     my_calls_of_project:
       title: Appels à projets que je gère
@@ -116,12 +150,20 @@ app:
       label: Textes
     form_widget:
       label: Questions
+      category:
+        general: 'Général'
+        advanced: 'Paramètres avancés'
     App\Widget\FormWidget\UniqueSelectWidget: Liste déroulante
     App\Widget\FormWidget\CheckboxWidget: Choix multiple
     App\Widget\FormWidget\RadioboxWidget: Choix unique
     App\Widget\FormWidget\TextWidget: Texte court
     App\Widget\FormWidget\TextAreaWidget: Texte long
+    App\Widget\FormWidget\IntegerWidget: Nombre
+    App\Widget\FormWidget\RangeWidget: Intervalle
+    App\Widget\FormWidget\DateTimeWidget: Date et Heure
+    App\Widget\FormWidget\DateWidget: Date
     App\Widget\HtmlWidget\TitleWidget: Titre
+    App\Widget\HtmlWidget\InformationWidget: Information
   modal:
     widget:
       title: Ajouter un widget
@@ -145,5 +187,7 @@ app:
   footer:
     copyright: Tous droits reservés
   common:
-    trash: 'Corbeille'
+    trash:
+      label: 'Corbeille'
+      no_element: 'Aucun élément dans la corbeille'
   call_of_project_label: 'Appel à projets'

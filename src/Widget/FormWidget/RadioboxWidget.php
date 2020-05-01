@@ -5,12 +5,15 @@ namespace App\Widget\FormWidget;
 
 class RadioboxWidget extends AbstractChoiceWidget implements FormWidgetInterface
 {
-    protected function configureOptions(): void
+    public function getOptions(): array
     {
-        parent::configureOptions();
-        $this->addOptions([
+        return array_merge_recursive(parent::getOptions(), [
             'expanded' => true,
         ]);
     }
 
+    public function getPosition(): int
+    {
+        return 6;
+    }
 }

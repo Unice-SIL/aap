@@ -1,0 +1,41 @@
+<div class="col-12" id="widget-card-{{ project_form_widget.id }}" data-widget-edit="{{ widget_edit|default(false) }}">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <i class="fas fa-ellipsis-h text-gray" style="font-size: 25px"></i>
+                </div>
+                <div class="col-11 d-flex flex-column justify-content-center">
+                    {{ include('partial/widget/_render_widget.html.twig') }}
+                </div>
+                <div class="col-1 d-flex flex-column justify-content-center align-items-end">
+                    <button type="button" class="btn btn-primary mb-1 widget-button"
+                            data-toggle="modal"
+                            data-target="#widget-form-modal"
+                            data-url="{{ path('app.widget.edit', {
+                                'id' : project_form_widget.id
+                            }) }}"
+                    >
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-warning mb-1 widget-button text-white">
+                        <i class="far fa-clone"></i>
+                    </button>
+                    <div class="project-form-widget-delete">
+
+                        {# this is to prevent weird behavior due to html form nested #}
+                        {% if loop is defined and loop.first %}
+                            <form action=""></form>
+                        {% endif %}
+
+                        {{ include('widget/_trash_toggle_form.html.twig', {
+                            'widget' : project_form_widget,
+                            'content' : '<i class="fa fa-trash"></i>',
+                            'class' : 'widget-button'
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

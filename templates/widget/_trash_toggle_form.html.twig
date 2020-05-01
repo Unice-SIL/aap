@@ -1,16 +1,16 @@
-<form method="post" action="{{ path('app.widget.trash_toggle', {'id': projectFormWidget.id}) }}">
-    <input type="hidden" name="_token" value="{{ csrf_token('trash_toggle' ~ projectFormWidget.id) }}">
+<form method="post" action="{{ path('app.widget.trash_toggle', {'id': project_form_widget.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('trash_toggle' ~ project_form_widget.id) }}">
     <button class="
                 btn
-                btn-{{ constant('App\\Constant\\CssMatching::PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP')[projectFormWidget.isActive] }}
+                btn-{{ constant('App\\Constant\\CssMatching::PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP')[project_form_widget.isActive] }}
                 btn-block alert-button-modal
             "
             style="opacity: 1"
-            data-modal-title="{{ projectFormWidget.isActive ? 'app.project_form_widget.modal.trash_warning_title'|trans
+            data-modal-title="{{ project_form_widget.isActive ? 'app.project_form_widget.modal.trash_warning_title'|trans
             : 'app.project_form_widget.modal.reactivate_warning_title'|trans}}"
-            data-modal-warning-label="{{ projectFormWidget.isActive ? 'app.action.trash'|trans : 'app.modal.widget_form.action.reactivate'|trans }}"
-            data-modal-warning-class="btn btn-{{ constant('App\\Constant\\CssMatching::PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP')[projectFormWidget.isActive] }}"
+            data-modal-warning-label="{{ project_form_widget.isActive ? 'app.action.trash'|trans : 'app.modal.widget_form.action.reactivate'|trans }}"
+            data-modal-warning-class="btn btn-{{ constant('App\\Constant\\CssMatching::PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP')[project_form_widget.isActive] }}"
     >
-        {% set content = projectFormWidget.isActive ? '<i class="fa fa-trash"></i>' : '<i class="fas fa-undo-alt"></i>' %}
+        {% set content = project_form_widget.isActive ? '<i class="fa fa-trash"></i>' : '<i class="fas fa-undo-alt"></i>' %}
         {{ content|raw }}</button>
 </form>

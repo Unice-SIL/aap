@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/call-of-project", name="call_of_project.")
@@ -77,24 +78,12 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/projects", name="projects", methods={"GET"})
-     * @param CallOfProject $callOfProject
-     * @param Request $request
-     * @return Response
-     */
-    public function projects(CallOfProject $callOfProject, Request $request): Response
-    {
-        return $this->render('call_of_project/project_list.html.twig', [
-            'call_of_project' => $callOfProject,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/add-project", name="add_project", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
      * @param Request $request
      * @param ProjectManagerInterface $projectManager
      * @param WidgetManager $widgetManager
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws \Exception
      */
@@ -102,16 +91,21 @@ class CallOfProjectController extends AbstractController
         CallOfProject $callOfProject,
         Request $request,
         ProjectManagerInterface $projectManager,
-        WidgetManager $widgetManager
+        WidgetManager $widgetManager,
+        TranslatorInterface $translator
     ): Response
     {
+        //todo: change by voter
+        if ($callOfProject->getStatus() !== CallOfProject::STATUS_OPENED) {
+            throw $this->createAccessDeniedException($translator->trans('app.call_of_project.add_project.not_opened'));
+        }
+
         $project = $projectManager->create($callOfProject);
         $dynamicForm = $widgetManager->getDynamicForm($project);
 
         $dynamicForm->handleRequest($request);
 
         if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
-
             $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
 
             $projectManager->save($project);
@@ -127,6 +121,7 @@ class CallOfProjectController extends AbstractController
             ),
         ]);
     }
+
 
     /**
      * @Route("/{id}/informations", name="informations", methods={"GET", "POST"})
@@ -165,11 +160,22 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/projects", name="projects", methods={"GET"})
+     * @param CallOfProject $callOfProject
+     * @param Request $request
+     * @return Response
+     */
+    public function projects(CallOfProject $callOfProject, Request $request): Response
+    {
+        return $this->render('call_of_project/project_list.html.twig', [
+            'call_of_project' => $callOfProject,
+        ]);
+    }
+
+    /**
      * @Route("/{id}/form", name="form", methods={"GET","POST"})
      * @param CallOfProject $callOfProject
      * @param WidgetManager $widgetManager
-     * @param Request $request
-     * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
      * @param ProjectManagerInterface $projectManager
      * @return Response
      * @throws \Exception
@@ -177,34 +183,13 @@ class CallOfProjectController extends AbstractController
     public function form(
         CallOfProject $callOfProject,
         WidgetManager $widgetManager,
-        Request $request,
-        ProjectFormWidgetManagerInterface $projectFormWidgetManager,
         ProjectManagerInterface $projectManager
     ): Response
     {
-        $widgetName = $request->query->get('widgetName');
-
-        if ($widget = $widgetManager->getWidget($widgetName)) {
-            $form = $this->createForm($widget->getFormType(), $widget);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() and $form->isValid()) {
-
-                $projectFormWidget = $projectFormWidgetManager->create();
-                $projectFormWidget->setWidget($widget);
-                $callOfProject->getProjectFormLayout()->addProjectFormWidget($projectFormWidget);
-
-                $projectFormWidgetManager->save($projectFormWidget);
-
-                return $this->redirectToRoute('app.call_of_project.form', [
-                    'id' => $callOfProject->getId()
-                ]);
-            }
-        }
 
         $project = $projectManager->create($callOfProject);
         $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => true]);
+
         return $this->render('call_of_project/form.html.twig', [
             'call_of_project' => $callOfProject,
             'widget_manager' => $widgetManager,
@@ -213,37 +198,6 @@ class CallOfProjectController extends AbstractController
                 'partial/widget/_dynamic_form_demo.html.twig'
             ),
         ]);
-    }
-
-
-    /**
-     * @Route("/{id}/get-widget-form", name="get_widget_form", methods={"GET"})
-     * @param WidgetManager $widgetManager
-     * @param Request $request
-     * @return Response
-     */
-    public function getWidgetForm(
-        WidgetManager $widgetManager,
-        Request $request
-    ): Response
-    {
-        $widgetName = $request->query->get('widgetName');
-
-        if (!isset($widgetManager->getWidgets()[$widgetName])) {
-            return $this->json(['success' => false]);
-        }
-
-        $widget = $widgetManager->getWidgets()[$widgetName];
-
-        if (!$widget instanceof  FormWidgetInterface) {
-            return $this->json(['success' => false]);
-        }
-
-        return $this->render($widget->getTemplate(), [
-            'form' => $widget->getForm()->createView()
-        ]);
-
-
     }
 
     /**

@@ -1,4 +1,10 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ include('partial/widget/_widget_form_modal_buttons.html.twig') }}
-{{ form_end(form) }}
+{% extends 'partial/widget/html_widget/_base_form.html.twig' %}
+
+{% block general %}
+    {{ parent() }}
+    {{ form_row(form.htmlTag) }}
+{% endblock %}
+
+{% block advanced %}
+    {{ parent() }}
+{% endblock %}

@@ -22,7 +22,9 @@ class FormChoiceWidgetType extends AbstractType
             'label' => 'Choices',
             'allow_add' => true,
             'allow_delete' => true
-        ]);
+        ])
+            ->remove('placeholder')
+        ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
 

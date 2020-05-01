@@ -1,0 +1,25 @@
+
+{{ form_start(form) }}
+
+    {% block general %}
+    {% endblock %}
+
+    {% set is_advanced_open = is_advanced_open|default(false) %}
+
+    {% if form.style is defined and not form.style.vars.valid %}
+        {% set is_advanced_open = true %}
+    {% endif %}
+    <p>
+        <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="{{ is_advanced_open ? 'true' : 'false' }}" aria-controls="collapseExample">
+            {{ 'app.widget.form_widget.category.advanced'|trans }}
+        </a>
+    </p>
+    <div class="collapse {{ is_advanced_open ? 'show' }}" id="collapseExample">
+        <div class="card card-body">
+            {% block advanced %}
+            {% endblock %}
+        </div>
+    </div>
+
+    {{ include('partial/widget/_widget_form_modal_buttons.html.twig') }}
+{{ form_end(form) }}
