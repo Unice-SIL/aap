@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,12 +46,19 @@ class Project extends Common
 
     /**
      * @return Collection|ProjectContent[]
+     * @throws \Exception
      */
     public function getProjectContents(): Collection
     {
-        return $this->projectContents->filter(function ($projectContent) {
+        $projectContents = $this->projectContents->filter(function ($projectContent) {
             return null !== $projectContent->getProjectFormWidget();
+        })->getIterator();
+
+        $projectContents->uasort(function ($first, $second) {
+            return (int) $first->getProjectFormWidget()->getPosition() <=> (int) $second->getProjectFormWidget()->getPosition();
         });
+
+        return new ArrayCollection($projectContents->getArrayCopy());
     }
 
     public function addProjectContent(ProjectContent $projectContent): self

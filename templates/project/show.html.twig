@@ -1,0 +1,35 @@
+{% extends layout|default('top_navbar_layout.html.twig') %}
+
+{% block title %}
+    {{ 'app.project.show.h1'|trans }} {{ project.name }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">{{ 'app.project.show.h1'|trans }} {{ project.name }}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="text-right">
+
+                {% set parameters = { 'id' : project.id, } %}
+
+                {% if context == 'call_of_project' %}
+                    {% set parameters = parameters|merge({ 'context' : context }) %}
+                {% endif %}
+
+                <a href="{{ path('app.project.edit', parameters) }}" class="btn btn-primary">
+                    {{ 'app.action.edit'|trans }}
+                </a>
+            </div>
+            <dl>
+                <dt>{{ 'app.project.property.name.label'|trans }}</dt>
+                <dl>{{ project.name }}</dl>
+                {% for projectContent in project.projectContents %}
+                    <dt>{{ projectContent.projectFormWidget.widget.label }}</dt>
+                    <dl>{{ projectContent.stringContent|trans }}</dl>
+                {% endfor %}
+            </dl>
+        </div>
+    </div>
+{% endblock %}
+

@@ -47,6 +47,11 @@ class ProjectContent
         return $this->content;
     }
 
+    public function getStringContent()
+    {
+        return $this->getProjectFormWidget()->getWidget()->renderView($this->content);
+    }
+
     public function setContent($content): self
     {
         $this->content = $content;

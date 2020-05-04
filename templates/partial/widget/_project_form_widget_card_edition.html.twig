@@ -1,8 +1,10 @@
-<div class="col-12" id="widget-card-{{ project_form_widget.id }}" data-widget-edit="{{ widget_edit|default(false) }}">
+<div class="col-12" id="widget-card-{{ project_form_widget.id }}" data-widget-edit="{{ widget_edit|default(false) }}"
+     data-url="{{ path('app.widget.update_position', {'id' : project_form_widget.id }) }}"
+>
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 text-center">
+                <div class="col-12 text-center ui-sortable-handle">
                     <i class="fas fa-ellipsis-h text-gray" style="font-size: 25px"></i>
                 </div>
                 <div class="col-11 d-flex flex-column justify-content-center">

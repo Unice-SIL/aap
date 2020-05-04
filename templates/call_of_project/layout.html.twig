@@ -21,14 +21,14 @@
                     {% set id = app.request.attributes.get('id') %}
 
                     <li class="nav-item">
-                        <a href="{{ path('app.call_of_project.informations', {'id' : id}) }}" class="nav-link">
+                        <a href="{{ path('app.call_of_project.informations', {'id' : call_of_project.id}) }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>{{ 'app.sidebar.item.admin.infos'|trans }}</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ path('app.call_of_project.projects', {'id' : id}) }}" class="nav-link">
+                        <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 {{ 'app.sidebar.item.projects.label'|trans }}
@@ -44,7 +44,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ path('app.call_of_project.form', {'id' : id}) }}" class="nav-link">
+                        <a href="{{ path('app.call_of_project.form', {'id' : call_of_project.id}) }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>{{ 'app.sidebar.item.admin.project_form'|trans }}</p>
                         </a>

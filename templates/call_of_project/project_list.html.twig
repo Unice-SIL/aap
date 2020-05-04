@@ -20,7 +20,11 @@
                 <tbody>
                 {% for project in call_of_project.projects %}
                     <tr>
-                        <td>{{ project.name }}</td>
+                        <td>
+                            <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
+                                {{ project.name }}
+                            </a>
+                        </td>
                         <td>{{ project.createdBy }}</td>
                         <td>{{ project.createdAt|date('d/m/Y h:i') }}</td>
                         <td>{{ include('project/_status_badge.html.twig', { 'project' : project}) }}</td>

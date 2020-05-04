@@ -45,7 +45,9 @@ app:
       connected_as: Vous êtes connecté en tant que
   table:
     no_results_found: Aucun élément n'a été trouvé
-
+  project_content:
+    form:
+      no_communicate: 'Non renseigné'
   project:
     constant:
       draft: Brouillon
@@ -65,6 +67,8 @@ app:
       add_project: Déposer un projet
     edit:
       h1: 'Editer le projet'
+    show:
+      h1: 'Voir le projet'
   call_of_project:
     form:
         h1: Configuration du projet
@@ -136,6 +140,7 @@ app:
     list_all: Tout voir
     canceled: Annuler
     trash: 'Corbeille'
+    back_to_view: 'Revenir à la vue'
   sidebar:
     item:
       projects:

@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetInterface
 {
+
     /**
      * @var string|null
      * @Assert\NotBlank()
@@ -183,4 +184,27 @@ abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetIn
     {
         return null;
     }
+
+    public function renderView($value): ?string
+    {
+        if ($value === null) {
+            return 'app.project_content.form.no_communicate';
+        }
+
+        if ($value instanceof \DateTime) {
+
+            if (isset($value->onlyDate)) {
+                return $value->format('d-m-Y');
+            }
+
+            return $value->format('d-m-Y h:i');
+        }
+
+        if (is_array($value)) {
+            return implode(', ', $value);
+        }
+
+        return $value;
+    }
+
 }
