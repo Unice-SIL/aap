@@ -51,6 +51,12 @@ class ProjectController extends AbstractController
         ProjectManagerInterface $projectManager
     )
     {
+        $context = $request->query->get('context');
+
+        if ($context === 'call_of_project') {
+            $layout = 'call_of_project/layout.html.twig';
+        }
+
         $projectManager->refreshProjectContents($project);
 
         $dynamicForm = $widgetManager->getDynamicForm($project);
@@ -68,6 +74,9 @@ class ProjectController extends AbstractController
 
         return $this->render('project/edit.html.twig', [
             'project' => $project,
+            'call_of_project' => $project->getCallOfProject(),
+            'layout' => $layout ?? null,
+            'context' => $context,
             'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
                 $dynamicForm,
                 'partial/widget/_dynamic_form.html.twig'
@@ -78,12 +87,23 @@ class ProjectController extends AbstractController
     /**
      * @Route("/{id}/show", name="show", methods={"GET"})
      * @param Project $project
+     * @param Request $request
      * @return Response
      */
-    public function show(Project $project)
+    public function show(Project $project, Request $request)
     {
+        $context = $request->query->get('context');
+
+        if ($context === 'call_of_project') {
+            $layout = 'call_of_project/layout.html.twig';
+        }
+
         return $this->render('project/show.html.twig', [
-            'project' => $project
+            'project' => $project,
+            'call_of_project' => $project->getCallOfProject(),
+            'layout' => $layout ?? null,
+            'context' => $context
         ]);
     }
+
 }

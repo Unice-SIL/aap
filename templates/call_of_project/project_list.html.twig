@@ -21,7 +21,7 @@
                 {% for project in call_of_project.projects %}
                     <tr>
                         <td>
-                            <a href="{{ path('app.project.show', { 'id' : project.id }) }}">
+                            <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
                                 {{ project.name }}
                             </a>
                         </td>

@@ -140,6 +140,7 @@ app:
     list_all: Tout voir
     canceled: Annuler
     trash: 'Corbeille'
+    back_to_view: 'Revenir à la vue'
   sidebar:
     item:
       projects:
