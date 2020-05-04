@@ -1,0 +1,21 @@
+{% extends 'top_navbar_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.project.show.h1'|trans }} {{ project.name }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">{{ 'app.project.show.h1'|trans }} {{ project.name }}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <dl>
+                {% for projectContent in project.projectContents %}
+                    <dt>{{ projectContent.projectFormWidget.widget.label }}</dt>
+                    <dl>{{ projectContent.stringContent|trans }}</dl>
+                {% endfor %}
+            </dl>
+        </div>
+    </div>
+{% endblock %}
+

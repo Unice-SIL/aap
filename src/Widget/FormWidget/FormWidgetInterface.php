@@ -21,4 +21,6 @@ interface FormWidgetInterface extends WidgetInterface
     public function transformData($value);
 
     public function reverseTransformData($value);
+
+    public function renderView($value): ?string;
 }

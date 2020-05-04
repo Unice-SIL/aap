@@ -31,6 +31,7 @@ class DateWidget extends AbstractFormWidget implements FormWidgetInterface
      */
     public function reverseTransformData($value)
     {
+        $value->onlyDate = true;
         return serialize($value);
     }
 

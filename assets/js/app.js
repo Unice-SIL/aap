@@ -10,48 +10,58 @@ require('tempusdominus-bootstrap-4');
 $(document).ready(function () {
 
     /**
+     * Init
+     */
+    $(document).on('init', function () {
+        initDateTimePicker();
+    });
+
+    $(document).trigger('init');
+
+    /**
      * Datetime picker (or only Date)
      */
-    $('input.datetimepicker-input[data-linked-target]').each(function() {
+    function initDateTimePicker() {
+        $('input.datetimepicker-input[data-linked-target]').each(function() {
 
-        let first = $(this).closest('.dateimepicker-container');
-        let id = $(this).data('linked-target');
-        let second = $('input.datetimepicker-input[data-linked-id=' + id + ']').closest('.dateimepicker-container');
+            let first = $(this).closest('.dateimepicker-container');
+            let id = $(this).data('linked-target');
+            let second = $('input.datetimepicker-input[data-linked-id=' + id + ']').closest('.dateimepicker-container');
 
 
-        first.datetimepicker({
-            allowInputToggle: false,
-            sideBySide: true
+            first.datetimepicker({
+                allowInputToggle: false,
+                sideBySide: true
+            });
+            second.datetimepicker({
+                allowInputToggle: false,
+                useCurrent: false,
+                sideBySide: true
+            });
+            first.on("change.datetimepicker", function (e) {
+                second.datetimepicker('minDate', e.date);
+            });
+            second.on("change.datetimepicker", function (e) {
+                first.datetimepicker('maxDate', e.date);
+            });
+
         });
-        second.datetimepicker({
-            allowInputToggle: false,
-            useCurrent: false,
-            sideBySide: true
-        });
-        first.on("change.datetimepicker", function (e) {
-            second.datetimepicker('minDate', e.date);
-        });
-        second.on("change.datetimepicker", function (e) {
-            first.datetimepicker('maxDate', e.date);
+
+        $('.datetimepicker-input').each(function () {
+            let element = $(this).closest('.dateimepicker-container');
+            element.datetimepicker({
+                sideBySide: true
+            });
         });
 
-    });
-
-    $('.datetimepicker-input').each(function () {
-        let element = $(this).closest('.dateimepicker-container');
-        element.datetimepicker({
-            sideBySide: true
+        $('.datepicker-input').each(function () {
+            let element = $(this).closest('.dateimepicker-container');
+            element.datetimepicker({
+                format: 'L',
+                sideBySide: true
+            });
         });
-    });
-
-    $('.datepicker-input').each(function () {
-        let element = $(this).closest('.dateimepicker-container');
-        element.datetimepicker({
-            format: 'L',
-            sideBySide: true
-        });
-    });
-
+    }
 
     /**
      * Flash message => toastr
@@ -230,6 +240,7 @@ $(document).ready(function () {
                 scrollTop: element.offset().top - $('#main-navbar').outerHeight()
             }, 500);
 
+            $(document).trigger('init');
         })
     });
 
