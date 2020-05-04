@@ -191,10 +191,6 @@ abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetIn
             return 'app.project_content.form.no_communicate';
         }
 
-//        if ($value instanceof Date) {
-//            return $value->format('d-m-Y h:i');
-//        }
-
         if ($value instanceof \DateTime) {
 
             if (isset($value->onlyDate)) {

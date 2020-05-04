@@ -5,6 +5,7 @@ require('bootstrap');
 require('datatables.net-bs4');
 require('moment/locale/fr');
 require('tempusdominus-bootstrap-4');
+require('jquery-ui/ui/widgets/sortable');
 
 
 $(document).ready(function () {
@@ -14,9 +15,31 @@ $(document).ready(function () {
      */
     $(document).on('init', function () {
         initDateTimePicker();
+        initSortable();
     });
 
     $(document).trigger('init');
+
+    /**
+     * Sortable
+     */
+    function initSortable () {
+        $( '.sortable' ).sortable({
+            appendTo: document.body
+        });
+    }
+
+    $( '#active-widget-container' ).on( "sortupdate", function( event, ui ) {
+        let item = ui.item;
+
+        $.post(
+            item.data('url'),
+            { 'position': item.parent().children().index(item) + 1 },
+            function () {
+                console.log('ok');
+            }
+        );
+    } );
 
     /**
      * Datetime picker (or only Date)

@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div id="active-widget-container" class="row">
+    <div id="active-widget-container" class="row sortable">
         {% for project_form_widget in projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == true) %}
                 {{ include('partial/widget/_project_form_widget_card_edition.html.twig') }}
         {% endfor %}

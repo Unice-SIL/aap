@@ -11,6 +11,7 @@ use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -108,5 +109,54 @@ class WidgetController extends AbstractController
         return $this->redirectToRoute('app.call_of_project.form', [
             'id' => $projectFormWidget->getProjectFormLayout()->getCallOfProject()->getId()
         ]);
+    }
+
+    /**
+     * @Route("/{id}/update-position", name="update_position", methods={"POST"})
+     * @param ProjectFormWidget $projectFormWidget
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updatePosition(ProjectFormWidget $projectFormWidget, Request $request, EntityManagerInterface $em)
+    {
+        $position = $request->request->getInt('position');
+
+        if ($position === null) {
+            return $this->json(['success' => false]);
+        }
+
+        $projectFormLayout = $projectFormWidget->getProjectFormLayout();
+
+        foreach ($projectFormLayout->getProjectFormWidgets() as $projectFormWidgetLoop) {
+
+
+            if ($position < $projectFormWidget->getPosition()) {
+                if (
+                    $projectFormWidgetLoop->getPosition() < $position
+                    or $projectFormWidgetLoop->getPosition() >= $projectFormWidget->getPosition()
+                ) {
+                    continue;
+                }
+
+                $projectFormWidgetLoop->setPosition($projectFormWidgetLoop->getPosition() + 1);
+            }
+
+            if ($position > $projectFormWidget->getPosition()) {
+                if (
+                    $projectFormWidgetLoop->getPosition() > $position
+                    or $projectFormWidgetLoop->getPosition() <= $projectFormWidget->getPosition()
+                ) {
+                    continue;
+                }
+                $projectFormWidgetLoop->setPosition($projectFormWidgetLoop->getPosition() - 1);
+            }
+
+        }
+
+        $projectFormWidget->setPosition($position);
+
+        $em->flush();
+
+        return $this->json(['success' => true]);
     }
 }
