@@ -11,6 +11,13 @@ $primary: #04a6ff;
 }
 
 /**
+  General
+ */
+.ui-sortable-handle {
+  cursor: pointer;
+}
+
+/**
   Card
  */
 .card-body {
