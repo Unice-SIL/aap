@@ -6,12 +6,17 @@ namespace App\Widget;
 
 use App\Entity\Project;
 use App\Entity\ProjectContent;
+use App\Entity\WidgetFile;
 use App\Form\Widget\DynamicWidgetsType;
+use App\Utils\File\FileUploaderInterface;
 use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\HtmlWidget\HtmlWidgetInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Twig\Environment;
 
 class WidgetManager
@@ -27,13 +32,18 @@ class WidgetManager
      * @var Environment
      */
     private $twig;
+    /**
+     * @var FileUploaderInterface
+     */
+    private $fileUploader;
 
     /**
      * WidgetManager constructor.
      * @param FormFactoryInterface $formFactory
      * @param Environment $twig
+     * @param FileUploaderInterface $fileUploader
      */
-    public function __construct(FormFactoryInterface $formFactory, Environment $twig)
+    public function __construct(FormFactoryInterface $formFactory, Environment $twig, FileUploaderInterface $fileUploader)
     {
         $this->widgets = [];
         $this->formWidgets = [];
@@ -41,6 +51,7 @@ class WidgetManager
         $this->formFactory = $formFactory;
         $this->twig = $twig;
 
+        $this->fileUploader = $fileUploader;
     }
 
     /**
@@ -141,15 +152,42 @@ class WidgetManager
                 continue;
             }
 
-
-            $position = $projectContent->getProjectFormWidget()->getPosition();
-
+            $projectFormWidget = $projectContent->getProjectFormWidget();
+            $position = $projectFormWidget->getPosition();
             $content = $form->get($position)->getData();
 
+            //Special case if File
+            if ($projectFormWidget->getWidget()->isFileWidget()) {
+
+            //If the checkbox "delete" is set to true
+                $delete = $content['delete'];
+                if ($delete) {
+                    $projectContent->setContent(null);
+                    continue;
+                }
+
+                $file = $content['file'];
+                //If the project is in edition with an existing file, not upload a file should not remove the existing one.
+                if (!$file instanceof UploadedFile) {
+                    continue;
+                }
+
+                $content = $file;
+
+            }
 
             $projectContent->setContent($content);
 
         }
 
+    }
+
+    public function getFileWidgets() {
+
+        $fileFormWidgets = array_filter($this->getFormWidgets(), function ($formWidget) {
+            return $formWidget->isFileWidget();
+        });
+
+        return array_keys($fileFormWidgets);
     }
 }

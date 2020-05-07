@@ -51,3 +51,15 @@
         <output id="{{ 'output_' ~ id }}">{{ value }}</output>
     </fieldset>
 {% endblock %}
+
+{% block delete_file_checkbox_widget %}
+    <div class="form-check p-0">
+        {% if form.vars.client_original_name is defined %}
+            <div><span class="text-bold">{{ 'app.file.current_file'|trans }}:</span> {{ form.vars.client_original_name }}</div>
+        {% endif %}
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <label for="{{ id }}" class="form-check-label">
+            {{ label|trans }}
+        </label>
+    </div>
+{% endblock %}

@@ -16,7 +16,7 @@ class ProjectFormWidgetSubscriber implements EventSubscriber
     {
         return [
             Events::prePersist,
-            Events::postRemove,
+            Events::preUpdate,
         ];
     }
 
@@ -41,6 +41,26 @@ class ProjectFormWidgetSubscriber implements EventSubscriber
 
             $projectFormWidget->setPosition(++$position);
         }
+
+        $this->setWidgetClass($projectFormWidget);
     }
 
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        /** @var ProjectFormWidget $projectFormWidget */
+        $projectFormWidget = $args->getObject();
+
+        if (!$projectFormWidget instanceof ProjectFormWidget) {
+            return;
+        }
+
+        $this->setWidgetClass($projectFormWidget);
+    }
+
+    private function setWidgetClass(ProjectFormWidget $projectFormWidget)
+    {
+        if ($widget = $projectFormWidget->getWidget()) {
+            $projectFormWidget->setWidgetClass(get_class($widget));
+        }
+    }
 }

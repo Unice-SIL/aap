@@ -16,6 +16,7 @@ $(document).ready(function () {
     $(document).on('init', function () {
         initDateTimePicker();
         initSortable();
+        bsCustomFileInput.init()
     });
 
     $(document).trigger('init');
@@ -27,6 +28,8 @@ $(document).ready(function () {
         $( '.sortable' ).sortable({
             appendTo: document.body
         });
+
+        $( '#active-widget-container' ).sortable( "option", "handle", ".sortable-handle" );
     }
 
     $( '#active-widget-container' ).on( "sortupdate", function( event, ui ) {

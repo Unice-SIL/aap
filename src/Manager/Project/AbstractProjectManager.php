@@ -37,6 +37,7 @@ abstract class AbstractProjectManager implements ProjectManagerInterface
     /**
      * Add a ProjectContent for every ProjectFormWidget if doesn't exists
      * @param Project $project
+     * @throws \Exception
      */
     public function refreshProjectContents(Project $project): void
     {

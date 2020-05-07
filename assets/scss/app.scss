@@ -13,8 +13,16 @@ $primary: #04a6ff;
 /**
   General
  */
-.ui-sortable-handle {
+.sortable-handle {
   cursor: pointer;
+}
+
+.custom-file-label {
+  &::after {
+    font-family: "Font Awesome 5 Free";
+    content: "\f574";
+    font-weight: 900;
+  }
 }
 
 /**

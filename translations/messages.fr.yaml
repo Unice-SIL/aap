@@ -165,8 +165,9 @@ app:
     App\Widget\FormWidget\TextAreaWidget: Texte long
     App\Widget\FormWidget\IntegerWidget: Nombre
     App\Widget\FormWidget\RangeWidget: Intervalle
-    App\Widget\FormWidget\DateTimeWidget: Date et Heure
     App\Widget\FormWidget\DateWidget: Date
+    App\Widget\FormWidget\DateTimeWidget: Date et Heure
+    App\Widget\FormWidget\FileWidget: Fichier
     App\Widget\HtmlWidget\TitleWidget: Titre
     App\Widget\HtmlWidget\InformationWidget: Information
   modal:
@@ -196,3 +197,5 @@ app:
       label: 'Corbeille'
       no_element: 'Aucun élément dans la corbeille'
   call_of_project_label: 'Appel à projets'
+  file:
+    current_file: 'Fichier actuel'

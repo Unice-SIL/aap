@@ -4,7 +4,9 @@
 namespace App\Widget\FormWidget;
 
 
+use App\Entity\WidgetFile;
 use App\Widget\AbstractWidget;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -131,12 +133,12 @@ abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetIn
         ];
     }
 
-    public function transformData($value)
+    public function transformData($value, array $options = [])
     {
         return $value;
     }
 
-    public function reverseTransformData($value)
+    public function reverseTransformData($value, array $options = [])
     {
         return $value;
     }
@@ -204,7 +206,14 @@ abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetIn
             return implode(', ', $value);
         }
 
+        if ($value instanceof WidgetFile) {
+            return $value->getClientOriginalName();
+        }
         return $value;
     }
 
+    public function isFileWidget(): bool
+    {
+        return false;
+    }
 }

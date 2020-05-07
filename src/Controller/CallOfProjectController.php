@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\CallOfProject;
-use App\Entity\ProjectFormWidget;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
-use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
-use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -106,6 +103,7 @@ class CallOfProjectController extends AbstractController
         $dynamicForm->handleRequest($request);
 
         if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
+
             $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
 
             $projectManager->save($project);
