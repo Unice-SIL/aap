@@ -58,7 +58,7 @@ class WidgetFileUploader implements FileUploaderInterface
             );
         }
 
-        $file = new WidgetFile($this->getDirectory($infos[self::FILE_NAME]).DIRECTORY_SEPARATOR. $infos[self::FILE_NAME]);
+        $file = new WidgetFile($this->getDirectory($infos[self::FILE_NAME]). DIRECTORY_SEPARATOR . $infos[self::FILE_NAME]);
         $file->setClientOriginalName($infos[self::CLIENT_ORIGINAL_NAME]);
 
         return $file;

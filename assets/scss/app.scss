@@ -26,6 +26,22 @@ $primary: #04a6ff;
 }
 
 /**
+  Loader
+ */
+.loader {
+  display: none;
+}
+
+.loader-active {
+  .loader {
+    display: block;
+  }
+
+  .sibling-loader {
+    display: none;
+  }
+}
+/**
   Card
  */
 .card-body {

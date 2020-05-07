@@ -22,29 +22,6 @@ $(document).ready(function () {
     $(document).trigger('init');
 
     /**
-     * Sortable
-     */
-    function initSortable () {
-        $( '.sortable' ).sortable({
-            appendTo: document.body
-        });
-
-        $( '#active-widget-container' ).sortable( "option", "handle", ".sortable-handle" );
-    }
-
-    $( '#active-widget-container' ).on( "sortupdate", function( event, ui ) {
-        let item = ui.item;
-
-        $.post(
-            item.data('url'),
-            { 'position': item.parent().children().index(item) + 1 },
-            function () {
-                console.log('ok');
-            }
-        );
-    } );
-
-    /**
      * Datetime picker (or only Date)
      */
     function initDateTimePicker() {
@@ -196,7 +173,7 @@ $(document).ready(function () {
 
 
     /**
-     * Project List by Call of Project Datatable
+     * DataTable
      */
     let dataTables = $('.dataTable');
 
@@ -210,6 +187,29 @@ $(document).ready(function () {
         });
     });
 
+
+    /**
+     * Sortable
+     */
+    function initSortable () {
+        $( '.sortable' ).sortable({
+            appendTo: document.body
+        });
+
+        $( '#active-widget-container' ).sortable( "option", "handle", ".sortable-handle" );
+    }
+
+    $( '#active-widget-container' ).on( "sortupdate", function( event, ui ) {
+        let item = ui.item;
+
+        $.post(
+            item.data('url'),
+            { 'position': item.parent().children().index(item) + 1 },
+            function () {
+                console.log('ok');
+            }
+        );
+    } );
 
     /**
      * Call of Project edit modal
@@ -231,8 +231,10 @@ $(document).ready(function () {
         let modal = $(this);
         let url = button.data('url');
 
+        modal.find('#form-container').addClass('loader-active');
         $.get(url).done(function (html) {
-            modal.find('#form-container').html(html);
+            modal.find('#form-container').html(html).hide().fadeIn(500);
+            modal.find('#form-container').removeClass('loader-active');
         });
     });
 
