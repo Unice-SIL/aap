@@ -16,6 +16,7 @@ reinstall: ## Reinstall symfony project (dev)
 rebuild: ## Rebuild database (dev)
 	php bin/console doctrine:database:drop --force
 	make build
+	rm -rf files
 
 build: ## Build database (dev)
 	php bin/console doctrine:database:create
