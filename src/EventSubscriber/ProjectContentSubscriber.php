@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\ProjectContent;
+use App\Utils\File\FileUploaderInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -10,6 +11,17 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class ProjectContentSubscriber implements EventSubscriber
 {
+
+    /**
+     * @var FileUploaderInterface
+     */
+    private $fileUploader;
+
+    public function __construct(FileUploaderInterface $fileUploader)
+    {
+        $this->fileUploader = $fileUploader;
+    }
+
     // this method can only return the event names; you cannot define a
     // custom method name to execute when each event triggers
     public function getSubscribedEvents()
@@ -50,7 +62,7 @@ class ProjectContentSubscriber implements EventSubscriber
         $widget = $projectContent->getProjectFormWidget()->getWidget();
         $content = $projectContent->getContent();
 
-        $content = $widget->reverseTransformData($content);
+        $content = $widget->reverseTransformData($content, ['file_uploader' => $this->fileUploader]);
 
         $projectContent->setContent($content);
     }
@@ -67,9 +79,10 @@ class ProjectContentSubscriber implements EventSubscriber
         $widget = $projectContent->getProjectFormWidget()->getWidget();
         $content = $projectContent->getContent();
 
-        $content = $widget->transformData($content);
+        $content = $widget->transformData($content, ['file_uploader' => $this->fileUploader]);
 
         $projectContent->setContent($content);
+
     }
 
 }

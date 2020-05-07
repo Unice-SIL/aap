@@ -26,7 +26,15 @@
                 <dl>{{ project.name }}</dl>
                 {% for projectContent in project.projectContents %}
                     <dt>{{ projectContent.projectFormWidget.widget.label }}</dt>
-                    <dl>{{ projectContent.stringContent|trans }}</dl>
+                    <dl>
+                        {% if projectContent.projectFormWidget.widget.isFileWidget and projectContent.content %}
+                            <a href="{{ path('app.file.download', {'id' : projectContent.id}) }}">
+                                {{ projectContent.stringContent|trans }}
+                            </a>
+                        {% else %}
+                            {{ projectContent.stringContent|trans }}
+                        {% endif %}
+                    </dl>
                 {% endfor %}
             </dl>
         </div>

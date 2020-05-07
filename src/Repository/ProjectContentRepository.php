@@ -19,22 +19,20 @@ class ProjectContentRepository extends ServiceEntityRepository
         parent::__construct($registry, ProjectContent::class);
     }
 
-    // /**
-    //  * @return ProjectContent[] Returns an array of ProjectContent objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function getNotNullProjectContentByWidgetClasses(array $widgetClasses = [])
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+
+        return $this->createQueryBuilder('pc')
+            ->innerJoin('pc.projectFormWidget', 'pfw')
+            ->andWhere('pc.content IS NOT NULL')
+            ->andWhere('pfw.widgetClass IN (:widgetClasses)')
+            ->setParameter('widgetClasses', $widgetClasses)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?ProjectContent

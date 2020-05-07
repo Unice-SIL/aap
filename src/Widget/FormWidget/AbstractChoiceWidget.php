@@ -57,13 +57,13 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
         return 'partial/widget/form_widget/_choice_widget.html.twig';
     }
 
-    public function transformData($value)
+    public function transformData($value, array $options = [])
     {
         return unserialize($value);
     }
 
 
-    public function reverseTransformData($value)
+    public function reverseTransformData($value, array $options = [])
     {
         return serialize($value);
     }

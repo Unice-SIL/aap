@@ -18,9 +18,11 @@ interface FormWidgetInterface extends WidgetInterface
 
     public function getOptions(): array;
 
-    public function transformData($value);
+    public function transformData($value, array $options = []);
 
-    public function reverseTransformData($value);
+    public function reverseTransformData($value, array $options = []);
 
     public function renderView($value): ?string;
+
+    public function isFileWidget(): bool;
 }

@@ -20,16 +20,17 @@ class DateTimeWidget extends AbstractFormWidget implements FormWidgetInterface
         return DateTimePickerType::class;
     }
 
-    public function transformData($value)
+    public function transformData($value, array $options = [])
     {
         return unserialize($value);
     }
 
     /**
      * @param $value \DateTime
+     * @param array $options
      * @return string
      */
-    public function reverseTransformData($value)
+    public function reverseTransformData($value, array $options = [])
     {
         return serialize($value);
     }

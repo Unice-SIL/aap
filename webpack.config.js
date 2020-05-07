@@ -73,6 +73,7 @@ Encore
         'window.jQuery': 'jquery',
         'toastr': 'toastr',
         'moment': 'moment',
+        'bsCustomFileInput': 'bs-custom-file-input',
     })
 
     // uncomment if you use API Platform Admin (composer req api-admin)

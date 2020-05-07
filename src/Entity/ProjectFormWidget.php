@@ -32,6 +32,12 @@ class ProjectFormWidget
     private $widget;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    private $widgetClass;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
@@ -70,6 +76,22 @@ class ProjectFormWidget
         $this->widget = serialize($widget);
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getWidgetClass(): ?string
+    {
+        return $this->widgetClass;
+    }
+
+    /**
+     * @param string|null $widgetClass
+     */
+    public function setWidgetClass(?string $widgetClass): void
+    {
+        $this->widgetClass = $widgetClass;
     }
 
     public function getProjectFormLayout(): ?ProjectFormLayout
