@@ -58,7 +58,7 @@ class WidgetFileUploader implements FileUploaderInterface
             );
         }
 
-        $file = new WidgetFile($this->getDirectory($infos[self::FILE_NAME]).'/'. $infos[self::FILE_NAME]);
+        $file = new WidgetFile($this->getDirectory($infos[self::FILE_NAME]).DIRECTORY_SEPARATOR. $infos[self::FILE_NAME]);
         $file->setClientOriginalName($infos[self::CLIENT_ORIGINAL_NAME]);
 
         return $file;
@@ -67,8 +67,8 @@ class WidgetFileUploader implements FileUploaderInterface
     private function getDirectory(string $fileName)
     {
         $directory = $this->fileDirectory;
-        $directory .= '/' . substr($fileName, 0, 2);
-        $directory .= '/' . substr($fileName, 2, 2);
+        $directory .= DIRECTORY_SEPARATOR . substr($fileName, 0, 2);
+        $directory .= DIRECTORY_SEPARATOR . substr($fileName, 2, 2);
 
         return $directory;
     }

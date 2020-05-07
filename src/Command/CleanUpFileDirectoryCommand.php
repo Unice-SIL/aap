@@ -54,9 +54,10 @@ class CleanUpFileDirectoryCommand extends Command
         //Gets every ProjectContent link to a File Widget and with a content not null
         $fileProjectContents = $this->em->getRepository(ProjectContent::class)->getNotNullProjectContentByWidgetClasses($fileWidgetClasses);
 
+
         //Maps the every File to collect only pathnames
         $fileProjectContentPathNames = array_map(function ($fileProjectContent) {
-                return str_replace('\\', '/', $fileProjectContent->getContent()->getPathName());
+                return $fileProjectContent->getContent()->getPathName();
 
         }, $fileProjectContents);
 
@@ -70,7 +71,7 @@ class CleanUpFileDirectoryCommand extends Command
         //Remove every not used
         foreach ($fileFinder as $file) {
 
-            if (!in_array(str_replace('\\', '/', $file->getPathname()), $fileProjectContentPathNames)) {
+            if (!in_array($file->getPathname(), $fileProjectContentPathNames)) {
                 unlink($file);
             }
         }
@@ -84,7 +85,7 @@ class CleanUpFileDirectoryCommand extends Command
         //the subdirectory is empty
         //To avoid issues we remove first deeper ones
         $directoryFinder->sort(function (\SplFileInfo $a, \SplFileInfo $b) {
-            return substr_count(str_replace('\\', '/', $b->getPathname()), '/') > substr_count(str_replace('\\', '/', $a->getPathname()), '/');
+            return substr_count($b->getPathname(), DIRECTORY_SEPARATOR) > substr_count($a->getPathname(), DIRECTORY_SEPARATOR);
         });
 
         //Removes every empty folder
