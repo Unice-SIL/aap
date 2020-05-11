@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CallOfProject;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method CallOfProject|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +48,16 @@ class CallOfProjectRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getByUserAndNameLikeQuery(?UserInterface $user, ?string $query)
+    {
+        return $this->createQueryBuilder('cop')
+            ->andWhere('cop.createdBy = :user')
+            ->setParameter('user', $user)
+            ->andWhere('cop.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 }

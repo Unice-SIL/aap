@@ -129,4 +129,10 @@ class ProjectFormWidget
     {
         return $this->isActive = !$this->isActive();
     }
+
+    public function __clone()
+    {
+        $clone = $this;
+        $clone->setId(null);
+    }
 }

@@ -11,6 +11,7 @@
         "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^7.0.1",
+        "select2": "^4.0.13",
         "toastr": "^2.1.4",
         "webpack-notifier": "^1.6.0"
     },

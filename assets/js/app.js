@@ -6,6 +6,9 @@ require('datatables.net-bs4');
 require('moment/locale/fr');
 require('tempusdominus-bootstrap-4');
 require('jquery-ui/ui/widgets/sortable');
+require('select2');
+require('select2/dist/js/i18n/fr');
+require('../../public/bundles/tetranzselect2entity/js/select2entity');
 
 
 $(document).ready(function () {

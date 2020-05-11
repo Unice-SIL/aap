@@ -3,23 +3,29 @@
 namespace App\Form\CallOfProject;
 
 use App\Entity\CallOfProject;
-use App\Entity\ProjectFormLayout;
-use App\EventSubscriber\Form\CallOfProjectInformationTypeSubscriber;
-use App\Form\ProjectFormLayout\ProjectFormLayoutEmbeddedType;
+use App\EventSubscriber\CallOfProjectInformationTypeSubscriber;
 use App\Form\Type\DateTimePickerType;
-use App\Repository\ProjectFormLayoutRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CallOfProjectInformationType extends AbstractType
 {
+    /**
+     * @var CallOfProjectInformationTypeSubscriber
+     */
+    private $callOfProjectInformationTypeSubscriber;
+
+    /**
+     * CallOfProjectInformationType constructor.
+     * @param CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber
+     */
+    public function __construct(CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber)
+    {
+
+        $this->callOfProjectInformationTypeSubscriber = $callOfProjectInformationTypeSubscriber;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -48,7 +54,9 @@ class CallOfProjectInformationType extends AbstractType
                 'attr' => [
                     'placeholder' => 'app.call_of_project.property.name.placeholder'
                 ],
-            ]);
+            ])
+            ->addEventSubscriber($this->callOfProjectInformationTypeSubscriber)
+        ;
             /*->add('fromTemplate', CheckboxType::class, [
                 'false_values' => ['false', '0', null],
                 'required' => false,
