@@ -6,6 +6,7 @@ use App\Entity\CallOfProject;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
+use App\Repository\CallOfProjectRepository;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -198,6 +199,25 @@ class CallOfProjectController extends AbstractController
                 'partial/widget/_dynamic_form_demo.html.twig'
             ),
         ]);
+    }
+
+    /**
+     * @Route("/list-by-user-select-2", name="list_by_user_select_2")
+     * @param CallOfProjectRepository $callOfProjectRepository
+     * @return mixed
+     */
+    public function listByUserSelect2(Request $request, CallOfProjectRepository $callOfProjectRepository)
+    {
+
+        $query = $request->query->get('q');
+
+        $callOfProjects = array_map(function ($callOfProject) {
+            return [
+                'id' => $callOfProject->getId(),
+                'text' => $callOfProject->getName()
+            ];
+        }, $callOfProjectRepository->getByUserAndNameLikeQuery($this->getUser(), $query));
+        return $this->json($callOfProjects);
     }
 
     /**

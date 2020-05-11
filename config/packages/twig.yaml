@@ -6,5 +6,6 @@ twig:
     form_themes:
         - 'bootstrap_4_layout.html.twig'
         - 'form/custom_types.html.twig'
+        - '@TetranzSelect2Entity/Form/fields.html.twig'
     globals:
         app_name: '%app_name%'

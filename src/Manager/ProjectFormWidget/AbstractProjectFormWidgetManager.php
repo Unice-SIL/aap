@@ -13,6 +13,16 @@ abstract class AbstractProjectFormWidgetManager implements ProjectFormWidgetMana
         return new ProjectFormWidget();
     }
 
+    public function cloneForNEwProjectFormLayout(ProjectFormWidget $projectFormWidget): ProjectFormWidget
+    {
+        $clone = new ProjectFormWidget();
+        $clone->setPosition($projectFormWidget->getPosition());
+        $clone->setWidget($projectFormWidget->getWidget());
+        $clone->setWidgetClass($projectFormWidget->getWidgetClass());
+
+        return $clone;
+    }
+
     public abstract function save(ProjectFormWidget $projectFormWidget);
 
     public abstract function update(ProjectFormWidget $projectFormWidget);

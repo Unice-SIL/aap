@@ -26,6 +26,13 @@
             </div>
         </div>
     </div>
+    {% if form.callOfProjectModel is defined %}
+        <div class="form-group">
+            {{ form_label(form.callOfProjectModel) }}
+            {{ form_widget(form.callOfProjectModel) }}
+        </div>
+    {% endif %}
+
     <button class="btn btn-primary">
         {{ button_label|default('app.action.save'|trans) }}
     </button>

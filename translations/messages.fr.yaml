@@ -1,4 +1,5 @@
 app:
+
   form:
     widget:
       content:
@@ -70,6 +71,9 @@ app:
     show:
       h1: 'Voir le projet'
   call_of_project:
+    init_by_call_of_projects: Initialiser par un appel à projet existant
+    select_2:
+      placeholder: Choisissez un appel à projets
     form:
         h1: Configuration du projet
     constant:
