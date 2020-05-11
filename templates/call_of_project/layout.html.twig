@@ -22,14 +22,16 @@
 
                     <li class="nav-item">
                         <a href="{{ path('app.call_of_project.informations', {'id' : call_of_project.id}) }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>{{ 'app.sidebar.item.admin.infos'|trans }}</p>
+                            <i class="fas fa-info-circle nav-icon"></i>
+                            <p>
+                                {{ 'app.sidebar.item.admin.infos'|trans }}
+                            </p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
+                            <i class="fas fa-lightbulb nav-icon"></i>
                             <p>
                                 {{ 'app.sidebar.item.projects.label'|trans }}
                             </p>
@@ -38,14 +40,14 @@
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="fas fa-user-lock nav-icon"></i>
                             <p>{{ 'app.sidebar.item.admin.permissions'|trans }}</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ path('app.call_of_project.form', {'id' : call_of_project.id}) }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="fas fa-cogs nav-icon"></i>
                             <p>{{ 'app.sidebar.item.admin.project_form'|trans }}</p>
                         </a>
                     </li>
