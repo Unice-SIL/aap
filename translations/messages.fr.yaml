@@ -119,9 +119,9 @@ app:
     drop_new_project: 'Déposer un nouveau projet'
     create_new_call_of_projects: 'Créer un nouvel appel à projets'
     last_dropped_projects: ]-Inf,1]Dernier projet déposé|]1,Inf]Derniers projets déposés
-    list_all_projects: 'Voir la liste complète des projets'
+    list_all_projects: 'Voir la liste complète de mes projets'
     last_dropped_call_of_project: ]-Inf,1]Dernier appel à projet déposé|]1,Inf]Derniers appels à projets déposés
-    list_all_call_of_projects: 'Voir la liste complète des appels à projets'
+    list_all_call_of_projects: 'Voir la liste complète de mes appels à projets'
   navbar:
     item:
       dashboard:
