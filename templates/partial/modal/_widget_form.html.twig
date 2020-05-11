@@ -4,7 +4,9 @@
             <div class="modal-body">
                 <h4 class="modal-title">{{ 'app.modal.widget.title'|trans }}</h4>
 
-                <div id="form-container"></div>
+                <div id="form-container">
+                    {{ include('partial/_loader.html.twig') }}
+                </div>
             </div>
         </div>
         <!-- /.modal-content -->

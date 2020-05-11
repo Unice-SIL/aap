@@ -47,7 +47,6 @@ class WidgetController extends AbstractController
 
     ): Response
     {
-
         $widget = $projectFormWidget->getWidget();
 
         $form = $this->createForm($widget->getFormType(), $widget, [

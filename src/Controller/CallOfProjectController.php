@@ -108,7 +108,9 @@ class CallOfProjectController extends AbstractController
 
             $projectManager->save($project);
 
-            return $this->redirectToRoute('app.homepage');
+            $this->addFlash('success', $translator->trans('app.flash_message.create_success', ['%item%' => $project->getName()]));
+
+            return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
 
         return $this->render('call_of_project/add_project.html.twig', [

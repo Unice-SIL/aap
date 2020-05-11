@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ProjectController
@@ -41,6 +42,7 @@ class ProjectController extends AbstractController
      * @param WidgetManager $widgetManager
      * @param Request $request
      * @param ProjectManagerInterface $projectManager
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws \Exception
      */
@@ -48,7 +50,8 @@ class ProjectController extends AbstractController
         Project $project,
         WidgetManager $widgetManager,
         Request $request,
-        ProjectManagerInterface $projectManager
+        ProjectManagerInterface $projectManager,
+        TranslatorInterface $translator
     )
     {
         $context = $request->query->get('context');
@@ -69,7 +72,9 @@ class ProjectController extends AbstractController
 
             $projectManager->update($project);
 
-            return $this->redirectToRoute('app.project.edit', ['id' => $project->getId()]);
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $project->getName()]));
+
+            return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
 
         return $this->render('project/edit.html.twig', [

@@ -188,7 +188,8 @@ app:
     edition_on_trash_widget_denied: 'Vous ne pouvez pas modifier un widget dans la corbeille '
   flash_message:
     success: Ajout de l'élément "%item%" réalisé avec succès
-    edit_success: Modification de l'élément "%item%" réalisé avec succès'
+    edit_success: Modification de l'élément "%item%" réalisée avec succès
+    create_success: Création de l'élément "%item%" réalisée avec succès
 
   footer:
     copyright: Tous droits reservés

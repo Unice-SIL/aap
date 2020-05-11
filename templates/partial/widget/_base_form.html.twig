@@ -1,5 +1,6 @@
-
-{{ form_start(form) }}
+{{ include('partial/_loader.html.twig') }}
+<div class="sibling-loader">
+    {{ form_start(form) }}
 
     {% block general %}
     {% endblock %}
@@ -22,4 +23,5 @@
     </div>
 
     {{ include('partial/widget/_widget_form_modal_buttons.html.twig') }}
-{{ form_end(form) }}
+    {{ form_end(form) }}
+</div>
