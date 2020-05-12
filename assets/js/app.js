@@ -20,6 +20,7 @@ $(document).ready(function () {
         initDateTimePicker();
         initSortable();
         bsCustomFileInput.init()
+        $('.select2entity[data-autostart="true"]').select2entity();
     });
 
     $(document).trigger('init');
@@ -276,36 +277,29 @@ $(document).ready(function () {
     });
 
     /**
-     *
-     * Call of Project form admin
-     * ==================================================
+     * CallOfProjectInformationType
      */
-    /*let $fromTemplate = $('#call_of_project_fromTemplate');
-    // When fromTemplate changed
-    $fromTemplate.change(function() {
-
+    var $initProject = $('#call_of_project_information_initProject');
+    // When initProject gets selected ...
+    $initProject.change(function() {
         // ... retrieve the corresponding form.
-        let $form = $(this).closest('form');
-        // Simulate form data, but only include fromTemplate value.
-        let data = {};
-        data[$fromTemplate.attr('name')] = $fromTemplate.is(':checked');
-
+        var $form = $(this).closest('form');
+        // Simulate form data, but only include the selected initProject value.
+        var data = {};
+        data[$initProject.attr('name')] = $initProject.val();
         // Submit data via AJAX to the form's action path.
         $.ajax({
             url : $form.attr('action'),
             type: $form.attr('method'),
             data : data,
             success: function(html) {
-                // Replace current projectFormLayout field ...
-                $('#call_of_project_projectFormLayout').replaceWith(
+                // Replace current #init-call-of-project-by field ...
+                $('#init-call-of-project-by').replaceWith(
                     // ... with the returned one from the AJAX response.
-                    $(html).find('#call_of_project_projectFormLayout')
+                    $(html).find('#init-call-of-project-by')
                 );
+                $(document).trigger('init');
             }
         });
-    });*/
-    /**
-     * End Call of Project form admin
-     * ==================================================
-     * */
+    });
 });

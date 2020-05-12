@@ -9,7 +9,7 @@ interface ProjectFormWidgetManagerInterface
 {
     public function create(): ProjectFormWidget;
 
-    public function cloneForNEwProjectFormLayout(ProjectFormWidget $projectFormWidget): ProjectFormWidget;
+    public function cloneForNewProjectFormLayout(ProjectFormWidget $projectFormWidget): ProjectFormWidget;
 
     public function save(ProjectFormWidget $projectFormWidget);
 

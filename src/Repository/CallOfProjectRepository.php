@@ -20,6 +20,18 @@ class CallOfProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, CallOfProject::class);
     }
 
+    public function getByUserAndNameLikeQuery(?UserInterface $user, ?string $query)
+    {
+        return $this->createQueryBuilder('cop')
+            ->andWhere('cop.createdBy = :user')
+            ->setParameter('user', $user)
+            ->andWhere('cop.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return CallOfProject[] Returns an array of CallOfProject objects
     //  */
@@ -48,16 +60,4 @@ class CallOfProjectRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function getByUserAndNameLikeQuery(?UserInterface $user, ?string $query)
-    {
-        return $this->createQueryBuilder('cop')
-            ->andWhere('cop.createdBy = :user')
-            ->setParameter('user', $user)
-            ->andWhere('cop.name LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
 }

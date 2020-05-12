@@ -7,8 +7,10 @@ namespace App\Controller;
 use App\Entity\ProjectFormLayout;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
+use App\Repository\ProjectFormLayoutRepository;
 use App\Widget\WidgetManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -79,5 +81,25 @@ class ProjectFormLayoutController extends AbstractController
         return $this->render($widget->getTemplate(), [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/list-all-templates-select-2", name="list_all_templates_select_2", methods={"GET"})
+     * @param Request $request
+     * @param ProjectFormLayoutRepository $projectFormLayoutRepository
+     * @return JsonResponse
+     */
+    public function listAllTemplatesSelect2(Request $request, ProjectFormLayoutRepository $projectFormLayoutRepository)
+    {
+
+        $query = $request->query->get('q');
+
+        $projectFormLayouts = array_map(function ($projectFormLayout) {
+            return [
+                'id' => $projectFormLayout->getId(),
+                'text' => $projectFormLayout->getName()
+            ];
+        }, $projectFormLayoutRepository->getTemplateByNameLikeQuery($query));
+        return $this->json($projectFormLayouts);
     }
 }

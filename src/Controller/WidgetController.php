@@ -128,7 +128,6 @@ class WidgetController extends AbstractController
 
         foreach ($projectFormLayout->getProjectFormWidgets() as $projectFormWidgetLoop) {
 
-
             if ($position < $projectFormWidget->getPosition()) {
                 if (
                     $projectFormWidgetLoop->getPosition() < $position

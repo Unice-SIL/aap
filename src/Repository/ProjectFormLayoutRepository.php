@@ -47,9 +47,15 @@ class ProjectFormLayoutRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function getIsTemplateBuilder()
+
+    public function getTemplateByNameLikeQuery(?string $query)
     {
         return $this->createQueryBuilder('pfl')
-            ->andWhere('pfl.isTemplate = true');
+            ->andWhere('pfl.isTemplate = true')
+            ->andWhere('pfl.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

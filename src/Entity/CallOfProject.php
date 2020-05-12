@@ -19,8 +19,7 @@ class CallOfProject extends Common
     const STATUS_ARCHIVED = 'archived';
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
