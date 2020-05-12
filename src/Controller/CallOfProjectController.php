@@ -69,6 +69,11 @@ class CallOfProjectController extends AbstractController
             ]);
         }
 
+        //If ajax request (means for dynamic field) we remove errors
+        if ($request->isXmlHttpRequest()) {
+            $form->clearErrors(true);
+        }
+
         return $this->render('call_of_project/new.html.twig', [
             'call_of_project' => $callOfProject,
             'form' => $form->createView(),
@@ -202,7 +207,7 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * @Route("/list-by-user-select-2", name="list_by_user_select_2")
+     * @Route("/list-by-user-select-2", name="list_by_user_select_2", methods={"GET"})
      * @param CallOfProjectRepository $callOfProjectRepository
      * @return mixed
      */

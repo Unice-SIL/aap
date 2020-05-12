@@ -1,5 +1,7 @@
 app:
-
+  project_form_layout:
+    select_2:
+      placeholder: Selectionnez un modèle
   form:
     widget:
       content:
@@ -71,7 +73,12 @@ app:
     show:
       h1: 'Voir le projet'
   call_of_project:
-    init_by_call_of_projects: Initialiser par un appel à projet existant
+    init:
+      choices:
+        label: Initialisation du projet par
+        init_by_project_form_layout: Modèle
+        init_by_call_of_project: Appel à projet
+        no_init: Aucun
     select_2:
       placeholder: Choisissez un appel à projets
     form:

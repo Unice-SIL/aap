@@ -14,6 +14,7 @@ class ProjectFormLayoutFixtures extends Fixture
 {
     const FORM_LAYOUT_1 = 'Form_layout_1';
     const FORM_LAYOUT_2 = 'Form_layout_2';
+    const FORM_LAYOUT_3 = 'Form_layout_3';
 
     public function load(ObjectManager $manager)
     {
@@ -82,6 +83,31 @@ class ProjectFormLayoutFixtures extends Fixture
         $projectFormLayout->addProjectFormWidget($projectFormWidget3);
 
         $this->addReference(self::class . self::FORM_LAYOUT_2, $projectFormLayout);
+        $manager->persist($projectFormLayout);
+
+        /**
+         * FormLayout 3
+         */
+        $projectFormLayout = new ProjectFormLayout();
+        $projectFormLayout->setName(self::FORM_LAYOUT_3);
+        $projectFormLayout->setIsTemplate(true);
+
+        $projectFormWidget = new ProjectFormWidget();
+        $projectFormWidget->setPosition(1);
+        $projectFormWidget->setWidget($widget1);
+        $projectFormLayout->addProjectFormWidget($projectFormWidget);
+
+        $projectFormWidget2 = new ProjectFormWidget();
+        $projectFormWidget2->setPosition(2);
+        $projectFormWidget2->setWidget($widget2);
+        $projectFormLayout->addProjectFormWidget($projectFormWidget2);
+
+        $projectFormWidget3 = new ProjectFormWidget();
+        $projectFormWidget3->setPosition(3);
+        $projectFormWidget3->setWidget($widget3);
+        $projectFormLayout->addProjectFormWidget($projectFormWidget3);
+
+        $this->addReference(self::class . self::FORM_LAYOUT_3, $projectFormLayout);
         $manager->persist($projectFormLayout);
 
         $manager->flush();
