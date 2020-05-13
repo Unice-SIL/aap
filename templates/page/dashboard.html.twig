@@ -1,7 +1,10 @@
 {% extends 'top_navbar_layout.html.twig' %}
 
+{% block h1_content %}
+    {{ 'app.dashboard.h1'|trans }}
+{% endblock %}
+
 {% block content %}
-    <h1 class="mb-4">{{ 'app.dashboard.h1'|trans }}</h1>
     <div class="row">
             <div class="col-md-6">
                 <div class="card">

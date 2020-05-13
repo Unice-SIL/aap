@@ -4,9 +4,11 @@
     {{ 'app.call_of_project.add_project.h1'|trans }}
 {% endblock %}
 
-{% block content %}
-    <h1 class="mb-4">{{ 'app.call_of_project.add_project.h1'|trans }}</h1>
+{% block h1_content %}
+    {{ 'app.call_of_project.add_project.h1'|trans }}
+{% endblock %}
 
+{% block content %}
     <div class="card">
         <div class="card-body">
             <h2>{{ call_of_project.name }}</h2>

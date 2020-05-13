@@ -1,8 +1,11 @@
 {% extends 'call_of_project/layout.html.twig' %}
 
+{% block h1_content %}
+    {{ 'app.call_of_project.project_list.h1'|trans }}
+{% endblock %}
+
 {% block content %}
 
-    <h1 class="mb-4">{{ 'app.call_of_project.project_list.h1'|trans }}</h1>
     <div class="card">
         <div class="card-body">
             <table

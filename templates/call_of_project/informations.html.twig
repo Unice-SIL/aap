@@ -5,8 +5,11 @@
     {{ include('partial/modal/_call_of_project_informations_form.html.twig') }}
 {% endblock %}
 
+{% block h1_content %}
+    {{ 'app.call_of_project.informations.h1'|trans }}
+{% endblock %}
+
 {% block content %}
-    <h1 class="mb-4">{{ 'app.call_of_project.informations.h1'|trans }}</h1>
     <div class="card">
         <div class="card-header">
             <button  class="btn btn-primary float-right"

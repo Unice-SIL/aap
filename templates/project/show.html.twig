@@ -4,8 +4,11 @@
     {{ 'app.project.show.h1'|trans }} {{ project.name }}
 {% endblock %}
 
+{% block h1_content %}
+    {{ 'app.project.show.h1'|trans }} {{ project.name }}
+{% endblock %}
+
 {% block content %}
-    <h1 class="mb-4">{{ 'app.project.show.h1'|trans }} {{ project.name }}</h1>
 
     <div class="card">
         <div class="card-body">
