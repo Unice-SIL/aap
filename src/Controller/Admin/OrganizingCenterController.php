@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/organizing-center", name="organizing_center.")
@@ -32,7 +33,7 @@ class OrganizingCenterController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $organizingCenter = new OrganizingCenter();
         $form = $this->createForm(OrganizingCenterType::class, $organizingCenter);
@@ -42,6 +43,10 @@ class OrganizingCenterController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($organizingCenter);
             $entityManager->flush();
+
+            $this->addFlash('success', $translator->trans('app.flash_message.create_success', [
+                '%item%' => $organizingCenter->getName()
+            ]));
 
             return $this->redirectToRoute('app.admin.organizing_center.index');
         }
@@ -70,13 +75,17 @@ class OrganizingCenterController extends AbstractController
      * @param OrganizingCenter $organizingCenter
      * @return Response
      */
-    public function edit(Request $request, OrganizingCenter $organizingCenter): Response
+    public function edit(Request $request, OrganizingCenter $organizingCenter, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(OrganizingCenterType::class, $organizingCenter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', [
+                '%item%' => $organizingCenter->getName()
+            ]));
 
             return $this->redirectToRoute('app.admin.organizing_center.index');
         }

@@ -1,5 +1,6 @@
 app:
 
+
   data:
     no_communicate: Non renseigné(e)
   breadcrumb:
@@ -7,6 +8,7 @@ app:
       app:
         admin:
           organizing_center:
+            show: Vue
             new: Nouveau
             label: Centres Organisateurs
           user:
@@ -246,9 +248,6 @@ app:
   file:
     current_file: 'Fichier actuel'
   admin:
-    organizing_centers:
-      index:
-        h1: Liste des centres organisateurs
     user:
       index:
         h1: 'Liste des utilisateurs'
@@ -259,8 +258,12 @@ app:
       edit:
         h1: 'Modifier l''utilisateur'
     organizing_center:
+      index:
+        h1: Liste des centres organisateurs
       new:
         h1: 'Nouveau Centre Organisateur'
+      show:
+        h1: 'Vue sur le centre organisateur'
   user:
     property:
       plainPassword:
@@ -273,8 +276,7 @@ app:
         label: Prénom
       lastname:
         label: Nom
-  organizing_centers:
+  organizing_center:
     property:
-      organizing_centers:
         name:
           label: Nom
