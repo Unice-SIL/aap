@@ -3,6 +3,12 @@ controllers:
     type: annotation
     name_prefix: app.
 
+admin_controllers:
+    resource: ../../src/Controller/Admin
+    type: annotation
+    name_prefix: app.admin.
+    prefix: /admin
+
 #admin_controllers:
 #    resource: ../../src/Controller/Admin
 #    type: annotation

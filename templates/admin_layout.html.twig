@@ -1,0 +1,35 @@
+{% extends 'sidebar_layout.html.twig' %}
+
+{% block sidebar %}
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+        {{ include('partial/_logo.html.twig') }}
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3">
+                <div class="info d-block">
+                    <div class="text-center text-white">{{ app.user.username }}</div>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                    <li class="nav-item">
+                        <a href="{{ path('app.admin.user.index') }}" class="nav-link">
+                            <i class="fas fa-user nav-icon"></i>
+                            <p>
+                                {{ 'app.sidebar.admin.user.label'|trans }}
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+{% endblock %}

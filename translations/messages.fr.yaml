@@ -3,6 +3,9 @@ app:
   breadcrumb:
     main:
       app:
+        admin:
+          user:
+            label: Utilisateur
         call_of_project:
           projects: Liste des projets
           form: Configuration
@@ -160,6 +163,7 @@ app:
       my_call_of_projects:
         label: 'Mes appels à projets'
   action:
+    label: Actions
     save: Enregistrer
     edit: Modifier
     delete: Supprimer
@@ -177,6 +181,9 @@ app:
         infos: 'Informations'
         project_form: 'Configuration'
         permissions: 'Permissions'
+    admin:
+      user:
+        label: 'Utilisateurs'
   widget:
     html_widget:
       label: Textes
@@ -227,3 +234,17 @@ app:
   call_of_project_label: 'Appel à projets'
   file:
     current_file: 'Fichier actuel'
+  admin:
+    user:
+      index:
+        h1: 'Liste des utilisateurs'
+  user:
+    property:
+      username:
+        label: Nom d'utilisateur
+      email:
+        label: Email
+      firstname:
+        label: Prénom
+      lastname:
+        label: Nom
