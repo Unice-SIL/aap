@@ -24,20 +24,19 @@
                     <th>{{ 'app.user.property.email.label'|trans }}</th>
                     <th>{{ 'app.user.property.firstname.label'|trans }}</th>
                     <th>{{ 'app.user.property.lastname.label'|trans }}</th>
-                    <th>{{ 'app.action.label'|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td>{{ user.username }}</td>
+                        <td>
+                            <a href="{{ path('app.admin.user.show', { 'id' : user.id}) }}">
+                                {{ user.username }}
+                            </a>
+                        </td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
-                        <td>
-                            <a href="{{ path('app.admin.user.show', {'id': user.id}) }}">show</a>
-                            <a href="{{ path('app.admin.user.edit', {'id': user.id}) }}">edit</a>
-                        </td>
                     </tr>
                 {% else %}
                     <tr>

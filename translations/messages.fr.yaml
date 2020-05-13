@@ -1,10 +1,12 @@
 app:
-
+  data:
+    no_communicate: Non renseigné(e)
   breadcrumb:
     main:
       app:
         admin:
           user:
+            show: Vue
             new: Nouveau
             label: Utilisateur
         call_of_project:
@@ -242,8 +244,12 @@ app:
         h1: 'Liste des utilisateurs'
       new:
         h1: 'Nouvel utilisateur'
+      show:
+        h1: 'Vue sur l''utilisateur'
   user:
     property:
+      plainPassword:
+        label: Mot de passe
       username:
         label: Nom d'utilisateur
       email:

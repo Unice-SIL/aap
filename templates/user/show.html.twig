@@ -1,46 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_layout.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}
+    {{ 'app.admin.user.show.h1'|trans }} {{ user.username }}
+{% endblock %}
 
-{% block body %}
-    <h1>User</h1>
+{% block h1_content %}
+    {{ 'app.admin.user.show.h1'|trans }} {{ user.username }}
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <dl>
+        <dt>{{ 'app.user.property.username.label'|trans }}</dt>
+        <dl>{{ user.username|humanize_data }}</dl>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+        <dt>{{ 'app.user.property.email.label'|trans }}</dt>
+        <dl>{{ user.email|humanize_data }}</dl>
 
-    {{ include('user/_delete_form.html.twig') }}
+        <dt>{{ 'app.user.property.firstname.label'|trans }}</dt>
+        <dl>{{ user.firstname|humanize_data }}</dl>
+
+        <dt>{{ 'app.user.property.lastname.label'|trans }}</dt>
+        <dl>{{ user.lastname|humanize_data }}</dl>
+    </dl>
+
+    <a href="{{ path('app.admin.user.index') }}" class="btn btn-secondary">{{ 'app.action.back_to_list'|trans }}</a>
+
+    <a href="{{ path('app.admin.user.edit', {'id': user.id}) }}" class="btn btn-primary">{{ 'app.action.edit'|trans }}</a>
+
 {% endblock %}
