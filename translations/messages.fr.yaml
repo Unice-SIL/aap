@@ -7,6 +7,7 @@ app:
       app:
         admin:
           organizing_center:
+            new: Nouveau
             label: Centres Organisateurs
           user:
             edit: Edition
@@ -257,6 +258,9 @@ app:
         h1: 'Vue sur l''utilisateur'
       edit:
         h1: 'Modifier l''utilisateur'
+    organizing_center:
+      new:
+        h1: 'Nouveau Centre Organisateur'
   user:
     property:
       plainPassword:

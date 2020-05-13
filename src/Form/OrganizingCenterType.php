@@ -13,11 +13,6 @@ class OrganizingCenterType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('status')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('createdBy')
-            ->add('updatedBy')
         ;
     }
 
