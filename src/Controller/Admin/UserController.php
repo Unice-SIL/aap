@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/user", name="user.")
@@ -30,9 +31,10 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -42,6 +44,10 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('success', $translator->trans('app.flash_message.create_success', [
+                '%item%' => $user->getUsername()
+            ]));
 
             return $this->redirectToRoute('app.admin.user.index');
         }
@@ -68,15 +74,20 @@ class UserController extends AbstractController
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      * @param Request $request
      * @param User $user
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', [
+                '%item%' => $user->getUsername()
+            ]));
 
             return $this->redirectToRoute('app.admin.user.index');
         }
@@ -88,12 +99,12 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * Route("/{id}", name="delete", methods={"DELETE"})
      * @param Request $request
      * @param User $user
      * @return Response
      */
-    public function delete(Request $request, User $user): Response
+    /*public function delete(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -102,5 +113,5 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app.admin.user.index');
-    }
+    }*/
 }

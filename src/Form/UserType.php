@@ -3,12 +3,35 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\EventSubscriber\UserTypeSubscriber;
+use App\Validation\ValidationGroupResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+
+    /**
+     * @var UserTypeSubscriber
+     */
+    private $userTypeSubscriber;
+    /**
+     * @var ValidationGroupResolver
+     */
+    private $groupResolver;
+
+    /**
+     * CallOfProjectInformationType constructor.
+     * @param UserTypeSubscriber $userTypeSubscriber
+     * @param ValidationGroupResolver $groupResolver
+     */
+    public function __construct(UserTypeSubscriber $userTypeSubscriber, ValidationGroupResolver $groupResolver)
+    {
+        $this->userTypeSubscriber = $userTypeSubscriber;
+        $this->groupResolver = $groupResolver;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -24,9 +47,7 @@ class UserType extends AbstractType
             ->add('lastname', null, [
                 'label' => 'app.user.property.lastname.label'
             ])
-            ->add('plainPassword', null, [
-                'label' => 'app.user.property.plainPassword.label'
-            ])
+            ->addEventSubscriber($this->userTypeSubscriber)
         ;
     }
 
@@ -34,6 +55,9 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => $this->groupResolver,
         ]);
     }
+
+
 }

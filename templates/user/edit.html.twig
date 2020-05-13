@@ -1,13 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_layout.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}
+    {{ 'app.admin.user.edit.h1'|trans }} {{ user.username }}
+{% endblock %}
 
-{% block body %}
-    <h1>Edit User</h1>
+{% block h1_content %}
+    {{ 'app.admin.user.edit.h1'|trans }} {{ user.username }}
+{% endblock %}
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+{% block content %}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    {{ include('user/_form.html.twig', {'button_label': 'app.action.edit'|trans}) }}
 
-    {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

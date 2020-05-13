@@ -1,4 +1,5 @@
 app:
+
   data:
     no_communicate: Non renseigné(e)
   breadcrumb:
@@ -6,6 +7,7 @@ app:
       app:
         admin:
           user:
+            edit: Edition
             show: Vue
             new: Nouveau
             label: Utilisateur
@@ -170,7 +172,7 @@ app:
     save: Enregistrer
     edit: Modifier
     delete: Supprimer
-    new: Ajouter
+    new: Nouveau
     list_all: Tout voir
     canceled: Annuler
     trash: 'Corbeille'
@@ -246,6 +248,8 @@ app:
         h1: 'Nouvel utilisateur'
       show:
         h1: 'Vue sur l''utilisateur'
+      edit:
+        h1: 'Modifier l''utilisateur'
   user:
     property:
       plainPassword:

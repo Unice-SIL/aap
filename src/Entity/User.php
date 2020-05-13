@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("username")
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
@@ -57,7 +58,7 @@ class User implements UserInterface
 
     /**
      * @var string|null The plain password
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"new"})
      */
     private $plainPassword;
 
