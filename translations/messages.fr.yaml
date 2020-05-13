@@ -5,6 +5,7 @@ app:
       app:
         admin:
           user:
+            new: Nouveau
             label: Utilisateur
         call_of_project:
           projects: Liste des projets
@@ -172,6 +173,7 @@ app:
     canceled: Annuler
     trash: 'Corbeille'
     back_to_view: 'Revenir à la vue'
+    back_to_list: 'Revenir à la liste'
   sidebar:
     item:
       projects:
@@ -238,6 +240,8 @@ app:
     user:
       index:
         h1: 'Liste des utilisateurs'
+      new:
+        h1: 'Nouvel utilisateur'
   user:
     property:
       username:
