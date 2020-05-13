@@ -6,6 +6,8 @@ app:
     main:
       app:
         admin:
+          organizing_center:
+            label: Centres Organisateurs
           user:
             edit: Edition
             show: Vue
@@ -190,6 +192,8 @@ app:
     admin:
       user:
         label: 'Utilisateurs'
+      organizing_center:
+        label: Centres Organisateurs
   widget:
     html_widget:
       label: Textes
@@ -241,6 +245,9 @@ app:
   file:
     current_file: 'Fichier actuel'
   admin:
+    organizing_centers:
+      index:
+        h1: Liste des centres organisateurs
     user:
       index:
         h1: 'Liste des utilisateurs'
@@ -262,3 +269,8 @@ app:
         label: Prénom
       lastname:
         label: Nom
+  organizing_centers:
+    property:
+      organizing_centers:
+        name:
+          label: Nom

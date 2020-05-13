@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\CallOfProject;
+use App\Entity\OrganizingCenter;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Utils\Breadcrumb\Breadcrumb;
@@ -98,6 +99,16 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
                     'parameter' => 'id',
                     'path' => 'app.admin.user.show',
                     'labelBy' => 'username'
+                ],
+            ],
+            'app.admin.organizing_center' => [
+                'path' => 'app.admin.organizing_center.index',
+                'entity' => [
+                    'class' => OrganizingCenter::class,
+                    'method' => 'find',
+                    'parameter' => 'id',
+                    'path' => 'app.admin.organizing_center.show',
+                    'labelBy' => 'name'
                 ],
             ],
         ];
