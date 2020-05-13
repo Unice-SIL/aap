@@ -39,8 +39,6 @@ class BreadcrumbManager
             $breadcrumb->setTemplate(self::TEMPATE_DEFAULT);
         }
 
-        //todo: check label injections
-
         return new Markup($this->twigEngine->render($breadcrumb->getTemplate(), [
             'items' => $breadcrumb->getItems()
         ]), 'UTF-8');
