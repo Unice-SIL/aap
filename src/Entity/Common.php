@@ -17,7 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Entity
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"common" = "Common", "project" = "Project", "call_of_project" = "CallOfProject"})
+ * @DiscriminatorMap({
+ *     "common" = "Common",
+ *      "project" = "Project",
+ *      "organizing_center" = "OrganizingCenter",
+ *     "call_of_project" = "CallOfProject"
+ * })
  */
 class Common
 {

@@ -1,8 +1,20 @@
 app:
-
+  data:
+    no_communicate: Non renseigné(e)
   breadcrumb:
     main:
       app:
+        admin:
+          organizing_center:
+            edit: Edition
+            show: Vue
+            new: Nouveau
+            label: Centres Organisateurs
+          user:
+            edit: Edition
+            show: Vue
+            new: Nouveau
+            label: Utilisateur
         call_of_project:
           projects: Liste des projets
           form: Configuration
@@ -160,14 +172,16 @@ app:
       my_call_of_projects:
         label: 'Mes appels à projets'
   action:
+    label: Actions
     save: Enregistrer
     edit: Modifier
     delete: Supprimer
-    new: Ajouter
+    new: Nouveau
     list_all: Tout voir
     canceled: Annuler
     trash: 'Corbeille'
     back_to_view: 'Revenir à la vue'
+    back_to_list: 'Revenir à la liste'
   sidebar:
     item:
       projects:
@@ -177,6 +191,11 @@ app:
         infos: 'Informations'
         project_form: 'Configuration'
         permissions: 'Permissions'
+    admin:
+      user:
+        label: 'Utilisateurs'
+      organizing_center:
+        label: Centres Organisateurs
   widget:
     html_widget:
       label: Textes
@@ -227,3 +246,44 @@ app:
   call_of_project_label: 'Appel à projets'
   file:
     current_file: 'Fichier actuel'
+  admin:
+    user:
+      index:
+        h1: 'Liste des utilisateurs'
+      new:
+        h1: 'Nouvel utilisateur'
+      show:
+        h1: 'Vue sur l''utilisateur'
+      edit:
+        h1: 'Modifier l''utilisateur'
+    organizing_center:
+      index:
+        h1: Liste des centres organisateurs
+      new:
+        h1: 'Nouveau Centre Organisateur'
+      show:
+        h1: 'Vue sur le centre organisateur'
+      edit:
+        h1: 'Modifier le centre organisateur'
+  user:
+    select_2:
+      placeholder: Selectionnez un utilisateur
+    property:
+      plain_password_repeated:
+        label: Confirmation du mot de passe
+      plain_password:
+        label: Mot de passe
+      username:
+        label: Nom d'utilisateur
+      email:
+        label: Email
+      firstname:
+        label: Prénom
+      lastname:
+        label: Nom
+  organizing_center:
+    property:
+      members:
+        label:  Membres
+      name:
+          label: Nom

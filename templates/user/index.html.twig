@@ -1,0 +1,50 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.user.index.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.user.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class=" py-3">
+                <a href="{{ path('app.admin.user.new') }}" class="btn btn-primary float-right">{{ 'app.action.new'|trans }}</a>
+                <div class="clearfix"></div>
+            </div>
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.user.property.username.label'|trans }}</th>
+                    <th>{{ 'app.user.property.email.label'|trans }}</th>
+                    <th>{{ 'app.user.property.firstname.label'|trans }}</th>
+                    <th>{{ 'app.user.property.lastname.label'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app.admin.user.show', { 'id' : user.id}) }}">
+                                {{ user.username }}
+                            </a>
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.lastname }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.organizing_center.show.h1'|trans }} {{ organizing_center.name }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.organizing_center.show.h1'|trans }} {{ organizing_center.name }}
+{% endblock %}
+
+{% block content %}
+
+    <dl>
+        <dt>{{ 'app.organizing_center.property.name.label'|trans }}</dt>
+        <dl>{{ organizing_center.name|humanize_data }}</dl>
+    </dl>
+    <dl>
+        <dt>{{ 'app.organizing_center.property.members.label'|trans }}</dt>
+        <dl>{{ organizing_center.members|join(', ') }}</dl>
+    </dl>
+
+    <a href="{{ path('app.admin.organizing_center.index') }}" class="btn btn-secondary">{{ 'app.action.back_to_list'|trans }}</a>
+
+    <a href="{{ path('app.admin.organizing_center.edit', {'id': organizing_center.id}) }}" class="btn btn-primary">{{ 'app.action.edit'|trans }}</a>
+
+{% endblock %}

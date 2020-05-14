@@ -1,0 +1,15 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.user.edit.h1'|trans }} {{ user.username }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.user.edit.h1'|trans }} {{ user.username }}
+{% endblock %}
+
+{% block content %}
+
+    {{ include('user/_form.html.twig', {'button_label': 'app.action.edit'|trans}) }}
+
+{% endblock %}

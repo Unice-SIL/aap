@@ -1,0 +1,48 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.organizing_center.index.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.organizing_center.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class=" py-3">
+                <a href="{{ path('app.admin.organizing_center.new') }}" class="btn btn-primary float-right">{{ 'app.action.new'|trans }}</a>
+                <div class="clearfix"></div>
+            </div>
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.organizing_center.property.name.label'|trans }}</th>
+                    <th>{{ 'app.organizing_center.property.members.label'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for organizing_center in organizing_centers %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app.admin.organizing_center.show', { 'id' : organizing_center.id}) }}">
+                                {{ organizing_center.name }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ organizing_center.members|join(', ') }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

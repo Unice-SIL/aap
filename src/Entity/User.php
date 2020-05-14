@@ -2,14 +2,23 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("username")
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid", unique=true)
@@ -20,11 +29,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -48,6 +60,22 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @var string|null The plain password
+     * @Assert\NotBlank(groups={"new"})
+     */
+    private $plainPassword;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\OrganizingCenter", mappedBy="members")
+     */
+    private $organizingCenters;
+
+    public function __construct()
+    {
+        $this->organizingCenters = new ArrayCollection();
+    }
 
     /**
      * @return string|null
@@ -187,6 +215,26 @@ class User implements UserInterface
     }
 
     /**
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string|null $plainPassword
+     */
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        //$plainPassword is not a mapped field and if it's the only field changed, no event would be trigger
+        //then we need to change a field (e.g. updatedAt)
+        $this->setUpdatedAt(new \DateTime());
+
+        $this->plainPassword = $plainPassword;
+    }
+
+    /**
      * @see UserInterface
      */
     public function getSalt()
@@ -200,12 +248,40 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function __toString()
     {
         return $this->getUsername();
+    }
+
+    /**
+     * @return Collection|OrganizingCenter[]
+     */
+    public function getOrganizingCenters(): Collection
+    {
+        return $this->organizingCenters;
+    }
+
+    public function addOrganizingCenter(OrganizingCenter $organizingCenter): self
+    {
+        if (!$this->organizingCenters->contains($organizingCenter)) {
+            $this->organizingCenters[] = $organizingCenter;
+            $organizingCenter->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganizingCenter(OrganizingCenter $organizingCenter): self
+    {
+        if ($this->organizingCenters->contains($organizingCenter)) {
+            $this->organizingCenters->removeElement($organizingCenter);
+            $organizingCenter->removeMember($this);
+        }
+
+        return $this;
     }
 
 

@@ -1,0 +1,19 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.organizing_center.new.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.organizing_center.new.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+            {{ include('organizing_center/_form.html.twig') }}
+        </div>
+    </div>
+
+{% endblock %}

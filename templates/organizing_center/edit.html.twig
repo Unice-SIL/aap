@@ -1,0 +1,15 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.organizing_center.edit.h1'|trans }} {{ organizing_center.name }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.organizing_center.edit.h1'|trans }} {{ organizing_center.name }}
+{% endblock %}
+
+{% block content %}
+
+    {{ include('organizing_center/_form.html.twig', {'button_label': 'app.action.edit'|trans}) }}
+
+{% endblock %}
