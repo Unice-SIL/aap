@@ -4,8 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\OrganizingCenter;
 use App\Form\OrganizingCenterType;
+use App\Repository\CallOfProjectRepository;
 use App\Repository\OrganizingCenterRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -97,12 +99,12 @@ class OrganizingCenterController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * Route("/{id}", name="delete", methods={"DELETE"})
      * @param Request $request
      * @param OrganizingCenter $organizingCenter
      * @return Response
      */
-    public function delete(Request $request, OrganizingCenter $organizingCenter): Response
+/*    public function delete(Request $request, OrganizingCenter $organizingCenter): Response
     {
         if ($this->isCsrfTokenValid('delete'.$organizingCenter->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -111,5 +113,5 @@ class OrganizingCenterController extends AbstractController
         }
 
         return $this->redirectToRoute('app.admin.organizing_center.index');
-    }
+    }*/
 }

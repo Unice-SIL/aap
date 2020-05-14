@@ -21,6 +21,7 @@
                 <thead>
                 <tr>
                     <th>{{ 'app.organizing_center.property.name.label'|trans }}</th>
+                    <th>{{ 'app.organizing_center.property.members.label'|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,9 @@
                             <a href="{{ path('app.admin.organizing_center.show', { 'id' : organizing_center.id}) }}">
                                 {{ organizing_center.name }}
                             </a>
+                        </td>
+                        <td>
+                            {{ organizing_center.members|join(', ') }}
                         </td>
                     </tr>
                 {% else %}

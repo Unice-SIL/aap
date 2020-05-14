@@ -8,6 +8,7 @@ app:
       app:
         admin:
           organizing_center:
+            edit: Edition
             show: Vue
             new: Nouveau
             label: Centres Organisateurs
@@ -264,7 +265,11 @@ app:
         h1: 'Nouveau Centre Organisateur'
       show:
         h1: 'Vue sur le centre organisateur'
+      edit:
+        h1: 'Modifier le centre organisateur'
   user:
+    select_2:
+      placeholder: Selectionnez un utilisateur
     property:
       plainPassword:
         label: Mot de passe
@@ -278,5 +283,7 @@ app:
         label: Nom
   organizing_center:
     property:
-        name:
+      members:
+        label:  Membres
+      name:
           label: Nom

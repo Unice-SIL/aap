@@ -13,6 +13,7 @@ use App\Utils\Breadcrumb\BreadcrumbManager;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -223,8 +224,9 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/list-by-user-select-2", name="list_by_user_select_2", methods={"GET"})
+     * @param Request $request
      * @param CallOfProjectRepository $callOfProjectRepository
-     * @return mixed
+     * @return JsonResponse
      */
     public function listByUserSelect2(Request $request, CallOfProjectRepository $callOfProjectRepository)
     {

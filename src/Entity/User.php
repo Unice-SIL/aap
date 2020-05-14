@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -61,6 +63,16 @@ class User implements UserInterface
      * @Assert\NotBlank(groups={"new"})
      */
     private $plainPassword;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\OrganizingCenter", mappedBy="members")
+     */
+    private $organizingCenters;
+
+    public function __construct()
+    {
+        $this->organizingCenters = new ArrayCollection();
+    }
 
     /**
      * @return string|null
@@ -235,6 +247,34 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->getUsername();
+    }
+
+    /**
+     * @return Collection|OrganizingCenter[]
+     */
+    public function getOrganizingCenters(): Collection
+    {
+        return $this->organizingCenters;
+    }
+
+    public function addOrganizingCenter(OrganizingCenter $organizingCenter): self
+    {
+        if (!$this->organizingCenters->contains($organizingCenter)) {
+            $this->organizingCenters[] = $organizingCenter;
+            $organizingCenter->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganizingCenter(OrganizingCenter $organizingCenter): self
+    {
+        if ($this->organizingCenters->contains($organizingCenter)) {
+            $this->organizingCenters->removeElement($organizingCenter);
+            $organizingCenter->removeMember($this);
+        }
+
+        return $this;
     }
 
 

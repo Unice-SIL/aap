@@ -14,6 +14,10 @@
         <dt>{{ 'app.organizing_center.property.name.label'|trans }}</dt>
         <dl>{{ organizing_center.name|humanize_data }}</dl>
     </dl>
+    <dl>
+        <dt>{{ 'app.organizing_center.property.members.label'|trans }}</dt>
+        <dl>{{ organizing_center.members|join(', ') }}</dl>
+    </dl>
 
     <a href="{{ path('app.admin.organizing_center.index') }}" class="btn btn-secondary">{{ 'app.action.back_to_list'|trans }}</a>
 
