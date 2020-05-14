@@ -3,19 +3,15 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\EventSubscriber\UserTypeSubscriber;
 use App\Validation\ValidationGroupResolver;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-
-    /**
-     * @var UserTypeSubscriber
-     */
-    private $userTypeSubscriber;
     /**
      * @var ValidationGroupResolver
      */
@@ -23,17 +19,17 @@ class UserType extends AbstractType
 
     /**
      * CallOfProjectInformationType constructor.
-     * @param UserTypeSubscriber $userTypeSubscriber
      * @param ValidationGroupResolver $groupResolver
      */
-    public function __construct(UserTypeSubscriber $userTypeSubscriber, ValidationGroupResolver $groupResolver)
+    public function __construct(ValidationGroupResolver $groupResolver)
     {
-        $this->userTypeSubscriber = $userTypeSubscriber;
         $this->groupResolver = $groupResolver;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $validationGroups = $options['validation_groups']($builder->getForm());
+
         $builder
             ->add('username', null, [
                 'label' => 'app.user.property.username.label'
@@ -47,7 +43,13 @@ class UserType extends AbstractType
             ->add('lastname', null, [
                 'label' => 'app.user.property.lastname.label'
             ])
-            ->addEventSubscriber($this->userTypeSubscriber)
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options'  => ['label' => 'app.user.property.plain_password.label'],
+                'second_options' => ['label' => 'app.user.property.plain_password_repeated.label'],
+                'required' => in_array('new', $validationGroups),
+                'invalid_message' => 'app.user.property.password_matching.label',
+            ])
         ;
     }
 

@@ -20,7 +20,7 @@ class UserSubscriber implements EventSubscriber
 
     /**
      * CallOfProjectSubscriber constructor.
-     * @param UserPasswordEncoderInterface $userPasswordEncoder
+     * @param UserPasswordEncoderInterface $encoder
      */
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -31,6 +31,7 @@ class UserSubscriber implements EventSubscriber
     {
         return [
             Events::prePersist,
+            Events::preUpdate,
         ];
     }
 
@@ -43,10 +44,32 @@ class UserSubscriber implements EventSubscriber
             return;
         }
 
-        $plainPassword = $user->getPlainPassword();
-        $encoded = $this->encoder->encodePassword($user, $plainPassword);
+        $this->setPassword($user);
 
-        $user->setPassword($encoded);
     }
+
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        /** @var User $user */
+        $user = $args->getObject();
+
+        if (!$user instanceof User) {
+            return;
+        }
+
+        $this->setPassword($user);
+
+    }
+
+    private function setPassword(User $user)
+    {
+        $plainPassword = $user->getPlainPassword();
+        if ($plainPassword) {
+            $encoded = $this->encoder->encodePassword($user, $plainPassword);
+
+            $user->setPassword($encoded);
+        }
+    }
+
 
 }

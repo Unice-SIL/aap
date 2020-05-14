@@ -1,6 +1,4 @@
 app:
-
-
   data:
     no_communicate: Non renseigné(e)
   breadcrumb:
@@ -271,7 +269,9 @@ app:
     select_2:
       placeholder: Selectionnez un utilisateur
     property:
-      plainPassword:
+      plain_password_repeated:
+        label: Confirmation du mot de passe
+      plain_password:
         label: Mot de passe
       username:
         label: Nom d'utilisateur

@@ -1,4 +1,8 @@
 app:
+  user:
+    property:
+      password_matching:
+        label: Les deux mots de passe doivent correspondre
   widget:
     errors:
       validation:

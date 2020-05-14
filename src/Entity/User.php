@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -16,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid", unique=true)
@@ -224,6 +227,10 @@ class User implements UserInterface
      */
     public function setPlainPassword(?string $plainPassword): void
     {
+        //$plainPassword is not a mapped field and if it's the only field changed, no event would be trigger
+        //then we need to change a field (e.g. updatedAt)
+        $this->setUpdatedAt(new \DateTime());
+
         $this->plainPassword = $plainPassword;
     }
 
