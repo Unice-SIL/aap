@@ -21,6 +21,8 @@ class ValidationGroupResolver
         if (null !== $entity and null === $entity->getId()) {
 
             $groups[] = 'new';
+        } else {
+            $groups[] = 'edit';
         }
 
         return $groups;

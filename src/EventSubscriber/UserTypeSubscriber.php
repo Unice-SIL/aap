@@ -1,18 +1,28 @@
 <?php
 
+
 namespace App\EventSubscriber;
+
 
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\Entity\User;
+use App\Form\Type\InitProjectChoiceType;
 use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Blank;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
-class UserSubscriber implements EventSubscriber
+class UserTypeSubscriber implements EventSubscriberInterface
 {
+
     /**
      * @var UserPasswordEncoderInterface
      */
@@ -27,49 +37,25 @@ class UserSubscriber implements EventSubscriber
         $this->encoder = $encoder;
     }
 
-    public function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return [
-            Events::prePersist,
-            Events::preUpdate,
+                FormEvents::POST_SUBMIT => 'postSubmit',
         ];
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+
+    public function postSubmit(FormEvent $event)
     {
         /** @var User $user */
-        $user = $args->getObject();
+        $user = $event->getData();
 
-        if (!$user instanceof User) {
-            return;
-        }
-
-        $this->setPassword($user);
-
-    }
-
-    public function preUpdate(LifecycleEventArgs $args)
-    {
-        /** @var User $user */
-        $user = $args->getObject();
-
-        if (!$user instanceof User) {
-            return;
-        }
-
-        $this->setPassword($user);
-
-    }
-
-    private function setPassword(User $user)
-    {
         $plainPassword = $user->getPlainPassword();
+
         if ($plainPassword) {
             $encoded = $this->encoder->encodePassword($user, $plainPassword);
 
             $user->setPassword($encoded);
         }
     }
-
-
 }

@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
-    use TimestampableEntity;
 
     /**
      * @ORM\Id()
@@ -29,14 +28,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"new", "edit"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank(groups={"new", "edit"})
+     * @Assert\Email(groups={"new", "edit"})
      */
     private $email;
 
@@ -58,6 +57,7 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(groups={"edit"})
      */
     private $password;
 
@@ -227,10 +227,6 @@ class User implements UserInterface
      */
     public function setPlainPassword(?string $plainPassword): void
     {
-        //$plainPassword is not a mapped field and if it's the only field changed, no event would be trigger
-        //then we need to change a field (e.g. updatedAt)
-        $this->setUpdatedAt(new \DateTime());
-
         $this->plainPassword = $plainPassword;
     }
 

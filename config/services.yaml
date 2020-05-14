@@ -42,10 +42,6 @@ services:
         tags:
             - { name: 'doctrine.event_subscriber' }
 
-    App\EventSubscriber\UserSubscriber:
-        tags:
-            - { name: 'doctrine.event_subscriber' }
-
     _instanceof:
         App\Widget\FormWidget\FormWidgetInterface:
             tags: ['app.form_widget']

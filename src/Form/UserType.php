@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\EventSubscriber\UserTypeSubscriber;
 use App\Validation\ValidationGroupResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -16,14 +17,20 @@ class UserType extends AbstractType
      * @var ValidationGroupResolver
      */
     private $groupResolver;
+    /**
+     * @var UserTypeSubscriber
+     */
+    private $userTypeSubscriber;
 
     /**
      * CallOfProjectInformationType constructor.
      * @param ValidationGroupResolver $groupResolver
+     * @param UserTypeSubscriber $userTypeSubscriber
      */
-    public function __construct(ValidationGroupResolver $groupResolver)
+    public function __construct(ValidationGroupResolver $groupResolver, UserTypeSubscriber $userTypeSubscriber)
     {
         $this->groupResolver = $groupResolver;
+        $this->userTypeSubscriber = $userTypeSubscriber;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -50,6 +57,7 @@ class UserType extends AbstractType
                 'required' => in_array('new', $validationGroups),
                 'invalid_message' => 'app.user.property.password_matching.label',
             ])
+            ->addEventSubscriber($this->userTypeSubscriber)
         ;
     }
 
