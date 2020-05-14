@@ -1,4 +1,20 @@
 app:
+
+  breadcrumb:
+    main:
+      app:
+        call_of_project:
+          projects: Liste des projets
+          form: Configuration
+          new: Nouveau
+          informations: Informations
+          label: Appel à projet
+        project:
+          edit: Edition
+          show: Vue
+          label: Projet
+        home:
+          label: Accueil
   project_form_layout:
     select_2:
       placeholder: Selectionnez un modèle

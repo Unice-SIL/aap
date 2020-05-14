@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\CallOfProject;
+use App\EventSubscriber\BreadcrumbSubscriber;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
+use App\Utils\Breadcrumb\BreadcrumbItem;
+use App\Utils\Breadcrumb\BreadcrumbManager;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -133,10 +136,18 @@ class CallOfProjectController extends AbstractController
      * @Route("/{id}/informations", name="informations", methods={"GET", "POST"})
      * @param Request $request
      * @param CallOfProject $callOfProject
+     * @param BreadcrumbManager $breadcrumbManager
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function informations(Request $request, CallOfProject $callOfProject): Response
+    public function informations(
+        Request $request,
+        CallOfProject $callOfProject,
+        BreadcrumbManager $breadcrumbManager,
+        TranslatorInterface $translator
+    ): Response
     {
+
         $callOfProjectClone = clone $callOfProject;
 
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
@@ -149,6 +160,10 @@ class CallOfProjectController extends AbstractController
 
                 $this->getDoctrine()->getManager()->flush();
 
+                $this->addFlash('success', $translator->trans(
+                    'app.flash_message.edit_success', [
+                        '%item%' => $callOfProject->getName()
+                ]));
                 return $this->redirectToRoute('app.call_of_project.informations', [
                     'id' => $callOfProject->getId()
                 ]);

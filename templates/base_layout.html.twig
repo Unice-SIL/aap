@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% set isSidebarLayout = isSidebarLayout ?? false %}
 {% block body %}
 
     <div class="wrapper">
@@ -15,8 +16,30 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" >
 
-            {% block content_wrapper %}
+            {% block content_header %}
+
+                <div class="content-header">
+                    <div class="{{ isSidebarLayout ? 'container-fluid' : 'container' }}">
+
+                        {% block breadcrumb %}
+                            {{ render_breadcrumb(constant('App\\Utils\\Breadcrumb\\BreadcrumbManager::BREADCRUMB_MAIN')) }}
+                        {% endblock %}
+
+                        {% block h1 %}
+                            <h1 class="m-0 text-dark">{% block h1_content %}{% endblock %}</h1>
+                        {% endblock %}
+                    </div><!-- /.container-fluid -->
+                </div>
             {% endblock %}
+
+            <div class="content">
+                <div class="{{ isSidebarLayout ? 'container-fluid' : 'container' }}">
+                    {% block content %}
+                        <!-- /.container-fluid -->
+                    {% endblock %}
+                </div>
+            </div>
+
         </div>
         <!-- /.content-wrapper -->
 

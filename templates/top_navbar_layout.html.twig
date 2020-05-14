@@ -1,15 +1,3 @@
 {% extends 'base_layout.html.twig' %}
 
 {% set body_class = 'layout-top-nav ' ~ body_class|default('') %}
-
-{% block content_wrapper %}
-
-    <div class="content pt-5">
-        <div class="container">
-            {% block content %}
-                    <!-- /.container-fluid -->
-            {% endblock %}
-        </div>
-    </div>
-    <!-- /.content -->
-{% endblock %}

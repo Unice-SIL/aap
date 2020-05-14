@@ -4,9 +4,11 @@
     {{ 'app.call_of_project.index.h1'|trans }}
 {% endblock %}
 
-{% block content %}
-    <h1 class="mb-4">{{ 'app.call_of_project.index.h1'|trans }}</h1>
+{% block h1_content %}
+    {{ 'app.call_of_project.index.h1'|trans }}
+{% endblock %}
 
+{% block content %}
     <div class="card">
         <div class="card-body">
             <div class=" py-3">
@@ -28,7 +30,7 @@
                     {% for call_of_project in call_of_projects %}
                         <tr>
                             <td>
-                                <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}">
+                                <a href="{{ path('app.call_of_project.informations', {'id' : call_of_project.id}) }}">
                                     {{ call_of_project.name }}
                                 </a>
                             </td>
