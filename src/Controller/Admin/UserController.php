@@ -60,7 +60,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"}, requirements={"id"= "\d+"})
+     * @Route("/{id}/show", name="show", methods={"GET"})
      * @param User $user
      * @return Response
      */
