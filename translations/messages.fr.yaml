@@ -1,12 +1,15 @@
 app:
 
   acl:
+    property:
+      label: Permissions
     constant:
       viewer: Consultant
       manager: Gestionnaire
       admin: Administrateur
   data:
     no_communicate: Non renseigné(e)
+    none: 'Aucun(e)'
   breadcrumb:
     main:
       app:
@@ -22,11 +25,13 @@ app:
             new: Nouveau
             label: Utilisateur
         call_of_project:
+          edit_permissions: Edition des permissions
           add_project: Ajouter un projet
           projects: Liste des projets
           form: Configuration
           new: Nouveau
           informations: Informations
+          show_permissions: Liste de permissions
           label: Appel à projet
         project:
           edit: Edition
@@ -154,6 +159,8 @@ app:
     add_project:
       h1: Dépôt d'un nouveau projet
       not_opened: Ce projet n'est pas ouvert
+    show_permissions:
+      h1: 'Liste des permissions'
   dashboard:
     my_calls_of_project:
       title: Appels à projets que je gère

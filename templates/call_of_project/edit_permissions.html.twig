@@ -1,0 +1,17 @@
+{% extends 'call_of_project/layout.html.twig' %}
+
+{% block h1_content %}
+    {{ 'app.call_of_project.show_permissions.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">{{ 'app.action.edit'|trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

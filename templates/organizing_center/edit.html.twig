@@ -10,6 +10,11 @@
 
 {% block content %}
 
-    {{ include('organizing_center/_form.html.twig', {'button_label': 'app.action.edit'|trans}) }}
+    <div class="card">
+        <div class="card-body">
+
+            {{ include('organizing_center/_form.html.twig', {'button_label': 'app.action.edit'|trans}) }}
+        </div>
+    </div>
 
 {% endblock %}
