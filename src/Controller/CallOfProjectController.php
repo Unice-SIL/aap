@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CallOfProject;
 use App\EventSubscriber\BreadcrumbSubscriber;
 use App\Form\CallOfProject\CallOfProjectInformationType;
+use App\Form\CallOfProject\CallOfProjectAclsType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
@@ -191,6 +192,54 @@ class CallOfProjectController extends AbstractController
     {
         return $this->render('call_of_project/project_list.html.twig', [
             'call_of_project' => $callOfProject,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/show-permissions", name="show_permissions", methods={"GET"})
+     * @param CallOfProject $callOfProject
+     * @return Response
+     */
+    public function showPermissions(CallOfProject $callOfProject): Response
+    {
+        return $this->render('call_of_project/show_permissions.html.twig', [
+            'call_of_project' => $callOfProject,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit-permissions", name="edit_permissions", methods={"GET", "POST"})
+     * @param CallOfProject $callOfProject
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function editPermissions(
+        CallOfProject $callOfProject,
+        Request $request,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator
+    ): Response
+    {
+        $form = $this->createForm(CallOfProjectAclsType::class, $callOfProject);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                $translator->trans('app.flash_message.edit_success', ['%item%' => $callOfProject->getName()])
+            );
+
+            return $this->redirectToRoute('app.call_of_project.show_permissions', ['id' => $callOfProject->getId()]);
+        }
+        return $this->render('call_of_project/edit_permissions.html.twig', [
+            'call_of_project' => $callOfProject,
+            'form' => $form->createView()
         ]);
     }
 

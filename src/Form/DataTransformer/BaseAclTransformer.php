@@ -5,25 +5,45 @@ namespace App\Form\DataTransformer;
 
 
 use App\Entity\Acl;
-use App\Repository\AclRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class BaseAclTransformer implements DataTransformerInterface
 {
 
+    private $entityRecipient;
     /**
-     * @var AclRepository
+     * @var EntityManagerInterface
      */
-    private $aclRepository;
+    private $em;
 
     /**
      * BaseAclTransformer constructor.
-     * @param AclRepository $aclRepository
+     * @param EntityManagerInterface $em
      */
-    public function __construct(AclRepository $aclRepository)
+    public function __construct(EntityManagerInterface $em)
     {
-        $this->aclRepository = $aclRepository;
+        $this->em = $em;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getEntityRecipient()
+    {
+        return $this->entityRecipient;
+    }
+
+    /**
+     * @param mixed $entityRecipient
+     */
+    public function setEntityRecipient($entityRecipient): self
+    {
+        $this->entityRecipient = $entityRecipient;
+
+        return $this;
     }
 
     public function transform($value)
@@ -39,26 +59,41 @@ class BaseAclTransformer implements DataTransformerInterface
 
     public function reverseTransform($value)
     {
-        $acls = new ArrayCollection();
+
+        $newAcls = new ArrayCollection();
+        $oldAcls = $this->getEntityRecipient()->getAcls();
+
         foreach ($value as $permission => $users) {
 
             foreach ($users as $user) {
 
-                $acl = $this->aclRepository->findOneBy([
-                    'user' => $user,
-                    'permission' => $permission
-                ]);
+                /** @var Acl|null $acl */
+                $acl = $this->getEntityRecipient()->getAcls()->filter(function ($acl) use ($permission, $user) {
+                    return $acl->getPermission() === $permission and $acl->getUser() === $user;
+                })->first();
 
-                if (null === $acl) {
+                if (!$acl) {
                     $acl = new Acl();
                     $acl->setUser($user);
                     $acl->setPermission($permission);
                 }
 
-                $acls->add($acl);
+                $newAcls->add($acl);
             }
         }
 
-        return $acls;
+        $aclstoRemove = [];
+
+        foreach ($oldAcls as $oldAcl) {
+            $aclMatched = array_filter($newAcls->toArray(), function ($nacl) use ($oldAcl) {
+               return $nacl->getUser() ===  $oldAcl->getUser() and $nacl->getPermission() === $oldAcl->getPermission();
+            });
+
+            if (count($aclMatched) == 0) {
+                $this->em->remove($oldAcl);
+            }
+        }
+
+        return $newAcls;
     }
 }

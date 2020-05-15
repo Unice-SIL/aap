@@ -5,12 +5,12 @@ namespace App\Form\Type;
 
 
 use App\Entity\Acl;
-use App\Entity\User;
 use App\Form\DataTransformer\BaseAclTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class BaseAclType extends AbstractType
 {
@@ -37,7 +37,25 @@ class BaseAclType extends AbstractType
                 ])
             ;
         }
-            $builder->addModelTransformer($this->baseAclTransformer)
+
+        $builder->addModelTransformer($this->baseAclTransformer->setEntityRecipient($options['entity_recipient']))
         ;
+
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $labelClass = isset($view->vars['label_attr']['class']) ?? '';
+        $labelClass .= 'text-bold';
+
+        $view->vars['label_attr']['class'] = $labelClass;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+           'label' => 'app.acl.property.label',
+        ]);
+        $resolver->setRequired('entity_recipient');
     }
 }
