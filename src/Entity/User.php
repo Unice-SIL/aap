@@ -68,16 +68,6 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\OrganizingCenter", mappedBy="members")
-     */
-    private $organizingCenters;
-
-    public function __construct()
-    {
-        $this->organizingCenters = new ArrayCollection();
-    }
-
-    /**
      * @return string|null
      */
     public function getId(): ?string
@@ -251,34 +241,5 @@ class User implements UserInterface
     {
         return $this->getUsername();
     }
-
-    /**
-     * @return Collection|OrganizingCenter[]
-     */
-    public function getOrganizingCenters(): Collection
-    {
-        return $this->organizingCenters;
-    }
-
-    public function addOrganizingCenter(OrganizingCenter $organizingCenter): self
-    {
-        if (!$this->organizingCenters->contains($organizingCenter)) {
-            $this->organizingCenters[] = $organizingCenter;
-            $organizingCenter->addMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrganizingCenter(OrganizingCenter $organizingCenter): self
-    {
-        if ($this->organizingCenters->contains($organizingCenter)) {
-            $this->organizingCenters->removeElement($organizingCenter);
-            $organizingCenter->removeMember($this);
-        }
-
-        return $this;
-    }
-
 
 }

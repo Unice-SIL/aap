@@ -4,6 +4,8 @@
 namespace App\Entity;
 
 use App\Traits\BlameableEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
@@ -52,6 +54,17 @@ class Common
      */
     private $status;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Acl", cascade={"persist"})
+     * @Assert\Valid()
+     */
+    private $acls;
+
+    public function __construct()
+    {
+        $this->acls = new ArrayCollection();
+    }
+
     public function getId(): ?string
     {
         return $this->id;
@@ -88,6 +101,32 @@ class Common
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Acl[]
+     */
+    public function getAcls(): Collection
+    {
+        return $this->acls;
+    }
+
+    public function addAcl(Acl $acl): self
+    {
+        if (!$this->acls->contains($acl)) {
+            $this->acls[] = $acl;
+        }
+
+        return $this;
+    }
+
+    public function removeAcl(Acl $acl): self
+    {
+        if ($this->acls->contains($acl)) {
+            $this->acls->removeElement($acl);
+        }
 
         return $this;
     }

@@ -6,10 +6,12 @@ use App\Entity\OrganizingCenter;
 use App\Form\OrganizingCenterType;
 use App\Repository\CallOfProjectRepository;
 use App\Repository\OrganizingCenterRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,7 +28,7 @@ class OrganizingCenterController extends AbstractController
     public function index(OrganizingCenterRepository $organizingCenterRepository): Response
     {
         return $this->render('organizing_center/index.html.twig', [
-            'organizing_centers' => $organizingCenterRepository->findAll(),
+            'organizing_centers' => $organizingCenterRepository->findAllWithRelations(),
         ]);
     }
 
@@ -61,11 +63,15 @@ class OrganizingCenterController extends AbstractController
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     * @Entity("organizingCenter", expr="repository.findByIdWithRelations(id)")
      * @param OrganizingCenter $organizingCenter
      * @return Response
      */
-    public function show(OrganizingCenter $organizingCenter): Response
+    public function show(?OrganizingCenter $organizingCenter): Response
     {
+        if (!$organizingCenter) {
+            throw new NotFoundHttpException('This organizing center doesn\'t exist');
+        }
         return $this->render('organizing_center/show.html.twig', [
             'organizing_center' => $organizingCenter,
         ]);

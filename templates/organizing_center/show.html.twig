@@ -16,7 +16,7 @@
     </dl>
     <dl>
         <dt>{{ 'app.organizing_center.property.members.label'|trans }}</dt>
-        <dl>{{ organizing_center.members|join(', ') }}</dl>
+        <dl>{{ organizing_center.acls|map(acl => acl.user.username)|array_unique|join(', ') }}</dl>
     </dl>
 
     <a href="{{ path('app.admin.organizing_center.index') }}" class="btn btn-secondary">{{ 'app.action.back_to_list'|trans }}</a>
