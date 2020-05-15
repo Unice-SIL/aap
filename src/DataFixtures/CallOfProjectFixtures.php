@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Acl;
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\Entity\User;
@@ -16,6 +17,20 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        //Acls
+        $adminUser = $this->getReference(UserFixtures::class . UserFixtures::USER_ADMIN);
+        $aclAdmin = new Acl();
+        $aclAdmin->setUser($adminUser);
+        $aclAdmin->setPermission(Acl::PERMISSION_ADMIN);
+
+        $aclManager = new Acl();
+        $aclManager->setUser($this->getReference(UserFixtures::class . UserFixtures::USER_USER1));
+        $aclManager->setPermission(Acl::PERMISSION_MANAGER);
+
+        $aclViewer = new Acl();
+        $aclViewer->setUser($this->getReference(UserFixtures::class . UserFixtures::USER_USER2));
+        $aclViewer->setPermission(Acl::PERMISSION_VIEWER);
+
         /**
          * CAP 1
          */
@@ -26,6 +41,9 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject->setStartDate((new \DateTime())->modify('-1 day'));
         $callOfProject->setEndDate((new \DateTime())->modify('+1 day'));
 
+        $callOfProject->addAcl($aclAdmin);
+        $callOfProject->addAcl($aclManager);
+        $callOfProject->addAcl($aclViewer);
         $this->addReference(self::class . self::CALL_OF_PROJECT_1, $callOfProject);
 
         /** @var ProjectFormLayout $projectFormLayout */

@@ -4,21 +4,12 @@
 namespace App\EventSubscriber;
 
 
-use App\Entity\CallOfProject;
-use App\Entity\ProjectFormLayout;
+
 use App\Entity\User;
-use App\Form\Type\InitProjectChoiceType;
-use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
-use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\Constraints\Blank;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class UserTypeSubscriber implements EventSubscriberInterface
 {

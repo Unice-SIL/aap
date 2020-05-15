@@ -55,10 +55,11 @@ class Common
     private $status;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Acl", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Acl", mappedBy="common", cascade={"persist"})
      * @Assert\Valid()
      */
     private $acls;
+
 
     public function __construct()
     {
@@ -117,6 +118,7 @@ class Common
     {
         if (!$this->acls->contains($acl)) {
             $this->acls[] = $acl;
+            $acl->setCommon($this);
         }
 
         return $this;
@@ -126,6 +128,10 @@ class Common
     {
         if ($this->acls->contains($acl)) {
             $this->acls->removeElement($acl);
+            // set the owning side to null (unless already changed)
+            if ($acl->getCommon() === $this) {
+                $acl->setCommon(null);
+            }
         }
 
         return $this;

@@ -3,25 +3,18 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AclRepository")
- * @UniqueEntity(fields={"user", "permission"})
+ * @UniqueEntity(fields={"user", "permission", "common"})
  * @Table(
  *     uniqueConstraints={
  *          @UniqueConstraint(
  *              name="uc_user_permission",
- *              columns= {"user_id", "permission"}
- *          )
- *      },
- *     indexes={
- *          @Index(
- *              name="idx_user_permission",
- *              columns={"user_id", "permission"}
+ *              columns= {"user_id", "permission", "common_id"}
  *          )
  *      }
  * )
@@ -59,6 +52,11 @@ class Acl
      */
     private $permission;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Common", inversedBy="acls")
+     */
+    private $common;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,6 +82,18 @@ class Acl
     public function setPermission(string $permission): self
     {
         $this->permission = $permission;
+
+        return $this;
+    }
+
+    public function getCommon(): ?Common
+    {
+        return $this->common;
+    }
+
+    public function setCommon(?Common $common): self
+    {
+        $this->common = $common;
 
         return $this;
     }

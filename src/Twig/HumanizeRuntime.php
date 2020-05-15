@@ -26,7 +26,7 @@ class HumanizeRuntime implements RuntimeExtensionInterface
 
     public function humanizeData($data)
     {
-        $noCommunicateContent = $this->translator->trans('app.data.no_communicate');
+        $noCommunicateContent = $this->translator->trans('app.data.none');
         if ($data === null)
         {
             return $noCommunicateContent;
