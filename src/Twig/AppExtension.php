@@ -13,6 +13,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFilter('wrapper_container', [WrapperRuntime::class, 'wrapperContainer']),
             new TwigFilter('humanize_data', [HumanizeRuntime::class, 'humanizeData']),
+            new TwigFilter('array_unique', [$this, 'arrayUnique']),
         ];
     }
 
@@ -29,4 +30,8 @@ class AppExtension extends AbstractExtension
         return $instance instanceof $classFulName;
     }
 
+    public function arrayUnique(array $array)
+    {
+        return array_unique($array);
+    }
 }

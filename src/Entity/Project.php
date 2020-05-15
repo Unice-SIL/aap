@@ -28,6 +28,7 @@ class Project extends Common
 
     public function __construct()
     {
+        parent::__construct();
         $this->projectContents = new ArrayCollection();
         $this->setStatus(self::STATUS_DRAFT);
     }

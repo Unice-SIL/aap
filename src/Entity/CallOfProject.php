@@ -53,6 +53,7 @@ class CallOfProject extends Common
 
     public function __construct()
     {
+        parent::__construct();
         $this->projects = new ArrayCollection();
         $this->projectFormLayouts = new ArrayCollection();
         $this->setStatus(self::STATUS_INIT);

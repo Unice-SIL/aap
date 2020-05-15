@@ -47,4 +47,32 @@ class OrganizingCenterRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getBaseQueryBuilderWithRelations()
+    {
+        return $this->createQueryBuilder('oc')
+            ->join('oc.acls', 'a')
+            ->join('a.user', 'u')
+            ->addSelect('a', 'u')
+            ;
+    }
+
+    public function findAllWithRelations()
+    {
+        return $this->getBaseQueryBuilderWithRelations()
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByIdWithRelations(string $id)
+    {
+
+        return $this->getBaseQueryBuilderWithRelations()
+            ->andWhere('oc.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

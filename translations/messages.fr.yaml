@@ -1,4 +1,10 @@
 app:
+
+  acl:
+    constant:
+      viewer: Consultant
+      manager: Gestionnaire
+      admin: Administrateur
   data:
     no_communicate: Non renseigné(e)
   breadcrumb:
@@ -16,6 +22,7 @@ app:
             new: Nouveau
             label: Utilisateur
         call_of_project:
+          add_project: Ajouter un projet
           projects: Liste des projets
           form: Configuration
           new: Nouveau
