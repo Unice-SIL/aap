@@ -26,6 +26,11 @@ class Acl
     const PERMISSION_MANAGER = 'manager';
     const PERMISSION_VIEWER = 'viewer';
 
+    const EDITOR_PERMISSIONS = [
+        self::PERMISSION_ADMIN,
+        self::PERMISSION_MANAGER,
+    ];
+
     const PERMISSION_BASES = [
       self::PERMISSION_ADMIN,
       self::PERMISSION_MANAGER,

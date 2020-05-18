@@ -9,6 +9,12 @@
         {{ form_label(form.description) }}
         {{ form_widget(form.description) }}
     </div>
+    {% if form.organizingCenter is defined %}
+        <div class="form-group">
+            {{ form_label(form.organizingCenter) }}
+            {{ form_widget(form.organizingCenter) }}
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-12 text-bold mb-2">
             {{ 'app.call_of_project.open_date.label'|trans }}

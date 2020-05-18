@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 
 
 use App\Entity\CallOfProject;
+use App\Entity\OrganizingCenter;
 use App\Entity\ProjectFormLayout;
 use App\Form\Type\InitProjectChoiceType;
 use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
@@ -14,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
@@ -54,6 +54,7 @@ class CallOfProjectInformationTypeSubscriber implements EventSubscriberInterface
 
     public function postSubmit(FormEvent $event)
     {
+
         if ($event->getForm()->has('callOfProjectModel') or $event->getForm()->has('projectFormLayoutModel')) {
 
             if ($event->getForm()->has('callOfProjectModel')) {
@@ -162,6 +163,23 @@ class CallOfProjectInformationTypeSubscriber implements EventSubscriberInterface
 
            // and only now you can add field to form
            $form->add($builder->getForm());
+
+           $form->add('organizingCenter', Select2EntityType::class, [
+               'multiple' => false,
+               'remote_route' => 'app.organizing_center.list_by_user_and_permissions_select_2',
+               'class' => OrganizingCenter::class,
+               'primary_key' => 'id',
+               'text_property' => 'name',
+               'minimum_input_length' => 2,
+               'page_limit' => 10,
+               'allow_clear' => true,
+               'delay' => 250,
+               'cache' => true,
+               'cache_timeout' => 60000, // if 'cache' is true
+               'placeholder' => 'app.organizing_center.select_2.placeholder',
+               'label' => 'app.call_of_project.property.organizing_center',
+               'required' => true,
+           ] );
 
         }
     }

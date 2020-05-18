@@ -135,6 +135,7 @@ app:
     new:
       h1: Création d'un nouvel appel à projets
     property:
+      organizing_center: Centre organisateur
       start_date:
         label: Du
       end_date:
@@ -161,6 +162,8 @@ app:
       not_opened: Ce projet n'est pas ouvert
     show_permissions:
       h1: 'Liste des permissions'
+    own_acls: Permissions de l'appel à projets
+    own_inherited_from_organizing_center: Permissions héritées du centre organisateur
   dashboard:
     my_calls_of_project:
       title: Appels à projets que je gère
@@ -296,6 +299,8 @@ app:
       lastname:
         label: Nom
   organizing_center:
+    select_2:
+      placeholder: Selectionnez un centre organisateur
     property:
       members:
         label:  Membres

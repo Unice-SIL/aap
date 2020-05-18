@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CallOfProjectRepository")
@@ -49,6 +50,14 @@ class CallOfProject extends Common
      * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject", cascade={"persist"})
      */
     private $projectFormLayouts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\OrganizingCenter", inversedBy="callOfProjects")
+     * @Assert\NotBlank()
+     * @AppAssert\UserShouldBeAdminOrManagerOnAcl()
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organizingCenter;
 
 
     public function __construct()
@@ -185,5 +194,17 @@ class CallOfProject extends Common
         } else {
             return self::STATUS_ARCHIVED;
         }
+    }
+
+    public function getOrganizingCenter(): ?OrganizingCenter
+    {
+        return $this->organizingCenter;
+    }
+
+    public function setOrganizingCenter(?OrganizingCenter $organizingCenter): self
+    {
+        $this->organizingCenter = $organizingCenter;
+
+        return $this;
     }
 }

@@ -17,6 +17,7 @@ use Doctrine\Persistence\ObjectManager;
 class OrganizingCenterFixtures extends Fixture implements DependentFixtureInterface
 {
     const ORGANIZING_CENTER_1 = 'Centre_organisateur_1';
+    const ORGANIZING_CENTER_2 = 'Centre_organisateur_2';
     /**
      * @param ObjectManager $manager
      */
@@ -43,6 +44,13 @@ class OrganizingCenterFixtures extends Fixture implements DependentFixtureInterf
         $organizingCenter->addAcl($aclManager);
         $organizingCenter->addAcl($aclViewer);
         $organizingCenter->setCreatedBy($adminUser);
+        $this->setReference(self::class . self::ORGANIZING_CENTER_1, $organizingCenter);
+        $manager->persist($organizingCenter);
+
+        $organizingCenter = new OrganizingCenter();
+        $organizingCenter->setName(self::ORGANIZING_CENTER_2);
+        $organizingCenter->setCreatedBy($adminUser);
+        $this->setReference(self::class . self::ORGANIZING_CENTER_2, $organizingCenter);
         $manager->persist($organizingCenter);
 
         $manager->flush();
