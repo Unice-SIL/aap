@@ -53,7 +53,7 @@ class OrganizingCenterRepository extends ServiceEntityRepository
     public function getBaseQueryBuilderWithRelations()
     {
         return $this->createQueryBuilder('oc')
-            ->return('oc.acls', 'a')
+            ->leftJoin('oc.acls', 'a')
             ->leftJoin('a.user', 'u')
             ->addSelect('a', 'u')
             ;
