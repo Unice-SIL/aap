@@ -25,7 +25,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for call_of_project in call_of_projects|filter(cap => cap.status == constant('App\\Entity\\CallOfProject::STATUS_OPENED')) %}
+                    {% for call_of_project in call_of_projects|filter(cap => is_granted(constant('App\\Security\\CallOfProjectVoter::OPEN'), cap)) %}
                         <tr>
                             <td>
                                 <a href="{{ path('app.call_of_project.add_project', {'id' : call_of_project.id}) }}">

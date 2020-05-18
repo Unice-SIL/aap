@@ -14,6 +14,11 @@ class OrganizingCenter extends Common
 
     const STATUS_INIT = 'init';
 
+    const EDITOR_PERMISSIONS = [
+        Acl::PERMISSION_ADMIN,
+        Acl::PERMISSION_MANAGER,
+    ];
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CallOfProject", mappedBy="organizingCenter")
      */

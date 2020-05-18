@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\OrganizingCenter;
 use App\Form\OrganizingCenterType;
+use App\Manager\OrganizingCenter\OrganizingCenterManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use App\Repository\OrganizingCenterRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -35,11 +36,13 @@ class OrganizingCenterController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      * @param Request $request
+     * @param TranslatorInterface $translator
+     * @param OrganizingCenterManagerInterface $organizingCenterManager
      * @return Response
      */
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request, TranslatorInterface $translator, OrganizingCenterManagerInterface $organizingCenterManager): Response
     {
-        $organizingCenter = new OrganizingCenter();
+        $organizingCenter = $organizingCenterManager->create();
         $form = $this->createForm(OrganizingCenterType::class, $organizingCenter);
         $form->handleRequest($request);
 

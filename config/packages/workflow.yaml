@@ -1,0 +1,34 @@
+framework:
+    workflows:
+        project_validation_process:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Project
+            initial_marking: !php/const App\Entity\Project::STATUS_INIT
+            places:
+                - !php/const App\Entity\Project::STATUS_WAITING
+                - !php/const App\Entity\Project::STATUS_STUDYING
+                - !php/const App\Entity\Project::STATUS_REFUSED
+                - !php/const App\Entity\Project::STATUS_VALIDATED
+            transitions:
+                to_study:
+                    from: !php/const App\Entity\Project::STATUS_WAITING
+                    to:   !php/const App\Entity\Project::STATUS_STUDYING
+                refused:
+                    from: !php/const App\Entity\Project::STATUS_STUDYING
+                    to:   !php/const App\Entity\Project::STATUS_REFUSED
+                validate:
+                    from: !php/const App\Entity\Project::STATUS_STUDYING
+                    to:   !php/const App\Entity\Project::STATUS_VALIDATED
+                reverse_validation:
+                    from: !php/const App\Entity\Project::STATUS_VALIDATED
+                    to:   !php/const App\Entity\Project::STATUS_STUDYING
+                reverse-refusal:
+                    from: !php/const App\Entity\Project::STATUS_REFUSED
+                    to:   !php/const App\Entity\Project::STATUS_STUDYING
+

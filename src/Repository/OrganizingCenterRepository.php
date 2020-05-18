@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Acl;
 use App\Entity\OrganizingCenter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -86,7 +85,7 @@ class OrganizingCenterRepository extends ServiceEntityRepository
             ->andWhere('a.user = :user')
             ->setParameter('user', $user)
             ->andWhere('a.permission in (:permissions)')
-            ->setParameter('permissions', Acl::EDITOR_PERMISSIONS)
+            ->setParameter('permissions', OrganizingCenter::EDITOR_PERMISSIONS)
             ->andWhere('oc.name LIKE :query')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Manager\User\UserManagerInterface;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,11 +34,12 @@ class UserController extends AbstractController
      * @Route("/new", name="new", methods={"GET","POST"})
      * @param Request $request
      * @param TranslatorInterface $translator
+     * @param UserManagerInterface $userManager
      * @return Response
      */
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request, TranslatorInterface $translator, UserManagerInterface $userManager): Response
     {
-        $user = new User();
+        $user = $userManager->create();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

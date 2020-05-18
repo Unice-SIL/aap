@@ -2,35 +2,34 @@
 
 namespace App\Validator\Constraints;
 
-use App\Entity\Acl;
 use App\Entity\OrganizingCenter;
-use Symfony\Component\Security\Core\Security;
+use App\Security\OrganizingCenterVoter;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use UnexpectedValueException;
 
-class UserShouldBeAdminOrManagerOnAclValidator extends ConstraintValidator
+class UserShouldBeAdminOrManagerOnOrganizingCenterValidator extends ConstraintValidator
 {
     /**
-     * @var Security
+     * @var AuthorizationCheckerInterface
      */
-    private $security;
+    private $authorizationChecker;
 
     /**
-     * UserShouldBeAdminOrManagerOnAclValidator constructor.
-     * @param Security $security
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(Security $security)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->security = $security;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function validate($value, Constraint $constraint)
     {
 
-        if (!$constraint instanceof UserShouldBeAdminOrManagerOnAcl) {
-            throw new UnexpectedTypeException($constraint, UserShouldBeAdminOrManagerOnAcl::class);
+        if (!$constraint instanceof UserShouldBeAdminOrManagerOnOrganizingCenter) {
+            throw new UnexpectedTypeException($constraint, UserShouldBeAdminOrManagerOnOrganizingCenter::class);
         }
 
         // custom constraints should ignore null and empty values to allow
@@ -46,16 +45,10 @@ class UserShouldBeAdminOrManagerOnAclValidator extends ConstraintValidator
             );
         }
 
-        $userPermissions = $value->getAcls()
-            ->filter(function ($acl) {
-                return $acl->getUser() === $this->security->getUser();
-            })
-            ->map(function ($acl) {
-                return $acl->getPermission();
-            });
+        /** @var OrganizingCenter $organizingCenter */
+        $organizingCenter = $value;
 
-        //todo: change by voter
-        if (count(array_intersect($userPermissions->toArray(), Acl::EDITOR_PERMISSIONS)) == 0) {
+        if (!$this->authorizationChecker->isGranted(OrganizingCenterVoter::EDIT, $organizingCenter)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

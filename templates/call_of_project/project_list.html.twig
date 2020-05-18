@@ -7,6 +7,13 @@
 {% block content %}
 
     <div class="card">
+        {% if is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project) %}
+            <div class="card-header">
+                <div class="float-right">
+                    {{ form(project_to_study_form) }}
+                </div>
+            </div>
+        {% endif %}
         <div class="card-body">
             <table
                     class="table table table-hover dataTable"
