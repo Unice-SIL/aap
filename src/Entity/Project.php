@@ -13,7 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Project extends Common
 {
-    const STATUS_DRAFT = 'draft';
+    const STATUS_INIT = self::STATUS_WAITING;
+    const STATUS_WAITING = 'waiting';
+    const STATUS_STUDYING = 'studying';
+    const STATUS_REFUSED = 'refused';
+    const STATUS_VALIDATED = 'validated';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CallOfProject", inversedBy="projects")
@@ -30,7 +34,7 @@ class Project extends Common
     {
         parent::__construct();
         $this->projectContents = new ArrayCollection();
-        $this->setStatus(self::STATUS_DRAFT);
+        $this->setStatus(self::STATUS_INIT);
     }
 
     public function getCallOfProject(): ?CallOfProject

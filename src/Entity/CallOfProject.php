@@ -19,6 +19,11 @@ class CallOfProject extends Common
     const STATUS_REVIEW = 'review';
     const STATUS_ARCHIVED = 'archived';
 
+    const EDITOR_PERMISSIONS = [
+        Acl::PERMISSION_ADMIN,
+        Acl::PERMISSION_MANAGER,
+    ];
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -54,7 +59,7 @@ class CallOfProject extends Common
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\OrganizingCenter", inversedBy="callOfProjects")
      * @Assert\NotBlank()
-     * @AppAssert\UserShouldBeAdminOrManagerOnAcl()
+     * @AppAssert\UserShouldBeAdminOrManagerOnOrganizingCenter()
      * @ORM\JoinColumn(nullable=false)
      */
     private $organizingCenter;
@@ -192,7 +197,7 @@ class CallOfProject extends Common
         } elseif ($this->getStartDate() <= $currentDate and $currentDate <= $this->getEndDate()) {
             return self::STATUS_OPENED;
         } else {
-            return self::STATUS_ARCHIVED;
+            return self::STATUS_REVIEW;
         }
     }
 

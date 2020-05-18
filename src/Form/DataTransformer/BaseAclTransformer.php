@@ -5,6 +5,7 @@ namespace App\Form\DataTransformer;
 
 
 use App\Entity\Acl;
+use App\Manager\Acl\AclManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -17,14 +18,20 @@ class BaseAclTransformer implements DataTransformerInterface
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var AclManagerInterface
+     */
+    private $aclManager;
 
     /**
      * BaseAclTransformer constructor.
      * @param EntityManagerInterface $em
+     * @param AclManagerInterface $aclManager
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, AclManagerInterface $aclManager)
     {
         $this->em = $em;
+        $this->aclManager = $aclManager;
     }
 
 
@@ -73,7 +80,7 @@ class BaseAclTransformer implements DataTransformerInterface
                 })->first();
 
                 if (!$acl) {
-                    $acl = new Acl();
+                    $acl = $this->aclManager->create();
                     $acl->setUser($user);
                     $acl->setPermission($permission);
                 }

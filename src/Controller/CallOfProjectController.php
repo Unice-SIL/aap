@@ -3,21 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\CallOfProject;
-use App\EventSubscriber\BreadcrumbSubscriber;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\CallOfProjectAclsType;
+use App\Form\Project\ProjectToStudyType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
-use App\Utils\Breadcrumb\BreadcrumbItem;
+use App\Security\CallOfProjectVoter;
 use App\Utils\Breadcrumb\BreadcrumbManager;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Registry;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -33,6 +35,8 @@ class CallOfProjectController extends AbstractController
      */
     public function index(EntityManagerInterface $em)
     {
+
+
         return $this->render('call_of_project/index.html.twig', [
             'call_of_projects' => $em->getRepository(CallOfProject::class)->findBy(
                 ['createdBy' => $this->getUser()],
@@ -103,10 +107,7 @@ class CallOfProjectController extends AbstractController
         TranslatorInterface $translator
     ): Response
     {
-        //todo: change by voter
-        if ($callOfProject->getStatus() !== CallOfProject::STATUS_OPENED) {
-            throw $this->createAccessDeniedException($translator->trans('app.call_of_project.add_project.not_opened'));
-        }
+        $this->denyAccessUnlessGranted(CallOfProjectVoter::OPEN, $callOfProject);
 
         $project = $projectManager->create($callOfProject);
         $dynamicForm = $widgetManager->getDynamicForm($project);
@@ -183,15 +184,41 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/projects", name="projects", methods={"GET"})
+     * @Route("/{id}/projects", name="projects", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
      * @param Request $request
+     * @param Registry $workflowRegistry
      * @return Response
      */
-    public function projects(CallOfProject $callOfProject, Request $request): Response
+    public function projects(CallOfProject $callOfProject, Request $request, Registry $workflowRegistry, EntityManagerInterface $em): Response
     {
+        $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
+        $projectToStudyForm->handleRequest($request);
+
+        if ($projectToStudyForm->isSubmitted() and $projectToStudyForm->isValid()) {
+
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::TO_STUDY_MASS, $callOfProject);
+
+            foreach ($callOfProject->getProjects() as $project) {
+
+                $stateMachine = $workflowRegistry->get($project, 'project_validation_process');
+
+                try {
+                    $stateMachine->apply($project, 'to_study');
+                } catch (LogicException $exception) {
+                    // ...
+                }
+
+            }
+
+            $em->flush();
+
+            return  $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
+        }
+
         return $this->render('call_of_project/project_list.html.twig', [
             'call_of_project' => $callOfProject,
+            'project_to_study_form' => $projectToStudyForm->createView(),
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Constant;
 
 use App\Entity\CallOfProject;
+use App\Entity\Project;
 
 class CssMatching
 {
@@ -18,7 +19,8 @@ class CssMatching
     ];
 
     const PROJECT_STATUS_TO_BOOTSTRAP = [
-        'draft' => 'warning'
+        Project::STATUS_WAITING => 'info',
+        Project::STATUS_STUDYING => 'warning',
     ];
 
     const PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP = [

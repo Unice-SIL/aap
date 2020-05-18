@@ -92,8 +92,14 @@ app:
     form:
       no_communicate: 'Non renseigné'
   project:
+    workflow:
+      to_study:
+        button: Lancer l'étude des projets
     constant:
-      draft: Brouillon
+      waiting: En attente
+      studying: A l'étude
+      validated: Validé
+      refused: Refusé
     property:
       created_at:
         label: Date de création
