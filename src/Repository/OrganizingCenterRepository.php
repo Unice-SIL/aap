@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Acl;
 use App\Entity\OrganizingCenter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method OrganizingCenter|null find($id, $lockMode = null, $lockVersion = null)
@@ -75,5 +77,20 @@ class OrganizingCenterRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
             ;
+    }
+
+    public function getByUserPermissionsLikeQuery(UserInterface $user, $query)
+    {
+        return $this->createQueryBuilder('oc')
+            ->join('oc.acls', 'a')
+            ->andWhere('a.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('a.permission in (:permissions)')
+            ->setParameter('permissions', Acl::EDITOR_PERMISSIONS)
+            ->andWhere('oc.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

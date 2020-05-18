@@ -1,4 +1,5 @@
 app:
+
   user:
     property:
       password_matching:
@@ -6,6 +7,7 @@ app:
   widget:
     errors:
       validation:
+        user_should_be_admin_or_manager: Cette valeur n'est pas autorisées
         min_or_max_if_active: Veuillez choisir au moins un champ parmi "min" et "max"
         regex_required_if_active: Veuillez renseigner la Regex
         value_required_if_active: Cette valeur est obligatoire

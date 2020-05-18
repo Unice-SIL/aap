@@ -17,7 +17,14 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        //Acls
+        /**
+         * OrganizingCenter
+         */
+        $organizingCenter1 = $this->getReference(OrganizingCenterFixtures::class . OrganizingCenterFixtures::ORGANIZING_CENTER_1);
+
+        /**
+         * Acl
+         */
         $adminUser = $this->getReference(UserFixtures::class . UserFixtures::USER_ADMIN);
         $aclAdmin = new Acl();
         $aclAdmin->setUser($adminUser);
@@ -28,7 +35,7 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $aclManager->setPermission(Acl::PERMISSION_MANAGER);
 
         $aclViewer = new Acl();
-        $aclViewer->setUser($this->getReference(UserFixtures::class . UserFixtures::USER_USER2));
+        $aclViewer->setUser($this->getReference(UserFixtures::class . UserFixtures::USER_USER3));
         $aclViewer->setPermission(Acl::PERMISSION_VIEWER);
 
         /**
@@ -37,6 +44,7 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject = new CallOfProject();
         $callOfProject->setName(self::CALL_OF_PROJECT_1);
         $callOfProject->setDescription('Description de l\'appel à projet');
+        $callOfProject->setOrganizingCenter($organizingCenter1);
 
         $callOfProject->setStartDate((new \DateTime())->modify('-1 day'));
         $callOfProject->setEndDate((new \DateTime())->modify('+1 day'));
@@ -62,6 +70,7 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject = new CallOfProject();
         $callOfProject->setName(self::CALL_OF_PROJECT_2);
         $callOfProject->setDescription('Description de l\'appel à projet');
+        $callOfProject->setOrganizingCenter($organizingCenter1);
 
         $callOfProject->setStartDate((new \DateTime())->modify('+3 day'));
         $callOfProject->setEndDate((new \DateTime())->modify('+5 day'));
@@ -88,7 +97,8 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             ProjectFormLayoutFixtures::class,
-            UserFixtures::class
+            UserFixtures::class,
+            OrganizingCenterFixtures::class,
         ];
     }
 }

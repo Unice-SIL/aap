@@ -19,6 +19,7 @@ class UserFixtures extends Fixture
     const USER_ADMIN = 'admin';
     const USER_USER1 = 'user1';
     const USER_USER2 = 'user2';
+    const USER_USER3 = 'user3';
 
     /**
      * @var UserPasswordEncoderInterface
@@ -56,6 +57,12 @@ class UserFixtures extends Fixture
             ->setPassword($this->encoder->encodePassword($user, self::USER_USER2));
         $manager->persist($user);
         $this->addReference(self::class . self::USER_USER2, $user);
+
+        $user = new User();
+        $user->setUsername(self::USER_USER3)
+            ->setPassword($this->encoder->encodePassword($user, self::USER_USER3));
+        $manager->persist($user);
+        $this->addReference(self::class . self::USER_USER3, $user);
 
         $manager->flush();
     }
