@@ -265,6 +265,7 @@ app:
     success: Ajout de l'élément "%item%" réalisé avec succès
     edit_success: Modification de l'élément "%item%" réalisée avec succès
     create_success: Création de l'élément "%item%" réalisée avec succès
+    error_project_to_study: Echec du passage à l'étude du projet %item%
 
   footer:
     copyright: Tous droits reservés

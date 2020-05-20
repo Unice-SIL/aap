@@ -189,10 +189,18 @@ class CallOfProjectController extends AbstractController
      * @param CallOfProject $callOfProject
      * @param Request $request
      * @param Registry $workflowRegistry
-     * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
+     * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
      */
-    public function projects(CallOfProject $callOfProject, Request $request, Registry $workflowRegistry, EntityManagerInterface $em): Response
+    public function projects(
+        CallOfProject $callOfProject,
+        Request $request,
+        Registry $workflowRegistry,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator
+    ): Response
     {
         $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
         $projectToStudyForm->handleRequest($request);
@@ -208,7 +216,7 @@ class CallOfProjectController extends AbstractController
                 try {
                     $stateMachine->apply($project, 'to_study');
                 } catch (LogicException $exception) {
-                    // ...
+                    $this->addFlash('error', $translator->trans('app.flash_message.error_project_to_study', ['%item%' => $project->getName()]));
                 }
 
             }
