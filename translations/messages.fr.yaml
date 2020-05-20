@@ -97,6 +97,7 @@ app:
       to_study:
         button: Lancer l'étude des projets
     constant:
+      init: Initial
       waiting: En attente
       studying: A l'étude
       validated: Validé
@@ -119,6 +120,10 @@ app:
       h1: 'Editer le projet'
     show:
       h1: 'Voir le projet'
+    informations:
+      label: 'Informations'
+    report:
+      label: 'Rapports'
   call_of_project:
     init:
       choices:
@@ -313,3 +318,9 @@ app:
         label:  Membres
       name:
           label: Nom
+  report:
+    property:
+      status:
+        label: 'Statut'
+      created_by:
+        label: 'Crée par'

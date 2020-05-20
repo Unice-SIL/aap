@@ -23,7 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "common" = "Common",
  *      "project" = "Project",
  *      "organizing_center" = "OrganizingCenter",
- *     "call_of_project" = "CallOfProject"
+ *     "call_of_project" = "CallOfProject",
+ *     "report" = "Report",
  * })
  */
 class Common
