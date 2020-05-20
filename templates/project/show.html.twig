@@ -12,37 +12,85 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="text-right">
 
-                {% set parameters = { 'id' : project.id, } %}
-
-                {% if context == 'call_of_project' %}
-                    {% set parameters = parameters|merge({ 'context' : context }) %}
-                {% endif %}
-
-                {% if is_granted(constant('App\\Security\\ProjectVoter::EDIT'), project) %}
-                    <a href="{{ path('app.project.edit', parameters) }}" class="btn btn-primary">
-                        {{ 'app.action.edit'|trans }}
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-informations-tab" data-toggle="tab" href="#nav-informations" role="tab" aria-controls="nav-informations" aria-selected="true">
+                        {{ 'app.project.informations.label'|trans }}
                     </a>
-                {% endif %}
+                    {% if
+                        is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
+                        and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
+                    %}
+                        <a class="nav-item nav-link" id="nav-reports-tab" data-toggle="tab" href="#nav-reports" role="tab" aria-controls="nav-reports" aria-selected="false">
+                            {{ 'app.project.report.label'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-informations" role="tabpanel" aria-labelledby="nav-informations-tab">
 
-            </div>
-            <dl>
-                <dt>{{ 'app.project.property.name.label'|trans }}</dt>
-                <dl>{{ project.name }}</dl>
-                {% for projectContent in project.projectContents %}
-                    <dt>{{ projectContent.projectFormWidget.widget.label }}</dt>
-                    <dl>
-                        {% if projectContent.projectFormWidget.widget.isFileWidget and projectContent.content %}
-                            <a href="{{ path('app.file.download', {'id' : projectContent.id}) }}">
-                                {{ projectContent.stringContent|trans }}
-                            </a>
-                        {% else %}
-                            {{ projectContent.stringContent|trans }}
+                    <div class="text-right mt-2">
+
+                        {% set parameters = { 'id' : project.id, } %}
+
+                        {% if context == 'call_of_project' %}
+                            {% set parameters = parameters|merge({ 'context' : context }) %}
                         {% endif %}
+
+                        {% if is_granted(constant('App\\Security\\ProjectVoter::EDIT'), project) %}
+                            <a href="{{ path('app.project.edit', parameters) }}" class="btn btn-primary">
+                                {{ 'app.action.edit'|trans }}
+                            </a>
+                        {% endif %}
+
+                    </div>
+                    <dl>
+                        <dt>{{ 'app.project.property.name.label'|trans }}</dt>
+                        <dl>{{ project.name }}</dl>
+                        {% for projectContent in project.projectContents %}
+                            <dt>{{ projectContent.projectFormWidget.widget.label }}</dt>
+                            <dl>
+                                {% if projectContent.projectFormWidget.widget.isFileWidget and projectContent.content %}
+                                    <a href="{{ path('app.file.download', {'id' : projectContent.id}) }}">
+                                        {{ projectContent.stringContent|trans }}
+                                    </a>
+                                {% else %}
+                                    {{ projectContent.stringContent|trans }}
+                                {% endif %}
+                            </dl>
+                        {% endfor %}
                     </dl>
-                {% endfor %}
-            </dl>
+
+                </div>
+
+                {% if
+                    is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
+                    and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
+                %}
+                    <div class="tab-pane fade mt-4" id="nav-reports" role="tabpanel" aria-labelledby="nav-reports-tab">
+                        <table
+                                class="table dataTable"
+                                data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+                        >
+                            <thead>
+                                <th>{{ 'app.report.property.created_by.label'|trans }}</th>
+                                <th>{{ 'app.report.property.status.label'|trans }}</th>
+                            </thead>
+                            <tbody>
+                            {% for report in project.reports %}
+                                <tr>
+                                    <td>{{ report.createdBy }}</td>
+                                    <td>{{ include('report/_status_badge.html.twig') }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+
         </div>
     </div>
 {% endblock %}

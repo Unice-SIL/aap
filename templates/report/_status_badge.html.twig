@@ -1,0 +1,6 @@
+{% if constant('App\\Constant\\CssMatching::REPORT_STATUS_TO_BOOTSTRAP')[report.status] is defined %}
+    {% set label = constant('App\\Constant\\CssMatching::REPORT_STATUS_TO_BOOTSTRAP')[report.status] %}
+{% endif %}
+<span class="badge badge-{{ label|default(report.status) }}">
+    {{ ('app.project.constant.' ~ report.status)|trans }}
+</span>

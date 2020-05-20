@@ -30,11 +30,17 @@ class Project extends Common
      */
     private $projectContents;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true)
+     */
+    private $reports;
+
     public function __construct()
     {
         parent::__construct();
         $this->projectContents = new ArrayCollection();
         $this->setStatus(self::STATUS_INIT);
+        $this->reports = new ArrayCollection();
     }
 
     public function getCallOfProject(): ?CallOfProject
@@ -92,5 +98,36 @@ class Project extends Common
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->contains($report)) {
+            $this->reports->removeElement($report);
+            // set the owning side to null (unless already changed)
+            if ($report->getProject() === $this) {
+                $report->setProject(null);
+            }
+        }
+
+        return $this;
     }
 }
