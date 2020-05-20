@@ -1,14 +1,17 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 
 use App\Entity\ProjectFormLayout;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Repository\ProjectFormLayoutRepository;
+use App\Security\CallOfProjectVoter;
+use App\Security\UserVoter;
 use App\Widget\WidgetManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +45,8 @@ class ProjectFormLayoutController extends AbstractController
         ProjectManagerInterface $projectManager
     ): Response
     {
+
+        $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormLayout->getCallOfProject());
 
         $widgetName = $request->query->get('widgetName');
 
@@ -92,6 +97,8 @@ class ProjectFormLayoutController extends AbstractController
     public function listAllTemplatesSelect2(Request $request, ProjectFormLayoutRepository $projectFormLayoutRepository)
     {
 
+        $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST, $this->getUser());
+
         $query = $request->query->get('q');
 
         $projectFormLayouts = array_map(function ($projectFormLayout) {
@@ -100,6 +107,7 @@ class ProjectFormLayoutController extends AbstractController
                 'text' => $projectFormLayout->getName()
             ];
         }, $projectFormLayoutRepository->getTemplateByNameLikeQuery($query));
+
         return $this->json($projectFormLayouts);
     }
 }

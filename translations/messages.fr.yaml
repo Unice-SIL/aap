@@ -25,6 +25,7 @@ app:
             new: Nouveau
             label: Utilisateur
         call_of_project:
+          all: Ouvert ou fermé
           edit_permissions: Edition des permissions
           add_project: Ajouter un projet
           projects: Liste des projets

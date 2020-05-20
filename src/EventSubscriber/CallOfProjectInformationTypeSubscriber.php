@@ -166,7 +166,7 @@ class CallOfProjectInformationTypeSubscriber implements EventSubscriberInterface
 
            $form->add('organizingCenter', Select2EntityType::class, [
                'multiple' => false,
-               'remote_route' => 'app.organizing_center.list_by_user_and_permissions_select_2',
+               'remote_route' => 'app.admin.organizing_center.list_by_user_and_permissions_select_2',
                'class' => OrganizingCenter::class,
                'primary_key' => 'id',
                'text_property' => 'name',

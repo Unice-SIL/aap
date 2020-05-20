@@ -68,6 +68,20 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Acl", mappedBy="user")
+     */
+    private $acls;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->acls = new ArrayCollection();
+    }
+
+
+    /**
      * @return string|null
      */
     public function getId(): ?string
@@ -218,6 +232,11 @@ class User implements UserInterface
     public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
+    }
+
+    public function getAlcs(): Collection
+    {
+        return $this->acls;
     }
 
     /**

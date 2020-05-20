@@ -11,12 +11,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class OrganizingCenterVoter extends Voter
 {
 
-    const EDIT = 'edit';
+    const ADMIN = 'admin';
 
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::EDIT])) {
+        if (!in_array($attribute, [self::ADMIN])) {
             return false;
         }
 
@@ -41,17 +41,17 @@ class OrganizingCenterVoter extends Voter
         $organizingCenter = $subject;
 
         switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($organizingCenter, $user);
+            case self::ADMIN:
+                return $this->canAdmin($organizingCenter, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canEdit(OrganizingCenter $organizingCenter, User $user)
+    private function canAdmin(OrganizingCenter $organizingCenter, User $user)
     {
         $userPermissions = AbstractAclManager::getPermissions($user, $organizingCenter);
 
-        return count(array_intersect($userPermissions->toArray(), OrganizingCenter::EDITOR_PERMISSIONS)) > 0;
+        return count(array_intersect($userPermissions->toArray(), OrganizingCenter::ADMIN_PERMISSIONS)) > 0;
     }
 }

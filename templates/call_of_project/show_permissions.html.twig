@@ -24,10 +24,12 @@
                     <dl>{{ call_of_project.organizingCenter.acls|filter(acl => acl.permission == permission)|map(acl => acl.user.username)|array_unique|join(', ')|humanize_data }}</dl>
                 {% endfor %}
             </div>
-            <a href="{{ path('app.call_of_project.edit_permissions', { 'id' : call_of_project.id }) }}" class="btn btn-primary">
-                {{ 'app.action.edit'|trans }}
-            </a>
 
+            {% if is_granted(constant('App\\Security\\CallOfProjectVoter::ADMIN'), call_of_project) %}
+                <a href="{{ path('app.call_of_project.edit_permissions', { 'id' : call_of_project.id }) }}" class="btn btn-primary">
+                    {{ 'app.action.edit'|trans }}
+                </a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

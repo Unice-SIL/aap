@@ -85,7 +85,7 @@ class OrganizingCenterRepository extends ServiceEntityRepository
             ->andWhere('a.user = :user')
             ->setParameter('user', $user)
             ->andWhere('a.permission in (:permissions)')
-            ->setParameter('permissions', OrganizingCenter::EDITOR_PERMISSIONS)
+            ->setParameter('permissions', OrganizingCenter::ADMIN_PERMISSIONS)
             ->andWhere('oc.name LIKE :query')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()

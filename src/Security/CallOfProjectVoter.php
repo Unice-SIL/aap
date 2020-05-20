@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-use App\Entity\Acl;
 use App\Entity\CallOfProject;
 use App\Entity\Project;
 use App\Entity\User;
@@ -14,10 +13,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class CallOfProjectVoter extends Voter
 {
     const TO_STUDY_MASS = 'to_study-mass';
-
+    const ADMIN = 'admin';
     const EDIT = 'edit';
-
     const OPEN = 'open';
+    const SHOW_INFORMATIONS = 'show_informations';
+    const SHOW_PROJECTS = 'show_projects';
+    const SHOW_PERMISSIONS = 'show_permissions';
+
     /**
      * @var AuthorizationCheckerInterface
      */
@@ -38,8 +40,12 @@ class CallOfProjectVoter extends Voter
         // if the attribute isn't one we support, return false
         if (!in_array($attribute, [
                 self::TO_STUDY_MASS,
+                self::ADMIN,
                 self::EDIT,
                 self::OPEN,
+                self::SHOW_INFORMATIONS,
+                self::SHOW_PROJECTS,
+                self::SHOW_PERMISSIONS,
             ])) {
             return false;
         }
@@ -61,16 +67,28 @@ class CallOfProjectVoter extends Voter
             return false;
         }
 
+        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+
         /** @var CallOfProject $callOfProject */
         $callOfProject = $subject;
 
         switch ($attribute) {
             case self::TO_STUDY_MASS:
                 return $this->canApplyToStudyMass($callOfProject, $user);
+            case self::ADMIN:
+                return $this->canAdmin($callOfProject, $user);
             case self::EDIT:
-                return $this->canEdit($callOfProject, $user);
+                return $this->cantEdit($callOfProject, $user);
             case self::OPEN:
                 return $this->isOpen($callOfProject);
+            case self::SHOW_INFORMATIONS:
+                return $this->canSeeInformations($callOfProject, $user);
+            case self::SHOW_PROJECTS:
+                return $this->canSeeProjects($callOfProject, $user);
+            case self::SHOW_PERMISSIONS:
+                return $this->canSeePermissions($callOfProject, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -90,23 +108,54 @@ class CallOfProjectVoter extends Voter
             return false;
         }
 
-        if (!$this->canEdit($callOfProject, $user)) {
+        if (!$this->cantEdit($callOfProject, $user)) {
             return false;
         }
 
         return true;
     }
 
-    private function canEdit(CallOfProject $callOfProject, User $user)
+    private function canAdmin(CallOfProject $callOfProject, User $user)
     {
         $userPermissions = AbstractAclManager::getPermissions($user, $callOfProject);
 
-        return count(array_intersect($userPermissions->toArray(), CallOfProject::EDITOR_PERMISSIONS)) > 0
-            or $this->authorizationChecker->isGranted(OrganizingCenterVoter::EDIT, $callOfProject->getOrganizingCenter());
+        return count(array_intersect($userPermissions->toArray(), CallOfProject::ADMIN_PERMISSIONS)) > 0
+            or $this->authorizationChecker->isGranted(OrganizingCenterVoter::ADMIN, $callOfProject->getOrganizingCenter());
     }
 
     private function isOpen(CallOfProject $callOfProject)
     {
         return $callOfProject->getStatus() === CallOfProject::STATUS_OPENED;
+    }
+
+    private function canSeeInformations(CallOfProject $callOfProject, User $user)
+    {
+        $userPermissions = AbstractAclManager::getPermissions($user, $callOfProject);
+        $userPermissions = array_merge(
+            AbstractAclManager::getPermissions($user, $callOfProject->getOrganizingCenter())->toArray(),
+            $userPermissions->toArray()
+        );
+
+        return count(array_intersect($userPermissions, CallOfProject::VIEWER_PERMISSIONS)) > 0;
+
+    }
+
+    private function canSeeProjects(CallOfProject $callOfProject, User $user)
+    {
+        return $this->canSeeInformations($callOfProject, $user);
+    }
+
+    private function canSeePermissions(CallOfProject $callOfProject, User $user)
+    {
+        return $this->canSeeInformations($callOfProject, $user);
+    }
+
+    private function cantEdit(CallOfProject $callOfProject, User $user)
+    {
+        $userPermissions = AbstractAclManager::getPermissions($user, $callOfProject);
+        $userPermissions = array_merge(
+            AbstractAclManager::getPermissions($user, $callOfProject->getOrganizingCenter())->toArray(), $userPermissions->toArray());
+
+        return count(array_intersect($userPermissions, CallOfProject::EDIT_PERMISSIONS)) > 0;
     }
 }

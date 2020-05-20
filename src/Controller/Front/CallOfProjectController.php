@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
 use App\Form\CallOfProject\CallOfProjectInformationType;
@@ -10,10 +10,11 @@ use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use App\Security\CallOfProjectVoter;
-use App\Utils\Breadcrumb\BreadcrumbManager;
+use App\Security\UserVoter;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,11 +37,9 @@ class CallOfProjectController extends AbstractController
     public function index(EntityManagerInterface $em)
     {
 
-
         return $this->render('call_of_project/index.html.twig', [
-            'call_of_projects' => $em->getRepository(CallOfProject::class)->findBy(
-                ['createdBy' => $this->getUser()],
-                ['createdAt' => 'ASC']
+            'call_of_projects' => $em->getRepository(CallOfProject::class)->getIfUserHasOnePermissionAtLeast(
+                $this->getUser()
             ),
         ]);
     }
@@ -65,6 +64,8 @@ class CallOfProjectController extends AbstractController
      */
     public function new(Request $request, CallOfProjectManagerInterface $callOfProjectManager): Response
     {
+        $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST, $this->getUser());
+
         $callOfProject = $callOfProjectManager->create();
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
         $form->handleRequest($request);
@@ -97,6 +98,7 @@ class CallOfProjectController extends AbstractController
      * @param WidgetManager $widgetManager
      * @param TranslatorInterface $translator
      * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
      * @throws \Exception
      */
     public function addProject(
@@ -139,14 +141,13 @@ class CallOfProjectController extends AbstractController
      * @Route("/{id}/informations", name="informations", methods={"GET", "POST"})
      * @param Request $request
      * @param CallOfProject $callOfProject
-     * @param BreadcrumbManager $breadcrumbManager
      * @param TranslatorInterface $translator
      * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::SHOW_INFORMATIONS, subject="callOfProject")
      */
     public function informations(
         Request $request,
         CallOfProject $callOfProject,
-        BreadcrumbManager $breadcrumbManager,
         TranslatorInterface $translator
     ): Response
     {
@@ -188,6 +189,7 @@ class CallOfProjectController extends AbstractController
      * @param CallOfProject $callOfProject
      * @param Request $request
      * @param Registry $workflowRegistry
+     * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
      * @return Response
      */
     public function projects(CallOfProject $callOfProject, Request $request, Registry $workflowRegistry, EntityManagerInterface $em): Response
@@ -225,6 +227,7 @@ class CallOfProjectController extends AbstractController
     /**
      * @Route("/{id}/show-permissions", name="show_permissions", methods={"GET"})
      * @param CallOfProject $callOfProject
+     * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PERMISSIONS, subject="callOfProject")
      * @return Response
      */
     public function showPermissions(CallOfProject $callOfProject): Response
@@ -240,6 +243,7 @@ class CallOfProjectController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
+     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
      * @return Response
      */
     public function editPermissions(
@@ -276,6 +280,7 @@ class CallOfProjectController extends AbstractController
      * @param WidgetManager $widgetManager
      * @param ProjectManagerInterface $projectManager
      * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
      * @throws \Exception
      */
     public function form(
@@ -306,6 +311,8 @@ class CallOfProjectController extends AbstractController
      */
     public function listByUserSelect2(Request $request, CallOfProjectRepository $callOfProjectRepository)
     {
+
+        $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST, $this->getUser());
 
         $query = $request->query->get('q');
 
