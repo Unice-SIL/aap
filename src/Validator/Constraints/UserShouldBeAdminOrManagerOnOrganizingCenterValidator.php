@@ -48,7 +48,7 @@ class UserShouldBeAdminOrManagerOnOrganizingCenterValidator extends ConstraintVa
         /** @var OrganizingCenter $organizingCenter */
         $organizingCenter = $value;
 
-        if (!$this->authorizationChecker->isGranted(OrganizingCenterVoter::EDIT, $organizingCenter)) {
+        if (!$this->authorizationChecker->isGranted(OrganizingCenterVoter::ADMIN, $organizingCenter)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

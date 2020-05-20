@@ -19,9 +19,19 @@ class CallOfProject extends Common
     const STATUS_REVIEW = 'review';
     const STATUS_ARCHIVED = 'archived';
 
-    const EDITOR_PERMISSIONS = [
+    const ADMIN_PERMISSIONS = [
+        Acl::PERMISSION_ADMIN,
+    ];
+
+    const EDIT_PERMISSIONS = [
         Acl::PERMISSION_ADMIN,
         Acl::PERMISSION_MANAGER,
+    ];
+
+    const VIEWER_PERMISSIONS = [
+        Acl::PERMISSION_ADMIN,
+        Acl::PERMISSION_MANAGER,
+        Acl::PERMISSION_VIEWER,
     ];
 
     /**

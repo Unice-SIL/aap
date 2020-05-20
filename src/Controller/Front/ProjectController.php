@@ -1,13 +1,14 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 
 use App\Entity\Project;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +45,7 @@ class ProjectController extends AbstractController
      * @param ProjectManagerInterface $projectManager
      * @param TranslatorInterface $translator
      * @return Response
+     * @IsGranted(App\Security\ProjectVoter::EDIT, subject="project")
      * @throws \Exception
      */
     public function edit(
@@ -93,6 +95,8 @@ class ProjectController extends AbstractController
      * @Route("/{id}/show", name="show", methods={"GET"})
      * @param Project $project
      * @param Request $request
+     * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
+
      * @return Response
      */
     public function show(Project $project, Request $request)

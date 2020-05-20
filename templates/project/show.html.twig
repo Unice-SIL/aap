@@ -20,9 +20,12 @@
                     {% set parameters = parameters|merge({ 'context' : context }) %}
                 {% endif %}
 
-                <a href="{{ path('app.project.edit', parameters) }}" class="btn btn-primary">
-                    {{ 'app.action.edit'|trans }}
-                </a>
+                {% if is_granted(constant('App\\Security\\ProjectVoter::EDIT'), project) %}
+                    <a href="{{ path('app.project.edit', parameters) }}" class="btn btn-primary">
+                        {{ 'app.action.edit'|trans }}
+                    </a>
+                {% endif %}
+
             </div>
             <dl>
                 <dt>{{ 'app.project.property.name.label'|trans }}</dt>

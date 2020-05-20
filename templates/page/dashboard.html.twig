@@ -64,17 +64,27 @@
                     <div class="card-body" style="min-height: 538px">
                         <h3 class="border-bottom pb-1">{{ 'app.dashboard.my_calls_of_project.title'|trans }}</h3>
                         <div class="row text-center py-3">
-                            <div class="col-6 px-5 border-right">
+                            {% set call_of_project_nmb_class = is_granted(constant(
+                                'App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST'), app.user
+                                ) ? 'col-6 border-right' : 'col-12' %}
+                            <div class="{{ call_of_project_nmb_class }} px-5">
                                 <p class="text-primary text-bold mb-1" style="font-size: 25px">{{ call_of_projects|length }}</p>
                                 <p>
                                     {{ 'app.dashboard.call_of_projects_dropped'|transchoice(call_of_projects|length) }}
                                 </p>
                             </div>
-                            <div class="col-6 px-5 mt-2">
-                                <div class="form-group">
-                                    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>
+
+                            {% if is_granted(constant(
+                                'App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST'), app.user
+                                )
+                            %}
+                                <div class="col-6 px-5 mt-2">
+                                    <div class="form-group">
+                                        <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
+
                         </div>
                         {#
                         <p style="text-decoration: underline">{{ 'app.dashboard.last_dropped_call_of_project'|transchoice(call_of_projects|length) }}</p>

@@ -1,13 +1,14 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 
 use App\Entity\ProjectFormLayout;
 use App\Entity\ProjectFormWidget;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
+use App\Security\CallOfProjectVoter;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +48,10 @@ class WidgetController extends AbstractController
 
     ): Response
     {
+        $this->denyAccessUnlessGranted(
+            CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject()
+        );
+
         $widget = $projectFormWidget->getWidget();
 
         $form = $this->createForm($widget->getFormType(), $widget, [
@@ -91,13 +96,17 @@ class WidgetController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="trash_toggle", methods={"POST"})
+     * @Route("/{id}/trash_toggle", name="trash_toggle", methods={"POST"})
      * @param Request $request
      * @param ProjectFormWidget $projectFormWidget
      * @return Response
      */
     public function trashToggle(Request $request, ProjectFormWidget $projectFormWidget): Response
     {
+        $this->denyAccessUnlessGranted(
+            CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject()
+        );
+
         if ($this->isCsrfTokenValid('trash_toggle'.$projectFormWidget->getId(), $request->request->get('_token'))) {
 
             $projectFormWidget->isActiveToggle();
@@ -118,6 +127,11 @@ class WidgetController extends AbstractController
      */
     public function updatePosition(ProjectFormWidget $projectFormWidget, Request $request, EntityManagerInterface $em)
     {
+
+        $this->denyAccessUnlessGranted(
+            CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject()
+        );
+
         $position = $request->request->getInt('position');
 
         if ($position === null) {

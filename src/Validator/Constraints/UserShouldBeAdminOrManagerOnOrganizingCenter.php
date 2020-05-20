@@ -9,5 +9,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class UserShouldBeAdminOrManagerOnOrganizingCenter extends Constraint
 {
-    public $message = 'app.widget.errors.validation.user_should_be_admin_or_manager';
+    public $message = 'app.errors.validation.user_should_be_admin_or_manager';
 }

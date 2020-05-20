@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
 use App\Entity\Project;
@@ -21,10 +21,9 @@ class HomeController extends AbstractController
     {
 
         return $this->render('page/dashboard.html.twig', [
-            'call_of_projects' => $em->getRepository(CallOfProject::class)->findBy(
-                ['createdBy' => $this->getUser()],
-                ['createdAt' => 'DESC'],
-                5
+            'call_of_projects' => $em->getRepository(CallOfProject::class)->getIfUserHasOnePermissionAtLeast(
+                $this->getUser(),
+                ['limit' => 5]
             ),
             'projects' => $em->getRepository(Project::class)->findBy(
                 ['createdBy' => $this->getUser()],

@@ -45,6 +45,9 @@ class UserFixtures extends Fixture
             ->setPassword($this->encoder->encodePassword($user, self::USER_ADMIN));
         $manager->persist($user);
         $this->addReference(self::class . self::USER_ADMIN, $user);
+        $user->setRoles([
+            'ROLE_ADMIN'
+        ]);
 
         $user = new User();
         $user->setUsername(self::USER_USER1)

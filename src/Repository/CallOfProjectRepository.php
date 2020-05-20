@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CallOfProject;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +29,27 @@ class CallOfProjectRepository extends ServiceEntityRepository
             ->andWhere('cop.name LIKE :query')
             ->setParameter('query', '%' . $query . '%')
             ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function getIfUserHasOnePermissionAtLeast(User $user,array $options = [])
+    {
+        $qb = $this->createQueryBuilder('cop')
+            ->leftJoin('cop.acls', 'copacls')
+            ->leftJoin('cop.organizingCenter', 'oc')
+            ->leftJoin('oc.acls', 'ocacls')
+            ->andWhere('copacls.user = :user')
+            ->orWhere('ocacls.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('cop.createdAt', 'DESC')
+        ;
+
+        if (isset($options['limit'])) {
+            $qb->setMaxResults($options['limit']);
+        }
+
+        return $qb->getQuery()
             ->getResult()
             ;
     }
