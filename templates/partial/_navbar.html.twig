@@ -19,24 +19,28 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar-collapse">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav link-underline">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app.homepage') }}">
+                        <i class="fas fa-home"></i>
                         {{ 'app.navbar.item.dashboard.label'|trans }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app.project.index') }}">
+                        <i class="far fa-lightbulb"></i>
                         {{ 'app.navbar.item.my_projects.label'|trans }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
+                        <i class="fas fa-scroll"></i>
                         {{ 'app.navbar.item.my_repports.label'|trans }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app.call_of_project.index') }}">
+                        <i class="fas fa-cube"></i>
                         {{ 'app.navbar.item.my_call_of_projects.label'|trans }}
                     </a>
                 </li>

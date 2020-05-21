@@ -161,6 +161,7 @@ app:
         label: Titre
         placeholder: Titre de l'appel à projet
     organized_by: Organisé par
+    dates: Dates
     open_date:
       label: Date d'ouverture au dépôt de projets
     opened_date: 'Ouverture du %startDate% au %endDate%'
@@ -168,7 +169,7 @@ app:
       h1: 'Liste de vos appels à projets'
     all:
       h1: Dépôt d'un nouveau projet
-      select_opened_cap: Veuillez sélectionner un appel à projets actuellement ouvert
+      select_opened_cap: Veuillez sélectionner un appel à projets actuellement ouvert dans la liste ci-dessous
     add_project:
       h1: Dépôt d'un nouveau projet
       not_opened: Ce projet n'est pas ouvert
@@ -178,7 +179,7 @@ app:
     own_inherited_from_organizing_center: Permissions héritées du centre organisateur
   dashboard:
     my_calls_of_project:
-      title: Appels à projets que je gère
+      title: Mes appels à projets
     my_projects:
       title: Mes projets
     h1: Tableau de bord

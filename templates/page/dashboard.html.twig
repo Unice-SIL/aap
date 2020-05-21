@@ -8,14 +8,20 @@
     <div class="row">
             <div class="col-md-6">
                 <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title text-bold">
+                            <i class="far fa-lightbulb mr-2"></i>
+                            {{ 'app.dashboard.my_projects.title'|trans }}
+                        </h5>
+                    </div>
                     <div class="card-body" style="min-height: 538px">
-                        <h3 class="border-bottom pb-1">{{ 'app.dashboard.my_projects.title'|trans }}</h3>
+
                         <div class="row text-center py-3">
                             <div class="col-6 px-5 border-right">
                                 <p class="text-primary text-bold mb-1" style="font-size: 25px">{{ projects|length }}</p>
-                                <p>
+                                <h6>
                                     {{ 'app.dashboard.projects_dropped'|transchoice(projects|length) }}
-                                </p>
+                                </h6>
                             </div>
                             <div class="col-6 px-5 mt-2">
                                 <div class="form-group">
@@ -31,7 +37,7 @@
                                 <thead>
                                 <tr>
                                     <th>{{ 'app.project.property.name.label'|trans }}</th>
-                                    <th>{{ 'app.project.property.status.label'|trans }}</th>
+                                    <th class="text-center">{{ 'app.project.property.status.label'|trans }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -42,7 +48,7 @@
                                                 {{ project.name }}
                                             </a>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ include('project/_status_badge.html.twig', { 'project' : project}) }}
                                         </td>
                                     </tr>
@@ -61,17 +67,23 @@
             </div>
             <div class="col-md-6">
                 <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title text-bold">
+                            <i class="fas fa-cube mr-2"></i>
+                            {{ 'app.dashboard.my_calls_of_project.title'|trans }}
+                        </h5>
+                    </div>
                     <div class="card-body" style="min-height: 538px">
-                        <h3 class="border-bottom pb-1">{{ 'app.dashboard.my_calls_of_project.title'|trans }}</h3>
+
                         <div class="row text-center py-3">
                             {% set call_of_project_nmb_class = is_granted(constant(
                                 'App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST'), app.user
                                 ) ? 'col-6 border-right' : 'col-12' %}
                             <div class="{{ call_of_project_nmb_class }} px-5">
                                 <p class="text-primary text-bold mb-1" style="font-size: 25px">{{ call_of_projects|length }}</p>
-                                <p>
+                                <h6>
                                     {{ 'app.dashboard.call_of_projects_dropped'|transchoice(call_of_projects|length) }}
-                                </p>
+                                </h6>
                             </div>
 
                             {% if is_granted(constant(
@@ -94,20 +106,18 @@
                                 <thead>
                                 <tr>
                                     <th>{{ 'app.call_of_project.property.name.label'|trans }}</th>
-                                    <th>{{ 'app.call_of_project.property.status.label'|trans }}</th>
-                                    <th></th>
+                                    <th class="text-center">{{ 'app.call_of_project.property.status.label'|trans }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for call_of_project in call_of_projects %}
                                     <tr>
                                         <td>
-                                            <a href="{{ path('app.call_of_project.projects', {'id' : call_of_project.id}) }}">
+                                            <a href="{{ path('app.call_of_project.informations', {'id' : call_of_project.id}) }}">
                                                 {{ call_of_project.name }}
                                             </a>
                                         </td>
-                                        <td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ include('call_of_project/_status_badge.html.twig', { 'call_of_project' : call_of_project}) }}
                                         </td>
                                     </tr>

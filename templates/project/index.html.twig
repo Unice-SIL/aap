@@ -25,7 +25,7 @@
                     <tr>
                         <th>{{ 'app.project.property.name.label'|trans }}</th>
                         <th>{{ 'app.project.property.call_of_project.label'|trans }}</th>
-                        <th>{{ 'app.project.property.status.label'|trans }}</th>
+                        <th class="text-center">{{ 'app.project.property.status.label'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,7 +39,7 @@
                             <td>
                                 {{ project.callOfProject }}
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {{ include('project/_status_badge.html.twig', { 'project' : project}) }}
                             </td>
                         </tr>
