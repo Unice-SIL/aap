@@ -127,10 +127,10 @@ app:
   call_of_project:
     init:
       choices:
-        label: Initialisation du projet par
-        init_by_project_form_layout: Modèle
-        init_by_call_of_project: Appel à projet
-        no_init: Aucun
+        label: Souhaitez-vous initialiser la configuration du formulaire du projet ?
+        init_by_project_form_layout: Depuis un modèle
+        init_by_call_of_project: Depuis la configuration d'un autre appel à projet
+        no_init: Non
     select_2:
       placeholder: Choisissez un appel à projets
     form:

@@ -5,64 +5,64 @@
             {{ form_widget(form.name) }}
         </div>
     {% endif %}
+{% if form.organizingCenter is defined %}
     <div class="form-group">
-        {{ form_label(form.description) }}
-        {{ form_widget(form.description) }}
+        {{ form_label(form.organizingCenter) }}
+        {{ form_widget(form.organizingCenter) }}
     </div>
-    {% if form.organizingCenter is defined %}
+{% endif %}
+<div class="form-group">
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description) }}
+</div>
+<div class="row">
+    <div class="col-12 text-bold mb-2">
+        {{ 'app.call_of_project.open_date.label'|trans }}
+    </div>
+    <div class="col-6">
         <div class="form-group">
-            {{ form_label(form.organizingCenter) }}
-            {{ form_widget(form.organizingCenter) }}
-        </div>
-    {% endif %}
-    <div class="row">
-        <div class="col-12 text-bold mb-2">
-            {{ 'app.call_of_project.open_date.label'|trans }}
-        </div>
-        <div class="col-6">
-            <div class="form-group">
-                {{ form_label(form.startDate) }}
-                {{ form_widget(form.startDate) }}
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="form-group">
-                {{ form_label(form.endDate) }}
-                {{ form_widget(form.endDate) }}
-            </div>
+            {{ form_label(form.startDate) }}
+            {{ form_widget(form.startDate) }}
         </div>
     </div>
-
-    {% if form.initProject is defined %}
+    <div class="col-6">
         <div class="form-group">
-            {{ form_label(form.initProject) }}
-            {{ form_widget(form.initProject) }}
+            {{ form_label(form.endDate) }}
+            {{ form_widget(form.endDate) }}
+        </div>
+    </div>
+</div>
+
+{% if form.initProject is defined %}
+    <div class="form-group">
+        {{ form_label(form.initProject) }}
+        {{ form_widget(form.initProject) }}
+    </div>
+{% endif %}
+
+<div id="init-call-of-project-by">
+    {% if form.callOfProjectModel is defined %}
+        <div class="form-group">
+            {{ form_label(form.callOfProjectModel) }}
+            {{ form_widget(form.callOfProjectModel) }}
         </div>
     {% endif %}
 
-    <div id="init-call-of-project-by">
-        {% if form.callOfProjectModel is defined %}
-            <div class="form-group">
-                {{ form_label(form.callOfProjectModel) }}
-                {{ form_widget(form.callOfProjectModel) }}
-            </div>
-        {% endif %}
-
-        {% if form.projectFormLayoutModel is defined %}
-            <div class="form-group">
-                {{ form_label(form.projectFormLayoutModel) }}
-                {{ form_widget(form.projectFormLayoutModel) }}
-            </div>
-        {% endif %}
-    </div>
-
-    <button class="btn btn-primary">
-        {{ button_label|default('app.action.save'|trans) }}
-    </button>
-
-    {% if context|default('default') == 'modal' %}
-        <a class="btn btn-secondary text-white" data-dismiss="modal">
-            {{ 'app.action.canceled'|trans }}
-        </a>
+    {% if form.projectFormLayoutModel is defined %}
+        <div class="form-group">
+            {{ form_label(form.projectFormLayoutModel) }}
+            {{ form_widget(form.projectFormLayoutModel) }}
+        </div>
     {% endif %}
+</div>
+
+<button class="btn btn-primary">
+    {{ button_label|default('app.action.save'|trans) }}
+</button>
+
+{% if context|default('default') == 'modal' %}
+    <a class="btn btn-secondary text-white" data-dismiss="modal">
+        {{ 'app.action.canceled'|trans }}
+    </a>
+{% endif %}
 {{ form_end(form) }}

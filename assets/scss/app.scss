@@ -26,6 +26,18 @@ $primary: #04a6ff;
   }
 }
 
+.circle-badge {
+  font-size: 25px;
+  font-weight: 700;
+  width: 90px;
+  height: 90px;
+  border: 8px solid;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /**
   Loader
  */
@@ -120,6 +132,7 @@ body.layout-fixed {
 #main-navbar .nav-link {
   color: $dark;
 }
+
 
 /**
  * Link
