@@ -1,4 +1,13 @@
-$primary: #04a6ff;
+@font-face {
+  font-family: "Apex New Book";
+  src: url("../font/ufonts.com_apexnew-light-opentype.woff") format("woff");
+}
+
+$primary: #00AFD7;
+$info: #007EA1;
+
+$font-family-sans-serif: "Apex New Book";
+
 @import "~admin-lte";
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import "~datatables.net-bs4";
