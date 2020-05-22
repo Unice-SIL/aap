@@ -1,6 +1,7 @@
 import '../scss/app.scss';
 
 require('admin-lte');
+require('admin-lte/plugins/jquery-knob/jquery.knob.min');
 require('bootstrap');
 require('datatables.net-bs4');
 require('moment/locale/fr');
@@ -302,4 +303,26 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    /**
+     * jQuery Knob
+     */
+    $('.knob-render').knob();
+    $('.knob-render-primary').knob({
+        'fgColor': window.getComputedStyle(document.body).getPropertyValue('--primary')
+    });
+    $('.knob-render-secondary').knob({
+        'fgColor': window.getComputedStyle(document.body).getPropertyValue('--secondary')
+    });
+    $('.knob-render-info').knob({
+        'fgColor': window.getComputedStyle(document.body).getPropertyValue('--info')
+    });
+    $('.knob-render-warning').knob({
+        'fgColor': window.getComputedStyle(document.body).getPropertyValue('--warning')
+    });
+    $('.knob-render-danger').knob({
+        'fgColor': window.getComputedStyle(document.body).getPropertyValue('--danger')
+    });
+
 });
