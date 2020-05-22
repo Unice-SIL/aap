@@ -11,7 +11,7 @@
                     {{ include('partial/widget/_render_widget.html.twig') }}
                 </div>
                 <div class="col-1 d-flex flex-column justify-content-center align-items-end">
-                    <button type="button" class="btn btn-primary mb-1 widget-button"
+                    <button type="button" class="btn btn-sm btn-primary my-1 widget-button rounded-circle"
                             data-toggle="modal"
                             data-target="#widget-form-modal"
                             data-url="{{ path('app.widget.edit', {
@@ -20,7 +20,7 @@
                     >
                         <i class="fa fa-edit"></i>
                     </button>
-                    <button class="btn btn-warning mb-1 widget-button text-white">
+                    <button class="btn btn-sm btn-warning my-1 widget-button text-white rounded-circle">
                         <i class="far fa-clone"></i>
                     </button>
                     <div class="project-form-widget-delete">

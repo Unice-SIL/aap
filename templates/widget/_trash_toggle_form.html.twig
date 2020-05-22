@@ -2,8 +2,9 @@
     <input type="hidden" name="_token" value="{{ csrf_token('trash_toggle' ~ project_form_widget.id) }}">
     <button class="
                 btn
+                btn-sm
                 btn-{{ constant('App\\Constant\\CssMatching::PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP')[project_form_widget.isActive] }}
-                btn-block alert-button-modal
+                btn-block alert-button-modal rounded-circle my-1
             "
             style="opacity: 1"
             data-modal-title="{{ project_form_widget.isActive ? 'app.project_form_widget.modal.trash_warning_title'|trans

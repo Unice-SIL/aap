@@ -27,9 +27,8 @@
             {% for widget in widget_manager.formWidgets %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ ('app.widget.' ~ widget.name)|trans }}
-                    <button
-                            type="button"
-                            class="btn btn-primary float-right"
+                    <a
+                            class="btn btn-link float-right text-primary"
                             style="line-height:1.3; border-radius:25px"
                             data-toggle="modal"
                             data-target="#widget-form-modal"
@@ -38,8 +37,8 @@
                                 'id' : call_of_project.projectFormLayouts.first.id
                             }) }}"
                     >
-                        +
-                    </button>
+                        <i class="fas fa-plus-circle"></i>
+                    </a>
                 </li>
             {% endfor %}
         </ul>
@@ -49,10 +48,9 @@
             {% for widget in widget_manager.htmlWidgets %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ ('app.widget.' ~ widget.name)|trans }}
-                    <button
-                            type="button"
+                    <a
+                            class="btn btn-link float-right text-primary"
                             style="line-height:1.3; border-radius:25px"
-                            class="btn btn-primary float-right"
                             data-toggle="modal"
                             data-target="#widget-form-modal"
                             data-url="{{ path('app.project_form_layout.add_widget', {
@@ -60,8 +58,8 @@
                                 'id' : call_of_project.projectFormLayouts.first.id
                             }) }}"
                     >
-                        +
-                    </button>
+                        <i class="fas fa-plus-circle"></i>
+                    </a>
                 </li>
             {% endfor %}
         </ul>
