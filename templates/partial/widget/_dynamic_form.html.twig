@@ -10,7 +10,12 @@
     {{ 'app.action.save'|trans }}
 </button>
 
-<a href="{{ path('app.project.index') }}" class="btn btn-link">
+
+{% set path = path('app.project.show', {'id': form.vars.data.id}) %}
+{% if app.request.get('context') is defined %}
+    {% set path = path('app.project.show', {'id': form.vars.data.id, 'context': 'call_of_project'}) %}
+{% endif %}
+<a href="{{ path }}" class="btn btn-link">
     {{ 'app.action.canceled'|trans }}
 </a>
 {{ form_end(form) }}
