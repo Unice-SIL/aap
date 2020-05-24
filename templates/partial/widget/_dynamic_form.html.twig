@@ -6,7 +6,11 @@
         </div>
     {% endfor %}
 
-    <button type="submit" class="btn btn-primary">
-        {{ 'app.action.save'|trans }}
-    </button>
+<button type="submit" class="btn btn-primary">
+    {{ 'app.action.save'|trans }}
+</button>
+
+<a href="{{ path('app.project.index') }}" class="btn btn-link">
+    {{ 'app.action.canceled'|trans }}
+</a>
 {{ form_end(form) }}

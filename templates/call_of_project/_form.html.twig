@@ -56,12 +56,16 @@
     {% endif %}
 </div>
 
-<button class="btn btn-primary">
+<button class="btn btn-primary mr-3">
     {{ button_label|default('app.action.save'|trans) }}
 </button>
 
 {% if context|default('default') == 'modal' %}
-    <a class="btn btn-secondary text-white" data-dismiss="modal">
+    <a class="text-muted" data-dismiss="modal">
+        {{ 'app.action.canceled'|trans }}
+    </a>
+{% else %}
+    <a href="{{ path('app.call_of_project.index') }}" class="text-muted">
         {{ 'app.action.canceled'|trans }}
     </a>
 {% endif %}
