@@ -20,21 +20,21 @@
 
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-informations-tab" data-toggle="tab" href="#nav-informations" role="tab" aria-controls="nav-informations" aria-selected="true">
+                    <a class="nav-item nav-link {{ not reporter_added ? 'active' }}" id="nav-informations-tab" data-toggle="tab" href="#nav-informations" role="tab" aria-controls="nav-informations" aria-selected="{{ not reporter_added ? 'true' : 'false' }}">
                         {{ 'app.project.informations.label'|trans }}
                     </a>
                     {% if
                         is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
                         and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
                     %}
-                        <a class="nav-item nav-link" id="nav-reports-tab" data-toggle="tab" href="#nav-reports" role="tab" aria-controls="nav-reports" aria-selected="false">
+                        <a class="nav-item nav-link {{ reporter_added ? 'active' }}" id="nav-reports-tab" data-toggle="tab" href="#nav-reports" role="tab" aria-controls="nav-reports" aria-selected="{{ reporter_added ? 'true' : 'false' }}">
                             {{ 'app.project.report.label'|trans }}
                         </a>
                     {% endif %}
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-informations" role="tabpanel" aria-labelledby="nav-informations-tab">
+                <div class="tab-pane fade {{ not reporter_added ? 'show active' }}" id="nav-informations" role="tabpanel" aria-labelledby="nav-informations-tab">
 
                     <div class="text-right mt-2">
 
@@ -74,7 +74,7 @@
                     is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
                     and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
                 %}
-                    <div class="tab-pane fade mt-2" id="nav-reports" role="tabpanel" aria-labelledby="nav-reports-tab">
+                    <div class="tab-pane fade mt-2 {{ reporter_added ? 'show active' }}" id="nav-reports" role="tabpanel" aria-labelledby="nav-reports-tab">
                         <div class="mb-4 pb-2 clearfix border-bottom">
                             <button class="btn btn-primary float-right"
                                     data-toggle="modal"

@@ -103,6 +103,8 @@ class ProjectController extends AbstractController
     public function show(Project $project, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $context = $request->query->get('context');
+        $reporterAdded = $request->getSession()->remove('reporterAdded');
+
 
         $addReportersForm = $this->createForm(AddReporterType::class, $project);
         $addReportersForm->handleRequest($request);
@@ -118,6 +120,8 @@ class ProjectController extends AbstractController
                 $routeParameters['context'] = $context;
             }
 
+            $request->getSession()->set('reporterAdded', true);
+
             return $this->redirectToRoute('app.project.show', $routeParameters);
         }
 
@@ -130,7 +134,8 @@ class ProjectController extends AbstractController
             'call_of_project' => $project->getCallOfProject(),
             'layout' => $layout ?? null,
             'context' => $context,
-            'add_reporters_form' => $addReportersForm->createView()
+            'add_reporters_form' => $addReportersForm->createView(),
+            'reporter_added' => $reporterAdded
         ]);
     }
 
