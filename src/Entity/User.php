@@ -73,11 +73,17 @@ class User implements UserInterface
     private $acls;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="reporter", orphanRemoval=true)
+     */
+    private $reports;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->acls = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
 
@@ -259,6 +265,37 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->getUsername();
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setReporter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->contains($report)) {
+            $this->reports->removeElement($report);
+            // set the owning side to null (unless already changed)
+            if ($report->getReporter() === $this) {
+                $report->setReporter(null);
+            }
+        }
+
+        return $this;
     }
 
 }

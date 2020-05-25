@@ -93,6 +93,8 @@ app:
     form:
       no_communicate: 'Non renseigné'
   project:
+    action:
+      add_reporters: 'Ajouter des rapporteurs'
     workflow:
       to_study:
         button: Lancer l'étude des projets
@@ -297,6 +299,7 @@ app:
       edit:
         h1: 'Modifier le centre organisateur'
   user:
+    label: Utilisateur(s)
     select_2:
       placeholder: Selectionnez un utilisateur
     property:
@@ -326,3 +329,5 @@ app:
         label: 'Statut'
       created_by:
         label: 'Crée par'
+      reporter:
+        label: 'Rapporteur'

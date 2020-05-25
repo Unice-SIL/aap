@@ -7,7 +7,7 @@
         "flatpickr": "^4.6.3",
         "jquery": "^3.4.1",
         "jquery-ui": "^1.12.1",
-        "node-sass": "^4.13.1",
+        "node-sass": "^4.14.1",
         "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^7.0.1",

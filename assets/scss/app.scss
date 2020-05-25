@@ -94,6 +94,15 @@ table {
 }
 
 /*
+  Select2 custom
+ */
+.d-block {
+  .select2 {
+    display: block;
+  }
+}
+
+/*
   Control sidebar
  */
 body.layout-fixed {
