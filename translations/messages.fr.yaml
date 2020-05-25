@@ -16,6 +16,7 @@ app:
         admin:
           project_form_layout:
             label: Modèles de formulaires
+            new: Nouveau
           organizing_center:
             edit: Edition
             show: Vue
@@ -308,6 +309,8 @@ app:
     project_form_layout:
       index:
         h1: 'Liste des modèles de formulaires'
+      new:
+        h1: 'Nouveau modèle de formulaire'
   user:
     label: Utilisateur(s)
     select_2:
