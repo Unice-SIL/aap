@@ -1,0 +1,45 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.project_form_layout.index.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.project_form_layout.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class=" py-3">
+                <a href="{#{{ path('app.admin.user.new') }}#}" class="btn btn-primary float-right">{{ 'app.action.new'|trans }}</a>
+                <div class="clearfix"></div>
+            </div>
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.project_form_layout.property.name.label'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for template in templates %}
+                    <tr>
+                        <td>
+                            <a href="{#{{ path('app.admin.template.show', { 'id' : template.id}) }}#}">
+                                {{ template.name }}
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="1">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use App\Entity\CallOfProject;
 use App\Entity\OrganizingCenter;
 use App\Entity\Project;
+use App\Entity\ProjectFormLayout;
 use App\Entity\User;
 use App\Utils\Breadcrumb\Breadcrumb;
 use App\Utils\Breadcrumb\BreadcrumbItem;
@@ -108,6 +109,16 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
                     'method' => 'find',
                     'parameter' => 'id',
                     'path' => 'app.admin.organizing_center.show',
+                    'labelBy' => 'name'
+                ],
+            ],
+            'app.admin.project_form_layout' => [
+                'path' => 'app.admin.project_form_layout.index',
+                'entity' => [
+                    'class' => ProjectFormLayout::class,
+                    'method' => 'find',
+                    'parameter' => 'id',
+                    'path' => 'app.admin.project_form_layout.show',
                     'labelBy' => 'name'
                 ],
             ],
