@@ -14,6 +14,8 @@ app:
     main:
       app:
         admin:
+          project_form_layout:
+            label: Modèles de formulaires
           organizing_center:
             edit: Edition
             show: Vue
@@ -23,7 +25,7 @@ app:
             edit: Edition
             show: Vue
             new: Nouveau
-            label: Utilisateur
+            label: Utilisateurs
         call_of_project:
           all: Ouvert ou fermé
           edit_permissions: Edition des permissions
@@ -43,6 +45,9 @@ app:
   project_form_layout:
     select_2:
       placeholder: Selectionnez un modèle
+    property:
+      name:
+        label: 'Nom'
   form:
     widget:
       content:
@@ -228,6 +233,8 @@ app:
         label: 'Utilisateurs'
       organizing_center:
         label: Centres Organisateurs
+      project_form_layout:
+        label: 'Modèles de formulaires'
   widget:
     html_widget:
       label: Textes
@@ -298,6 +305,9 @@ app:
         h1: 'Vue sur le centre organisateur'
       edit:
         h1: 'Modifier le centre organisateur'
+    project_form_layout:
+      index:
+        h1: 'Liste des modèles de formulaires'
   user:
     label: Utilisateur(s)
     select_2:
