@@ -5,47 +5,72 @@
     {% apply wrapper_container(wrapper) %}
     #}
 
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-            {% if isSidebarLayout %}
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
-                        <i class="fas fa-bars"></i>
-                    </a>
-                </li>
-            {% endif %}
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        {% if isSidebarLayout %}
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="navbar-nav link-underline">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app.homepage') }}">
+                    <i class="fas fa-home"></i>
+                    {{ 'app.navbar.item.dashboard.label'|trans }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app.project.index') }}">
+                    <i class="far fa-lightbulb"></i>
+                    {{ 'app.navbar.item.my_projects.label'|trans }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-scroll"></i>
+                    {{ 'app.navbar.item.my_repports.label'|trans }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app.call_of_project.index') }}">
+                    <i class="fas fa-cube"></i>
+                    {{ 'app.navbar.item.my_call_of_projects.label'|trans }}
+                </a>
+            </li>
         </ul>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-            <ul class="navbar-nav link-underline">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app.homepage') }}">
-                        <i class="fas fa-home"></i>
-                        {{ 'app.navbar.item.dashboard.label'|trans }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app.project.index') }}">
-                        <i class="far fa-lightbulb"></i>
-                        {{ 'app.navbar.item.my_projects.label'|trans }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-scroll"></i>
-                        {{ 'app.navbar.item.my_repports.label'|trans }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app.call_of_project.index') }}">
-                        <i class="fas fa-cube"></i>
-                        {{ 'app.navbar.item.my_call_of_projects.label'|trans }}
-                    </a>
-                </li>
-            </ul>
-        </div>
+    </div>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link" data-toggle="dropdown" style="font-size: 1.2rem;">
+                <i class="far fa-bell"></i>
+                <span class="badge badge-secondary navbar-badge">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link" data-toggle="dropdown" style="font-size: 1.2rem;">
+                <i class="far fa-user-circle"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <a href="#" class="dropdown-item">Mon profil</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app.admin.user.index') }}" class="dropdown-item">Administration</a>
+                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Déconnexion</a>
+            </div>
+        </li>
+
+    </ul>
     {#
     {% endapply %}
     #}

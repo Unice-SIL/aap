@@ -137,8 +137,19 @@ body.layout-fixed {
 /**
  * Navbar
  */
-#main-navbar .nav-link {
-  color: $dark;
+#main-navbar {
+  & .nav-link {
+    color: $dark;
+  }
+
+  & ul.ml-auto {
+    flex-direction: row !important;
+
+    & a {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
 }
 
 
