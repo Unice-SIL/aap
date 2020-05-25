@@ -8,6 +8,11 @@
     {{ 'app.project.show.h1'|trans }} {{ project.name }}
 {% endblock %}
 
+{%  block modals %}
+    {{ parent() }}
+    {{ include('partial/modal/_add_reporters_form.html.twig') }}
+{%  endblock %}
+
 {% block content %}
 
     <div class="card">
@@ -69,19 +74,28 @@
                     is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
                     and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
                 %}
-                    <div class="tab-pane fade mt-4" id="nav-reports" role="tabpanel" aria-labelledby="nav-reports-tab">
+                    <div class="tab-pane fade mt-2" id="nav-reports" role="tabpanel" aria-labelledby="nav-reports-tab">
+                        <div class="mb-4 pb-2 clearfix border-bottom">
+                            <button class="btn btn-primary float-right"
+                                    data-toggle="modal"
+                                    data-target="#add-reporters-form-modal"
+                                    type="button"
+                            >
+                                {{ 'app.project.action.add_reporters'|trans }}
+                            </button>
+                        </div>
                         <table
                                 class="table dataTable"
                                 data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
                         >
                             <thead>
-                                <th>{{ 'app.report.property.created_by.label'|trans }}</th>
+                                <th>{{ 'app.report.property.reporter.label'|trans }}</th>
                                 <th>{{ 'app.report.property.status.label'|trans }}</th>
                             </thead>
                             <tbody>
                             {% for report in project.reports %}
                                 <tr>
-                                    <td>{{ report.createdBy }}</td>
+                                    <td>{{ report.reporter }}</td>
                                     <td>{{ include('report/_status_badge.html.twig') }}</td>
                                 </tr>
                             {% endfor %}

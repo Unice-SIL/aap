@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Project;
+use App\Form\Project\AddReporterType;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -92,16 +93,33 @@ class ProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/show", name="show", methods={"GET"})
+     * @Route("/{id}/show", name="show", methods={"GET", "POST"})
      * @param Project $project
      * @param Request $request
-     * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
-
+     * @param EntityManagerInterface $em
      * @return Response
+     * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      */
-    public function show(Project $project, Request $request)
+    public function show(Project $project, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $context = $request->query->get('context');
+
+        $addReportersForm = $this->createForm(AddReporterType::class, $project);
+        $addReportersForm->handleRequest($request);
+
+        if ($addReportersForm->isSubmitted() and $addReportersForm->isValid()) {
+
+            $em->flush();
+
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $project->getName()]));
+
+            $routeParameters = ['id' => $project->getId()];
+            if ($context === 'call_of_project') {
+                $routeParameters['context'] = $context;
+            }
+
+            return $this->redirectToRoute('app.project.show', $routeParameters);
+        }
 
         if ($context === 'call_of_project') {
             $layout = 'call_of_project/layout.html.twig';
@@ -111,7 +129,8 @@ class ProjectController extends AbstractController
             'project' => $project,
             'call_of_project' => $project->getCallOfProject(),
             'layout' => $layout ?? null,
-            'context' => $context
+            'context' => $context,
+            'add_reporters_form' => $addReportersForm->createView()
         ]);
     }
 

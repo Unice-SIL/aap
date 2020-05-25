@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
@@ -31,7 +32,7 @@ class Project extends Common
     private $projectContents;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true, cascade={"persist"})
      */
     private $reports;
 

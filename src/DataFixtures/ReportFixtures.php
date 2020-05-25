@@ -44,7 +44,8 @@ class ReportFixtures extends Fixture implements DependentFixtureInterface
 
             $report = new Report();
             $report->setName($reportFixtures['name']);
-            $report->setCreatedBy($this->getReference(UserFixtures::class . $reportFixtures['user']));
+            $report->setCreatedBy($this->getReference(UserFixtures::class . UserFixtures::USER_ADMIN));
+            $report->setReporter($this->getReference(UserFixtures::class . $reportFixtures['user']));
             $report->setProject($this->getReference(ProjectFixtures::class . ProjectFixtures::PROJECT_1));
             $manager->persist($report);
         }
