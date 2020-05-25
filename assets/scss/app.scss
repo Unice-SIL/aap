@@ -152,6 +152,12 @@ body.layout-fixed {
   }
 }
 
+/**
+ * Sidebar
+ */
+.sidebar-dark-primary .sidebar a {
+  color: var(--white);
+}
 
 /**
  * Link
