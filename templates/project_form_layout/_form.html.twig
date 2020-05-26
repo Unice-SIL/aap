@@ -1,4 +1,5 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn btn-primary">{{ button_label|default('app.action.save'|trans) }}</button>
+    <a href="{{ path('app.admin.project_form_layout.show', {'id': form.vars.data.id}) }}" class="btn btn-link">{{ 'app.action.canceled'|trans }}</a>
 {{ form_end(form) }}

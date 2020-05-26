@@ -41,6 +41,7 @@ class ProjectFormLayoutController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function new(
         ProjectFormLayoutManagerInterface $projectFormLayoutManager,
@@ -110,6 +111,7 @@ class ProjectFormLayoutController extends AbstractController
      * @param ProjectManagerInterface $projectManager
      * @param WidgetManager $widgetManager
      * @return Response
+     * @throws \Exception
      */
     public function show(
         ProjectFormLayout $projectFormLayout,
@@ -138,6 +140,7 @@ class ProjectFormLayoutController extends AbstractController
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(ProjectFormLayout $projectFormLayout, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
     {
