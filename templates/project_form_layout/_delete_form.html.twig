@@ -1,0 +1,16 @@
+<form method="post" action="{{ path('app.admin.widget.delete', {'id': project_form_widget.id}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ project_form_widget.id) }}">
+    <button class="
+                btn
+                btn-sm
+                btn-{{ constant('App\\Constant\\CssMatching::PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP')[project_form_widget.isActive] }}
+                btn-block alert-button-modal rounded-circle my-1
+            "
+            data-modal-title="{{ 'app.project_form_widget.modal.delete_warning_title'|trans }}"
+            data-modal-warning-label="{{ 'app.action.trash'|trans }}"
+            data-modal-warning-class="btn btn-danger"
+    >
+        <i class="fa fa-trash"></i>
+    </button>
+</form>

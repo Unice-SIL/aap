@@ -1,0 +1,44 @@
+
+<aside class="control-sidebar control-sidebar-light">
+    <h2 class="p-3">{{ 'app.widget.form_widget.label'|trans }}</h2>
+    <ul class="list-group">
+        {% for widget in widget_manager.formWidgets %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ ('app.widget.' ~ widget.name)|trans }}
+                <a
+                        class="btn btn-link float-right text-primary"
+                        style="line-height:1.3; border-radius:25px"
+                        data-toggle="modal"
+                        data-target="#widget-form-modal"
+                        data-url="{{ path('app.project_form_layout.add_widget', {
+                            'widgetName' : widget.name,
+                            'id' : project_form_layout.id
+                        }) }}"
+                >
+                    <i class="fas fa-plus-circle"></i>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2 class="p-3">{{ 'app.widget.html_widget.label'|trans }}</h2>
+    <ul class="list-group">
+        {% for widget in widget_manager.htmlWidgets %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ ('app.widget.' ~ widget.name)|trans }}
+                <a
+                        class="btn btn-link float-right text-primary"
+                        style="line-height:1.3; border-radius:25px"
+                        data-toggle="modal"
+                        data-target="#widget-form-modal"
+                        data-url="{{ path('app.project_form_layout.add_widget', {
+                            'widgetName' : widget.name,
+                            'id' : project_form_layout.id
+                        }) }}"
+                >
+                    <i class="fas fa-plus-circle"></i>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</aside>

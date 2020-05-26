@@ -15,41 +15,43 @@
         {% endfor %}
     </div>
 
-    <hr>
-    <h2>{{ 'app.common.trash.label'|trans }}</h2>
+    {% if not showOnlyActive %}
+        <hr>
+        <h2>{{ 'app.common.trash.label'|trans }}</h2>
 
-    {% set trash = projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == false) %}
-    {% if  trash|length > 0 %}
-        <div class="row">
-            {% for project_form_widget in trash %}
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body disabled">
-                            <div class="row">
-                                <div class="col-11 d-flex flex-column justify-content-center disabled">
-                                    {{ include('partial/widget/_render_widget.html.twig', { options : {'attr' : {'disabled' : true }}} ) }}
-                                </div>
-                                <div class="col-1 d-flex flex-column justify-content-center align-items-end">
-                                    <div class="project-form-widget-delete">
+        {% set trash = projectFormWidgets|filter(projectFormWidget => projectFormWidget.isActive == false) %}
+        {% if  trash|length > 0 %}
+            <div class="row">
+                {% for project_form_widget in trash %}
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body disabled">
+                                <div class="row">
+                                    <div class="col-11 d-flex flex-column justify-content-center disabled">
+                                        {{ include('partial/widget/_render_widget.html.twig', { options : {'attr' : {'disabled' : true }}} ) }}
+                                    </div>
+                                    <div class="col-1 d-flex flex-column justify-content-center align-items-end">
+                                        <div class="project-form-widget-delete">
 
-                                        {# this is to prevent weird behavior due to html form nested #}
-                                        {% if loop.first %}
-                                            <form action=""></form>
-                                        {% endif %}
+                                            {# this is to prevent weird behavior due to html form nested #}
+                                            {% if loop.first %}
+                                                <form action=""></form>
+                                            {% endif %}
 
-                                        {{ include('widget/_trash_toggle_form.html.twig', {'widget' : project_form_widget}) }}
+                                            {{ include('widget/_trash_toggle_form.html.twig', {'widget' : project_form_widget}) }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="alert alert-info">
-            {{ 'app.common.trash.no_element'|trans }}
-        </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                {{ 'app.common.trash.no_element'|trans }}
+            </div>
+        {% endif %}
     {% endif %}
 
 {{ form_end(form) }}

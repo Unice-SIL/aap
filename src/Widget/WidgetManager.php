@@ -131,16 +131,19 @@ class WidgetManager
 
         $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getProjectFormWidgets();
 
+        $showOnlyActive = true;
         if (
             isset($dynamicForm->getConfig()->getOptions()['allWidgets'])
             and $dynamicForm->getConfig()->getOptions()['allWidgets']
         ) {
             $projectFormWidgets = $project->getCallOfProject()->getProjectFormLayout()->getAllProjectFormWidgets();
+            $showOnlyActive = false;
         }
 
-        return $this->twig->render($template, [
+        return $this->twig->render($template,[
             'form' => $dynamicForm->createView(),
-            'projectFormWidgets' => $projectFormWidgets
+            'projectFormWidgets' => $projectFormWidgets,
+            'showOnlyActive' => $showOnlyActive
         ]);
     }
 
