@@ -2,11 +2,11 @@
 {% set body_class = 'call-of-project-form control-sidebar-push  control-sidebar-slide-open' %}
 
 {% block title %}
-    {{ 'app.admin.project_form_layout.configure.h1'|trans }}
+    {{ 'app.admin.project_form_layout.configure.h1'|trans }} {{ project_form_layout.name }}
 {% endblock %}
 
 {% block h1_content %}
-    {{ 'app.admin.project_form_layout.configure.h1'|trans }}
+    {{ 'app.admin.project_form_layout.configure.h1'|trans }} {{ project_form_layout.name }}
 {% endblock %}
 
 {% block modals %}

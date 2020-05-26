@@ -41,6 +41,7 @@ class ProjectFormLayoutController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function new(
         ProjectFormLayoutManagerInterface $projectFormLayoutManager,
@@ -105,9 +106,61 @@ class ProjectFormLayoutController extends AbstractController
 
     /**
      * @Route("/{id}/show", name="show", methods={"GET"})
+     * @param ProjectFormLayout $projectFormLayout
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @param ProjectManagerInterface $projectManager
+     * @param WidgetManager $widgetManager
+     * @return Response
+     * @throws \Exception
      */
-    public function show()
+    public function show(
+        ProjectFormLayout $projectFormLayout,
+        CallOfProjectManagerInterface $callOfProjectManager,
+        ProjectManagerInterface $projectManager,
+        WidgetManager $widgetManager
+    )
     {
+        $callOfProject = $callOfProjectManager->create();
+        $callOfProject->addProjectFormLayout($projectFormLayout);
+        $project = $projectManager->create($callOfProject);
+        $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => false]);
 
+        return $this->render('project_form_layout/show.html.twig', [
+            'project_form_layout' => $projectFormLayout,
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
+                $dynamicForm,
+                'partial/widget/_dynamic_form.html.twig'
+            ),
+        ]);
+    }
+
+    /**
+     * @param ProjectFormLayout $projectFormLayout
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function edit(ProjectFormLayout $projectFormLayout, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(ProjectFormLayoutInformationType::class, $projectFormLayout);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid())
+        {
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', [
+                '%item%' => $projectFormLayout->getName()
+            ]));
+
+            $em->flush();
+
+            return $this->redirectToRoute('app.admin.project_form_layout.show', ['id' => $projectFormLayout->getId()]);
+        }
+
+        return $this->render('project_form_layout/edit.html.twig', [
+            'project_form_layout' => $projectFormLayout,
+            'form' => $form->createView()
+        ]);
     }
 }

@@ -1,0 +1,18 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.project_form_layout.edit.h1'|trans }} {{ project_form_layout.name }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.project_form_layout.edit.h1'|trans }} {{ project_form_layout.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {{ include('project_form_layout/_form.html.twig', {'button_label' : 'app.action.edit'|trans}) }}
+        </div>
+    </div>
+{% endblock %}
+

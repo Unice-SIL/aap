@@ -27,7 +27,7 @@
                 {% for template in templates %}
                     <tr>
                         <td>
-                            <a href="{#{{ path('app.admin.template.show', { 'id' : template.id}) }}#}">
+                            <a href="{{ path('app.admin.project_form_layout.show', { 'id' : template.id}) }}">
                                 {{ template.name }}
                             </a>
                         </td>
