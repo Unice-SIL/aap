@@ -5,7 +5,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\ProjectFormLayout;
 use App\Form\ProjectFormLayout\ProjectFormLayoutInformationType;
+use App\Manager\CallOfProject\CallOfProjectManagerInterface;
+use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
+use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,11 +63,51 @@ class ProjectFormLayoutController extends AbstractController
             $em->persist($projectFormLayout);
             $em->flush();
 
-            return $this->redirectToRoute('app.admin.project_form_layout.index');
+            return $this->redirectToRoute('app.admin.project_form_layout.configure', ['id' => $projectFormLayout->getId()]);
         }
 
         return $this->render('project_form_layout/new.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/{id}/configure", name="configure", methods={"GET", "POST"})
+     * @param ProjectFormLayout $projectFormLayout
+     * @param ProjectManagerInterface $projectManager
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @param WidgetManager $widgetManager
+     * @return Response
+     * @throws \Exception
+     */
+    public function configure(
+        ProjectFormLayout $projectFormLayout,
+        ProjectManagerInterface $projectManager,
+        CallOfProjectManagerInterface $callOfProjectManager,
+        WidgetManager $widgetManager
+    )
+    {
+
+        $callOfProject = $callOfProjectManager->create();
+        $callOfProject->addProjectFormLayout($projectFormLayout);
+        $project = $projectManager->create($callOfProject);
+        $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => false]);
+
+        return $this->render('project_form_layout/configure.html.twig', [
+            'project_form_layout' => $projectFormLayout,
+            'widget_manager' => $widgetManager,
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
+                $dynamicForm,
+                'partial/widget/_dynamic_form_demo.html.twig'
+            ),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/show", name="show", methods={"GET"})
+     */
+    public function show()
+    {
+
     }
 }
