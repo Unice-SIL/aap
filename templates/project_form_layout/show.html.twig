@@ -1,0 +1,30 @@
+{% extends 'admin_layout.html.twig' %}
+
+
+{% block title %}
+    {{ 'app.admin.project_form_layout.show.h1'|trans }} {{ project_form_layout.name }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.project_form_layout.show.h1'|trans }} {{ project_form_layout.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <a href="" class="btn btn-primary float-right">{{ 'app.action.edit'|trans }}</a>
+            <dl>
+                <dt>{{ 'app.project_form_layout.property.name.label'|trans }}</dt>
+                <dd>{{ project_form_layout.name }}</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="clearfix">
+                <a href="{{ path('app.admin.project_form_layout.configure', {'id' : project_form_layout.id}) }}" class="btn btn-primary float-right">{{ 'app.action.configure'|trans }}</a>
+            </div>
+            {{ dynamic_form_html|raw }}
+        </div>
+    </div>
+{% endblock %}

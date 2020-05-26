@@ -18,6 +18,7 @@ app:
             label: Modèles de formulaires
             new: Nouveau
             configure: Configuration
+            show: Vue
           organizing_center:
             edit: Edition
             show: Vue
@@ -221,6 +222,7 @@ app:
     trash: 'Corbeille'
     back_to_view: 'Revenir à la vue'
     back_to_list: 'Revenir à la liste'
+    configure: 'Configurer'
   sidebar:
     item:
       projects:
@@ -315,6 +317,8 @@ app:
         h1: 'Nouveau modèle de formulaire'
       configure:
         h1: 'Configuration du modèle de formulaire'
+      show:
+        h1: 'Vue sur le modèle de formulaire'
   user:
     label: Utilisateur(s)
     select_2:

@@ -105,9 +105,30 @@ class ProjectFormLayoutController extends AbstractController
 
     /**
      * @Route("/{id}/show", name="show", methods={"GET"})
+     * @param ProjectFormLayout $projectFormLayout
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @param ProjectManagerInterface $projectManager
+     * @param WidgetManager $widgetManager
+     * @return Response
      */
-    public function show()
+    public function show(
+        ProjectFormLayout $projectFormLayout,
+        CallOfProjectManagerInterface $callOfProjectManager,
+        ProjectManagerInterface $projectManager,
+        WidgetManager $widgetManager
+    )
     {
+        $callOfProject = $callOfProjectManager->create();
+        $callOfProject->addProjectFormLayout($projectFormLayout);
+        $project = $projectManager->create($callOfProject);
+        $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => false]);
 
+        return $this->render('project_form_layout/show.html.twig', [
+            'project_form_layout' => $projectFormLayout,
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
+                $dynamicForm,
+                'partial/widget/_dynamic_form.html.twig'
+            ),
+        ]);
     }
 }

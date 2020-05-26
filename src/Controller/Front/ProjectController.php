@@ -77,7 +77,7 @@ class ProjectController extends AbstractController
 
             $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $project->getName()]));
 
-            return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
+            return $this->redirectToRoute('app.project.show', ['id' => $project->getId(), 'context' => $context]);
         }
 
         return $this->render('project/edit.html.twig', [
@@ -128,6 +128,7 @@ class ProjectController extends AbstractController
         if ($context === 'call_of_project') {
             $layout = 'call_of_project/layout.html.twig';
         }
+
 
         return $this->render('project/show.html.twig', [
             'project' => $project,
