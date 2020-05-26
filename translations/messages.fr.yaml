@@ -19,6 +19,7 @@ app:
             new: Nouveau
             configure: Configuration
             show: Vue
+            edit: Edition
           organizing_center:
             edit: Edition
             show: Vue
@@ -319,6 +320,8 @@ app:
         h1: 'Configuration du modèle de formulaire'
       show:
         h1: 'Vue sur le modèle de formulaire'
+      edit:
+        h1: 'Editer le modèle de formulaire'
   user:
     label: Utilisateur(s)
     select_2:

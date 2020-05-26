@@ -131,4 +131,33 @@ class ProjectFormLayoutController extends AbstractController
             ),
         ]);
     }
+
+    /**
+     * @param ProjectFormLayout $projectFormLayout
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     */
+    public function edit(ProjectFormLayout $projectFormLayout, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(ProjectFormLayoutInformationType::class, $projectFormLayout);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid())
+        {
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', [
+                '%item%' => $projectFormLayout->getName()
+            ]));
+
+            $em->flush();
+
+            return $this->redirectToRoute('app.admin.project_form_layout.show', ['id' => $projectFormLayout->getId()]);
+        }
+
+        return $this->render('project_form_layout/edit.html.twig', [
+            'project_form_layout' => $projectFormLayout,
+            'form' => $form->createView()
+        ]);
+    }
 }
