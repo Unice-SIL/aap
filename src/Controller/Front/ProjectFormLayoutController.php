@@ -4,8 +4,11 @@
 namespace App\Controller\Front;
 
 
+use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
+use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
+use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
 use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Repository\ProjectFormLayoutRepository;
 use App\Security\CallOfProjectVoter;
@@ -34,6 +37,8 @@ class ProjectFormLayoutController extends AbstractController
      * @param RouterInterface $router
      * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
      * @param ProjectManagerInterface $projectManager
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @param ProjectFormLayoutManagerInterface $projectFormLayoutManager
      * @return Response
      */
     public function addWidget(
@@ -45,8 +50,11 @@ class ProjectFormLayoutController extends AbstractController
         ProjectManagerInterface $projectManager
     ): Response
     {
-
-        $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormLayout->getCallOfProject());
+        if (!$projectFormLayout->getCallOfProject() instanceof  CallOfProject) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        } else {
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormLayout->getCallOfProject());
+        }
 
         $widgetName = $request->query->get('widgetName');
 
@@ -73,8 +81,16 @@ class ProjectFormLayoutController extends AbstractController
 
                 $projectFormWidgetManager->save($projectFormWidget);
 
-                $project = $projectManager->create($projectFormWidget->getProjectFormLayout()->getCallOfProject());
+
+                $callOfProject = $projectFormLayout->getCallOfProject();
+                if (!$callOfProject instanceof CallOfProject) {
+                    $callOfProject = new CallOfProject();
+                    $callOfProject->addProjectFormLayout($projectFormLayout);
+                }
+
+                $project = $projectManager->create($callOfProject);
                 $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => true]);
+
                 return $this->render('partial/widget/_project_form_widget_card_edition.html.twig', [
                     'project_form_widget' => $projectFormWidget,
                     'form' => $dynamicForm->createView()

@@ -17,6 +17,7 @@ app:
           project_form_layout:
             label: Modèles de formulaires
             new: Nouveau
+            configure: Configuration
           organizing_center:
             edit: Edition
             show: Vue
@@ -271,6 +272,7 @@ app:
     modal:
       trash_warning_title: 'Êtes-vous sûr de vouloir mettre ce widget dans la corbeille?'
       reactivate_warning_title: 'Êtes-vous sûr de vouloir réactiver ce widget?'
+      delete_warning_title: 'Êtes-vous sûr de vouloir supprimer ce widget?'
     edition_on_trash_widget_denied: 'Vous ne pouvez pas modifier un widget dans la corbeille '
   flash_message:
     success: Ajout de l'élément "%item%" réalisé avec succès
@@ -311,6 +313,8 @@ app:
         h1: 'Liste des modèles de formulaires'
       new:
         h1: 'Nouveau modèle de formulaire'
+      configure:
+        h1: 'Configuration du modèle de formulaire'
   user:
     label: Utilisateur(s)
     select_2:

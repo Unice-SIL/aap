@@ -23,6 +23,7 @@
                     <button class="btn btn-sm btn-warning my-1 widget-button text-white rounded-circle">
                         <i class="far fa-clone"></i>
                     </button>
+
                     <div class="project-form-widget-delete">
 
                         {# this is to prevent weird behavior due to html form nested #}
@@ -30,11 +31,15 @@
                             <form action=""></form>
                         {% endif %}
 
-                        {{ include('widget/_trash_toggle_form.html.twig', {
-                            'widget' : project_form_widget,
-                            'content' : '<i class="fa fa-trash"></i>',
-                            'class' : 'widget-button'
-                        }) }}
+                        {% if project_form_widget.projectFormLayout.isTemplate %}
+                            {{ include('project_form_layout/_delete_form.html.twig') }}
+                        {% else %}
+                            {{ include('widget/_trash_toggle_form.html.twig', {
+                                'widget' : project_form_widget,
+                                'content' : '<i class="fa fa-trash"></i>',
+                                'class' : 'widget-button'
+                            }) }}
+                        {% endif %}
                     </div>
                 </div>
             </div>

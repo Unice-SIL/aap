@@ -4,6 +4,7 @@
 namespace App\Controller\Front;
 
 
+use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\Entity\ProjectFormWidget;
 use App\Manager\Project\ProjectManagerInterface;
@@ -11,6 +12,7 @@ use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Security\CallOfProjectVoter;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,9 +50,11 @@ class WidgetController extends AbstractController
 
     ): Response
     {
-        $this->denyAccessUnlessGranted(
-            CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject()
-        );
+        if (!$projectFormWidget->getProjectFormLayout()->getCallOfProject() instanceof  CallOfProject) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        } else {
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject());
+        }
 
         $widget = $projectFormWidget->getWidget();
 
@@ -78,7 +82,13 @@ class WidgetController extends AbstractController
 
                 $projectFormWidgetManager->update($projectFormWidget);
 
-                $project = $projectManager->create($projectFormWidget->getProjectFormLayout()->getCallOfProject());
+                $callOfProject = $projectFormWidget->getProjectFormLayout()->getCallOfProject();
+                if (!$callOfProject instanceof CallOfProject) {
+                    $callOfProject = new CallOfProject();
+                    $callOfProject->addProjectFormLayout($projectFormWidget->getProjectFormLayout());
+                }
+
+                $project = $projectManager->create($callOfProject);
                 $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => true]);
                 return $this->render('partial/widget/_project_form_widget_card_edition.html.twig', [
                     'project_form_widget' => $projectFormWidget,
@@ -128,9 +138,11 @@ class WidgetController extends AbstractController
     public function updatePosition(ProjectFormWidget $projectFormWidget, Request $request, EntityManagerInterface $em)
     {
 
-        $this->denyAccessUnlessGranted(
-            CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject()
-        );
+        if (!$projectFormWidget->getProjectFormLayout()->getCallOfProject() instanceof  CallOfProject) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        } else {
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject());
+        }
 
         $position = $request->request->getInt('position');
 
@@ -171,4 +183,5 @@ class WidgetController extends AbstractController
 
         return $this->json(['success' => true]);
     }
+
 }
