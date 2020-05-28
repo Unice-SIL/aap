@@ -36,7 +36,7 @@ class ReportFromUserTransformer implements DataTransformerInterface
     public function transform($value)
     {
         return [
-            'old_reports' => $value->toArray()
+            'old_reports' => $value ? $value->toArray() : []
         ];
     }
 

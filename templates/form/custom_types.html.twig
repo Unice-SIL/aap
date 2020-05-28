@@ -63,3 +63,15 @@
         </label>
     </div>
 {% endblock %}
+
+{% block batch_action_widget %}
+    <button type="button" class="btn btn-default dropdown-toggle main-button disabled" data-toggle="dropdown">
+        {{ 'app.batch_action.button.label'|trans }}
+    </button>
+    <div class="dropdown-menu">
+        {% for batch_action in form.vars.batch_actions %}
+            {{ form_widget(form[batch_action.name]) }}
+        {% endfor %}
+    </div>
+    {{ form_widget(form.entities) }}
+{% endblock %}

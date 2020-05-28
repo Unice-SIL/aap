@@ -22,6 +22,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('instanceof', [$this, 'instanceof']),
             new TwigFunction('render_breadcrumb', [BreadcrumbRuntime::class, 'renderBreadcrumb']),
+            new TwigFunction('batch_action_render_input', [BatchActionRuntime::class, 'batchActionRenderInput']),
         ];
     }
 

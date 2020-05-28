@@ -1,5 +1,6 @@
 import '../scss/app.scss';
 
+require('./custom')
 require('admin-lte');
 require('admin-lte/plugins/jquery-knob/jquery.knob.min');
 require('bootstrap');
@@ -325,4 +326,27 @@ $(document).ready(function () {
         'fgColor': window.getComputedStyle(document.body).getPropertyValue('--danger')
     });
 
+    /**
+     * Batch action
+     */
+    $('.batch-input').click(function () {
+
+        let input = $(this);
+        let form = $(input.data('form-target'));
+        let batchActionButton = form.find('.main-button');
+        let entitiesField = form.find('select.entities-field')
+
+        if (input.is(':checked')) {
+            let newOption = entitiesField.data('prototype');
+            newOption = newOption.replace(/__VALUE__/g, input.val());
+            newOption = newOption.replace(/__LABEL__/g, input.val());
+            newOption = $(newOption);
+            newOption.appendTo(entitiesField);
+        } else {
+            let elementToRemove = entitiesField.find('option[value="' + input.val() + '"]')
+            elementToRemove.remove();
+        }
+
+        batchActionButton.disable(entitiesField.find('option').length < 1);
+    })
 });

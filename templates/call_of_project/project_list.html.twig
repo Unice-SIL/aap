@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-
+    {{ form(batch_action_form) }}
     <div class="card">
         {% if is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project) %}
             <div class="card-header">
@@ -25,6 +25,7 @@
                     <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_at.label'|trans }}</th>
                     <th>{{ 'app.project.property.status.label'|trans }}</th>
+                    <th>{{ 'app.batch_action.button.label'|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,6 +39,7 @@
                         <td>{{ project.createdBy }}</td>
                         <td>{{ project.createdAt|date('d/m/Y h:i') }}</td>
                         <td>{{ include('project/_status_badge.html.twig', { 'project' : project}) }}</td>
+                        <td class="text-center">{{ batch_action_render_input(project.id, batch_action_form.vars.attr.id) }}</td>
                     </tr>
                 {% else %}
                     <tr>
