@@ -1,4 +1,12 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('app.action.save'|trans) }}</button>
+    <button class="btn btn-primary mr-3">{{ button_label|default('app.action.save'|trans) }}</button>
+
+    {% set path = path('app.admin.organizing_center.index') %}
+        {% if organizing_center.id != null %}
+            {% set path = path('app.admin.organizing_center.show', {'id': organizing_center.id}) %}
+    {% endif %}
+    <a href="{{ path }}" class="text-muted">
+        {{ 'app.action.canceled'|trans }}
+    </a>
 {{ form_end(form) }}

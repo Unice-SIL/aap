@@ -9,6 +9,7 @@ use App\Form\Group\GroupType;
 use App\Manager\Group\GroupManagerInterface;
 use App\Repository\GroupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,6 +39,7 @@ class GroupController extends AbstractController
      * @param GroupManagerInterface $groupManager
      * @param Request $request
      * @param TranslatorInterface $translator
+     * @return RedirectResponse|Response
      */
     public function new(GroupManagerInterface $groupManager, Request $request, TranslatorInterface $translator)
     {
@@ -53,12 +55,46 @@ class GroupController extends AbstractController
                 '%item%' => $group->getName()
             ]));
 
-            return $this->redirectToRoute('app.admin.group.index');
+            return $this->redirectToRoute('app.admin.group.show', ['id' => $group->getId()]);
 
         }
 
         return $this->render('group/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'group' => $group
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @param Group $group
+     * @param GroupManagerInterface $groupManager
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     * @return RedirectResponse|Response
+     */
+    public function edit(Group $group, GroupManagerInterface $groupManager, Request $request, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(GroupType::class, $group);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $groupManager->update($group);
+
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', [
+                '%item%' => $group->getName()
+            ]));
+
+            return $this->redirectToRoute('app.admin.group.show', [
+                'id' => $group->getId(),
+            ]);
+
+        }
+
+        return $this->render('group/edit.html.twig', [
+            'form' => $form->createView(),
+            'group' => $group
         ]);
     }
 

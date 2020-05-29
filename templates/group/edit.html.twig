@@ -1,0 +1,20 @@
+{% extends 'admin_layout.html.twig' %}
+
+
+{% block title %}
+    {{ 'app.admin.group.edit.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.group.edit.h1'|trans }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {{ include('group/_form.html.twig') }}
+        </div>
+    </div>
+
+{% endblock %}

@@ -5,8 +5,6 @@ namespace App\Utils\Batch;
 
 
 use App\Entity\Project;
-use App\Entity\Report;
-use App\Entity\User;
 use App\Form\BatchAction\AddReporterBatchActionType;
 use Symfony\Component\Form\FormInterface;
 

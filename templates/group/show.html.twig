@@ -13,14 +13,14 @@
 {% block content %}
     <div class="card">
         <div class="card-body">
-            {#<a href="{{ path('app.admin.group.edit', {'id' : group.id}) }}" class="btn btn-primary float-right">{{ 'app.action.edit'|trans }}</a>#}
+            <a href="{{ path('app.admin.group.edit', {'id' : group.id}) }}" class="btn btn-primary float-right">{{ 'app.action.edit'|trans }}</a>
             <dl>
                 <dt>{{ 'app.group.property.name.label'|trans }}</dt>
                 <dd>{{ group.name }}</dd>
             </dl>
             <dl>
                 <dt>{{ 'app.group.property.members.label'|trans }}</dt>
-                <dd>{{ group.members|humanize_data|join(', ') }}</dd>
+                <dd>{{ group.members|join(', ')|humanize_data }}</dd>
             </dl>
         </div>
     </div>

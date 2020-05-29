@@ -24,6 +24,7 @@ app:
             label: Groupes
             new: Nouveau
             show: Vue
+            edit: Edition
           project_form_layout:
             label: Modèles de formulaires
             new: Nouveau
@@ -321,6 +322,8 @@ app:
         h1: 'Nouveau Groupe'
       show:
         h1: 'Vue sur le groupe'
+      edit:
+        h1: 'Modifier le groupe'
     user:
       index:
         h1: 'Liste des utilisateurs'
