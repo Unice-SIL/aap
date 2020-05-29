@@ -20,7 +20,7 @@
             >
                 <thead>
                 <tr>
-                    <th></th>
+                    <th data-no-filter="true"></th>
                     <th>{{ 'app.project.property.name.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_at.label'|trans }}</th>
@@ -30,7 +30,7 @@
                 <tbody>
                 {% for project in call_of_project.projects %}
                     <tr>
-                        <th class="text-center fit">{{ batch_action_render_input(project.id, batch_action_form.vars.attr.id) }}</th>
+                        <td class="text-center fit">{{ batch_action_render_input(project.id, batch_action_form.vars.attr.id) }}</td>
                         <td>
                             <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
                                 {{ project.name }}

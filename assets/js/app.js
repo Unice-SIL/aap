@@ -184,12 +184,22 @@ $(document).ready(function () {
     let dataTables = $('.dataTable');
 
     dataTables.each(function () {
+        let table = $(this);
+        let thIndexes = [];
+        table.find('th').each(function (index) {
 
-        let dataTable = $(this);
-        dataTable.DataTable({
-            language: {
-                url: dataTable.data('translation-url')
+            if ($(this).data('no-filter') === true) {
+                thIndexes.push(index);
             }
+        });
+
+        let dataTable = table.DataTable({
+            language: {
+                url: table.data('translation-url')
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": thIndexes }
+            ],
         });
     });
 
@@ -349,4 +359,6 @@ $(document).ready(function () {
 
         batchActionButton.disable(entitiesField.find('option').length < 1);
     })
+
+
 });
