@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\DependencyInjection\Compiler\BatchActionPass;
 use App\DependencyInjection\Compiler\WidgetPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -56,6 +57,7 @@ class Kernel extends BaseKernel
     protected function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new WidgetPass());
+        $container->addCompilerPass(new BatchActionPass());
     }
 
 

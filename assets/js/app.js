@@ -10,6 +10,7 @@ require('jquery-ui/ui/widgets/sortable');
 require('select2');
 require('select2/dist/js/i18n/fr');
 require('../../public/bundles/tetranzselect2entity/js/select2entity');
+require('./custom')
 
 
 $(document).ready(function () {
@@ -183,12 +184,35 @@ $(document).ready(function () {
     let dataTables = $('.dataTable');
 
     dataTables.each(function () {
+        let table = $(this);
+        let thIndexes = [];
+        let defaultThOrder = 0;
+        table.find('th').each(function (index) {
 
-        let dataTable = $(this);
-        dataTable.DataTable({
-            language: {
-                url: dataTable.data('translation-url')
+            if ($(this).data('no-filter') === true) {
+                thIndexes.push(index);
+            } else if (defaultThOrder === 0) {
+                defaultThOrder = index;
             }
+
+        });
+
+        let dataTable = table.DataTable({
+            language: {
+                url: table.data('translation-url')
+            },
+            "order": [[ defaultThOrder, "asc" ]],
+            "columnDefs": [
+                { "orderable": false, "targets": thIndexes }
+            ],
+            "dom": '<"row"' +
+                        '<"col-sm-12 col-md-6"l>' +
+                        '<"col-sm-12 col-md-6"f>' +
+                        '<"col-12"t>' +
+                        '<"col-12"B>' +
+                        '<"col-sm-12 col-md-6"i>' +
+                        '<"col-sm-12 col-md-6"p>' +
+                  '>',
         });
     });
 
@@ -324,5 +348,30 @@ $(document).ready(function () {
     $('.knob-render-danger').knob({
         'fgColor': window.getComputedStyle(document.body).getPropertyValue('--danger')
     });
+
+    /**
+     * Batch action
+     */
+    $('.batch-input').click(function () {
+
+        let input = $(this);
+        let form = $(input.data('form-target'));
+        let batchActionButton = form.find('.main-button');
+        let entitiesField = form.find('select.entities-field')
+
+        if (input.is(':checked')) {
+            let newOption = entitiesField.data('prototype');
+            newOption = newOption.replace(/__VALUE__/g, input.val());
+            newOption = newOption.replace(/__LABEL__/g, input.val());
+            newOption = $(newOption);
+            newOption.appendTo(entitiesField);
+        } else {
+            let elementToRemove = entitiesField.find('option[value="' + input.val() + '"]')
+            elementToRemove.remove();
+        }
+
+        batchActionButton.disable(entitiesField.find('option').length < 1);
+    })
+
 
 });

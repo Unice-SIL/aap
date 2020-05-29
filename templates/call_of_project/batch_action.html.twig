@@ -1,0 +1,21 @@
+{% extends 'call_of_project/layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.call_of_project.batch_action.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.call_of_project.batch_action.h1'|trans }}
+{% endblock %}
+{% block content %}
+    <p>{{ 'app.batch_action.action_announcement'|trans({'%name_action%' : ('app.batch_action.' ~ batch_action.name)|trans }) }}</p>
+    <ul>
+        {% for entity in entities %}
+            <li>{{ entity }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form(form) }}
+{% endblock %}
+
+

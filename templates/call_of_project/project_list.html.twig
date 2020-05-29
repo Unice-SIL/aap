@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="card">
         {% if is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project) %}
             <div class="card-header">
@@ -16,11 +15,13 @@
         {% endif %}
         <div class="card-body">
             <table
+                    id="project-list-datatable"
                     class="table table table-hover dataTable"
                     data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
             >
                 <thead>
                 <tr>
+                    <th data-no-filter="true"></th>
                     <th>{{ 'app.project.property.name.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_at.label'|trans }}</th>
@@ -30,6 +31,7 @@
                 <tbody>
                 {% for project in call_of_project.projects %}
                     <tr>
+                        <td class="text-center fit">{{ batch_action_render_input(project.id, batch_action_form.vars.attr.id) }}</td>
                         <td>
                             <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
                                 {{ project.name }}
@@ -49,6 +51,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="mb-2" data-batch-datatable-target="#project-list-datatable">
+                {{ form(batch_action_form) }}
+            </div>
         </div>
     </div>
 {% endblock %}

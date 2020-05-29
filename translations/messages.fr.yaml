@@ -1,5 +1,11 @@
 app:
-
+  batch_action:
+    add_reporter: Ajouter des rapporteurs
+    delete: Supprimer
+    button:
+      label: 'Actions'
+    action_announcement: Vou souhaitez effectuer l'action "%name_action%" pour les éléments suivants
+    success: 'Les éléments ont été modifiés avec succès'
   acl:
     property:
       label: Permissions
@@ -31,6 +37,7 @@ app:
             new: Nouveau
             label: Utilisateurs
         call_of_project:
+          batch_action: Actions Groupées
           all: Ouvert ou fermé
           edit_permissions: Edition des permissions
           add_project: Ajouter un projet
@@ -188,6 +195,8 @@ app:
       h1: 'Liste des permissions'
     own_acls: Permissions de l'appel à projets
     own_inherited_from_organizing_center: Permissions héritées du centre organisateur
+    batch_action:
+      h1: 'Actions Groupées'
   dashboard:
     my_calls_of_project:
       title: Mes appels à projets
@@ -355,3 +364,4 @@ app:
         label: 'Crée par'
       reporter:
         label: 'Rapporteur'
+  page_not_found: 'Cette page n''existe pas'

@@ -77,6 +77,12 @@ table {
   }
 }
 
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%;
+}
+
 /*
  Page Call Of Project Form
 */

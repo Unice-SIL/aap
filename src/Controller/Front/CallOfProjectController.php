@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
+use App\Entity\Project;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\CallOfProjectAclsType;
 use App\Form\Project\ProjectToStudyType;
@@ -11,6 +12,8 @@ use App\Manager\Project\ProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use App\Security\CallOfProjectVoter;
 use App\Security\UserVoter;
+use App\Utils\Batch\BatchActionInterface;
+use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
@@ -19,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -191,6 +195,7 @@ class CallOfProjectController extends AbstractController
      * @param Registry $workflowRegistry
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
+     * @param BatchActionManagerInterface $batchManager
      * @return Response
      * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
      */
@@ -199,7 +204,8 @@ class CallOfProjectController extends AbstractController
         Request $request,
         Registry $workflowRegistry,
         EntityManagerInterface $em,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        BatchActionManagerInterface $batchManager
     ): Response
     {
         $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
@@ -226,9 +232,82 @@ class CallOfProjectController extends AbstractController
             return  $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
         }
 
+        $batchActionForm = $batchManager->getForm(Project::class);
+        $batchActionForm->handleRequest($request);
+
+        if ($batchActionForm->isSubmitted() and $batchActionForm->isValid()) {
+
+            $batchManager->saveDataInSession($batchActionForm, $request->getSession());
+
+            return $this->redirectToRoute('app.call_of_project.batch_action', ['id'=> $callOfProject->getId()]);
+
+        }
+
         return $this->render('call_of_project/project_list.html.twig', [
             'call_of_project' => $callOfProject,
             'project_to_study_form' => $projectToStudyForm->createView(),
+            'batch_action_form' => $batchActionForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/batch-action", name="batch_action", methods={"GET", "POST"})
+     * @param CallOfProject $callOfProject
+     * @param BatchActionManagerInterface $batchActionManager
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function batchAction(
+        CallOfProject $callOfProject,
+        BatchActionManagerInterface $batchActionManager,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
+    )
+    {
+
+        $entities = $batchActionManager->getEntitiesFromSession($request->getSession());
+        $batchAction = $batchActionManager->getBatchActionFromSession($request->getSession());
+
+        if (empty($entities) or !$batchAction) {
+            throw new NotFoundHttpException($translator->trans('app.page_not_found'));
+        }
+
+        $form = $this->createForm($batchAction->getFormClassName());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $className = null;
+            $ids = array_map(function ($entity) use (&$className){
+
+                if ($className === null) {
+                    $className = get_class($entity);
+                }
+                return $entity->getId();
+            }, $entities);
+
+            $entities = $entityManager->getRepository($className)->findBy(['id' => $ids]);
+
+            foreach ($entities as $entity) {
+                $batchAction->process($entity, $form);
+            }
+
+            $batchActionManager->removeBatchActionFromSession($request->getSession());
+
+            $entityManager->flush();
+            $this->addFlash('success', $translator->trans('app.batch_action.success'));
+
+            return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
+        }
+
+        return $this->render('call_of_project/batch_action.html.twig', [
+            'call_of_project' => $callOfProject,
+            'entities' => $entities,
+            'batch_action' => $batchAction,
+            'form' => $form->createView()
         ]);
     }
 

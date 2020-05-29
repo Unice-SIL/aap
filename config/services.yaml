@@ -51,3 +51,5 @@ services:
             tags: ['app.form_widget']
         App\Widget\HtmlWidget\HtmlWidgetInterface:
             tags: ['app.html_widget']
+        App\Utils\Batch\BatchActionInterface:
+            tags: ['app.batch_action']
