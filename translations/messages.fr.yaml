@@ -20,6 +20,8 @@ app:
     main:
       app:
         admin:
+          group:
+            label: Groupes
           project_form_layout:
             label: Modèles de formulaires
             new: Nouveau
@@ -53,6 +55,10 @@ app:
           label: Projet
         home:
           label: Accueil
+  group:
+    property:
+      name:
+        label: 'Nom'
   project_form_layout:
     select_2:
       placeholder: Selectionnez un modèle
@@ -249,6 +255,8 @@ app:
         label: Centres Organisateurs
       project_form_layout:
         label: 'Modèles de formulaires'
+      group:
+        label: 'Groupes'
   widget:
     html_widget:
       label: Textes
@@ -302,6 +310,9 @@ app:
   file:
     current_file: 'Fichier actuel'
   admin:
+    group:
+      index:
+        h1: Liste des groupes
     user:
       index:
         h1: 'Liste des utilisateurs'

@@ -78,12 +78,18 @@ class User implements UserInterface
     private $reports;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Group", mappedBy="members")
+     */
+    private $groups;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->acls = new ArrayCollection();
         $this->reports = new ArrayCollection();
+        $this->groups = new ArrayCollection();
     }
 
 
@@ -293,6 +299,34 @@ class User implements UserInterface
             if ($report->getReporter() === $this) {
                 $report->setReporter(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getGroups(): Collection
+    {
+        return $this->groups;
+    }
+
+    public function addGroup(Group $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+            $group->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Group $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+            $group->removeMember($this);
         }
 
         return $this;
