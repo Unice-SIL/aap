@@ -1,0 +1,28 @@
+{% extends 'admin_layout.html.twig' %}
+
+
+{% block title %}
+    {{ 'app.admin.group.show.h1'|trans }} {{ group.name }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.group.show.h1'|trans }} {{ group.name }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {#<a href="{{ path('app.admin.group.edit', {'id' : group.id}) }}" class="btn btn-primary float-right">{{ 'app.action.edit'|trans }}</a>#}
+            <dl>
+                <dt>{{ 'app.group.property.name.label'|trans }}</dt>
+                <dd>{{ group.name }}</dd>
+            </dl>
+            <dl>
+                <dt>{{ 'app.group.property.members.label'|trans }}</dt>
+                <dd>{{ group.members|humanize_data|join(', ') }}</dd>
+            </dl>
+        </div>
+    </div>
+
+{% endblock %}

@@ -12,7 +12,7 @@
     <div class="card">
         <div class="card-body">
             <div class=" py-3">
-                {#<a href="{{ path('app.admin.group.new') }}" class="btn btn-primary float-right">{{ 'app.action.new'|trans }}</a>#}
+                <a href="{{ path('app.admin.group.new') }}" class="btn btn-primary float-right">{{ 'app.action.new'|trans }}</a>
                 <div class="clearfix"></div>
             </div>
             <table class="table dataTable"
@@ -27,8 +27,8 @@
                 {% for group in groups %}
                     <tr>
                         <td>
-                            <a {#href="{{ path('app.admin.group.show', { 'id' : group.id}) }}"#}>
-                                {{ group.name }}
+                            <a href="{{ path('app.admin.group.show', { 'id' : group.id}) }}">
+                                {{ group.name|humanize_data }}
                             </a>
                         </td>
                     </tr>

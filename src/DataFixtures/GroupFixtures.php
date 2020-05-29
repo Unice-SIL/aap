@@ -6,10 +6,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Group;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class GroupFixtures extends Fixture
+class GroupFixtures extends Fixture implements DependentFixtureInterface
 {
 
     const GROUP_MATHS = 'maths';
@@ -20,6 +21,7 @@ class GroupFixtures extends Fixture
         $groups = [
             [
                 'name' => self::GROUP_MATHS,
+                'members' => [UserFixtures::USER_ADMIN, UserFixtures::USER_USER3]
             ],
             [
                 'name' => self::GROUP_LANGUAGES,
@@ -31,6 +33,15 @@ class GroupFixtures extends Fixture
             $group = new Group();
 
             foreach ($groupFixture as $property => $value) {
+
+                if ($property === 'members') {
+                    $members = [];
+                    foreach ($value as $member) {
+                        $members[] = $this->getReference(UserFixtures::class . $member);
+                    }
+
+                    $value = $members;
+                }
                 $propertyAccessor->setValue($group, $property, $value);
             }
 
@@ -38,5 +49,12 @@ class GroupFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class
+        ];
     }
 }

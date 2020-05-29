@@ -12,12 +12,12 @@
 
     <dl>
         <dt>{{ 'app.organizing_center.property.name.label'|trans }}</dt>
-        <dl>{{ organizing_center.name|humanize_data }}</dl>
+        <dd>{{ organizing_center.name|humanize_data }}</dd>
     </dl>
     <dl>
         {% for permission in constant('App\\Entity\\Acl::PERMISSION_BASES')  %}
             <dt>{{ ('app.acl.constant.' ~ permission)|trans }}</dt>
-            <dl>{{ organizing_center.acls|filter(acl => acl.permission == permission)|map(acl => acl.user.username)|array_unique|join(', ')|humanize_data }}</dl>
+            <dd>{{ organizing_center.acls|filter(acl => acl.permission == permission)|map(acl => acl.user.username)|array_unique|join(', ')|humanize_data }}</dd>
         {% endfor %}
     </dl>
 
