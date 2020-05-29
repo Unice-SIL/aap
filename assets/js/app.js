@@ -186,17 +186,22 @@ $(document).ready(function () {
     dataTables.each(function () {
         let table = $(this);
         let thIndexes = [];
+        let defaultThOrder = 0;
         table.find('th').each(function (index) {
 
             if ($(this).data('no-filter') === true) {
                 thIndexes.push(index);
+            } else if (defaultThOrder === 0) {
+                defaultThOrder = index;
             }
+
         });
 
         let dataTable = table.DataTable({
             language: {
                 url: table.data('translation-url')
             },
+            "order": [[ defaultThOrder, "asc" ]],
             "columnDefs": [
                 { "orderable": false, "targets": thIndexes }
             ],
