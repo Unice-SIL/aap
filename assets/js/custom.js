@@ -6,3 +6,11 @@ jQuery.fn.extend({
         });
     }
 });
+
+
+$.fn.dataTable.ext.feature.push( {
+    fnInit: function ( settings ) {
+        return $('div[data-batch-datatable-target="#' + settings.sTableId + '"]'); // input element
+    },
+    cFeature: 'B'
+} );

@@ -15,6 +15,7 @@
         {% endif %}
         <div class="card-body">
             <table
+                    id="project-list-datatable"
                     class="table table table-hover dataTable"
                     data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
             >
@@ -50,7 +51,9 @@
                 {% endfor %}
                 </tbody>
             </table>
-            {{ form(batch_action_form) }}
+            <div class="text-right mb-2" data-batch-datatable-target="#project-list-datatable">
+                {{ form(batch_action_form) }}
+            </div>
         </div>
     </div>
 {% endblock %}

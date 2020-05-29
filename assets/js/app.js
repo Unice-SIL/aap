@@ -1,6 +1,5 @@
 import '../scss/app.scss';
 
-require('./custom')
 require('admin-lte');
 require('admin-lte/plugins/jquery-knob/jquery.knob.min');
 require('bootstrap');
@@ -11,6 +10,7 @@ require('jquery-ui/ui/widgets/sortable');
 require('select2');
 require('select2/dist/js/i18n/fr');
 require('../../public/bundles/tetranzselect2entity/js/select2entity');
+require('./custom')
 
 
 $(document).ready(function () {
@@ -205,6 +205,14 @@ $(document).ready(function () {
             "columnDefs": [
                 { "orderable": false, "targets": thIndexes }
             ],
+            "dom": '<"row"' +
+                        '<"col-sm-12 col-md-6"l>' +
+                        '<"col-sm-12 col-md-6"f>' +
+                        '<"col-12"t>' +
+                        '<"col-12"B>' +
+                        '<"col-sm-12 col-md-6"i>' +
+                        '<"col-sm-12 col-md-6"p>' +
+                  '>',
         });
     });
 
