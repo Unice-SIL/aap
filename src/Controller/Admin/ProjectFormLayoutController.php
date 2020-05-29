@@ -68,7 +68,8 @@ class ProjectFormLayoutController extends AbstractController
         }
 
         return $this->render('project_form_layout/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'project_form_layout' => $projectFormLayout
         ]);
     }
 

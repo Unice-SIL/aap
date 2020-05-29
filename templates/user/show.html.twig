@@ -9,23 +9,23 @@
 {% endblock %}
 
 {% block content %}
+    <div class="card">
+        <div class="card-body">
+            <a href="{{ path('app.admin.user.edit', {'id': user.id}) }}" class="btn btn-primary float-right">{{ 'app.action.edit'|trans }}</a>
+            <dl>
+                <dt>{{ 'app.user.property.username.label'|trans }}</dt>
+                <dd>{{ user.username|humanize_data }}</dd>
 
-    <dl>
-        <dt>{{ 'app.user.property.username.label'|trans }}</dt>
-        <dl>{{ user.username|humanize_data }}</dl>
+                <dt>{{ 'app.user.property.email.label'|trans }}</dt>
+                <dd>{{ user.email|humanize_data }}</dd>
 
-        <dt>{{ 'app.user.property.email.label'|trans }}</dt>
-        <dl>{{ user.email|humanize_data }}</dl>
+                <dt>{{ 'app.user.property.firstname.label'|trans }}</dt>
+                <dd>{{ user.firstname|humanize_data }}</dd>
 
-        <dt>{{ 'app.user.property.firstname.label'|trans }}</dt>
-        <dl>{{ user.firstname|humanize_data }}</dl>
-
-        <dt>{{ 'app.user.property.lastname.label'|trans }}</dt>
-        <dl>{{ user.lastname|humanize_data }}</dl>
-    </dl>
-
-    <a href="{{ path('app.admin.user.index') }}" class="btn btn-secondary">{{ 'app.action.back_to_list'|trans }}</a>
-
-    <a href="{{ path('app.admin.user.edit', {'id': user.id}) }}" class="btn btn-primary">{{ 'app.action.edit'|trans }}</a>
+                <dt>{{ 'app.user.property.lastname.label'|trans }}</dt>
+                <dd>{{ user.lastname|humanize_data }}</dd>
+            </dl>
+        </div>
+    </div>
 
 {% endblock %}

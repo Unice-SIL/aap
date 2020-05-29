@@ -15,7 +15,7 @@
             <a href="{{ path('app.admin.project_form_layout.edit', {'id' : project_form_layout.id}) }}" class="btn btn-primary float-right">{{ 'app.action.edit'|trans }}</a>
             <dl>
                 <dt>{{ 'app.project_form_layout.property.name.label'|trans }}</dt>
-                <dd>{{ project_form_layout.name }}</dd>
+                <dd>{{ project_form_layout.name|humanize_data }}</dd>
             </dl>
         </div>
     </div>

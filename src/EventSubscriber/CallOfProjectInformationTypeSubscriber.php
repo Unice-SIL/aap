@@ -170,7 +170,6 @@ class CallOfProjectInformationTypeSubscriber implements EventSubscriberInterface
                'class' => OrganizingCenter::class,
                'primary_key' => 'id',
                'text_property' => 'name',
-               'minimum_input_length' => 2,
                'page_limit' => 10,
                'allow_clear' => true,
                'delay' => 250,

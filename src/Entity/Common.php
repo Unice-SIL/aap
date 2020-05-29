@@ -25,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      "organizing_center" = "OrganizingCenter",
  *     "call_of_project" = "CallOfProject",
  *     "report" = "Report",
+ *     "group" = "Group",
  * })
  */
 class Common

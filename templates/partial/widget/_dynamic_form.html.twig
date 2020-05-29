@@ -13,16 +13,16 @@
 
 
     {% if not isTemplate %}
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary mr-3">
             {{ 'app.action.save'|trans }}
         </button>
     {% endif %}
 
+    {% set path = path('app.project.index', {'context': app.request.get('context')}) %}
     {% if project.id != null %}
-
         {% set path = path('app.project.show', {'id': project.id, 'context': app.request.get('context')}) %}
-        <a href="{{ path }}" class="btn btn-link">
-            {{ 'app.action.canceled'|trans }}
-        </a>
     {% endif %}
+    <a href="{{ path }}" class="text-muted">
+        {{ 'app.action.canceled'|trans }}
+    </a>
 {{ form_end(form) }}
