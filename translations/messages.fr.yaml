@@ -232,6 +232,14 @@ app:
         label: 'Mes rapports'
       my_call_of_projects:
         label: 'Mes appels à projets'
+      my_profile:
+        label: Mon profil
+      administration:
+        label: Administration
+      logout:
+        label: Déconnexion
+      help:
+        label: Aide
   action:
     label: Actions
     save: Enregistrer
@@ -387,3 +395,30 @@ app:
       reporter:
         label: 'Rapporteur'
   page_not_found: 'Cette page n''existe pas'
+
+  help:
+    title: Aide
+    placeholder: Que souhaitez-vous faire ?
+    results_not_found: Aucun résultats trouvés
+    more_results: Voir plus de résultats
+    labels:
+      call_of_projects_create: Créer un appel à projets
+      call_of_projects_info_edit: Modifier les informations d'un appel à projets
+      call_of_projects_info_view: Consulter les informations d'un appel à projets
+      call_of_projects_list: Consulter la liste de mes appels à projets
+      call_of_projects_projects_list: Consulter la liste des projets d'un appel
+      project_create: Déposer un projet
+      project_info_edit: Modifier les informations d'un projet
+      project_info_view: Consulter les informations d'un projet
+      project_my_list: Consulter la liste de mes projets
+
+  keyword:
+    call_of_projects: 'appel à projets'
+    create: 'créer'
+    edit: 'éditer, modifier'
+    list: 'liste'
+    information: 'informations'
+    project: 'projet'
+    projects: 'projets'
+    submit: 'déposer, soumettre'
+    view: 'consulter, vue, voir'

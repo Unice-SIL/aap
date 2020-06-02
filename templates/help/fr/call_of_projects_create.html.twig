@@ -1,0 +1,20 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_create' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Vous devez faire parti d'un centre organisateur et avoir les permissions nécessaires pour pouvoir créer un appel à projets
+    </div>
+    <ol>
+        <li>
+            Depuis la liste de vos appels à projets cliquez sur le bouton <a href="{{ path('app.call_of_project.new') }}"><u>{{ 'app.dashboard.create_new_call_of_projects'|trans }}</u></a> ou depuis le tableau de bord cliquez sur le bouton <a href="{{ path('app.call_of_project.new') }}"><u>{{ 'app.dashboard.create_new_call_of_projects'|trans }}</u></a>
+        </li>
+        <li>
+            Remplissez les différents champs du formulaire
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

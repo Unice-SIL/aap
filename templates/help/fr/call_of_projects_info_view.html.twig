@@ -1,0 +1,17 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_info_view' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Vous devez posséder les permissions nécessaires  au niveau de l'appel à projet ou du centre organisateur pour pouvoir consulter les informations d'un appel à projets
+    </div>
+    <ol>
+        <li>
+            Depuis la liste de vos appels à projets sélectionnez un appel à projets en cliquant sur son titre
+        </li>
+        <li>
+            Dans le menu de gauche cliquez sur <u>{{ 'app.sidebar.item.admin.infos'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

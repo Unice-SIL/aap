@@ -1,0 +1,23 @@
+{% if helps is empty %}
+    <div class="text-center text-muted">
+        {{ 'app.help.results_not_found'|trans }}
+    </div>
+{% else %}
+    <ul>
+        {% for help in helps %}
+            {% include 'partial/modal/_help_result.html.twig' %}
+        {% endfor %}
+    </ul>
+    {% if moreHelps is not empty %}
+        <div class="collapse" id="help-more-results">
+            <ul>
+                {% for help in moreHelps %}
+                    {% include 'partial/modal/_help_result.html.twig' %}
+                {% endfor %}
+            </ul>
+        </div>
+        <a id="help-more-results-button" data-toggle="collapse" href="#help-more-results" role="button" aria-expanded="false" aria-controls="help-more-results">
+            {{ 'app.help.more_results'|trans }}
+        </a>
+    {% endif %}
+{% endif %}
