@@ -13,7 +13,7 @@
                 <h2>{{ 'app.call_of_project.own_acls'|trans }}</h2>
                 {% for permission in constant('App\\Entity\\Acl::PERMISSION_BASES')  %}
                     <dt>{{ ('app.acl.constant.' ~ permission)|trans }}</dt>
-                    <dl>{{ call_of_project.acls|filter(acl => acl.permission == permission)|map(acl => acl.user.username)|array_unique|join(', ')|humanize_data }}</dl>
+                    <dl>{{ call_of_project.acls.toArray|filter(acl => acl.permission == permission)|array_unique|join(', ')|humanize_data }}</dl>
                 {% endfor %}
             </div>
 
@@ -21,7 +21,7 @@
                 <h2>{{ 'app.call_of_project.own_inherited_from_organizing_center'|trans }}</h2>
                 {% for permission in constant('App\\Entity\\Acl::PERMISSION_BASES')  %}
                     <dt>{{ ('app.acl.constant.' ~ permission)|trans }}</dt>
-                    <dl>{{ call_of_project.organizingCenter.acls|filter(acl => acl.permission == permission)|map(acl => acl.user.username)|array_unique|join(', ')|humanize_data }}</dl>
+                    <dl>{{ call_of_project.organizingCenter.acls.toArray|filter(acl => acl.permission == permission)|array_unique|join(', ')|humanize_data }}</dl>
                 {% endfor %}
             </div>
 

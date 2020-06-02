@@ -10,11 +10,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AclRepository")
  * @UniqueEntity(fields={"user", "permission", "common"})
+ * @UniqueEntity(fields={"groupe", "permission", "common"})
  * @Table(
  *     uniqueConstraints={
  *          @UniqueConstraint(
  *              name="uc_user_permission",
  *              columns= {"user_id", "permission", "common_id"}
+ *          ),
+ *          @UniqueConstraint(
+ *              name="uc_groupe_permission",
+ *              columns= {"groupe_id", "permission", "common_id"}
  *          )
  *      }
  * )
@@ -47,9 +52,13 @@ class Acl
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="acls")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group", inversedBy="acls")
+     */
+    private $groupe;
 
     /**
      * @ORM\Column(type="string", length=60)
@@ -79,6 +88,18 @@ class Acl
         return $this;
     }
 
+    public function getGroupe(): ?Group
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe(?Group $groupe): self
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
     public function getPermission(): ?string
     {
         return $this->permission;
@@ -101,5 +122,20 @@ class Acl
         $this->common = $common;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getUser() ? '(Utilisateur) ' . $this->getUser()->getUsername() : '(Groupe) ' . $this->getGroupe()->getName();
+    }
+
+    public function getName()
+    {
+        return $this->getUser() ? '(Utilisateur) ' . $this->getUser()->getUsername() : '(Groupe) ' . $this->getGroupe()->getName();
+    }
+
+    public function getEntity()
+    {
+        return $this->getUser() ?? $this->getGroupe();
     }
 }

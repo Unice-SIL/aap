@@ -20,7 +20,7 @@ class UserSelect2EntityType extends AbstractType
     {
         $resolver->setDefaults([
             'multiple' => true,
-            'remote_route' => 'app.admin.user.list_all_select_2',
+            'remote_route' => 'app.user.list_all_select_2',
             'class' => User::class,
             'primary_key' => 'id',
             'text_property' => 'username',

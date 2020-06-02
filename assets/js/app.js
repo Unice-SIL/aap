@@ -21,11 +21,31 @@ $(document).ready(function () {
     $(document).on('init', function () {
         initDateTimePicker();
         initSortable();
+        initSelect2();
         bsCustomFileInput.init()
         $('.select2entity[data-autostart="true"]').select2entity();
     });
 
     $(document).trigger('init');
+
+
+    /**
+     * Select2
+     */
+    function initSelect2() {
+        $('.select-2').each(function () {
+            $(this).select2({
+                ajax: {
+                    url: $(this).data('url'),
+                    dataType: 'json'
+                },
+                minimumInputLength: $(this).data('minimum-input-length'),
+                language: $(this).data('language'),
+                multiple: $(this).data('multiple'),
+            })
+
+        });
+    }
 
     /**
      * Datetime picker (or only Date)

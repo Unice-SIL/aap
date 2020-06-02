@@ -33,7 +33,7 @@
                             </a>
                         </td>
                         <td>
-                            {{ organizing_center.acls|map(acl => acl.user.username)|array_unique|join(', ') }}
+                            {{ organizing_center.acls.toArray|array_unique|join(', ') }}
                         </td>
                     </tr>
                 {% else %}

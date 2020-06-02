@@ -13,7 +13,7 @@ abstract class AbstractAclManager implements AclManagerInterface
     public static function getPermissions(User $user, $entity) {
         return $entity->getAcls()
             ->filter(function ($acl) use ($user) {
-                return $acl->getUser() === $user;
+                return $acl->getUser() === $user or $user->getGroups()->contains($acl->getGroupe());
             })
             ->map(function ($acl) {
                 return $acl->getPermission();

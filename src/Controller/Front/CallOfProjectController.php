@@ -13,7 +13,6 @@ use App\Repository\CallOfProjectRepository;
 use App\Security\CallOfProjectVoter;
 use App\Security\UserVoter;
 use App\Utils\Batch\AddReportBatchAction;
-use App\Utils\Batch\BatchActionInterface;
 use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;

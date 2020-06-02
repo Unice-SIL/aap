@@ -65,6 +65,7 @@ app:
         label: 'Nom'
       members:
         label: 'membres'
+    label: 'Groupe'
   project_form_layout:
     select_2:
       placeholder: Selectionnez un modèle
@@ -379,6 +380,7 @@ app:
         label: Prénom
       lastname:
         label: Nom
+    singular_label: 'Utilisateur'
   organizing_center:
     select_2:
       placeholder: Selectionnez un centre organisateur
