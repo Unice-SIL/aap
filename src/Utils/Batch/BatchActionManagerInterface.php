@@ -15,11 +15,11 @@ interface BatchActionManagerInterface
 
     public function getBatchAction(string $name): ?BatchActionInterface;
 
-    public function getForm(string $className): FormInterface;
+    public function getForm(string $className, array $blackList = []): FormInterface;
 
     public function renderBreadcrumb(string $id, string $formId);
 
-    public function saveDataInSession(FormInterface $batchActionForm, SessionInterface $session): void;
+    public function saveDataInSession(FormInterface $batchActionForm, SessionInterface $session): bool;
 
     public function getEntitiesFromSession(SessionInterface $session, bool $remove = false): ?array;
 

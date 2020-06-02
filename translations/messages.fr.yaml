@@ -6,6 +6,7 @@ app:
       label: 'Actions'
     action_announcement: Vou souhaitez effectuer l'action "%name_action%" pour les éléments suivants
     success: 'Les éléments ont été modifiés avec succès'
+    no_action: 'Aucune action'
   acl:
     property:
       label: Permissions
@@ -395,6 +396,7 @@ app:
       reporter:
         label: 'Rapporteur'
   page_not_found: 'Cette page n''existe pas'
+  error_occured: 'Une erreur est survenue'
 
   help:
     title: Aide

@@ -51,10 +51,10 @@ class BatchActionManager implements BatchActionManagerInterface
         return null;
     }
 
-    public function getForm(string $className): FormInterface
+    public function getForm(string $className, array $blackList = []): FormInterface
     {
-        $batchActionsSupported = array_filter($this->batchActions, function ($batchAction) use ($className) {
-            return $batchAction->supports(new $className());
+        $batchActionsSupported = array_filter($this->batchActions, function ($batchAction) use ($className, $blackList) {
+            return $batchAction->supports(new $className()) and !in_array(get_class($batchAction), $blackList);
         });
 
         return $this->formFactory->create(BatchActionType::class, null, [
@@ -63,12 +63,21 @@ class BatchActionManager implements BatchActionManagerInterface
         ]);
     }
 
-    public function saveDataInSession(FormInterface $batchActionForm, SessionInterface $session): void
+    public function saveDataInSession(FormInterface $batchActionForm, SessionInterface $session): bool
     {
-        $session->set('app.batch_action_data', [
-            'entities' => $batchActionForm->getData()['entities'],
-            'batch_action' => $this->getBatchAction($batchActionForm->getClickedButton()->getName()),
-        ]);
+        if (null === $batchActionForm->getClickedButton()) {
+            return false;
+        }
+        try {
+            $session->set('app.batch_action_data', [
+                'entities' => $batchActionForm->getData()['entities'],
+                'batch_action' => $this->getBatchAction($batchActionForm->getClickedButton()->getName()),
+            ]);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
 
     }
 

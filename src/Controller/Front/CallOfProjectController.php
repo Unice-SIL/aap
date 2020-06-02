@@ -12,6 +12,7 @@ use App\Manager\Project\ProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use App\Security\CallOfProjectVoter;
 use App\Security\UserVoter;
+use App\Utils\Batch\AddReportBatchAction;
 use App\Utils\Batch\BatchActionInterface;
 use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
@@ -232,12 +233,26 @@ class CallOfProjectController extends AbstractController
             return  $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
         }
 
-        $batchActionForm = $batchManager->getForm(Project::class);
+        $batchActionBlackList = [];
+        if (
+            $callOfProject->getProjects()->filter(function ($project) {
+                return $project->getStatus() !== Project::STATUS_STUDYING;
+            })->count() > 0
+        ) {
+            $batchActionBlackList[] = AddReportBatchAction::class;
+        }
+
+        $batchActionForm = $batchManager->getForm(Project::class, $batchActionBlackList);
         $batchActionForm->handleRequest($request);
 
         if ($batchActionForm->isSubmitted() and $batchActionForm->isValid()) {
 
-            $batchManager->saveDataInSession($batchActionForm, $request->getSession());
+            $ok = $batchManager->saveDataInSession($batchActionForm, $request->getSession());
+
+            if (!$ok) {
+                $this->addFlash('error', $translator->trans('app.error_occured'));
+                return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
+            }
 
             return $this->redirectToRoute('app.call_of_project.batch_action', ['id'=> $callOfProject->getId()]);
 

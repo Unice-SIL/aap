@@ -45,18 +45,18 @@ class BatchActionTransformer implements DataTransformerInterface
     public function reverseTransform($value)
     {
 
-        if (is_array($value['entities'])) {
+        if (isset($value['entities']) and is_array($value['entities'])) {
 
             try {
                 $value['entities'] = $this->entityManager->getRepository($this->className)->findBy(['id' => $value['entities']]);
             } catch (\Exception $e) {
-                $value['entities'] = [];
+                throw new TransformationFailedException('An error occured');
             }
-
-        } else {
-            $value['entities'] = [];
+            if (count($value['entities']) === 0) {
+                throw new TransformationFailedException('An error occured');
+            }
+            return $value;
         }
-
-        return $value;
+        throw new TransformationFailedException('No ids given');
     }
 }
