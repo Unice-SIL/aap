@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\Acl;
+use App\Entity\CallOfProject;
 use App\Entity\OrganizingCenter;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -13,6 +14,7 @@ class UserVoter extends Voter
 {
 
     const ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST = 'admin_one_organizing_center_at_least';
+    const ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST = 'admin_one_organizing_center_or_call_of_project_at_least';
 
     /**
      * @var AuthorizationCheckerInterface
@@ -31,7 +33,10 @@ class UserVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST])) {
+        if (!in_array($attribute, [
+                self::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST,
+                self::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST,
+            ])) {
             return false;
         }
 
@@ -62,6 +67,8 @@ class UserVoter extends Voter
         switch ($attribute) {
             case self::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST:
                 return $this->adminOneOrganizingCenterAtLeast($user);
+            case self::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST:
+                return $this->adminOneOrganizingCenterOrCallOfProjectAtLeast($user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -74,6 +81,15 @@ class UserVoter extends Voter
         });
 
         return $acls->count() > 0;
+    }
+
+    private function adminOneOrganizingCenterOrCallOfProjectAtLeast(User $user)
+    {
+        $acls = $user->getAlcs()->filter(function ($acl) {
+            return $acl->getPermission() === Acl::PERMISSION_ADMIN and $acl->getCommon() instanceof CallOfProject;
+        });
+
+        return ($acls->count() > 0) or $this->adminOneOrganizingCenterAtLeast($user);
     }
 
 }

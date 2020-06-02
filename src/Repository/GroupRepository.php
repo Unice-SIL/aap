@@ -47,4 +47,13 @@ class GroupRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByQuery($query)
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

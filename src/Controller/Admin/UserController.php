@@ -118,24 +118,4 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app.admin.user.index');
     }*/
 
-    /**
-     * @Route("/list-all-select-2", name="list_all_select_2", methods={"GET"})
-     * @param Request $request
-     * @param UserRepository $userRepository
-     * @return JsonResponse
-     */
-    public function listAllSelect2(Request $request, UserRepository $userRepository)
-    {
-
-        $query = $request->query->get('q');
-
-        $users = array_map(function ($user) {
-            return [
-                'id' => $user->getId(),
-                'text' => $user->getUsername()
-            ];
-        }, $userRepository->findByQuery($query));
-
-        return $this->json($users);
-    }
 }

@@ -5,10 +5,16 @@ namespace App\Form\DataTransformer;
 
 
 use App\Entity\Acl;
+use App\Entity\Group;
+use App\Entity\User;
 use App\Manager\Acl\AclManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Constraints\Uuid;
+use Symfony\Component\Validator\Validation;
 
 class BaseAclTransformer implements DataTransformerInterface
 {
@@ -56,9 +62,8 @@ class BaseAclTransformer implements DataTransformerInterface
     public function transform($value)
     {
         $mapping = [];
-
         foreach ($value as $acl) {
-            $mapping[$acl->getPermission()][] = $acl->getUser();
+            $mapping[$acl->getPermission()][$acl->getEntity()->getId()] =  $acl->getUser();
         }
 
         return $mapping;
@@ -70,18 +75,40 @@ class BaseAclTransformer implements DataTransformerInterface
         $newAcls = new ArrayCollection();
         $oldAcls = $this->getEntityRecipient()->getAcls();
 
-        foreach ($value as $permission => $users) {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        foreach ($value as $permission => $ids) {
 
-            foreach ($users as $user) {
+            foreach ($ids as $id) {
+
+                $validator = Validation::createValidator();
+
+                if (0 !== count($validator->validate($id,  new Uuid())))
+                {
+                    continue;
+                }
+
+
+                if (($entity = $this->em->getRepository(Group::class)->findOneById($id)) instanceof Group) {
+                    $property = 'groupe';
+                } elseif (($entity = $this->em->getRepository(User::class)->findOneById($id)) instanceof User) {
+                    $property = 'user';
+                } else {
+                    throw new TransformationFailedException(sprintf(
+                        'An entity with id "%s" does not exist!',
+                        $id
+                    ));
+                }
 
                 /** @var Acl|null $acl */
-                $acl = $this->getEntityRecipient()->getAcls()->filter(function ($acl) use ($permission, $user) {
-                    return $acl->getPermission() === $permission and $acl->getUser() === $user;
-                })->first();
+                $acl = $this->getEntityRecipient()->getAcls()->filter(
+                    function ($acl) use ($permission, $entity, $propertyAccessor) {
+                        return $acl->getPermission() === $permission and $acl->getEntity() === $entity;
+                    }
+                )->first();
 
                 if (!$acl) {
                     $acl = $this->aclManager->create();
-                    $acl->setUser($user);
+                    $propertyAccessor->setValue($acl, $property, $entity);
                     $acl->setPermission($permission);
                 }
 
@@ -92,8 +119,10 @@ class BaseAclTransformer implements DataTransformerInterface
         $aclstoRemove = [];
 
         foreach ($oldAcls as $oldAcl) {
-            $aclMatched = array_filter($newAcls->toArray(), function ($nacl) use ($oldAcl) {
-               return $nacl->getUser() ===  $oldAcl->getUser() and $nacl->getPermission() === $oldAcl->getPermission();
+            $aclMatched = array_filter($newAcls->toArray(), function ($nacl) use ($oldAcl, $propertyAccessor) {
+                $property = $nacl instanceof Group ? 'groupe' : 'user';
+                return $propertyAccessor->getValue($nacl, $property) ===  $propertyAccessor->getValue($oldAcl, $property)
+                    and $nacl->getPermission() === $oldAcl->getPermission();
             });
 
             if (count($aclMatched) == 0) {
