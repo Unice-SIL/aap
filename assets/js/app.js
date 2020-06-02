@@ -206,13 +206,13 @@ $(document).ready(function () {
                 { "orderable": false, "targets": thIndexes }
             ],
             "dom": '<"row"' +
-                        '<"col-sm-12 col-md-6"l>' +
-                        '<"col-sm-12 col-md-6"f>' +
-                        '<"col-12"t>' +
-                        '<"col-12"B>' +
-                        '<"col-sm-12 col-md-6"i>' +
-                        '<"col-sm-12 col-md-6"p>' +
-                  '>',
+                '<"col-sm-12 col-md-6"l>' +
+                '<"col-sm-12 col-md-6"f>' +
+                '<"col-12"t>' +
+                '<"col-12"B>' +
+                '<"col-sm-12 col-md-6"i>' +
+                '<"col-sm-12 col-md-6"p>' +
+                '>',
         });
     });
 
@@ -371,7 +371,45 @@ $(document).ready(function () {
         }
 
         batchActionButton.disable(entitiesField.find('option').length < 1);
-    })
+    });
 
+    /**
+     *  Help
+     */
+    let timeoutReference;
+    let helpSearchElement = $('#help-search');
+
+    helpSearchElement.on('paste keyup' ,function () {
+        if(helpSearchElement.val().length < 2)
+        {
+            return;
+        }
+        clearTimeout(timeoutReference);
+        timeoutReference = setTimeout(function() {
+            $.ajax({
+                'url': helpSearchElement.data('action'),
+                'data': {
+                    'terms': helpSearchElement.val()
+                },
+                'beforeSend': function () {
+                    $('#help-search-prepend').html(
+                        '<i class="fas fa-circle-notch fa-spin"></i>'
+                    );
+                },
+                'success': function (data) {
+                    $('#help-results').html(data);
+                },
+                'complete': function () {
+                    $('#help-search-prepend').html(
+                        '<i class="fas fa-search"></i>'
+                    );
+                }
+            });
+        }, 650);
+    });
+
+    $(document).on('click', '#help-more-results-button', function () {
+        $(this).hide();
+    })
 
 });

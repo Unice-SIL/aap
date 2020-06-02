@@ -1,0 +1,25 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.project_info_view' %}
+
+{% block help_content %}
+    <h3>En tant que propriétaire du projet</h3>
+    <ol>
+        <li>
+            Depuis la liste de vos projets sélectionnez un projet en cliquant sur son titre
+        </li>
+        <li>
+            Si nécessaire, cliquez sur l'ongelt <u>{{ 'app.project.informations.label'|trans }}</u>
+        </li>
+    </ol>
+
+    <h3 class="">En tant que gestionnaire d'un appel à projets</h3>
+    <ol>
+        <li>
+            Depuis la liste des projets d'un l'appel à projets sélectionnez un projet en cliquant sur son titre
+        </li>
+        <li>
+            Si nécessaire, cliquez sur l'ongelt <u>{{ 'app.project.informations.label'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

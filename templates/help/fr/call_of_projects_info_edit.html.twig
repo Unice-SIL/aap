@@ -1,0 +1,20 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_info_edit' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Vous devez posséder les permissions nécessaires  au niveau de l'appel à projet ou du centre organisateur pour pouvoir modifier les informations d'un appel à projets
+    </div>
+    <ol>
+        <li>
+            Depuis la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}">consultation des informations d'un appel à projets</a> cliquez sur le bouton <u>{{ 'app.action.edit'|trans }}</u>
+        </li>
+        <li>
+            Modifier les informations souhaitées dans le formulaire
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

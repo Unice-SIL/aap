@@ -1,0 +1,20 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.project_my_list' %}
+
+{% block help_content %}
+    <ol>
+        <li>
+            Depuis la liste de vos projets cliquez sur le bouton <a href="{{ path('app.call_of_project.all') }}"><u>{{ 'app.project.index.add_project'|trans }}</u></a> ou depuis le tableau de bord cliquez sur le bouton <a href="{{ path('app.call_of_project.all') }}"><u>{{ 'app.dashboard.drop_new_project'|trans }}</u></a>
+        </li>
+        <li>
+            Dans la liste des appels à projets choisissez un appel à projet ouvert en cliquant sur son titre
+        </li>
+        <li>
+            Remplissez les différents champs du formulaire
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.project_info_edit' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        En tant que proriétaire du projet, le projet doit toujours être à l'état "{{ ('app.project.constant.' ~ constant('App\\Entity\\Project::STATUS_WAITING'))|trans }}"
+    </div>
+    <ol>
+        <li>
+            Depuis la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'project_info_view'}) }}">consultation des informations d'un projet</a> cliquez sur le bouton <u>{{ 'app.action.edit'|trans }}</u>
+        </li>
+        <li>
+            Modifier les informations souhaitées dans le formulaire
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

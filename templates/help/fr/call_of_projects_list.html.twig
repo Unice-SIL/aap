@@ -1,0 +1,11 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_list' %}
+
+{% block help_content %}
+    <ol>
+        <li>
+            Cliquez sur le lien <a target="_blank" href="{{ path('app.call_of_project.index') }}">{{ 'app.navbar.item.my_call_of_projects.label'|trans }}</a> dans le menu principal
+        </li>
+    </ol>
+{% endblock %}

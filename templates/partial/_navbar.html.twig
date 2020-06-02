@@ -61,13 +61,20 @@
                 <i class="far fa-user-circle"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">Mon profil</a>
+                <a href="#" class="dropdown-item">{{ 'app.navbar.item.my_profile.label'|trans }}</a>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app.admin.user.index') }}" class="dropdown-item">Administration</a>
+                    <a href="{{ path('app.admin.user.index') }}" class="dropdown-item">{{ 'app.navbar.item.administration.label'|trans }}</a>
                 {% endif %}
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">Déconnexion</a>
+                <a href="#" class="dropdown-item">{{ 'app.navbar.item.logout.label'|trans }}</a>
             </div>
+        </li>
+
+        <li class="nav-item d-flex align-items-center">
+            <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#help-modal">
+                <i class="far fa-question-circle"></i>
+                {{ 'app.navbar.item.help.label'|trans }}
+            </button>
         </li>
 
     </ul>

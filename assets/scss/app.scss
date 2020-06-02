@@ -192,3 +192,36 @@ body.layout-fixed {
   }
 
 }
+
+/**
+ * Help
+ */
+
+.help {
+
+  & > h1 {
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+
+  & > h3 {
+    margin-top: 2rem;
+  }
+
+  & > ol, & > ul {
+    padding-left: 1rem;
+
+    & > li {
+      line-height: 2rem;
+    }
+  }
+
+}
+
+#help-results {
+  & ul {
+    padding-left: 1rem;
+    margin-bottom: 0;
+    list-style: none;
+  }
+}

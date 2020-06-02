@@ -16,7 +16,9 @@
     </head>
     <body class="{{ body_class|default('') }}">
 
-        {% block modals %}{% endblock %}
+        {% block modals %}
+            {% include 'partial/modal/_help.html.twig' %}
+        {% endblock %}
 
         {% for label, messages in app.flashes %}
 
