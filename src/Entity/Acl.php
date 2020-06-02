@@ -51,12 +51,12 @@ class Acl
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="acls")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Group", inversedBy="acls")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group")
      */
     private $groupe;
 
