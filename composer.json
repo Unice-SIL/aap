@@ -31,7 +31,7 @@
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/workflow": "4.4.*",
         "symfony/yaml": "4.4.*",
-        "tetranz/select2entity-bundle": "^3.0",
+        "tetranz/select2entity-bundle": "^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
