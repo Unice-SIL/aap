@@ -72,6 +72,9 @@
         {% for batch_action in form.vars.batch_actions %}
             {{ form_widget(form[batch_action.name]) }}
         {% endfor %}
+        {% if form.vars.batch_actions is empty %}
+            <div class="dropdown-item">{{ 'app.batch_action.no_action'|trans }}</div>
+        {% endif %}
     </div>
     {{ form_widget(form.entities) }}
 {% endblock %}
