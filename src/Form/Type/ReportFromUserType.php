@@ -30,6 +30,7 @@ class ReportFromUserType extends AbstractType
             ->add('users', UserSelect2EntityType::class, [
                 'label' => 'app.user.label'
             ])
+            ->add('deadline', DateTimePickerType::class)
             ->addModelTransformer($this->reportFromUserTransformer)
         ;
     }

@@ -21,29 +21,34 @@ class ReportFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
 
-         $project1Reports = [
-             [
+        $project1Reports = [
+            [
                 'name' => self::REPORT_1,
                 'user' => UserFixtures::USER_ADMIN,
-             ],
-             [
-                 'name' => self::REPORT_2,
-                 'user' => UserFixtures::USER_USER1,
-             ],
-             [
-                 'name' => self::REPORT_3,
-                 'user' => UserFixtures::USER_USER2,
-             ],
-             [
-                 'name' => self::REPORT_4,
-                 'user' => UserFixtures::USER_USER3,
-             ],
+                'deadline' => new \DateTime()
+            ],
+            [
+                'name' => self::REPORT_2,
+                'user' => UserFixtures::USER_USER1,
+                'deadline' => new \DateTime('+1 day')
+            ],
+            [
+                'name' => self::REPORT_3,
+                'user' => UserFixtures::USER_USER2,
+                'deadline' => new \DateTime('+2 day')
+            ],
+            [
+                'name' => self::REPORT_4,
+                'user' => UserFixtures::USER_USER3,
+                'deadline' => new \DateTime('-1 day')
+            ],
         ];
 
         foreach ($project1Reports as $reportFixtures) {
 
             $report = new Report();
             $report->setName($reportFixtures['name']);
+            $report->setDeadline($reportFixtures['deadline']);
             $report->setCreatedBy($this->getReference(UserFixtures::class . UserFixtures::USER_ADMIN));
             $report->setReporter($this->getReference(UserFixtures::class . $reportFixtures['user']));
             $report->setProject($this->getReference(ProjectFixtures::class . ProjectFixtures::PROJECT_1));

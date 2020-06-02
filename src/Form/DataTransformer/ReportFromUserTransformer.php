@@ -61,7 +61,8 @@ class ReportFromUserTransformer implements DataTransformerInterface
             }
 
             $report = $this->reportManager->create();
-            $report->setReporter($user);
+            $report->setReporter($user)
+                ->setDeadline($value['deadline']);
             $reports[] = $report;
         }
 

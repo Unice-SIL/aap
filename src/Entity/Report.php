@@ -11,6 +11,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Report extends Common
 {
     const STATUS_INIT = 'init';
+
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     */
+    private $deadline;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="reports")
      * @ORM\JoinColumn(nullable=false)
@@ -33,6 +41,23 @@ class Report extends Common
         $this->setStatus(self::STATUS_INIT);
     }
 
+    /**
+     * @return \DateTime|null
+     */
+    public function getDeadline(): ?\DateTime
+    {
+        return $this->deadline;
+    }
+
+    /**
+     * @param \DateTime|null $deadline
+     * @return Report
+     */
+    public function setDeadline(?\DateTime $deadline): Report
+    {
+        $this->deadline = $deadline;
+        return $this;
+    }
 
     public function getProject(): ?Project
     {
