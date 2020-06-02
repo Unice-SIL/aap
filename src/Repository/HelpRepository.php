@@ -41,7 +41,6 @@ class HelpRepository
             $this->helps[] = $help;
         }
 
-
     }
 
     /**
@@ -72,7 +71,7 @@ class HelpRepository
 
                     if(preg_match("/{$term}/i", trim($k)) === 1)
                     {
-                        if($term > $keyword)
+                        if(strlen($term) > strlen($keyword))
                         {
                             $score = 2;
                         }
