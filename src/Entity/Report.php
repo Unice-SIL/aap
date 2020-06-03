@@ -10,7 +10,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Report extends Common
 {
-    const STATUS_INIT = 'init';
+    const STATUS_TO_COMPLETE = 'to_complete';
+    const STATUS_COMPLETE = 'complete';
+    const STATUS_FINISHED = 'finished';
 
     /**
      * @var \DateTime|null
@@ -81,6 +83,19 @@ class Report extends Common
         $this->reporter = $reporter;
 
         return $this;
+    }
+
+    public function getStatus(): string
+    {
+        if (new \DateTime() > $this->deadline) {
+            return self::STATUS_FINISHED;
+        }
+
+        if ($this->updatedAt > $this->createdAt) {
+            return self::STATUS_COMPLETE;
+        }
+
+        return self::STATUS_TO_COMPLETE;
     }
 
 }

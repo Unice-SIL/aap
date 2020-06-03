@@ -7,6 +7,7 @@ use App\Entity\Group;
 use App\Entity\OrganizingCenter;
 use App\Entity\Project;
 use App\Entity\ProjectFormLayout;
+use App\Entity\Report;
 use App\Entity\User;
 use App\Utils\Breadcrumb\Breadcrumb;
 use App\Utils\Breadcrumb\BreadcrumbItem;
@@ -90,6 +91,16 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
                     'method' => 'find',
                     'parameter' => 'id',
                     'path' => 'app.project.show',
+                    'labelBy' => 'name'
+                ],
+            ],
+            'app.report' => [
+                'path' => 'app.report.index',
+                'entity' => [
+                    'class' => Report::class,
+                    'method' => 'find',
+                    'parameter' => 'id',
+                    'path' => 'app.report.show',
                     'labelBy' => 'name'
                 ],
             ],
