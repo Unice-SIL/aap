@@ -1,0 +1,12 @@
+{% extends 'top_navbar_layout.html.twig' %}
+{% block title %}
+    {{ 'app.report.show.h1'|trans }} {{ report.name }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.report.show.h1'|trans }} {{ report.name }}
+{% endblock %}
+
+{% block content %}
+    {{ dump(report) }}
+{% endblock %}

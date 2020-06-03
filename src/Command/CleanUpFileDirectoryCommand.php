@@ -26,16 +26,16 @@ class CleanUpFileDirectoryCommand extends Command
     /**
      * @var string
      */
-    private $fileDirectory;
+    private $projectFileDirectory;
 
-    public function __construct(EntityManagerInterface $em, WidgetManager $widgetManager, string $fileDirectory)
+    public function __construct(EntityManagerInterface $em, WidgetManager $widgetManager, string $projectFileDirectory)
     {
         parent::__construct();
 
 
         $this->em = $em;
         $this->widgetManager = $widgetManager;
-        $this->fileDirectory = $fileDirectory;
+        $this->projectFileDirectory = $projectFileDirectory;
     }
 
     protected function configure()
@@ -66,7 +66,7 @@ class CleanUpFileDirectoryCommand extends Command
 
         //Get every files in the file directory set in services.yaml
         $fileFinder = new Finder();
-        $fileFinder->files()->in($this->fileDirectory);
+        $fileFinder->files()->in($this->projectFileDirectory);
 
         //Remove every not used
         foreach ($fileFinder as $file) {
@@ -78,7 +78,7 @@ class CleanUpFileDirectoryCommand extends Command
 
         //Get every directories in the file directory set in services.yaml
         $directoryFinder = new Finder();
-        $directoryFinder->directories()->in($this->fileDirectory);
+        $directoryFinder->directories()->in($this->projectFileDirectory);
 
         //Sorts by depth. From the deeper one to the less deep one
         //Important for the next step (suppression). We can't remove a directory if it contains a subdirectory even if

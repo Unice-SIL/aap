@@ -23,6 +23,8 @@ app:
       app:
         report:
           label: Rapports
+          edit: Renseigner le rapport
+          show: Vue
         admin:
           group:
             label: Groupes
@@ -397,6 +399,8 @@ app:
           label: Nom
   report:
     property:
+      comment:
+        label: 'Description'
       status:
         label: 'Statut'
       created_by:
@@ -409,6 +413,10 @@ app:
         label: 'Nom du projet'
     index:
       h1: 'Liste de vos rapports'
+    edit:
+      h1: 'Renseigner le rapport'
+    show:
+      h1: 'Vue sur le rapport'
   page_not_found: 'Cette page n''existe pas'
   error_occured: 'Une erreur est survenue'
 

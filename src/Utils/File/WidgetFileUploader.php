@@ -15,15 +15,15 @@ class WidgetFileUploader implements FileUploaderInterface
     const FILE_NAME = 'file_name';
 
 
-    private $fileDirectory;
+    private $projectFileDirectory;
 
     /**
      * FileUploader constructor.
-     * @param $fileDirectory
+     * @param $projectFileDirectory
      */
-    public function __construct($fileDirectory)
+    public function __construct($projectFileDirectory)
     {
-        $this->fileDirectory = $fileDirectory;
+        $this->projectFileDirectory = $projectFileDirectory;
     }
 
     public function upload(File $file)
@@ -66,7 +66,7 @@ class WidgetFileUploader implements FileUploaderInterface
 
     private function getDirectory(string $fileName)
     {
-        $directory = $this->fileDirectory;
+        $directory = $this->projectFileDirectory;
         $directory .= DIRECTORY_SEPARATOR . substr($fileName, 0, 2);
         $directory .= DIRECTORY_SEPARATOR . substr($fileName, 2, 2);
 

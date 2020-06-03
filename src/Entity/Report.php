@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReportRepository")
+ * @Vich\Uploadable
  */
 class Report extends Common
 {
@@ -36,11 +41,34 @@ class Report extends Common
     private $reporter;
 
     /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="reports", fileNameProperty="report.name", size="report.size", mimeType="report.mimeType", originalName="report.originalName", dimensions="report.dimensions")
+     *
+     * @var File|null
+     */
+    private $reportFile;
+
+    /**
+     * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
+     *
+     * @var EmbeddedFile
+     */
+    private $report;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
+
+    /**
      * Report constructor.
      */
     public function __construct()
     {
-        $this->setStatus(self::STATUS_INIT);
+        $this->setStatus(self::STATUS_TO_COMPLETE);
+        $this->report = new EmbeddedFile();
     }
 
     /**
@@ -96,6 +124,53 @@ class Report extends Common
         }
 
         return self::STATUS_TO_COMPLETE;
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|UploadedFile|null $reportFile
+     */
+    public function setReportFile(?File $reportFile = null)
+    {
+        $this->reportFile = $reportFile;
+
+        if (null !== $reportFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getReportFile(): ?File
+    {
+        return $this->reportFile;
+    }
+
+    public function setReport(EmbeddedFile $report): void
+    {
+        $this->report = $report;
+    }
+
+    public function getReport(): ?EmbeddedFile
+    {
+        return $this->report;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
     }
 
 }

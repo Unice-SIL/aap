@@ -51,7 +51,7 @@ class Acl
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="acls")
      */
     private $user;
 
