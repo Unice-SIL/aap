@@ -399,8 +399,10 @@ app:
           label: Nom
   report:
     property:
+      report_file:
+        label: Element de votre rapport
       comment:
-        label: 'Description'
+        label: 'Commentaire'
       status:
         label: 'Statut'
       created_by:

@@ -1,4 +1,6 @@
 app:
+  file:
+    cannot_be_blank: Le fichier est obligatoire
   errors:
     validation:
       user_should_be_admin_or_manager: Cette valeur n'est pas autorisées

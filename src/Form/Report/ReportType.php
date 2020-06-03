@@ -28,13 +28,18 @@ class ReportType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $report = $builder->getData();
+        $required = $report->getReport()->getName() === null && $report->getReportFile() === null;
         $urlGenerator = $this->urlGenerator;
         $builder
             ->add('comment', null, [
                 'label' => 'app.report.property.comment.label'
             ])
             ->add('reportFile', VichFileType::class,[
-                'required' => false,
+                'label' => 'app.report.property.report_file.label',
+                'required' => $required,
+                'allow_delete' => false,
+                'download_label' => $report->getReport()->getName(),
                 'download_uri' => static function (Report $report) use ($urlGenerator) {
                     if ($report->getReport()->getName() === null) {
                         return ;

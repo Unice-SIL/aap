@@ -18,7 +18,7 @@
                 <dt>{{ 'app.report.property.file.label'|trans }}</dt>
                 <dd>
                     {% if report.report.name %}
-                        <a href="{{ path('app.file.download_report_file', {'id' : report.id}) }}">Link</a>
+                        <a href="{{ path('app.file.download_report_file', {'id' : report.id}) }}">{{ report.report.originalName }}</a>
                     {% else %}
                         {{ vich_uploader_asset(report, 'reportFile')|humanize_data }}
                     {% endif %}

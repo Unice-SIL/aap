@@ -12,6 +12,7 @@ use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ReportRepository")
  * @Vich\Uploadable
+ * @Assert\Callback({"App\Validator\Entities\FileNotBlankValidator", "validate"})
  */
 class Report extends Common
 {
