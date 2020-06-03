@@ -7,7 +7,7 @@ parameters:
     app_name: 'Appel à projet'
     locale: 'fr'
     files_folder: '/files'
-    report_folder_uri: '%files_folder%%/reports'
+    report_folder_uri: '%files_folder%/reports'
 
 services:
     # default configuration for services in *this* file
