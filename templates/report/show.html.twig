@@ -8,5 +8,22 @@
 {% endblock %}
 
 {% block content %}
-    {{ dump(report) }}
+    <div class="card">
+        <div class="card-body">
+            <a href="{{ path('app.report.edit', {'id' : report.id}) }}" class="btn btn-primary text-white float-right">{{ 'app.report.inform_report'|trans }}</a>
+            <dl>
+                <dt>{{ 'app.report.property.comment.label'|trans }}</dt>
+                <dd>{{ report.comment|humanize_data }}</dd>
+
+                <dt>{{ 'app.report.property.file.label'|trans }}</dt>
+                <dd>
+                    {% if report.report.name %}
+                        <a href="{{ path('app.file.download_report_file', {'id' : report.id}) }}">Link</a>
+                    {% else %}
+                        {{ vich_uploader_asset(report, 'reportFile')|humanize_data }}
+                    {% endif %}
+                </dd>
+            </dl>
+        </div>
+    </div>
 {% endblock %}

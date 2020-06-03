@@ -36,6 +36,9 @@ class ReportType extends AbstractType
             ->add('reportFile', VichFileType::class,[
                 'required' => false,
                 'download_uri' => static function (Report $report) use ($urlGenerator) {
+                    if ($report->getReport()->getName() === null) {
+                        return ;
+                    }
                     return $urlGenerator->generate('app.file.download_report_file', ['id' => $report->getId()]);
                 },
             ])

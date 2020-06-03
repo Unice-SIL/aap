@@ -411,12 +411,15 @@ app:
         label: 'Date butoir'
       project_name:
         label: 'Nom du projet'
+      file:
+        label: 'Fichier'
     index:
       h1: 'Liste de vos rapports'
     edit:
       h1: 'Renseigner le rapport'
     show:
       h1: 'Vue sur le rapport'
+    inform_report: 'Renseigner le rapport'
   page_not_found: 'Cette page n''existe pas'
   error_occured: 'Une erreur est survenue'
 

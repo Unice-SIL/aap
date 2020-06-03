@@ -28,7 +28,7 @@
                     {% for report in reports %}
                         <tr>
                             <td>
-                                <a href="{#{{ path('app.report.show', { 'id' : report.id}) }}#}">
+                                <a href="{{ path('app.report.show', { 'id' : report.id}) }}">
                                     {{ report.project.name }}
                                 </a>
                             </td>

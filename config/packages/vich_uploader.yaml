@@ -4,5 +4,5 @@ vich_uploader:
     mappings:
         reports:
             uri_prefix: '%report_folder_uri%'
-            upload_destination: '%file_folder%/%report_folder_uri%'
+            upload_destination: '%kernel.project_dir%/%report_folder_uri%'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
