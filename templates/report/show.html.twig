@@ -12,8 +12,6 @@
         <div class="card-body">
             <a href="{{ path('app.report.edit', {'id' : report.id}) }}" class="btn btn-primary text-white float-right">{{ 'app.report.inform_report'|trans }}</a>
             <dl>
-                <dt>{{ 'app.report.property.comment.label'|trans }}</dt>
-                <dd>{{ report.comment|humanize_data }}</dd>
 
                 <dt>{{ 'app.report.property.file.label'|trans }}</dt>
                 <dd>
@@ -23,6 +21,9 @@
                         {{ vich_uploader_asset(report, 'reportFile')|humanize_data }}
                     {% endif %}
                 </dd>
+
+                <dt>{{ 'app.report.property.comment.label'|trans }}</dt>
+                <dd>{{ report.comment|humanize_data }}</dd>
             </dl>
         </div>
     </div>

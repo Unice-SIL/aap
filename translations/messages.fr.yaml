@@ -400,7 +400,7 @@ app:
   report:
     property:
       report_file:
-        label: Element de votre rapport
+        label: Element(s) du rapport
       comment:
         label: 'Commentaire'
       status:
@@ -414,7 +414,7 @@ app:
       project_name:
         label: 'Nom du projet'
       file:
-        label: 'Fichier'
+        label: 'Element(s) du rapport'
     index:
       h1: 'Liste de vos rapports'
     edit:
