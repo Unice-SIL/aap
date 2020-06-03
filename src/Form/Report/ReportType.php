@@ -39,7 +39,7 @@ class ReportType extends AbstractType
                 'label' => 'app.report.property.report_file.label',
                 'required' => $required,
                 'allow_delete' => false,
-                'download_label' => $report->getReport()->getName(),
+                'download_label' => $report->getReport()->getName() ?? false,
                 'download_uri' => static function (Report $report) use ($urlGenerator) {
                     if ($report->getReport()->getName() === null) {
                         return ;
