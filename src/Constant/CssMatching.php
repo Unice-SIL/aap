@@ -25,7 +25,9 @@ class CssMatching
     ];
 
     const REPORT_STATUS_TO_BOOTSTRAP = [
-        Report::STATUS_INIT => 'info',
+        Report::STATUS_TO_COMPLETE => 'warning',
+        Report::STATUS_COMPLETE => 'info',
+        Report::STATUS_FINISHED => 'danger',
     ];
 
     const PROJECT_FORM_WIDGET_IS_ACTIVE_BOOTSTRAP = [

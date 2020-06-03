@@ -5,13 +5,17 @@ namespace App\Controller\Front;
 
 
 use App\Entity\ProjectContent;
+use App\Entity\Report;
 use App\Entity\WidgetFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mime\FileinfoMimeTypeGuesser;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Handler\DownloadHandler;
 
 /**
  * Class FileController
@@ -25,7 +29,7 @@ class FileController extends AbstractController
      * @param ProjectContent $projectContent
      * @return BinaryFileResponse
      */
-    public function download(ProjectContent $projectContent)
+    public function downloadProjectContentFile(ProjectContent $projectContent)
     {
         if (!$projectContent->getContent() instanceof WidgetFile) {
             throw new NotFoundHttpException('File not found');
@@ -54,5 +58,17 @@ class FileController extends AbstractController
         );
 
         return $response;
+    }
+
+    /**
+     * @param Report $report
+     * @param DownloadHandler $downloadHandler
+     * @return Response
+     * @Route("/{id}/download-report-file", name="download_report_file", methods={"GET"})
+     * @IsGranted(App\Security\ReportVoter::EDIT, subject="report")
+     */
+    public function downloadReportFileAction(Report $report, DownloadHandler $downloadHandler): Response
+    {
+        return $downloadHandler->downloadObject($report, $fileField = 'reportFile');
     }
 }

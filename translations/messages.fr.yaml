@@ -1,4 +1,5 @@
 app:
+
   batch_action:
     add_reporter: Ajouter des rapporteurs
     delete: Supprimer
@@ -20,6 +21,10 @@ app:
   breadcrumb:
     main:
       app:
+        report:
+          label: Rapports
+          edit: Renseigner le rapport
+          show: Vue
         admin:
           group:
             label: Groupes
@@ -128,6 +133,9 @@ app:
       to_study:
         button: Lancer l'étude des projets
     constant:
+      complete: Complété
+      to_complete: A compléter
+      finished: Terminé
       init: Initial
       waiting: En attente
       studying: A l'étude
@@ -391,12 +399,29 @@ app:
           label: Nom
   report:
     property:
+      report_file:
+        label: Element(s) du rapport
+      comment:
+        label: 'Commentaire'
       status:
         label: 'Statut'
       created_by:
         label: 'Crée par'
       reporter:
         label: 'Rapporteur'
+      dead_line:
+        label: 'Date butoir'
+      project_name:
+        label: 'Nom du projet'
+      file:
+        label: 'Element(s) du rapport'
+    index:
+      h1: 'Liste de vos rapports'
+    edit:
+      h1: 'Renseigner le rapport'
+    show:
+      h1: 'Vue sur le rapport'
+    inform_report: 'Renseigner le rapport'
   page_not_found: 'Cette page n''existe pas'
   error_occured: 'Une erreur est survenue'
 

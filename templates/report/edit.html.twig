@@ -1,0 +1,24 @@
+{% extends 'top_navbar_layout.html.twig' %}
+{% block title %}
+    {{ 'app.report.edit.h1'|trans }} {{ report.name }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.report.edit.h1'|trans }} {{ report.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+
+            {{ form_start(form) }}
+            {{ form_row(form.reportFile) }}
+            {{ form_row(form.comment) }}
+            <button class="btn btn-primary mr-3">{{ 'app.action.save'|trans }}</button>
+            <a href="{{ path('app.report.show', {'id' : report.id}) }}" class="text-muted">
+                {{ 'app.action.canceled'|trans }}
+            </a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

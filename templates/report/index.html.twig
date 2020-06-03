@@ -1,0 +1,49 @@
+{% extends 'top_navbar_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.report.index.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.report.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table
+                        class="table m-0 table-hover dataTable"
+                        data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+                >
+                    <thead>
+                    <tr>
+                        <th>{{ 'app.report.property.project_name.label'|trans }}</th>
+                        <th>{{ 'app.report.property.dead_line.label'|trans }}</th>
+                        <th class="text-center">{{ 'app.report.property.status.label'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for report in reports %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app.report.show', { 'id' : report.id}) }}">
+                                    {{ report.project.name }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ report.deadline|date('d-m-Y h:i') }}
+                            </td>
+                            <td class="text-center">
+                                {{ include('report/_status_badge.html.twig', { 'report' : report}) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
