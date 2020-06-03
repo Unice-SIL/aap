@@ -133,9 +133,18 @@ body.layout-fixed {
 }
 
 .select2-container--default {
+
   .select2-selection--single {
     .select2-selection__arrow {
       top: 6px;
+    }
+  }
+
+  .select2-selection__choice {
+    background-color: var(--primary) !important;
+
+    .select2-selection__choice__remove {
+      color: var(--light) !important;
     }
   }
 }
@@ -145,7 +154,7 @@ body.layout-fixed {
  */
 #main-navbar {
   & .nav-link {
-    color: $dark;
+    color: var(--dark);
   }
 
   & ul.ml-auto {
@@ -179,7 +188,7 @@ body.layout-fixed {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: $primary;
+    background-color: var(--primary);
     visibility: hidden;
     transform: scaleX(0);
     transition: all 0.3s ease-in-out;
