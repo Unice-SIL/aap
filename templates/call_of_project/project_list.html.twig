@@ -38,7 +38,6 @@
                             </a>
                         </td>
                         <td>{{ project.createdBy }}</td>
-                        {{ dump() }}
                         <td>{{ project.createdAt|format_datetime() }}</td>
                         <td>{{ include('project/_status_badge.html.twig', { 'project' : project}) }}</td>
                     </tr>
