@@ -38,11 +38,11 @@
                             <td class="d-flex flex-column">
                                 <span>
                                     <i class="fas fa-hourglass-start text-dark"></i>
-                                    {{ call_of_project.startDate|date('d-m-Y à h:i') }}
+                                    {{ call_of_project.startDate|format_datetime() }}
                                 </span>
                                 <span>
                                     <i class="fas fa-hourglass-end text-dark"></i>
-                                    {{ call_of_project.endDate|date('d-m-Y à h:i') }}
+                                    {{ call_of_project.endDate|format_datetime() }}
                                 </span>
                             </td>
                             <td class="text-center">
@@ -58,11 +58,11 @@
                             <td class="d-flex flex-column">
                                 <span>
                                     <i class="fas fa-hourglass-start text-dark"></i>
-                                    {{ call_of_project.startDate|date('d-m-Y à h:i') }}
+                                    {{ call_of_project.startDate|format_datetime() }}
                                 </span>
                                 <span>
                                     <i class="fas fa-hourglass-end text-dark"></i>
-                                    {{ call_of_project.endDate|date('d-m-Y à h:i') }}
+                                    {{ call_of_project.endDate|format_datetime() }}
                                 </span>
                             </td>
                             <td class="text-center">

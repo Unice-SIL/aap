@@ -32,6 +32,7 @@
         "symfony/workflow": "4.4.*",
         "symfony/yaml": "4.4.*",
         "tetranz/select2entity-bundle": "^3.0",
+        "twig/intl-extra": "^3.0",
         "vich/uploader-bundle": "^1.13"
     },
     "require-dev": {
