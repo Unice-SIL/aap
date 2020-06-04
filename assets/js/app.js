@@ -305,6 +305,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         let form = $(this);
+        form.find('.submit-button').attr("disabled", true).addClass('disabled');
 
         $.post(form.attr('action'), form.serialize(), function (html) {
 
