@@ -6,6 +6,7 @@ use App\Entity\CallOfProject;
 use App\Entity\Project;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\CallOfProjectAclsType;
+use App\Form\CallOfProject\MailTemplateType;
 use App\Form\Project\ProjectToStudyType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
@@ -401,6 +402,37 @@ class CallOfProjectController extends AbstractController
                 $dynamicForm,
                 'partial/widget/_dynamic_form_demo.html.twig'
             ),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/mail-template", name="mail_template", methods={"GET", "POST"})
+     * @param CallOfProject $callOfProject
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     */
+    public function editMailTemplate(
+        CallOfProject $callOfProject,
+        CallOfProjectManagerInterface $callOfProjectManager,
+        Request $request,
+        TranslatorInterface $translator
+    )
+    {
+        $form = $this->createForm(MailTemplateType::class, $callOfProject);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+
+            $callOfProjectManager->update($callOfProject);
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $callOfProject->getName()]));
+
+            return $this->redirectToRoute('app.call_of_project.mail_template', ['id' => $callOfProject->getId()]);
+        }
+
+        return  $this->render('call_of_project/edit_mail_template.html.twig', [
+            'form' => $form->createView(),
+            'call_of_project' => $callOfProject
         ]);
     }
 

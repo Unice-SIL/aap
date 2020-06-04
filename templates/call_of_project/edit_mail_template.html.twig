@@ -1,0 +1,26 @@
+{% extends 'call_of_project/layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.call_of_project.mail_template.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.call_of_project.mail_template.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <ul class="list-unstyled">
+                {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS') %}
+                    <li>{{ placeholder }} => {{ legend|trans }} </li>
+                {% endfor %}
+            </ul>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary mr-3">{{ 'app.action.edit'|trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

@@ -74,6 +74,16 @@ class CallOfProject extends Common
      */
     private $organizingCenter;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $validationMailTemplate;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $refusalMailTemplate;
+
 
     public function __construct()
     {
@@ -219,6 +229,30 @@ class CallOfProject extends Common
     public function setOrganizingCenter(?OrganizingCenter $organizingCenter): self
     {
         $this->organizingCenter = $organizingCenter;
+
+        return $this;
+    }
+
+    public function getValidationMailTemplate(): ?string
+    {
+        return $this->validationMailTemplate;
+    }
+
+    public function setValidationMailTemplate(string $validationMailTemplate): self
+    {
+        $this->validationMailTemplate = $validationMailTemplate;
+
+        return $this;
+    }
+
+    public function getRefusalMailTemplate(): ?string
+    {
+        return $this->refusalMailTemplate;
+    }
+
+    public function setRefusalMailTemplate(string $refusalMailTemplate): self
+    {
+        $this->refusalMailTemplate = $refusalMailTemplate;
 
         return $this;
     }

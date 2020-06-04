@@ -1,5 +1,12 @@
 app:
 
+  mail_template:
+    placeholder:
+      call_of_project_name: Nom de l'appel à projet
+      project_name: Nom du projet
+      creator_firstname: Prénom du créateur du projet
+      creator_lastname: Nom du créateur du projet
+
   batch_action:
     add_reporter: Ajouter des rapporteurs
     delete: Supprimer
@@ -48,6 +55,7 @@ app:
             new: Nouveau
             label: Utilisateurs
         call_of_project:
+          mail_template: Modèle d'email
           batch_action: Actions Groupées
           all: Ouvert ou fermé
           edit_permissions: Edition des permissions
@@ -186,6 +194,10 @@ app:
     new:
       h1: Création d'un nouvel appel à projets
     property:
+      validation_mail_template:
+        label: Modèle d'email de validation
+      refusal_mail_template:
+        label: Modèle d'email de refus
       organizing_center: Centre organisateur
       start_date:
         label: Du
@@ -218,6 +230,8 @@ app:
     own_inherited_from_organizing_center: Permissions héritées du centre organisateur
     batch_action:
       h1: 'Actions Groupées'
+    mail_template:
+      h1: 'Modèle d''email'
   dashboard:
     my_calls_of_project:
       title: Mes appels à projets
@@ -271,6 +285,8 @@ app:
         infos: 'Informations'
         project_form: 'Configuration'
         permissions: 'Permissions'
+        widget: 'Widgets'
+        mail_template: 'Modèle email'
     admin:
       user:
         label: 'Utilisateurs'

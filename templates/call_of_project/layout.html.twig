@@ -18,8 +18,6 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                    {% set id = app.request.attributes.get('id') %}
-
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), call_of_project) %}
                         <li class="nav-item">
                             <a href="{{ path('app.call_of_project.informations', {'id' : call_of_project.id}) }}" class="nav-link">
@@ -52,11 +50,33 @@
                     {% endif %}
 
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::ADMIN'), call_of_project) %}
-                        <li class="nav-item">
-                            <a href="{{ path('app.call_of_project.form', {'id' : call_of_project.id}) }}" class="nav-link">
+                        <li class="nav-item has-treeview">
+
+                            <a href="#" class="nav-link">
                                 <i class="fas fa-cogs nav-icon"></i>
-                                <p>{{ 'app.sidebar.item.admin.project_form'|trans }}</p>
+                                <p>
+                                    {{ 'app.sidebar.item.admin.project_form'|trans }}
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
                             </a>
+
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="{{ path('app.call_of_project.form', {'id' : call_of_project.id}) }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ 'app.sidebar.item.admin.widget'|trans }}</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ path('app.call_of_project.mail_template', {'id' : call_of_project.id}) }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ 'app.sidebar.item.admin.mail_template'|trans }}</p>
+                                    </a>
+                                </li>
+
+                            </ul>
                         </li>
                     {% endif %}
 
