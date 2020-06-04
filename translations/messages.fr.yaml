@@ -285,7 +285,7 @@ app:
         infos: 'Informations'
         project_form: 'Configuration'
         permissions: 'Permissions'
-        widget: 'Widgets'
+        widget: 'Formulaire projet'
         mail_template: 'Modèle email'
     admin:
       user:
