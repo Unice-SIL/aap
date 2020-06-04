@@ -2,6 +2,8 @@ import '../scss/app.scss';
 
 require('admin-lte');
 require('admin-lte/plugins/jquery-knob/jquery.knob.min');
+require('admin-lte/plugins/summernote/summernote-bs4');
+require('admin-lte/plugins/summernote/lang/summernote-fr-FR');
 require('bootstrap');
 require('datatables.net-bs4');
 require('moment/locale/fr');
@@ -22,12 +24,21 @@ $(document).ready(function () {
         initDateTimePicker();
         initSortable();
         initSelect2();
+        initSummernote();
         bsCustomFileInput.init()
         $('.select2entity[data-autostart="true"]').select2entity();
     });
 
     $(document).trigger('init');
 
+    /**
+     * Summernote
+     */
+    function initSummernote() {
+        $('.summernote').summernote({
+            lang: 'fr-FR'
+        });
+    }
 
     /**
      * Select2
@@ -294,6 +305,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         let form = $(this);
+        form.find('.submit-button').attr("disabled", true).addClass('disabled');
 
         $.post(form.attr('action'), form.serialize(), function (html) {
 

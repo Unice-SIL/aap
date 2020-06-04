@@ -16,6 +16,7 @@ $font-family-sans-serif: "Apex New Book";
 @import "~toastr";
 @import "~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4";
 @import "~select2";
+@import "~admin-lte/plugins/summernote/summernote-bs4.css";
 
 @mixin disabled {
   opacity: 0.5;

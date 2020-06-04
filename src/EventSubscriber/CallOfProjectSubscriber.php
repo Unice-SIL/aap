@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Constant\MailTemplate;
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
@@ -49,6 +50,13 @@ class CallOfProjectSubscriber implements EventSubscriber
             $this->projectFormLayoutManager->create($callOfProject);;
         }
 
+        if ($callOfProject->getValidationMailTemplate() === null) {
+            $callOfProject->setValidationMailTemplate(MailTemplate::VALIDATION_MAIL);;
+        }
+
+        if ($callOfProject->getRefusalMailTemplate() === null) {
+            $callOfProject->setRefusalMailTemplate(MailTemplate::REFUSAL_MAIL);;
+        }
     }
 
 }
