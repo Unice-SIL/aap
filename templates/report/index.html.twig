@@ -33,7 +33,7 @@
                                 </a>
                             </td>
                             <td>
-                                {{ report.deadline|date('d-m-Y h:i') }}
+                                {{ report.deadline|format_datetime() }}
                             </td>
                             <td class="text-center">
                                 {{ include('report/_status_badge.html.twig', { 'report' : report}) }}
