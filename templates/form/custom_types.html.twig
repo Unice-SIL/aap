@@ -78,3 +78,14 @@
     </div>
     {{ form_widget(form.entities) }}
 {% endblock %}
+
+{% block bootstrap_switch_widget %}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
+    <div class="form-check pl-0 mb-3{{ 'checkbox-inline' in parent_label_class ? ' form-check-inline' }}">
+        <div>
+            <label for="{{ form.vars.id }}">{{ form.vars.label|trans }}</label>
+        </div>
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    </div>
+{% endblock %}

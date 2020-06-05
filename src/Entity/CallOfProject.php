@@ -84,6 +84,16 @@ class CallOfProject extends Common
      */
     private $refusalMailTemplate;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAutomaticSendingValidationMail = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAutomaticSendingRefusalMail = false;
+
 
     public function __construct()
     {
@@ -253,6 +263,30 @@ class CallOfProject extends Common
     public function setRefusalMailTemplate(string $refusalMailTemplate): self
     {
         $this->refusalMailTemplate = $refusalMailTemplate;
+
+        return $this;
+    }
+
+    public function getIsAutomaticSendingValidationMail(): ?bool
+    {
+        return $this->isAutomaticSendingValidationMail;
+    }
+
+    public function setIsAutomaticSendingValidationMail(bool $isAutomaticSendingValidationMail): self
+    {
+        $this->isAutomaticSendingValidationMail = $isAutomaticSendingValidationMail;
+
+        return $this;
+    }
+
+    public function getIsAutomaticSendingRefusalMail(): ?bool
+    {
+        return $this->isAutomaticSendingRefusalMail;
+    }
+
+    public function setIsAutomaticSendingRefusalMail(bool $isAutomaticSendingRefusalMail): self
+    {
+        $this->isAutomaticSendingRefusalMail = $isAutomaticSendingRefusalMail;
 
         return $this;
     }
