@@ -1,6 +1,7 @@
 import '../scss/app.scss';
 
 require('admin-lte');
+require('admin-lte/plugins/bootstrap-switch/js/bootstrap-switch');
 require('admin-lte/plugins/jquery-knob/jquery.knob.min');
 require('admin-lte/plugins/summernote/summernote-bs4');
 require('admin-lte/plugins/summernote/lang/summernote-fr-FR');
@@ -25,11 +26,19 @@ $(document).ready(function () {
         initSortable();
         initSelect2();
         initSummernote();
+        initBootstrapSwitch();
         bsCustomFileInput.init()
         $('.select2entity[data-autostart="true"]').select2entity();
     });
 
     $(document).trigger('init');
+
+    /**
+     * Bootstrap switch
+     */
+    function initBootstrapSwitch() {
+        $('.bootstrap-switch').bootstrapSwitch()
+    }
 
     /**
      * Summernote
