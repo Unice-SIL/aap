@@ -84,7 +84,7 @@
     {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
     <div class="form-check pl-0 mb-3{{ 'checkbox-inline' in parent_label_class ? ' form-check-inline' }}">
         <div>
-            <label for="{{ form.vars.id }}">{{ form.vars.label|trans }}</label>
+            <label for="{{ form.vars.id }}">{{ form.vars.label ? form.vars.label|trans : form.vars.name }}</label>
         </div>
         <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
     </div>

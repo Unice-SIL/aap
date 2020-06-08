@@ -20,7 +20,7 @@ class BootstrapSwitchType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $class = $view->vars['attr']['class'] ?? '';
-        $class .= 'bootstrap-switch';
+        $class .= ' bootstrap-switch';
 
         $view->vars['attr']['class'] = $class;
     }
@@ -29,6 +29,7 @@ class BootstrapSwitchType extends AbstractType
     {
         $resolver->setDefaults([
             'required' => false,
+            'false_values' => ['false', null]
         ]);
     }
 }

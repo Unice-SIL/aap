@@ -126,7 +126,7 @@ $(document).ready(function () {
     });
 
     /**
-     * alert modal
+     * Alert modal
      */
     $(document).on('click', '.alert-button-modal', function (e) {
         e.preventDefault();
@@ -273,10 +273,7 @@ $(document).ready(function () {
 
         $.post(
             item.data('url'),
-            { 'position': item.parent().children().index(item) + 1 },
-            function () {
-                console.log('ok');
-            }
+            { 'position': item.parent().children().index(item) + 1 }
         );
     } );
 
@@ -285,6 +282,14 @@ $(document).ready(function () {
      */
     $('#call-of-project-information-form-modal').modal({
         backdrop: 'static'
+    });
+
+    /**
+     * Project Validation/Refusal modal
+     */
+    $('.validation-form-modal').modal({
+        backdrop: 'static',
+        show: false
     });
 
     /**
@@ -345,13 +350,13 @@ $(document).ready(function () {
     /**
      * CallOfProjectInformationType
      */
-    var $initProject = $('#call_of_project_information_initProject');
+    let $initProject = $('#call_of_project_information_initProject');
     // When initProject gets selected ...
     $initProject.change(function() {
         // ... retrieve the corresponding form.
-        var $form = $(this).closest('form');
+        let $form = $(this).closest('form');
         // Simulate form data, but only include the selected initProject value.
-        var data = {};
+        let data = {};
         data[$initProject.attr('name')] = $initProject.val();
         // Submit data via AJAX to the form's action path.
         $.ajax({
@@ -369,6 +374,35 @@ $(document).ready(function () {
         });
     });
 
+    /**
+     * Project/ValidationType
+     */
+    $(document).on('switchChange.bootstrapSwitch', 'form.validation-form .automatic-sending-switch', function(e, state) {
+        let $automaticSending = $(this);
+        // ... retrieve the corresponding form.
+        let $form = $(this).closest('form');
+        let $action = $form.find('[name="validation[action]"]')
+        console.log(data);
+        // Simulate form data, but only include the selected automaticSending value.
+        let data = {};
+        data[$automaticSending.attr('name')] = state;
+        data[$action.attr('name')] = $action.val();
+
+        // Submit data via AJAX to the form's action path.
+        $.ajax({
+            url : $form.attr('action'),
+            type: $form.attr('method'),
+            data : data,
+            success: function(html) {
+                let containerSelector = 'form[name ="' + $form.attr('name') + '"]' + ' .mail-template-container';
+                $(containerSelector).replaceWith(
+
+                    $(html).find(containerSelector)
+                );
+                initSummernote();
+            }
+        });
+    });
 
     /**
      * jQuery Knob

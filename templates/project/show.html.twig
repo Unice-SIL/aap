@@ -10,32 +10,19 @@
 
 {%  block modals %}
     {{ parent() }}
-    {{ include('partial/modal/_add_reporters_form.html.twig') }}
+    {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) %}
+        {{ include('partial/modal/_add_reporters_form.html.twig') }}
+        {{ include('partial/modal/_validation_project.html.twig', {'form' : validation_form, title : 'app.project.validation_project.modal_title'|trans}) }}
+        {{ include('partial/modal/_validation_project.html.twig', {'form' : refusal_form, title : 'app.project.refusal_project.modal_title'|trans}) }}
+    {% endif %}
 {%  endblock %}
 
 {% block content %}
 
-    <div class="card">
-        <div class="card-body">
-
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link {{ not reporter_added ? 'active' }}" id="nav-informations-tab" data-toggle="tab" href="#nav-informations" role="tab" aria-controls="nav-informations" aria-selected="{{ not reporter_added ? 'true' : 'false' }}">
-                        {{ 'app.project.informations.label'|trans }}
-                    </a>
-                    {% if
-                        is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
-                        and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
-                    %}
-                        <a class="nav-item nav-link {{ reporter_added ? 'active' }}" id="nav-reports-tab" data-toggle="tab" href="#nav-reports" role="tab" aria-controls="nav-reports" aria-selected="{{ reporter_added ? 'true' : 'false' }}">
-                            {{ 'app.project.report.label'|trans }}
-                        </a>
-                    {% endif %}
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade {{ not reporter_added ? 'show active' }}" id="nav-informations" role="tabpanel" aria-labelledby="nav-informations-tab">
-
+    <div class="row">
+        <div class="col">
+            <div class="card" style="height: 100%">
+                <div class="card-body">
                     <div class="text-right mt-2">
 
                         {% set parameters = { 'id' : project.id, } %}
@@ -67,45 +54,70 @@
                             </dl>
                         {% endfor %}
                     </dl>
-
                 </div>
+            </div>
+        </div>
 
-                {% if
-                    is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
-                    and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
-                %}
-                    <div class="tab-pane fade mt-2 {{ reporter_added ? 'show active' }}" id="nav-reports" role="tabpanel" aria-labelledby="nav-reports-tab">
-                        <div class="mb-4 pb-2 clearfix border-bottom">
-                            <button class="btn btn-primary float-right"
+        {% if
+            is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
+            and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
+        %}
+            <div class="col">
+                {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-around">
+                            <button class="btn btn-primary btn-lg"
                                     data-toggle="modal"
-                                    data-target="#add-reporters-form-modal"
+                                    data-target="#validation-project-form-modal-{{ validation_form.action.vars.data }}"
                                     type="button"
-                            >
-                                {{ 'app.project.action.add_reporters'|trans }}
-                            </button>
+                            >{{ 'app.project.validation.validation.label'|trans }}</button>
+                            <button class="btn btn-danger btn-lg"
+                                    data-toggle="modal"
+                                    data-target="#validation-project-form-modal-{{ refusal_form.action.vars.data }}"
+                                    type="button"
+                            >{{ 'app.project.validation.refusal.label'|trans }}</button>
                         </div>
-                        <table
-                                class="table dataTable"
-                                data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
-                        >
-                            <thead>
-                                <th>{{ 'app.report.property.reporter.label'|trans }}</th>
-                                <th>{{ 'app.report.property.status.label'|trans }}</th>
-                            </thead>
-                            <tbody>
-                            {% for report in project.reports %}
-                                <tr>
-                                    <td>{{ report.reporter }}</td>
-                                    <td>{{ include('report/_status_badge.html.twig') }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
                     </div>
                 {% endif %}
-            </div>
 
-        </div>
+                <div class="card mb-0">
+                        <div class="card-body">
+
+                            {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
+                                <div class="mb-4 pb-2 clearfix border-bottom">
+                                    <button class="btn btn-primary float-right"
+                                            data-toggle="modal"
+                                            data-target="#add-reporters-form-modal"
+                                            type="button"
+                                    >
+                                        {{ 'app.project.action.add_reporters'|trans }}
+                                    </button>
+                                </div>
+                            {% endif %}
+
+                            <table
+                                    class="table dataTable"
+                                    data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+                            >
+                                <thead>
+                                <th>{{ 'app.report.property.reporter.label'|trans }}</th>
+                                <th>{{ 'app.report.property.status.label'|trans }}</th>
+                                </thead>
+                                <tbody>
+                                {% for report in project.reports %}
+                                    <tr>
+                                        <td>{{ report.reporter }}</td>
+                                        <td>{{ include('report/_status_badge.html.twig') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 

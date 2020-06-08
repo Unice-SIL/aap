@@ -135,6 +135,14 @@ app:
     form:
       no_communicate: 'Non renseigné'
   project:
+    validation:
+      validation:
+        label: Retenir le projet
+      refusal:
+        label: Ne pas retenir le projet
+    validation_form:
+      automatic_sending:
+        label: 'Envoie du mail automatique'
     action:
       add_reporters: 'Ajouter des rapporteurs'
     workflow:
@@ -171,6 +179,12 @@ app:
       label: 'Informations'
     report:
       label: 'Rapports'
+    validation_refusal:
+      label: 'Valider / Refuser'
+    refusal_project:
+      modal_title: 'Refus du projet'
+    validation_project:
+      modal_title: 'Validation du projet'
   call_of_project:
     init:
       choices:
@@ -342,6 +356,10 @@ app:
     edit_success: Modification de l'élément "%item%" réalisée avec succès
     create_success: Création de l'élément "%item%" réalisée avec succès
     error_project_to_study: Echec du passage à l'étude du projet %item%
+    error_project_validate: Echec de la validation du projet %item%
+    error_project_refused: Echec du refus du projet %item%
+    success_project_validate: Validation du projet %item% réalisée avec succès
+    success_project_refused: Refus du projet %item% réalisé avec succès
 
   footer:
     copyright: Tous droits reservés
