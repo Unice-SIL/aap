@@ -10,6 +10,7 @@ use App\Form\Project\AddReporterType;
 use App\Form\Project\ValidationType;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Security\CallOfProjectVoter;
+use App\Utils\Mail\MailHelper;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
@@ -179,10 +180,14 @@ class ProjectController extends AbstractController
             $em->flush();
 
             if ($form->get('automaticSending')->getData()) {
-                $message = new \Swift_Message('Message de validation/refus', $form->get('mailTemplate')->getData());
+                $message = new \Swift_Message(
+                    'Message de validation/refus',
+                    MailHelper::parseValidationOrRefusalMessage($form->get('mailTemplate')->getData(), $project)
+                );
                 $message
                     ->setFrom($user->getEmail())
                     ->setTo($project->getCreatedBy()->getEmail())
+                    ->setContentType('text/html')
                 ;
 
                 $mailer->send($message);

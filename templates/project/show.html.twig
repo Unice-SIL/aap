@@ -66,7 +66,7 @@
                 {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
                     <div class="card">
                         <div class="card-body d-flex justify-content-around">
-                            <button class="btn btn-primary btn-lg"
+                            <button class="btn btn-primary btn-lg mr-3"
                                     data-toggle="modal"
                                     data-target="#validation-project-form-modal-{{ validation_form.action.vars.data }}"
                                     type="button"
