@@ -118,6 +118,10 @@ app:
         label: Label visible
       label:
         label: Label
+    type:
+      bootstrap_switch:
+        yes: 'Oui'
+        no: 'Non'
 
   login:
     form:
@@ -181,10 +185,13 @@ app:
       label: 'Rapports'
     validation_refusal:
       label: 'Valider / Refuser'
+      card_header_title: 'Valider / Refuser'
     refusal_project:
       modal_title: 'Refus du projet'
     validation_project:
       modal_title: 'Validation du projet'
+    reports:
+      card_header_title: 'Rapports'
   call_of_project:
     init:
       choices:

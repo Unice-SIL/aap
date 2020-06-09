@@ -44,7 +44,7 @@ class ValidationType extends AbstractType
                         'mapped' => false,
                         'data' => $automaticSendingData,
                         'attr' => [
-                            'class' => 'automatic-sending-switch'
+                            'class' => 'automatic-sending-switch',
                         ],
                         'label' => 'app.project.validation_form.automatic_sending.label',
                     ));

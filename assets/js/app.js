@@ -389,6 +389,7 @@ $(document).ready(function () {
         data[$action.attr('name')] = $action.val();
 
         // Submit data via AJAX to the form's action path.
+        $form.find('.submit-button').attr("disabled", true).addClass('disabled');
         $.ajax({
             url : $form.attr('action'),
             type: $form.attr('method'),
@@ -400,6 +401,7 @@ $(document).ready(function () {
                     $(html).find(containerSelector)
                 );
                 initSummernote();
+                $form.find('.submit-button').attr("disabled", false).removeClass('disabled');
             }
         });
     });

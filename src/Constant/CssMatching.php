@@ -22,6 +22,8 @@ class CssMatching
     const PROJECT_STATUS_TO_BOOTSTRAP = [
         Project::STATUS_WAITING => 'info',
         Project::STATUS_STUDYING => 'warning',
+        Project::STATUS_REFUSED => 'danger',
+        Project::STATUS_VALIDATED => 'success',
     ];
 
     const REPORT_STATUS_TO_BOOTSTRAP = [
