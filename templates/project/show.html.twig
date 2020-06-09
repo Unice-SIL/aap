@@ -113,7 +113,7 @@
                                 {% for report in project.reports %}
                                     <tr>
                                         <td>
-                                            <a href="{{ path('app.report.show', {'id' : report.id}) }}">{{ report.reporter }}</a>
+                                            <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
                                         </td>
                                         <td>{{ include('report/_status_badge.html.twig') }}</td>
                                     </tr>
