@@ -10,6 +10,7 @@
 
 {%  block modals %}
     {{ parent() }}
+    {{ include('partial/modal/_alert_form.html.twig') }}
     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) %}
         {{ include('partial/modal/_add_reporters_form.html.twig') }}
         {{ include('partial/modal/_validation_project.html.twig', {'form' : validation_form, title : 'app.project.validation_project.modal_title'|trans}) }}
@@ -108,6 +109,7 @@
                                 <thead>
                                 <th>{{ 'app.report.property.reporter.label'|trans }}</th>
                                 <th>{{ 'app.report.property.status.label'|trans }}</th>
+                                <th data-no-filter="true"></th>
                                 </thead>
                                 <tbody>
                                 {% for report in project.reports %}
@@ -116,6 +118,9 @@
                                             <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
                                         </td>
                                         <td>{{ include('report/_status_badge.html.twig') }}</td>
+                                        <td class="text-center fit">
+                                            {{ include('report/_delete_form.html.twig') }}
+                                        </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

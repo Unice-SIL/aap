@@ -91,4 +91,26 @@ class ReportController extends AbstractController
             'context' => $context
         ]);
     }
+
+    /**
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Report $report
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function delete(Request $request, Report $report, TranslatorInterface $translator): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$report->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($report);
+            $entityManager->flush();
+            $this->addFlash('success', $translator->trans('app.flash_message.report_delete_success', ['%reporter%' => $report->getReporter()->getUsername()]));
+        }
+
+        return $this->redirectToRoute('app.project.show', [
+                'id' => $report->getProject()->getId(),
+                'context' => 'call_of_project'
+            ]);
+    }
 }

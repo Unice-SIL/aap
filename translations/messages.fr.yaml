@@ -367,6 +367,7 @@ app:
     error_project_refused: Echec du refus du projet %item%
     success_project_validate: Validation du projet %item% réalisée avec succès
     success_project_refused: Refus du projet %item% réalisé avec succès
+    report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
 
   footer:
     copyright: Tous droits reservés
@@ -467,6 +468,9 @@ app:
     show:
       h1: 'Vue sur le rapport'
     inform_report: 'Renseigner le rapport'
+    modal:
+      remove_warning_title: 'Etes-vous sûr de vouloir retirer ce rapporteur du projet'
+      remove_warning_label_button: 'Retirer'
   page_not_found: 'Cette page n''existe pas'
   error_occured: 'Une erreur est survenue'
 
