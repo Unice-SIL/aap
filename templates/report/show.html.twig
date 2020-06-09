@@ -1,4 +1,4 @@
-{% extends 'top_navbar_layout.html.twig' %}
+{% extends layout|default('top_navbar_layout.html.twig') %}
 {% block title %}
     {{ 'app.report.show.h1'|trans }} {{ report.name }}
 {% endblock %}
@@ -10,7 +10,12 @@
 {% block content %}
     <div class="card">
         <div class="card-body">
-            <a href="{{ path('app.report.edit', {'id' : report.id}) }}" class="btn btn-primary text-white float-right">{{ 'app.report.inform_report'|trans }}</a>
+            {% set parameters = { 'id' : report.id, } %}
+
+            {% if context == 'call_of_project' %}
+                {% set parameters = parameters|merge({ 'context' : context }) %}
+            {% endif %}
+            <a href="{{ path('app.report.edit', parameters) }}" class="btn btn-primary text-white float-right">{{ 'app.report.inform_report'|trans }}</a>
             <dl>
 
                 <dt>{{ 'app.report.property.file.label'|trans }}</dt>

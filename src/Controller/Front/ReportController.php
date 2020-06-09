@@ -37,14 +37,23 @@ class ReportController extends AbstractController
 
     /**
      * @param Report $report
+     * @param Request $request
      * @return Response
      * @Route("/{id}/show", name="show", methods={"GET"})
      * @IsGranted(App\Security\ReportVoter::SHOW, subject="report")
      */
-    public function show(Report $report)
+    public function show(Report $report, Request $request)
     {
+        $context = $request->query->get('context');
+        if ($context === 'call_of_project') {
+            $layout = 'call_of_project/layout.html.twig';
+        }
+
         return $this->render('report/show.html.twig', [
-            'report' => $report
+            'report' => $report,
+            'layout' => $layout ?? null,
+            'call_of_project' => $report->getProject()->getCallOfProject(),
+            'context' => $context
         ]);
     }
 
@@ -59,6 +68,11 @@ class ReportController extends AbstractController
      */
     public function edit(Request $request, Report $report, ReportManagerInterface $reportManager, TranslatorInterface $translator)
     {
+        $context = $request->query->get('context');
+        if ($context === 'call_of_project') {
+            $layout = 'call_of_project/layout.html.twig';
+        }
+
         $form = $this->createForm(ReportType::class, $report);
         $form->handleRequest($request);
 
@@ -71,7 +85,10 @@ class ReportController extends AbstractController
 
         return $this->render('report/edit.html.twig', [
             'form' => $form->createView(),
-            'report' => $report
+            'report' => $report,
+            'layout' => $layout ?? null,
+            'call_of_project' => $report->getProject()->getCallOfProject(),
+            'context' => $context
         ]);
     }
 }

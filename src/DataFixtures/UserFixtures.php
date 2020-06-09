@@ -42,6 +42,7 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user->setUsername(self::USER_ADMIN)
+            ->setEmail(self::USER_ADMIN . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_ADMIN));
         $manager->persist($user);
         $this->addReference(self::class . self::USER_ADMIN, $user);
@@ -51,18 +52,21 @@ class UserFixtures extends Fixture
 
         $user = new User();
         $user->setUsername(self::USER_USER1)
+            ->setEmail(self::USER_USER1 . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_USER1));
         $manager->persist($user);
         $this->addReference(self::class . self::USER_USER1, $user);
 
         $user = new User();
         $user->setUsername(self::USER_USER2)
+            ->setEmail(self::USER_USER2 . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_USER2));
         $manager->persist($user);
         $this->addReference(self::class . self::USER_USER2, $user);
 
         $user = new User();
         $user->setUsername(self::USER_USER3)
+            ->setEmail(self::USER_USER3 . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_USER3));
         $manager->persist($user);
         $this->addReference(self::class . self::USER_USER3, $user);

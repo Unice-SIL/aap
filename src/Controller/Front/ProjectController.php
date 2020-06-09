@@ -5,15 +5,23 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Project;
+use App\Entity\User;
 use App\Form\Project\AddReporterType;
+use App\Form\Project\ValidationType;
 use App\Manager\Project\ProjectManagerInterface;
+use App\Security\CallOfProjectVoter;
+use App\Utils\Mail\MailHelper;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Registry;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -97,10 +105,20 @@ class ProjectController extends AbstractController
      * @param Project $project
      * @param Request $request
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
+     * @param Registry $workflowRegistry
+     * @param \Swift_Mailer $mailer
      * @return Response
      * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      */
-    public function show(Project $project, Request $request, EntityManagerInterface $em, TranslatorInterface $translator)
+    public function show(
+        Project $project,
+        Request $request,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator,
+        Registry $workflowRegistry,
+        \Swift_Mailer $mailer
+    )
     {
         $context = $request->query->get('context');
         $reporterAdded = $request->getSession()->remove('reporterAdded');
@@ -110,6 +128,11 @@ class ProjectController extends AbstractController
         $addReportersForm->handleRequest($request);
 
         if ($addReportersForm->isSubmitted() and $addReportersForm->isValid()) {
+
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $project->getCallOfProject());
+            if ($project->getStatus() !== Project::STATUS_STUDYING) {
+                throw new AccessDeniedException();
+            }
 
             $em->flush();
 
@@ -125,10 +148,79 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('app.project.show', $routeParameters);
         }
 
+        /** @var User $user */
+        $user = $this->getUser();
+        $processValidationForm = function (FormInterface $form) use ($workflowRegistry, $translator, $project, $em, $mailer, $user, $context) {
+
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $project->getCallOfProject());
+            if ($project->getStatus() !== Project::STATUS_STUDYING) {
+                throw new AccessDeniedException();
+            }
+
+            try {
+
+                $transition = $form->get('action')->getData() === Project::STATUS_VALIDATED ? 'validate' : 'refused';
+                $stateMachine = $workflowRegistry->get($project, 'project_validation_process');
+                $stateMachine->apply($project, $transition);
+
+            } catch (LogicException $exception) {
+                $this->addFlash('error',
+                    $translator->trans(
+                        'app.flash_message.error_project_' . $transition, ['%item%' => $project->getName()]
+                    )
+                );
+            }
+
+            $this->addFlash('success',
+                $translator->trans(
+                    'app.flash_message.success_project_' . $transition, ['%item%' => $project->getName()]
+                )
+            );
+
+            $em->flush();
+
+            if ($form->get('automaticSending')->getData()) {
+                $message = new \Swift_Message(
+                    'Message de validation/refus',
+                    MailHelper::parseValidationOrRefusalMessage($form->get('mailTemplate')->getData(), $project)
+                );
+                $message
+                    ->setFrom($user->getEmail())
+                    ->setTo($project->getCreatedBy()->getEmail())
+                    ->setContentType('text/html')
+                ;
+
+                $mailer->send($message);
+            }
+
+            $routeParameters = ['id' => $project->getId()];
+            if ($context === 'call_of_project') {
+                $routeParameters['context'] = $context;
+            }
+            return $this->redirectToRoute('app.project.show', $routeParameters);
+
+        };
+
+        $validationForm = $this->createForm(ValidationType::class, $project, ['context' => Project::STATUS_VALIDATED]);
+        $validationForm->handleRequest($request);
+        if ($validationForm->isSubmitted() and $validationForm->isValid()) {
+            if ($validationForm->has('action') and $validationForm->get('action')->getData() === Project::STATUS_VALIDATED) {
+                return $processValidationForm($validationForm);
+            }
+        }
+
+        $refusalForm = $this->createForm(ValidationType::class, $project, ['context' => Project::STATUS_REFUSED]);
+        $refusalForm->handleRequest($request);
+
+        if ($refusalForm->isSubmitted() and $refusalForm->isValid()) {
+            if ($refusalForm->has('action') and $refusalForm->get('action')->getData() === Project::STATUS_REFUSED) {
+                return $processValidationForm($refusalForm);
+            }
+        }
+
         if ($context === 'call_of_project') {
             $layout = 'call_of_project/layout.html.twig';
         }
-
 
         return $this->render('project/show.html.twig', [
             'project' => $project,
@@ -136,7 +228,9 @@ class ProjectController extends AbstractController
             'layout' => $layout ?? null,
             'context' => $context,
             'add_reporters_form' => $addReportersForm->createView(),
-            'reporter_added' => $reporterAdded
+            'reporter_added' => $reporterAdded,
+            'validation_form' => $validationForm->createView(),
+            'refusal_form' => $refusalForm->createView()
         ]);
     }
 

@@ -1,4 +1,4 @@
-{% extends 'top_navbar_layout.html.twig' %}
+{% extends layout|default('top_navbar_layout.html.twig') %}
 {% block title %}
     {{ 'app.report.edit.h1'|trans }} {{ report.name }}
 {% endblock %}
