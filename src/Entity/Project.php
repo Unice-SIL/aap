@@ -37,7 +37,7 @@ class Project extends Common
     private $reports;
 
     /** @var bool */
-    private $notifyReporters = false;
+    private $notifyReporters = true;
 
     public function __construct()
     {
