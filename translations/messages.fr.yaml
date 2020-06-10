@@ -444,6 +444,7 @@ app:
       name:
           label: Nom
   report:
+    notify_reporters_by_mail: Notfier les rapporteurs par mail
     property:
       report_file:
         label: Element(s) du rapport

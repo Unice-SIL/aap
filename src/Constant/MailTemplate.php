@@ -28,4 +28,9 @@ class MailTemplate
         'app.mail_template.placeholder.project_name' => self::PLACEHOLDER_PROJECT_NAME,
         'app.mail_template.placeholder.call_of_project_name' => self::PLACEHOLDER_CALL_OF_PROJECT_NAME,
     ];
+
+    const NOTIFICATION_NEW_REPORT = [
+        'subject' => 'Nouveau rapport',
+        'body' => 'Vous avez était identifié comme rapporteur sur le projet %s',
+    ];
 }

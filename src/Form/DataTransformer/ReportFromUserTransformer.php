@@ -4,11 +4,13 @@
 namespace App\Form\DataTransformer;
 
 use App\Entity\Report;
+use App\Event\NewReportEvent;
 use App\Manager\Report\ReportManagerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class ReportFromUserTransformer implements DataTransformerInterface
 {
@@ -64,6 +66,7 @@ class ReportFromUserTransformer implements DataTransformerInterface
             $report->setReporter($user)
                 ->setDeadline($value['deadline']);
             $reports[] = $report;
+
         }
 
         return $reports;

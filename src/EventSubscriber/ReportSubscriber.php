@@ -3,12 +3,26 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Report;
+use App\Utils\Mail\MailHelper;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class ReportSubscriber implements EventSubscriber
 {
+    /**
+     * @var MailHelper
+     */
+    private $mailHelper;
+
+    /**
+     * ReportSubscriber constructor.
+     * @param MailHelper $mailHelper
+     */
+    public function __construct(MailHelper $mailHelper)
+    {
+        $this->mailHelper = $mailHelper;
+    }
 
     public function getSubscribedEvents()
     {
@@ -28,6 +42,10 @@ class ReportSubscriber implements EventSubscriber
 
         if (null === $report->getName()) {
             $report->setName('Rapport de ' . $report->getReporter() . ' sur le projet ' . $report->getStatus());
+        }
+
+        if ($report->getProject()->isNotifyReporters()) {
+            $this->mailHelper->notifyReporterAboutReport($report);
         }
 
     }
