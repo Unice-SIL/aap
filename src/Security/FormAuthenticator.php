@@ -74,6 +74,10 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
 
+        if (!$user->isActive()) {
+            throw new CustomUserMessageAuthenticationException('app.security.user_not_active');
+        }
+
         return $user;
     }
 

@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -81,6 +80,11 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="App\Entity\Group", mappedBy="members")
      */
     private $groups;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive = false;
 
     /**
      * User constructor.
@@ -328,6 +332,18 @@ class User implements UserInterface
             $this->groups->removeElement($group);
             $group->removeMember($this);
         }
+
+        return $this;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

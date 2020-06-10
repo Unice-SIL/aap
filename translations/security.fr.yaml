@@ -1,0 +1,3 @@
+app:
+  security:
+    user_not_active: Cet utilisateur n'est pas actif
