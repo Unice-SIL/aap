@@ -36,9 +36,6 @@ class Project extends Common
      */
     private $reports;
 
-    /** @var bool */
-    private $notifyReporters = false;
-
     public function __construct()
     {
         parent::__construct();
@@ -135,19 +132,4 @@ class Project extends Common
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isNotifyReporters(): bool
-    {
-        return $this->notifyReporters;
-    }
-
-    /**
-     * @param bool $notifyReporters
-     */
-    public function setNotifyReporters(bool $notifyReporters): void
-    {
-        $this->notifyReporters = $notifyReporters;
-    }
 }

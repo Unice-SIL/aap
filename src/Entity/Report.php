@@ -20,6 +20,9 @@ class Report extends Common
     const STATUS_COMPLETE = 'complete';
     const STATUS_FINISHED = 'finished';
 
+    const NOTIFY_REPORT = 'notify_report';
+    const NOTIFY_REPORTS = 'notify_reports';
+
     /**
      * @var \DateTime|null
      * @ORM\Column(type="datetime")
@@ -61,6 +64,9 @@ class Report extends Common
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
+
+    /** @var string */
+    private $notifyReporters;
 
     /**
      * Report constructor.
@@ -173,4 +179,19 @@ class Report extends Common
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getNotifyReporters(): ?string
+    {
+        return $this->notifyReporters;
+    }
+
+    /**
+     * @param string $notifyReporters
+     */
+    public function setNotifyReporters(?string $notifyReporters): void
+    {
+        $this->notifyReporters = $notifyReporters;
+    }
 }
