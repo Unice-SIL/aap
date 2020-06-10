@@ -48,10 +48,8 @@ class ReportSubscriber implements EventSubscriber
             $this->mailHelper->notifyReporterAboutReport($report);
         }
 
-        static $reportersNotified = [];
-        if ($report->getNotifyReporters() === Report::NOTIFY_REPORTS and !in_array($report->getReporter(), $reportersNotified)) {
+        if ($report->getNotifyReporters() === Report::NOTIFY_REPORTS) {
             $this->mailHelper->notifyReporterAboutReports($report);
-            $reportersNotified[] = $report->getReporter();
         }
 
     }

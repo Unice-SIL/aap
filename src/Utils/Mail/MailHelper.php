@@ -61,6 +61,12 @@ class MailHelper
     public function notifyReporterAboutReports(Report $report)
     {
 
+        static $reportersNotified = [];
+        if (in_array($report->getReporter(), $reportersNotified)) {
+            return;
+        }
+        $reportersNotified[] = $report->getReporter();
+
         $message = new \Swift_Message(MailTemplate::NOTIFICATION_NEW_REPORTS['subject'], sprintf(
             MailTemplate::NOTIFICATION_NEW_REPORTS['body'],
             $report->getProject()->getCallOfProject()->getName()
