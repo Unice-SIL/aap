@@ -4,14 +4,13 @@
 namespace App\Form\BatchAction;
 
 
+use App\Entity\Report;
 use App\Form\Type\ReportFromUserType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AddReporterBatchActionType extends AbstractType
 {
@@ -23,11 +22,8 @@ class AddReporterBatchActionType extends AbstractType
                 'constraints' => [new Count([
                     'min' => 1,
                     'groups' => ['batch_Action']
-                ])]
-            ])
-            ->add('notifyReporters', CheckboxType::class, [
-                'label' => 'app.report.notify_reporters_by_mail',
-                'required' => false
+                ])],
+                'notification_type' => Report::NOTIFY_REPORTS
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'app.action.save'

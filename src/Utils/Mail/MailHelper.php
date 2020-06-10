@@ -45,6 +45,7 @@ class MailHelper
 
     public function notifyReporterAboutReport(Report $report)
     {
+
         $message = new \Swift_Message(MailTemplate::NOTIFICATION_NEW_REPORT['subject'], sprintf(
             MailTemplate::NOTIFICATION_NEW_REPORT['body'],
             $report->getProject()->getName()
@@ -55,6 +56,26 @@ class MailHelper
         ;
 
         $this->mailer->send($message);
+    }
 
+    public function notifyReporterAboutReports(Report $report)
+    {
+
+        static $reportersNotified = [];
+        if (in_array($report->getReporter(), $reportersNotified)) {
+            return;
+        }
+        $reportersNotified[] = $report->getReporter();
+
+        $message = new \Swift_Message(MailTemplate::NOTIFICATION_NEW_REPORTS['subject'], sprintf(
+            MailTemplate::NOTIFICATION_NEW_REPORTS['body'],
+            $report->getProject()->getCallOfProject()->getName()
+        ) . $report->getReporter());
+        $message
+            ->setFrom($this->mailFrom)
+            ->setTo($report->getReporter()->getEmail())
+        ;
+
+        $this->mailer->send($message);
     }
 }

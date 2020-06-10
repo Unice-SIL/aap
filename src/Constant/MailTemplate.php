@@ -33,4 +33,9 @@ class MailTemplate
         'subject' => 'Nouveau rapport',
         'body' => 'Vous avez était identifié comme rapporteur sur le projet %s',
     ];
+
+    const NOTIFICATION_NEW_REPORTS = [
+        'subject' => 'Nouveaux rapports',
+        'body' => 'Vous avez était identifié comme rapporteur sur plusieurs projets de l\'appel à projet %s',
+    ];
 }

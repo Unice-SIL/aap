@@ -44,8 +44,12 @@ class ReportSubscriber implements EventSubscriber
             $report->setName('Rapport de ' . $report->getReporter() . ' sur le projet ' . $report->getStatus());
         }
 
-        if ($report->getProject()->isNotifyReporters()) {
+        if ($report->getNotifyReporters() === Report::NOTIFY_REPORT) {
             $this->mailHelper->notifyReporterAboutReport($report);
+        }
+
+        if ($report->getNotifyReporters() === Report::NOTIFY_REPORTS) {
+            $this->mailHelper->notifyReporterAboutReports($report);
         }
 
     }
