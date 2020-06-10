@@ -62,7 +62,6 @@ class Report extends Common
      */
     private $comment;
 
-
     /**
      * Report constructor.
      */

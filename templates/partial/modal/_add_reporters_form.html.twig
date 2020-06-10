@@ -4,18 +4,28 @@
             <div class="modal-body">
                 <h4 class="modal-title">{{ 'app.project.action.add_reporters'|trans }}</h4>
                 {{ form_start(add_reporters_form) }}
+
                 <div class="form-group">
                     {{ form_label(add_reporters_form.reports.users) }}
                     <div class="d-block">
                         {{ form_widget(add_reporters_form.reports.users) }}
                     </div>
                 </div>
+
                 <div class="form-group">
                     {{ form_label(add_reporters_form.reports.deadline) }}
                     <div class="d-block">
                         {{ form_widget(add_reporters_form.reports.deadline) }}
                     </div>
                 </div>
+
+                <div class="form-group">
+                    {{ form_label(add_reporters_form.notifyReporters) }}
+                    <div class="d-block">
+                        {{ form_widget(add_reporters_form.notifyReporters) }}
+                    </div>
+                </div>
+
                 <button class="btn btn-primary">
                     {{ 'app.action.save'|trans }}
                 </button>
