@@ -221,8 +221,11 @@ class CallOfProjectController extends AbstractController
                 $stateMachine = $workflowRegistry->get($project, 'project_validation_process');
 
                 try {
-                    $stateMachine->apply($project, 'to_study');
-                } catch (LogicException $exception) {
+
+                    if ($stateMachine->can($project, 'to_study')) {
+                        $stateMachine->apply($project, 'to_study');
+                    }
+                } catch (\Exception $exception) {
                     $this->addFlash('error', $translator->trans('app.flash_message.error_project_to_study', ['%item%' => $project->getName()]));
                 }
 
