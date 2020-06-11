@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% set body_class = 'register-page' %}
+
+{% block body %}
+    <div class="register-box">
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg text-bold">{{ 'app.registration.invitation_form_title'|trans }}</p>
+
+                {{ form_start(form) }}
+
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.lastname) }}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">{{ 'app.registration.invitation_button_label'|trans }}</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                {{ form_end(form) }}
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+
+{% endblock %}

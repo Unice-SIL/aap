@@ -5,9 +5,12 @@ namespace App\Utils\Mail;
 
 
 use App\Constant\MailTemplate;
+use App\Entity\Invitation;
 use App\Entity\Project;
 use App\Entity\Report;
 use App\Entity\User;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class MailHelper
 {
@@ -19,17 +22,23 @@ class MailHelper
      * @var string
      */
     private $mailFrom;
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
 
 
     /**
      * MailHelper constructor.
      * @param \Swift_Mailer $mailer
      * @param string $mailFrom
+     * @param UrlGeneratorInterface $urlGenerator
      */
-    public function __construct(\Swift_Mailer $mailer, string $mailFrom)
+    public function __construct(\Swift_Mailer $mailer, string $mailFrom, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailer;
         $this->mailFrom = $mailFrom;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public static function parseValidationOrRefusalMessage(string $message, Project $project)
@@ -70,12 +79,30 @@ class MailHelper
         $message = new \Swift_Message(MailTemplate::NOTIFICATION_NEW_REPORTS['subject'], sprintf(
             MailTemplate::NOTIFICATION_NEW_REPORTS['body'],
             $report->getProject()->getCallOfProject()->getName()
-        ) . $report->getReporter());
+        ));
         $message
             ->setFrom($this->mailFrom)
             ->setTo($report->getReporter()->getEmail())
         ;
 
         $this->mailer->send($message);
+    }
+
+    public function sendInvitationMail(Invitation $invitation)
+    {
+
+        $url = $this->urlGenerator->generate('app.process_after_shibboleth_connection', ['token' => $invitation->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $message = new \Swift_Message(MailTemplate::INVITATION_MAIL['subject'], sprintf(
+                MailTemplate::INVITATION_MAIL['body'],
+                $url
+            ));
+        $message
+            ->setFrom($this->mailFrom)
+            ->setTo($invitation->getUser()->getEmail())
+        ;
+
+        $this->mailer->send($message);
+
+        $invitation->setSentAt(new \DateTime());
     }
 }

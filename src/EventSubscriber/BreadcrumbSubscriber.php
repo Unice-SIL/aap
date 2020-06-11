@@ -199,6 +199,7 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
             return $item['path'];
         }, $items);
         $exceptionsRoutes[] = 'app.homepage';
+        $exceptionsRoutes[] = 'app.process_after_shibboleth_connection';
         if (strpos($route, 'app.') !== false and !in_array($route, $exceptionsRoutes)) {
 
             $breadcrumbItem = new BreadcrumbItem(

@@ -31,11 +31,16 @@ class MailTemplate
 
     const NOTIFICATION_NEW_REPORT = [
         'subject' => 'Nouveau rapport',
-        'body' => 'Vous avez était identifié comme rapporteur sur le projet %s',
+        'body' => 'Vous avez été identifié comme rapporteur sur le projet %s',
     ];
 
     const NOTIFICATION_NEW_REPORTS = [
         'subject' => 'Nouveaux rapports',
-        'body' => 'Vous avez était identifié comme rapporteur sur plusieurs projets de l\'appel à projet %s',
+        'body' => 'Vous avez été identifié comme rapporteur sur un ou plusieurs projets de l\'appel à projet %s',
+    ];
+
+    const INVITATION_MAIL = [
+        'subject' => 'Invitation',
+        'body' => 'Vous avez été invité à créer un compte. Rendez-vous à l\'adresse %s et connectez-vous avec vos identifiants UCA',
     ];
 }

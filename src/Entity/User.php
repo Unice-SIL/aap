@@ -11,8 +11,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity("username", groups={"new", "edit", "register_for_invitation"})
+ * @UniqueEntity("email", groups={"new", "edit", "register_for_invitation"})
  */
 class User implements UserInterface
 {
@@ -33,18 +33,20 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(groups={"new", "edit"})
-     * @Assert\Email(groups={"new", "edit"})
+     * @Assert\NotBlank(groups={"new", "edit", "register_for_invitation"})
+     * @Assert\Email(groups={"new", "edit", "register_for_invitation"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"register_for_invitation"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"register_for_invitation"})
      */
     private $lastname;
 
@@ -85,6 +87,11 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isActive = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Invitation::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $invitation;
 
     /**
      * User constructor.
@@ -344,6 +351,23 @@ class User implements UserInterface
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getInvitation(): ?Invitation
+    {
+        return $this->invitation;
+    }
+
+    public function setInvitation(Invitation $invitation): self
+    {
+        $this->invitation = $invitation;
+
+        // set the owning side of the relation if necessary
+        if ($invitation->getUser() !== $this) {
+            $invitation->setUser($this);
+        }
 
         return $this;
     }

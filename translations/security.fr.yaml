@@ -1,3 +1,4 @@
 app:
   security:
+    connection_via_link_first: Vous devez d'abord vous connecter via le lien d'invitation que vous avez reçu par mail
     user_not_active: Cet utilisateur n'est pas actif
