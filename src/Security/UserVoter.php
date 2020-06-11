@@ -15,6 +15,7 @@ class UserVoter extends Voter
 
     const ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST = 'admin_one_organizing_center_at_least';
     const ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST = 'admin_one_organizing_center_or_call_of_project_at_least';
+    const MANAGE_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST = 'manage_one_organizing_center_or_call_of_project_at_least';
 
     /**
      * @var AuthorizationCheckerInterface
@@ -36,6 +37,7 @@ class UserVoter extends Voter
         if (!in_array($attribute, [
                 self::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST,
                 self::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST,
+                self::MANAGE_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST,
             ])) {
             return false;
         }
@@ -69,6 +71,8 @@ class UserVoter extends Voter
                 return $this->adminOneOrganizingCenterAtLeast($user);
             case self::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST:
                 return $this->adminOneOrganizingCenterOrCallOfProjectAtLeast($user);
+            case self::MANAGE_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST:
+                return $this->manageOneOrganizingCenterOrCallOfProjectAtLeast($user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -77,7 +81,7 @@ class UserVoter extends Voter
     private function adminOneOrganizingCenterAtLeast(User $user)
     {
         $acls = $user->getAlcs()->filter(function ($acl) {
-            return $acl->getPermission() === Acl::PERMISSION_ADMIN and $acl->getCommon() instanceof OrganizingCenter;
+            return in_array($acl->getPermission(), CallOfProject::ADMIN_PERMISSIONS) and $acl->getCommon() instanceof OrganizingCenter;
         });
 
         return $acls->count() > 0;
@@ -86,7 +90,16 @@ class UserVoter extends Voter
     private function adminOneOrganizingCenterOrCallOfProjectAtLeast(User $user)
     {
         $acls = $user->getAlcs()->filter(function ($acl) {
-            return $acl->getPermission() === Acl::PERMISSION_ADMIN and $acl->getCommon() instanceof CallOfProject;
+            return in_array($acl->getPermission(), CallOfProject::ADMIN_PERMISSIONS) and $acl->getCommon() instanceof CallOfProject;
+        });
+
+        return ($acls->count() > 0) or $this->adminOneOrganizingCenterAtLeast($user);
+    }
+
+    private function manageOneOrganizingCenterOrCallOfProjectAtLeast(User $user)
+    {
+        $acls = $user->getAlcs()->filter(function ($acl) {
+            return in_array($acl->getPermission(), CallOfProject::EDIT_PERMISSIONS) and $acl->getCommon() instanceof CallOfProject;
         });
 
         return ($acls->count() > 0) or $this->adminOneOrganizingCenterAtLeast($user);

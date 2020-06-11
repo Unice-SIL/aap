@@ -38,7 +38,7 @@ class RegistrationController extends AbstractController
         InvitationManagerInterface $invitationManager
     ): Response
     {
-        $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST, $this->getUser());
+        $this->denyAccessUnlessGranted(UserVoter::MANAGE_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST, $this->getUser());
 
         $user = $userManager->create();
         $form = $this->createForm(RegistrationForInvitationFormType::class, $user);

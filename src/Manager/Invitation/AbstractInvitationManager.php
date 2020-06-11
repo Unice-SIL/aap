@@ -15,6 +15,10 @@ abstract class AbstractInvitationManager implements InvitationManagerInterface
 
         $invitation = new Invitation();
         $invitation->setName('Invitation envoyée à ' . $user->getEmail());
+        $invitation->setUserEmail($user->getEmail());
+        $invitation->setUserFirstname($user->getFirstname());
+        $invitation->setUserLastname($user->getLastname());
+
         return $invitation;
     }
 

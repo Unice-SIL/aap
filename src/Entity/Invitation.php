@@ -35,6 +35,21 @@ class Invitation extends Common
     private $user;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $userEmail;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $userFirstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $userLastname;
+
+    /**
      * Invitation constructor.
      */
     public function __construct()
@@ -86,6 +101,42 @@ class Invitation extends Common
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUserEmail(): ?string
+    {
+        return $this->userEmail;
+    }
+
+    public function setUserEmail(string $userEmail): self
+    {
+        $this->userEmail = $userEmail;
+
+        return $this;
+    }
+
+    public function getUserFirstname(): ?string
+    {
+        return $this->userFirstname;
+    }
+
+    public function setUserFirstname(string $userFirstname): self
+    {
+        $this->userFirstname = $userFirstname;
+
+        return $this;
+    }
+
+    public function getUserLastname(): ?string
+    {
+        return $this->userLastname;
+    }
+
+    public function setUserLastname(string $userLastname): self
+    {
+        $this->userLastname = $userLastname;
 
         return $this;
     }
