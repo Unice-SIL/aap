@@ -8,9 +8,9 @@ use App\Constant\MailTemplate;
 use App\Entity\Invitation;
 use App\Entity\Project;
 use App\Entity\Report;
-use App\Entity\User;
+use App\Repository\MailTemplateRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RouterInterface;
+
 
 class MailHelper
 {
@@ -26,6 +26,10 @@ class MailHelper
      * @var UrlGeneratorInterface
      */
     private $urlGenerator;
+    /**
+     * @var MailTemplateRepository
+     */
+    private $mailTemplateRepository;
 
 
     /**
@@ -33,12 +37,19 @@ class MailHelper
      * @param \Swift_Mailer $mailer
      * @param string $mailFrom
      * @param UrlGeneratorInterface $urlGenerator
+     * @param MailTemplateRepository $mailTemplateRepository
      */
-    public function __construct(\Swift_Mailer $mailer, string $mailFrom, UrlGeneratorInterface $urlGenerator)
+    public function __construct(
+        \Swift_Mailer $mailer,
+        string $mailFrom,
+        UrlGeneratorInterface $urlGenerator,
+        MailTemplateRepository $mailTemplateRepository
+    )
     {
         $this->mailer = $mailer;
         $this->mailFrom = $mailFrom;
         $this->urlGenerator = $urlGenerator;
+        $this->mailTemplateRepository = $mailTemplateRepository;
     }
 
     public static function parseValidationOrRefusalMessage(string $message, Project $project)
@@ -54,14 +65,15 @@ class MailHelper
 
     public function notifyReporterAboutReport(Report $report)
     {
-
-        $message = new \Swift_Message(MailTemplate::NOTIFICATION_NEW_REPORT['subject'], sprintf(
-            MailTemplate::NOTIFICATION_NEW_REPORT['body'],
-            $report->getProject()->getName()
-        ));
+        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORT);
+        $message = new \Swift_Message(
+            $mailTemplate->getSubject(),
+            self::parseValidationOrRefusalMessage($mailTemplate->getBody(), $report->getProject())
+        );
         $message
             ->setFrom($this->mailFrom)
             ->setTo($report->getReporter()->getEmail())
+            ->setContentType('text/html')
         ;
 
         $this->mailer->send($message);
@@ -76,13 +88,15 @@ class MailHelper
         }
         $reportersNotified[] = $report->getReporter();
 
-        $message = new \Swift_Message(MailTemplate::NOTIFICATION_NEW_REPORTS['subject'], sprintf(
-            MailTemplate::NOTIFICATION_NEW_REPORTS['body'],
-            $report->getProject()->getCallOfProject()->getName()
-        ));
+        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORTS);
+        $message = new \Swift_Message(
+            $mailTemplate->getSubject(),
+            self::parseValidationOrRefusalMessage($mailTemplate->getBody(), $report->getProject())
+        );
         $message
             ->setFrom($this->mailFrom)
             ->setTo($report->getReporter()->getEmail())
+            ->setContentType('text/html')
         ;
 
         $this->mailer->send($message);
@@ -92,13 +106,20 @@ class MailHelper
     {
 
         $url = $this->urlGenerator->generate('app.process_after_shibboleth_connection', ['token' => $invitation->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $message = new \Swift_Message(MailTemplate::INVITATION_MAIL['subject'], sprintf(
-                MailTemplate::INVITATION_MAIL['body'],
-                $url
-            ));
+        $user = $invitation->getUser();
+        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::INVITATION_MAIL);
+
+        $message = str_replace(MailTemplate::PLACEHOLDER_FIRSTNAME, $user->getFirstname(), $mailTemplate->getBody());
+        $message = str_replace(MailTemplate::PLACEHOLDER_LASTNAME, $user->getLastname(), $message);
+        $message = str_replace(MailTemplate::PLACEHOLDER_URL_INVITATION, $url, $message);
+        $message = new \Swift_Message(
+            $mailTemplate->getSubject(),
+            $message
+        );
         $message
             ->setFrom($this->mailFrom)
             ->setTo($invitation->getUser()->getEmail())
+            ->setContentType('text/html')
         ;
 
         $this->mailer->send($message);

@@ -1,0 +1,44 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.mail_template.index.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.mail_template.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.mail_template.property.name.label'|trans }}</th>
+                    <th>{{ 'app.mail_template.property.subject.label'|trans }}</th>
+                    <th>{{ 'app.mail_template.property.body.label'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mail_template in mail_templates %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app.admin.mail_template.edit', { 'id' : mail_template.id}) }}">
+                                {{ mail_template.name|humanize_data }}
+                            </a>
+                        </td>
+                        <td>{{ mail_template.subject }}</td>
+                        <td>{{ mail_template.body }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

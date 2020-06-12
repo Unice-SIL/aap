@@ -6,6 +6,13 @@ app:
       project_name: Nom du projet
       creator_firstname: Prénom du créateur du projet
       creator_lastname: Nom du créateur du projet
+    property:
+      name:
+        label: 'Nom'
+      subject:
+        label: 'Sujet'
+      body:
+        label: 'Corps'
 
   batch_action:
     add_reporter: Ajouter des rapporteurs
@@ -321,6 +328,8 @@ app:
         label: 'Modèles de formulaires'
       group:
         label: 'Groupes'
+      mail_template:
+        label: 'Modèle de mails'
   widget:
     html_widget:
       label: Textes
@@ -419,6 +428,9 @@ app:
         h1: 'Vue sur le modèle de formulaire'
       edit:
         h1: 'Editer le modèle de formulaire'
+    mail_template:
+      index:
+        h1: 'Liste de modèles de mails'
   user:
     label: Utilisateur(s)
     select_2:
