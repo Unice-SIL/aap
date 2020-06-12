@@ -6,6 +6,7 @@ use App\Entity\Acl;
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\Entity\User;
+use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -14,6 +15,20 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
 {
     const CALL_OF_PROJECT_1 = 'Appel_projet_1';
     const CALL_OF_PROJECT_2 = 'Appel_projet_2';
+    /**
+     * @var CallOfProjectManagerInterface
+     */
+    private $callOfProjectManager;
+
+    /**
+     * CallOfProjectFixtures constructor.
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     */
+    public function __construct(CallOfProjectManagerInterface $callOfProjectManager)
+    {
+        $this->callOfProjectManager = $callOfProjectManager;
+    }
+
 
     public function load(ObjectManager $manager)
     {
@@ -41,7 +56,7 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         /**
          * CAP 1
          */
-        $callOfProject = new CallOfProject();
+        $callOfProject = $this->callOfProjectManager->create();
         $callOfProject->setName(self::CALL_OF_PROJECT_1);
         $callOfProject->setDescription('Description de l\'appel à projet');
         $callOfProject->setOrganizingCenter($organizingCenter1);
@@ -67,7 +82,7 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         /**
          * CAP 2
          */
-        $callOfProject = new CallOfProject();
+        $callOfProject = $this->callOfProjectManager->create();
         $callOfProject->setName(self::CALL_OF_PROJECT_2);
         $callOfProject->setDescription('Description de l\'appel à projet');
         $callOfProject->setOrganizingCenter($organizingCenter1);

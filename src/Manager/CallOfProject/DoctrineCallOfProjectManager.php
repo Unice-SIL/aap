@@ -7,10 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrineCallOfProjectManager extends AbstractCallOfProjectManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
     /**
      * DoctrineCallOfProjectManager constructor.
@@ -18,7 +14,7 @@ class DoctrineCallOfProjectManager extends AbstractCallOfProjectManager
      */
     public function __construct(EntityManagerInterface $em)
     {
-        $this->em = $em;
+        parent::__construct($em);
     }
 
     public function save(CallOfProject $callOfProject)

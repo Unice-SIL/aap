@@ -7,6 +7,7 @@ use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
 use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
@@ -48,14 +49,6 @@ class CallOfProjectSubscriber implements EventSubscriber
 
         if ($callOfProject->getProjectFormLayouts()->count() == 0) {
             $this->projectFormLayoutManager->create($callOfProject);;
-        }
-
-        if ($callOfProject->getValidationMailTemplate() === null) {
-            $callOfProject->setValidationMailTemplate(MailTemplate::VALIDATION_MAIL);;
-        }
-
-        if ($callOfProject->getRefusalMailTemplate() === null) {
-            $callOfProject->setRefusalMailTemplate(MailTemplate::REFUSAL_MAIL);;
         }
     }
 

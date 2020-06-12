@@ -6,21 +6,16 @@ namespace App\Constant;
 
 class MailTemplate
 {
-    const VALIDATION_MAIL = 'Bonjour ' . self::PLACEHOLDER_FIRSTNAME . ' ' . self::PLACEHOLDER_LASTNAME . ' </br>
-                            Suite à l\'appel à projets ' . self::PLACEHOLDER_CALL_OF_PROJECT_NAME . ' vous nous avez fait une proposition avec
-                            le projet ' . self::PLACEHOLDER_PROJECT_NAME . ' et nous vous remercions.
-                            Nous sommes heureux de vous annoncer que votre proposition a été retenue. </br>
-                            Nos sincères salutations';
-    const REFUSAL_MAIL = 'Bonjour ' . self::PLACEHOLDER_FIRSTNAME . ' ' . self::PLACEHOLDER_LASTNAME . ' </br>
-                            Suite à l\'appel à projets ' . self::PLACEHOLDER_CALL_OF_PROJECT_NAME . ' vous nous avez fait une proposition avec
-                            le projet ' . self::PLACEHOLDER_PROJECT_NAME . ' et nous vous remercions.
-                            Nous sommes dans le regret de vous annoncer que votre proposition a été refusée. </br>
-                            Nos sincères salutations';
+    const VALIDATION_PROJECT = 'validation de projet';
+
+    const REFUSAL_PROJECT = 'refus de projet';
+
 
     const PLACEHOLDER_LASTNAME = '[__LASTNAME__]';
     const PLACEHOLDER_FIRSTNAME = '[__FIRSTNAME__]';
     const PLACEHOLDER_PROJECT_NAME = '[__PROJECT_NAME__]';
     const PLACEHOLDER_CALL_OF_PROJECT_NAME = '[__CALL_OF_PROJECT_NAME__]';
+    const PLACEHOLDER_URL_INVITATION = '[__URL_INVITATION__]';
 
     const PLACEHOLDERS = [
         'app.mail_template.placeholder.creator_lastname' => self::PLACEHOLDER_LASTNAME,
@@ -29,18 +24,9 @@ class MailTemplate
         'app.mail_template.placeholder.call_of_project_name' => self::PLACEHOLDER_CALL_OF_PROJECT_NAME,
     ];
 
-    const NOTIFICATION_NEW_REPORT = [
-        'subject' => 'Nouveau rapport',
-        'body' => 'Vous avez été identifié comme rapporteur sur le projet %s',
-    ];
+    const NOTIFICATION_NEW_REPORT = 'notification pour un nouveau rapport';
 
-    const NOTIFICATION_NEW_REPORTS = [
-        'subject' => 'Nouveaux rapports',
-        'body' => 'Vous avez été identifié comme rapporteur sur un ou plusieurs projets de l\'appel à projet %s',
-    ];
+    const NOTIFICATION_NEW_REPORTS = 'notification pour ajout de rapport en masse';
 
-    const INVITATION_MAIL = [
-        'subject' => 'Invitation',
-        'body' => 'Vous avez été invité à créer un compte. Rendez-vous à l\'adresse %s et connectez-vous avec vos identifiants UCA',
-    ];
+    const INVITATION_MAIL = 'inviter un utilisateur';
 }

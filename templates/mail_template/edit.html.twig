@@ -1,0 +1,23 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.mail_template.edit.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.mail_template.edit.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary mr-3">{{ 'app.action.edit'|trans }}</button>
+                <a href="{{ path('app.admin.mail_template.index') }}" class="text-muted">
+                    {{ 'app.action.canceled'|trans }}
+                </a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
