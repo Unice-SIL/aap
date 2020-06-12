@@ -7,6 +7,7 @@ namespace App\Form\Report;
 use App\Entity\Report;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
@@ -48,5 +49,12 @@ class ReportType extends AbstractType
                 },
             ])
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'validation_groups' => ['edit', 'Default']
+        ]);
     }
 }

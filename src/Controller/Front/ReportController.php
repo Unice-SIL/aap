@@ -5,9 +5,11 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Report;
+use App\Form\Report\DeadlineType;
 use App\Form\Report\ReportType;
 use App\Manager\Report\ReportManagerInterface;
 use App\Repository\ReportRepository;
+use App\Security\CallOfProjectVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,22 +40,41 @@ class ReportController extends AbstractController
     /**
      * @param Report $report
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @return Response
-     * @Route("/{id}/show", name="show", methods={"GET"})
+     * @Route("/{id}/show", name="show", methods={"GET", "POST"})
      * @IsGranted(App\Security\ReportVoter::SHOW, subject="report")
      */
-    public function show(Report $report, Request $request)
+    public function show(Report $report, Request $request, TranslatorInterface $translator)
     {
         $context = $request->query->get('context');
         if ($context === 'call_of_project') {
             $layout = 'call_of_project/layout.html.twig';
         }
 
+        $deadlineForm = $this->createForm(DeadlineType::class, $report);
+        $deadlineForm->handleRequest($request);
+
+        if ($deadlineForm->isSubmitted() and $deadlineForm->isValid()) {
+
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $report->getProject()->getCallOfProject());
+
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $report->getName()]));
+
+            $routeParams = ['id' => $report->getId()];
+            if ($context === 'call_of_project') {
+                $routeParams['context'] = $context;
+            }
+            return $this->redirectToRoute('app.report.show', $routeParams);
+        }
+
         return $this->render('report/show.html.twig', [
             'report' => $report,
             'layout' => $layout ?? null,
             'call_of_project' => $report->getProject()->getCallOfProject(),
-            'context' => $context
+            'context' => $context,
+            'deadline_form' => $deadlineForm->createView()
         ]);
     }
 

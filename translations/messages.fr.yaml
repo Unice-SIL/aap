@@ -351,6 +351,8 @@ app:
         reactivate: 'Réactiver'
     call_of_project_informations_form:
       title: Editer l'appel à projets
+    deadline:
+      title: 'Modification de la date butoir'
   project_form_widget:
     humanize: Widget
     modal:
@@ -472,6 +474,8 @@ app:
     modal:
       remove_warning_title: 'Etes-vous sûr de vouloir retirer ce rapporteur du projet'
       remove_warning_label_button: 'Retirer'
+    action:
+      change_deadline: 'Modifier date butoir'
   page_not_found: 'Cette page n''existe pas'
   error_occured: 'Une erreur est survenue'
 

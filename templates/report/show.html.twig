@@ -7,6 +7,11 @@
     {{ 'app.report.show.h1'|trans }} {{ report.name }}
 {% endblock %}
 
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/modal/_deadline_form.html.twig', {'form': deadline_form}) }}
+{% endblock %}
+
 {% block content %}
     <div class="card">
         <div class="card-body">
@@ -16,7 +21,17 @@
                 {% set parameters = parameters|merge({ 'context' : context }) %}
             {% endif %}
             <a href="{{ path('app.report.edit', parameters) }}" class="btn btn-primary text-white float-right">{{ 'app.report.inform_report'|trans }}</a>
+
+            {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), report.project.callOfProject) %}
+                <button class="btn btn-primary float-right mr-3"
+                        data-toggle="modal"
+                        data-target="#deadline-form-modal"
+                        type="button"
+                >{{ 'app.report.action.change_deadline'|trans }}</button>
+            {% endif %}
             <dl>
+                <dt>{{ 'app.report.property.dead_line.label'|trans }}</dt>
+                <dd>{{ report.deadline|format_datetime() }}</dd>
 
                 <dt>{{ 'app.report.property.file.label'|trans }}</dt>
                 <dd>

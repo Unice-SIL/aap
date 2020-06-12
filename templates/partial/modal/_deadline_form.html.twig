@@ -1,0 +1,18 @@
+<div class="modal fade" id="deadline-form-modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-title">{{ 'app.modal.deadline.title'|trans }}</h4>
+
+                {{ form_start(form) }}
+                    {{ form_row(form.deadline) }}
+                    <button class="btn btn-primary">
+                        {{ 'app.action.edit'|trans }}
+                    </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
