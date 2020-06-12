@@ -43,7 +43,9 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setUsername(self::USER_ADMIN)
             ->setEmail(self::USER_ADMIN . '@aap.com')
-            ->setPassword($this->encoder->encodePassword($user, self::USER_ADMIN));
+            ->setPassword($this->encoder->encodePassword($user, self::USER_ADMIN))
+            ->setIsActive(true)
+        ;
         $manager->persist($user);
         $this->addReference(self::class . self::USER_ADMIN, $user);
         $user->setRoles([
@@ -53,7 +55,9 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setUsername(self::USER_USER1)
             ->setEmail(self::USER_USER1 . '@aap.com')
-            ->setPassword($this->encoder->encodePassword($user, self::USER_USER1));
+            ->setPassword($this->encoder->encodePassword($user, self::USER_USER1))
+            ->setIsActive(true)
+        ;
         $manager->persist($user);
         $this->addReference(self::class . self::USER_USER1, $user);
 

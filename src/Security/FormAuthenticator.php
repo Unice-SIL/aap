@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Invitation;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -72,6 +73,14 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
+        }
+
+        if ($user->getInvitation() instanceof Invitation and $user->getInvitation()->getAcceptedAt() === null) {
+            throw new CustomUserMessageAuthenticationException('app.security.connection_via_link_first');
+        }
+
+        if (!$user->isActive()) {
+            throw new CustomUserMessageAuthenticationException('app.security.user_not_active');
         }
 
         return $user;

@@ -89,3 +89,8 @@
         <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
     </div>
 {% endblock %}
+
+{% block user_select2_entity_widget %}
+    {{ form_widget(form) }}
+    <a href="{{ path('app.register_for_invitation') }}" target="_blank" class="mt-2 d-inline-block">{{ 'app.registration.invitation_link'|trans }}</a>
+{% endblock %}
