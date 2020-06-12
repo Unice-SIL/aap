@@ -30,7 +30,7 @@
                             </a>
                         </td>
                         <td>{{ mail_template.subject }}</td>
-                        <td>{{ mail_template.body }}</td>
+                        <td>{{ mail_template.body | raw }}</td>
                     </tr>
                 {% else %}
                     <tr>
