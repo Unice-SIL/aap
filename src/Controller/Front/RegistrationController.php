@@ -93,13 +93,23 @@ class RegistrationController extends AbstractController
         $ldapUser = $this->getUser();
         dump($ldapUser->getReports()->toArray());
 
-        // we transfer the $propertiesOfElementToTransfer properties from the $guestUser to the $ldapUser:
-        $propertiesOfElementToTransfer = ['reports', 'groups'];
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        // we transfer reports from $guestUser To $ldapUser
+        foreach ($guestUser->getReports() as $report) {
 
-        foreach ($propertiesOfElementToTransfer as $property) {
-            $data = $propertyAccessor->getValue($guestUser, $property);
-            $propertyAccessor->setValue($ldapUser, $property, $data);
+            //tests if ldapUser is already reporter on this report Project
+            if ($ldapUser
+                ->getReports()->map(function ($report) {
+                    return $report->getProject();
+                })->contains($report->getProject())) {
+                continue;
+            }
+
+            $ldapUser->addReport($report);
+        }
+
+        // we transfer groups from $guestUser To $ldapUser
+        foreach ($guestUser->getGroups() as $group) {
+            $ldapUser->addGroup($group);
         }
 
         $entityManager->remove($guestUser);
