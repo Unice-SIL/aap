@@ -108,6 +108,7 @@
                             >
                                 <thead>
                                 <th>{{ 'app.report.property.reporter.label'|trans }}</th>
+                                <th>{{ 'app.report.property.dead_line.label'|trans }}</th>
                                 <th>{{ 'app.report.property.status.label'|trans }}</th>
                                 <th data-no-filter="true"></th>
                                 </thead>
@@ -116,6 +117,9 @@
                                     <tr>
                                         <td>
                                             <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
+                                        </td>
+                                        <td>
+                                            {{ report.deadline|format_datetime }}
                                         </td>
                                         <td>{{ include('report/_status_badge.html.twig') }}</td>
                                         <td class="text-center fit">
