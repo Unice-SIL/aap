@@ -8,6 +8,11 @@
     {{ 'app.admin.invitation.index.h1'|trans }}
 {% endblock %}
 
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/modal/_alert_form.html.twig') }}
+{% endblock %}
+
 {% block content %}
     <div class="card">
         <div class="card-body">
@@ -21,6 +26,7 @@
                     <th>{{ 'app.invitation.property.sender_full_name.label'|trans }}</th>
                     <th>{{ 'app.invitation.property.createdAt.label'|trans }}</th>
                     <th>{{ 'app.invitation.property.acceptedAt.label'|trans }}</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,6 +43,9 @@
                         </td>
                         <td>{{ invitation.createdAt|format_datetime }}</td>
                         <td>{{ invitation.acceptedAt|format_datetime }}</td>
+                        <td>
+                            {{ include('invitation/_delete_form.html.twig') }}
+                        </td>
                     </tr>
                 {% else %}
                     <tr>

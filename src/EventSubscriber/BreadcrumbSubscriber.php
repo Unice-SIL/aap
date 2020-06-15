@@ -67,6 +67,11 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $route = $request->get('_route');
 
+        if (strpos($route, '.delete') !== false)
+        {
+            return;
+        }
+
         $mainBreadCrumb = new Breadcrumb(BreadcrumbManager::BREADCRUMB_MAIN);
 
         //For every page  we add home to the breadcrumb

@@ -384,6 +384,7 @@ app:
     success: Ajout de l'élément "%item%" réalisé avec succès
     edit_success: Modification de l'élément "%item%" réalisée avec succès
     create_success: Création de l'élément "%item%" réalisée avec succès
+    delete_success: Suppression de l'élément "%item%" réalisée avec succès
     error_project_to_study: Echec du passage à l'étude du projet %item%
     error_project_validate: Echec de la validation du projet %item%
     error_project_refused: Echec du refus du projet %item%
@@ -549,3 +550,7 @@ app:
         label: 'Créee le '
       acceptedAt:
         label: 'Acceptée le'
+    modal:
+      remove_warning_title: 'Etes-vous sûr de vouloir supprimer cette invitation. '
+      detail_remove_warning_title: 'Les données rattachées à cette invitation seront supprimées (rapports, affectation à un groupe, ...).'
+      remove_warning_label_button: 'Supprimer l''invitation'
