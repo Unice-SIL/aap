@@ -38,6 +38,11 @@ $font-family-sans-serif: "Apex New Book";
   }
 }
 
+label.required:before {
+  content: "* ";
+  color: var(--danger);
+}
+
 /**
   Loader
  */
@@ -100,14 +105,6 @@ table {
   }
 }
 
-/*
-  Select2 custom
- */
-.d-block {
-  .select2 {
-    display: block;
-  }
-}
 
 /*
   Control sidebar
@@ -124,9 +121,15 @@ body.layout-fixed {
   }
 }
 
-/**
-  Select 2
+/*
+  Select2 custom
  */
+.d-block {
+  .select2 {
+    display: block;
+  }
+}
+
 .select2-container {
   .select2-selection--single {
     height: 38px;
