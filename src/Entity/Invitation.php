@@ -30,7 +30,7 @@ class Invitation extends Common
     private $acceptedAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="invitation", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="invitation", cascade={"persist"})
      */
     private $user;
 
@@ -98,7 +98,7 @@ class Invitation extends Common
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 

@@ -15,7 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -89,23 +88,34 @@ class RegistrationController extends AbstractController
     {
 
         $guestUser = $invitation->getUser();
-        /** @var User $ldapUser */
-        $ldapUser = $this->getUser();
-        dump($ldapUser->getReports()->toArray());
+        /** @var User $user */
+        $user = $this->getUser();
 
-        // we transfer the $propertiesOfElementToTransfer properties from the $guestUser to the $ldapUser:
-        $propertiesOfElementToTransfer = ['reports', 'groups'];
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        // we transfer reports from $guestUser To $user
+        foreach ($guestUser->getReports() as $report) {
 
-        foreach ($propertiesOfElementToTransfer as $property) {
-            $data = $propertyAccessor->getValue($guestUser, $property);
-            $propertyAccessor->setValue($ldapUser, $property, $data);
+            //tests if user is already reporter on this report Project
+            if ($user
+                ->getReports()->map(function ($report) {
+                    return $report->getProject();
+                })->contains($report->getProject())) {
+                continue;
+            }
+
+            $guestUser->removeReport($report);
+            $user->addReport($report);
         }
 
-        $entityManager->remove($guestUser);
-        dump($ldapUser->getReports()->toArray());
-        dd('ok');
+        // we transfer groups from $guestUser To $user
+        foreach ($guestUser->getGroups() as $group) {
+            $guestUser->removeGroup($group);
+            $user->addGroup($group);
+        }
+
+
         $invitation->setToken(null);
+        $invitation->setUser(null);
+        $entityManager->remove($guestUser);
         $entityManager->flush();
 
         return $this->redirectToRoute('app.homepage');
