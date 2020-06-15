@@ -142,7 +142,7 @@ $(document).ready(function () {
         modal.find('.modal-title').text(title);
         let body = modal.find('.modal-body');
         body.find('form').remove();
-        body.append(form);
+        body.find('.dismiss-modal').before(form);
         modal.modal('show');
     });
 
