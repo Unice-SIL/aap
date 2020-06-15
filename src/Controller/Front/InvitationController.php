@@ -63,6 +63,7 @@ class InvitationController extends AbstractController
      * @param TranslatorInterface $translator
      * @param MailHelper $mailHelper
      * @return Response
+     * @throws \Exception
      * @Route("/{id}/resend-invitation", name="resend_invitation", methods={"POST"})
      * @IsGranted(App\Security\InvitationVoter::MANAGE, subject="invitation")
      */
