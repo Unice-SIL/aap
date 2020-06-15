@@ -1,5 +1,4 @@
 app:
-
   mail_template:
     placeholder:
       call_of_project_name: Nom de l'appel à projet
@@ -35,11 +34,15 @@ app:
   breadcrumb:
     main:
       app:
+        invitation:
+          index: Mes invitations
         report:
           label: Rapports
           edit: Renseigner le rapport
           show: Vue
         admin:
+          invitation:
+            label: Invitations
           group:
             label: Groupes
             new: Nouveau
@@ -300,6 +303,8 @@ app:
         label: Déconnexion
       help:
         label: Aide
+      my_invitations:
+        label: 'Mes invitations'
   action:
     label: Actions
     save: Enregistrer
@@ -334,6 +339,8 @@ app:
         label: 'Groupes'
       mail_template:
         label: 'Modèle de mails'
+      invitation:
+        label: 'Invitations'
   widget:
     html_widget:
       label: Textes
@@ -435,6 +442,9 @@ app:
     mail_template:
       index:
         h1: 'Liste de modèles de mails'
+    invitation:
+      index:
+        h1: 'Liste des invitations'
   user:
     label: Utilisateur(s)
     select_2:
@@ -527,3 +537,15 @@ app:
     invitation_ongoing: 'Invitation en cours'
     invitation_form_title: 'Inviter une personne'
     invitation_button_label: 'Inviter'
+  invitation:
+    property:
+      recipient_full_name:
+        label: 'Nom complet du receveur'
+      recipient_email:
+        label: 'Email du receveur'
+      sender_full_name:
+        label: 'Nom complet de l''émetteur'
+      createdAt:
+        label: 'Créee le '
+      acceptedAt:
+        label: 'Acceptée le'

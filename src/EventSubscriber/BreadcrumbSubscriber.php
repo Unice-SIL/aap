@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\CallOfProject;
 use App\Entity\Group;
+use App\Entity\Invitation;
 use App\Entity\OrganizingCenter;
 use App\Entity\Project;
 use App\Entity\ProjectFormLayout;
@@ -141,6 +142,16 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
                     'method' => 'find',
                     'parameter' => 'id',
                     'path' => 'app.admin.group.show',
+                    'labelBy' => 'name'
+                ],
+            ],
+            'app.admin.invitation' => [
+                'path' => 'app.admin.invitation.index',
+                'entity' => [
+                    'class' => Invitation::class,
+                    'method' => 'find',
+                    'parameter' => 'id',
+                    'path' => 'app.admin.invitation.show',
                     'labelBy' => 'name'
                 ],
             ],
