@@ -28,21 +28,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for call_of_project in call_of_projects|filter(cap => is_granted(constant('App\\Security\\CallOfProjectVoter::OPEN'), cap)) %}
+                    {% for call_of_project in call_of_projects|filter(cap => cap.status == constant('App\\Entity\\CallOfProject::STATUS_OPENED')) %}
                         <tr>
                             <td>
-                                <a href="{{ path('app.call_of_project.add_project', {'id' : call_of_project.id}) }}">
+                                <a href="{{ path('app.call_of_project.presentation_before_adding_project', {'id' : call_of_project.id}) }}">
                                     {{ call_of_project.name }}
                                 </a>
                             </td>
                             <td class="d-flex flex-column">
                                 <span>
                                     <i class="fas fa-hourglass-start text-dark"></i>
-                                    {{ call_of_project.startDate|format_datetime() }}
+                                    {{ call_of_project.startDate ? call_of_project.startDate|format_datetime : call_of_project.startDate|humanize_data }}
                                 </span>
                                 <span>
                                     <i class="fas fa-hourglass-end text-dark"></i>
-                                    {{ call_of_project.endDate|format_datetime() }}
+                                    {{ call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data }}
                                 </span>
                             </td>
                             <td class="text-center">
@@ -58,11 +58,11 @@
                             <td class="d-flex flex-column">
                                 <span>
                                     <i class="fas fa-hourglass-start text-dark"></i>
-                                    {{ call_of_project.startDate|format_datetime() }}
+                                    {{ call_of_project.startDate ? call_of_project.startDate|format_datetime : call_of_project.startDate|humanize_data }}
                                 </span>
                                 <span>
                                     <i class="fas fa-hourglass-end text-dark"></i>
-                                    {{ call_of_project.endDate|format_datetime() }}
+                                    {{ call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data }}
                                 </span>
                             </td>
                             <td class="text-center">

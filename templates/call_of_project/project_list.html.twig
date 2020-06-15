@@ -41,7 +41,9 @@
                             </a>
                         </td>
                         <td>{{ project.createdBy }}</td>
-                        <td>{{ project.createdAt|format_datetime() }}</td>
+                        <td>
+                            {{ project.createdAt ? project.createdAt|format_datetime : project.createdAt|humanize_data }}
+                        </td>
                         <td>{{ include('project/_status_badge.html.twig', { 'project' : project}) }}</td>
                     </tr>
                 {% else %}
