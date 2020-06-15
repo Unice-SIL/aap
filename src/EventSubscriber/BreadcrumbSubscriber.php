@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\CallOfProject;
 use App\Entity\Group;
+use App\Entity\Invitation;
 use App\Entity\OrganizingCenter;
 use App\Entity\Project;
 use App\Entity\ProjectFormLayout;

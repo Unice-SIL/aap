@@ -116,6 +116,7 @@ class RegistrationController extends AbstractController
         $invitation->setToken(null);
         $invitation->setUser(null);
         $entityManager->remove($guestUser);
+        $invitation->setAcceptedAt(new \DateTime());
         $entityManager->flush();
 
         return $this->redirectToRoute('app.homepage');

@@ -46,6 +46,11 @@ class CallOfProjectInformationType extends AbstractType
                     'placeholder' => 'app.call_of_project.property.description.placeholder'
                 ]
             ])
+            ->add('publicationDate', DateTimePickerType::class, [
+                'label' => 'app.call_of_project.property.publication_date.label',
+                'required' => false
+
+            ])
             ->add('startDate', DateTimePickerType::class, [
                 'label' => 'app.call_of_project.property.start_date.label',
                 'attr' => [

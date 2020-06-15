@@ -1,0 +1,11 @@
+<form method="post" action="{{ path('app.invitation.resend_invitation', {'id': invitation.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('resend_invitation' ~ invitation.id) }}">
+    <button
+            class="btn btn-sm alert-button-modal btn-warning text-white mr-1"
+            data-modal-title="{{ 'app.invitation.modal.resend_warning_title'|trans }}"
+            data-modal-warning-label="{{ 'app.invitation.modal.resend_warning_label_button'|trans }}"
+            data-modal-warning-class="btn btn-success"
+    >
+        <i class="fa fa-undo"></i>
+    </button>
+</form>

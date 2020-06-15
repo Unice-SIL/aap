@@ -52,6 +52,11 @@ class MailHelper
         $this->mailTemplateRepository = $mailTemplateRepository;
     }
 
+    /**
+     * @param string $message
+     * @param Project $project
+     * @return string|string[]
+     */
     public static function parseValidationOrRefusalMessage(string $message, Project $project)
     {
         $owner = $project->getCreatedBy();
@@ -63,6 +68,9 @@ class MailHelper
         return $message;
     }
 
+    /**
+     * @param Report $report
+     */
     public function notifyReporterAboutReport(Report $report)
     {
         $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORT);
@@ -79,6 +87,9 @@ class MailHelper
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Report $report
+     */
     public function notifyReporterAboutReports(Report $report)
     {
 
@@ -102,9 +113,16 @@ class MailHelper
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Invitation $invitation
+     * @throws \Exception
+     */
     public function sendInvitationMail(Invitation $invitation)
     {
 
+        if ($invitation->getToken() === null) {
+            throw new \Exception('The token is null');
+        }
         $url = $this->urlGenerator->generate('app.process_after_shibboleth_connection', ['token' => $invitation->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
         $user = $invitation->getUser();
         $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::INVITATION_MAIL);

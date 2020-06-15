@@ -35,11 +35,15 @@ app:
   breadcrumb:
     main:
       app:
+        invitation:
+          index: Invitations envoyées
         report:
           label: Rapports
           edit: Renseigner le rapport
           show: Vue
         admin:
+          invitation:
+            index: Invitations
           group:
             label: Groupes
             new: Nouveau
@@ -222,6 +226,8 @@ app:
     new:
       h1: Création d'un nouvel appel à projets
     property:
+      publication_date:
+        label: Date de publication
       is_automatic_sending_validation_mail:
         label: Envoi automatique du mail de validation par défaut
       is_automatic_sending_refusal_mail:
@@ -300,6 +306,8 @@ app:
         label: Déconnexion
       help:
         label: Aide
+      my_invitations:
+        label: 'Invitations envoyées'
   action:
     label: Actions
     save: Enregistrer
@@ -334,6 +342,8 @@ app:
         label: 'Groupes'
       mail_template:
         label: 'Modèle de mails'
+      invitation:
+        label: 'Invitations'
   widget:
     html_widget:
       label: Textes
@@ -377,12 +387,14 @@ app:
     success: Ajout de l'élément "%item%" réalisé avec succès
     edit_success: Modification de l'élément "%item%" réalisée avec succès
     create_success: Création de l'élément "%item%" réalisée avec succès
+    delete_success: Suppression de l'élément "%item%" réalisée avec succès
     error_project_to_study: Echec du passage à l'étude du projet %item%
     error_project_validate: Echec de la validation du projet %item%
     error_project_refused: Echec du refus du projet %item%
     success_project_validate: Validation du projet %item% réalisée avec succès
     success_project_refused: Refus du projet %item% réalisé avec succès
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
+    invitation_resend_success: L'invitation "%invitation%" a bien été réenvoyée
 
   footer:
     copyright: Tous droits reservés
@@ -435,6 +447,9 @@ app:
     mail_template:
       index:
         h1: 'Liste de modèles de mails'
+    invitation:
+      index:
+        h1: 'Liste des invitations'
   user:
     label: Utilisateur(s)
     select_2:
@@ -527,3 +542,23 @@ app:
     invitation_ongoing: 'Invitation en cours'
     invitation_form_title: 'Inviter une personne'
     invitation_button_label: 'Inviter'
+  invitation:
+    property:
+      recipient_full_name:
+        label: 'Invité(e)'
+      recipient_email:
+        label: 'Email'
+      sender_full_name:
+        label: 'Envoyée par'
+      createdAt:
+        label: 'Créee le '
+      acceptedAt:
+        label: 'Acceptée le'
+      sentAt:
+        label: 'Envoyée le'
+    modal:
+      remove_warning_title: 'Etes-vous sûr de vouloir supprimer cette invitation. '
+      detail_remove_warning_title: 'Les données rattachées à cette invitation seront supprimées (rapports, affectation à un groupe, ...).'
+      remove_warning_label_button: 'Supprimer l''invitation'
+      resend_warning_title: 'Etes-vous sûr de vouloir réenvoyer l''invitation'
+      resend_warning_label_button: 'Réenvoyer'

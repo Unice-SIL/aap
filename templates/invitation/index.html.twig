@@ -1,0 +1,64 @@
+{% extends layout %}
+
+{% block title %}
+    {{ 'app.admin.invitation.index.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.invitation.index.h1'|trans }}
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+    {{ include('partial/modal/_alert_form.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.invitation.property.recipient_full_name.label'|trans }}</th>
+                    <th>{{ 'app.invitation.property.recipient_email.label'|trans }}</th>
+                    <th>{{ 'app.invitation.property.sender_full_name.label'|trans }}</th>
+                    <th>{{ 'app.invitation.property.sentAt.label'|trans }}</th>
+                    <th>{{ 'app.invitation.property.acceptedAt.label'|trans }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for invitation in invitations %}
+                    <tr>
+                        <td>
+                            {{ invitation.userFirstname }} {{ invitation.userLastname }}
+                        </td>
+                        <td>
+                            {{ invitation.userEmail }}
+                        </td>
+                        <td>
+                            {{ invitation.createdBy.firstname }} {{ invitation.createdBy.lastname }}
+                        </td>
+                        <td>{{ invitation.sentAt|format_datetime }}</td>
+                        <td>{{ invitation.acceptedAt|format_datetime }}</td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                                {% if invitation.token %}
+                                    {{ include('invitation/_resend_invitation.html.twig') }}
+                                {% endif %}
+                                {{ include('invitation/_delete_form.html.twig') }}
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

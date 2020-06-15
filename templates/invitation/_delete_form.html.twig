@@ -1,0 +1,16 @@
+<form method="post" action="{{ path('app.invitation.delete', {'id': invitation.id}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ invitation.id) }}">
+    <button
+            class="btn btn-sm alert-button-modal btn-danger mr-1"
+            {% if invitation.acceptedAt == null%}
+                data-modal-title="{{ 'app.invitation.modal.remove_warning_title'|trans }} {{ 'app.invitation.modal.detail_remove_warning_title'|trans }}"
+            {% else %}
+                data-modal-title="{{ 'app.invitation.modal.remove_warning_title'|trans }}"
+            {% endif %}
+            data-modal-warning-label="{{ 'app.invitation.modal.remove_warning_label_button'|trans }}"
+            data-modal-warning-class="btn btn-danger"
+    >
+        <i class="fa fa-trash"></i>
+    </button>
+</form>

@@ -94,6 +94,11 @@ class CallOfProject extends Common
      */
     private $isAutomaticSendingRefusalMail = false;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $publicationDate;
+
 
     public function __construct()
     {
@@ -287,6 +292,18 @@ class CallOfProject extends Common
     public function setIsAutomaticSendingRefusalMail(bool $isAutomaticSendingRefusalMail): self
     {
         $this->isAutomaticSendingRefusalMail = $isAutomaticSendingRefusalMail;
+
+        return $this;
+    }
+
+    public function getPublicationDate(): ?\DateTimeInterface
+    {
+        return $this->publicationDate;
+    }
+
+    public function setPublicationDate(?\DateTimeInterface $publicationDate): self
+    {
+        $this->publicationDate = $publicationDate;
 
         return $this;
     }
