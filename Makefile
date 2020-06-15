@@ -33,3 +33,4 @@ install_prod: ## Install symfony project (prod)
 	yarn encore prod
 	php bin/console doctrine:database:create
 	php bin/console doctrine:migrations:migrate --no-interaction
+	php bin/console app:install:user-admin
