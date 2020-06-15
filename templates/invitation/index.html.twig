@@ -42,7 +42,11 @@
                             {{ invitation.createdBy.firstname }} {{ invitation.createdBy.lastname }}
                         </td>
                         <td>{{ invitation.sentAt|format_datetime }}</td>
-                        <td>{{ invitation.acceptedAt|format_datetime }}</td>
+                        <td>
+                            {% if invitation.acceptedAt %}
+                                {{ invitation.acceptedAt|format_datetime }}
+                            {% endif %}
+                        </td>
                         <td>
                             <div class="d-flex justify-content-end">
                                 {% if invitation.token %}
