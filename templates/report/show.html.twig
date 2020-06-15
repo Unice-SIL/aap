@@ -31,7 +31,9 @@
             {% endif %}
             <dl>
                 <dt>{{ 'app.report.property.dead_line.label'|trans }}</dt>
-                <dd>{{ report.deadline|format_datetime() }}</dd>
+                <dd>
+                    {{ report.deadline ? report.deadline|format_datetime : report.deadline|humanize_data }}
+                </dd>
 
                 <dt>{{ 'app.report.property.file.label'|trans }}</dt>
                 <dd>

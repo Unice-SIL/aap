@@ -62,6 +62,18 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/presentation-before-adding-project", name="presentation_before_adding_project", methods={"GET"})
+     * @param CallOfProject $callOfProject
+     * @return Response
+     */
+    public function presentationBeforeAddingProject(CallOfProject $callOfProject)
+    {
+        return $this->render('call_of_project/presentation_before_adding_project.html.twig', [
+            'call_of_project' => $callOfProject
+        ]);
+    }
+
+    /**
      * @Route("/new", name="new", methods={"GET","POST"})
      * @param Request $request
      * @param CallOfProjectManagerInterface $callOfProjectManager

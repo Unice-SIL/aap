@@ -119,7 +119,7 @@
                                             <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
                                         </td>
                                         <td>
-                                            {{ report.deadline|format_datetime }}
+                                            {{ report.deadline ? report.deadline|format_datetime : report.deadline|humanize_data }}
                                         </td>
                                         <td>{{ include('report/_status_badge.html.twig') }}</td>
                                         <td class="text-center fit">
