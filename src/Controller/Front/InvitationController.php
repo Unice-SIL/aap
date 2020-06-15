@@ -6,6 +6,7 @@ namespace App\Controller\Front;
 
 use App\Entity\Invitation;
 use App\Entity\Report;
+use App\Utils\Mail\MailHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,6 +50,29 @@ class InvitationController extends AbstractController
             $entityManager->remove($invitation);
             $entityManager->flush();
             $this->addFlash('success', $translator->trans('app.flash_message.delete_success', ['%item%' => $invitation->getName()]));
+        }
+
+        return $this->redirect(
+            $request->headers->get('referer')
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param Invitation $invitation
+     * @param TranslatorInterface $translator
+     * @param MailHelper $mailHelper
+     * @return Response
+     * @Route("/{id}/resend-invitation", name="resend_invitation", methods={"POST"})
+     * @IsGranted(App\Security\InvitationVoter::MANAGE, subject="invitation")
+     */
+    public function resendInvitation(Request $request, Invitation $invitation, TranslatorInterface $translator, MailHelper $mailHelper): Response
+    {
+        if (
+            $this->isCsrfTokenValid('resend_invitation'.$invitation->getId(), $request->request->get('_token'))
+        ) {
+            $mailHelper->sendInvitationMail($invitation);
+            $this->addFlash('success', $translator->trans('app.flash_message.invitation_resend_success', ['%invitation%' => $invitation->getName()]));
         }
 
         return $this->redirect(

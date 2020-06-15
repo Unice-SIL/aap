@@ -44,7 +44,12 @@
                         <td>{{ invitation.createdAt|format_datetime }}</td>
                         <td>{{ invitation.acceptedAt|format_datetime }}</td>
                         <td>
-                            {{ include('invitation/_delete_form.html.twig') }}
+                            <div class="d-flex justify-content-around">
+                                {{ include('invitation/_delete_form.html.twig') }}
+                                {% if invitation.token %}
+                                    {{ include('invitation/_resend_invitation.html.twig') }}
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                 {% else %}

@@ -42,7 +42,7 @@ app:
           show: Vue
         admin:
           invitation:
-            label: Invitations
+            index: Invitations
           group:
             label: Groupes
             new: Nouveau
@@ -391,6 +391,7 @@ app:
     success_project_validate: Validation du projet %item% réalisée avec succès
     success_project_refused: Refus du projet %item% réalisé avec succès
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
+    invitation_resend_success: L'invitation "%invitation%" a bien été réenvoyée
 
   footer:
     copyright: Tous droits reservés
@@ -554,3 +555,5 @@ app:
       remove_warning_title: 'Etes-vous sûr de vouloir supprimer cette invitation. '
       detail_remove_warning_title: 'Les données rattachées à cette invitation seront supprimées (rapports, affectation à un groupe, ...).'
       remove_warning_label_button: 'Supprimer l''invitation'
+      resend_warning_title: 'Etes-vous sûr de vouloir réenvoyer l''invitation'
+      resend_warning_label_button: 'Réenvoyer'

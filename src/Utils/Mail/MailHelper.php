@@ -105,6 +105,9 @@ class MailHelper
     public function sendInvitationMail(Invitation $invitation)
     {
 
+        if ($invitation->getToken() === null) {
+            throw new \Exception('The token is null');
+        }
         $url = $this->urlGenerator->generate('app.process_after_shibboleth_connection', ['token' => $invitation->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
         $user = $invitation->getUser();
         $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::INVITATION_MAIL);
