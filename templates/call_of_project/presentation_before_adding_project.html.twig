@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block h1_content %}
-    {{ 'app.call_of_project.presenation_before_adding_project.h1'|trans }}
+    {{ call_of_project.name }}
 {% endblock %}
 
 
@@ -13,37 +13,44 @@
     <div class="card">
         <div class="card-body">
 
-            <div class="float-right clearfix">
-                <a href="{{ path('app.call_of_project.add_project', {'id' : call_of_project.id}) }}" class="btn btn-primary">
+            <div class="text-center mb-4">
+                <a href="{{ path('app.call_of_project.add_project', {'id' : call_of_project.id}) }}" class="btn btn-lg btn-primary">
                     {{ 'app.call_of_project.action.drop_new_project'|trans }}
                 </a>
             </div>
 
-            <div>
-
-                <dl>
-                    <dt>{{ 'app.call_of_project.property.name.label'|trans }}</dt>
-                    <dd>{{ call_of_project.name }}</dd>
-
-                    <dt>{{ 'app.call_of_project.property.description.label'|trans }}</dt>
-                    <dd>{{ call_of_project.description }}</dd>
-
-                    <dt>{{ 'app.call_of_project.property.publication_date.label'|trans }}</dt>
-                    <dd>{{ call_of_project.publicationDate ? call_of_project.publicationDate|format_datetime : call_of_project.publicationDate|humanize_data }}</dd>
-
-                    <dt>
-                        {{ 'app.call_of_project.open_date.label'|trans }}
-                    </dt>
-                    <dd>
-                        {{ call_of_project.startDate ? call_of_project.startDate|format_datetime : call_of_project.startDate|humanize_data }}
-                    </dd>
-
-                    <dt>{{ 'app.call_of_project.closed_date.label'|trans }}</dt>
-                    <dd>
-                        {{ call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data }}
-                    </dd>
-                </dl>
+            <div class="table-responsive mb-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="bg-info">
+                            <th>
+                                {{ 'app.call_of_project.open_date.label'|trans }}
+                            </th>
+                            <th>
+                                {{ 'app.call_of_project.closed_date.label'|trans }}
+                            </th>
+                            <th>
+                                {{ 'app.call_of_project.property.publication_date.label'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ call_of_project.startDate ? call_of_project.startDate|format_datetime : call_of_project.startDate|humanize_data }}
+                            </td>
+                            <td>
+                                {{ call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data }}
+                            </td>
+                            <td>
+                                {{ call_of_project.publicationDate ? call_of_project.publicationDate|format_datetime : call_of_project.publicationDate|humanize_data }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
+            {{ call_of_project.description|raw }}
         </div>
     </div>
 

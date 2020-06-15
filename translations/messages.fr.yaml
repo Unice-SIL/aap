@@ -228,7 +228,7 @@ app:
       h1: Création d'un nouvel appel à projets
     property:
       publication_date:
-        label: Date de publication
+        label: Date de publication des résultats
       is_automatic_sending_validation_mail:
         label: Envoi automatique du mail de validation par défaut
       is_automatic_sending_refusal_mail:

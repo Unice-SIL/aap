@@ -31,7 +31,7 @@
                     '%endDate%' : call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data
                 }) }}
             </span>
-            <p class="mt-4">{{ call_of_project.description }}</p>
+            <p class="mt-4">{{ call_of_project.description|raw }}</p>
         </div>
     </div>
 {% endblock %}
