@@ -89,7 +89,7 @@ class User implements UserInterface
     private $isActive = false;
 
     /**
-     * @ORM\OneToOne(targetEntity=Invitation::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Invitation::class, mappedBy="user", cascade={"persist"})
      */
     private $invitation;
 
