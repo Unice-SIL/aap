@@ -269,9 +269,13 @@ app:
       title: Mes appels à projets
     my_projects:
       title: Mes projets
+    my_reports:
+      title: Mes rapports
     h1: Tableau de bord
     projects_dropped: ]-Inf,1]Projet déposé|]1,Inf]Projets déposés
     call_of_projects_dropped: ]-Inf,1]Appel à projets|]1,Inf]Appels à projets
+    reports_complete: ]-Inf,1]Rapport complété ou terminé|]1,Inf]Rapports complétés ou terminés
+    reports_to_complete: ]-Inf,1]Rapport à compléter|]1,Inf]Rapports à compléter
     drop_new_project: 'Déposer un nouveau projet'
     create_new_call_of_projects: 'Créer un nouvel appel à projets'
     last_dropped_projects: ]-Inf,1]Dernier projet déposé|]1,Inf]Derniers projets déposés
