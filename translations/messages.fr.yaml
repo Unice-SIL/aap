@@ -36,7 +36,7 @@ app:
     main:
       app:
         invitation:
-          index: Mes invitations
+          index: Invitations envoyées
         report:
           label: Rapports
           edit: Renseigner le rapport
@@ -307,7 +307,7 @@ app:
       help:
         label: Aide
       my_invitations:
-        label: 'Mes invitations'
+        label: 'Invitations envoyées'
   action:
     label: Actions
     save: Enregistrer
@@ -545,11 +545,11 @@ app:
   invitation:
     property:
       recipient_full_name:
-        label: 'Nom complet du receveur'
+        label: 'Invité(e)'
       recipient_email:
-        label: 'Email du receveur'
+        label: 'Email'
       sender_full_name:
-        label: 'Nom complet de l''émetteur'
+        label: 'Envoyée par'
       createdAt:
         label: 'Créee le '
       acceptedAt:
