@@ -1,4 +1,5 @@
 app:
+
   mail_template:
     placeholder:
       call_of_project_name: Nom de l'appel à projet
@@ -225,6 +226,8 @@ app:
     new:
       h1: Création d'un nouvel appel à projets
     property:
+      publication_date:
+        label: Date de publication
       is_automatic_sending_validation_mail:
         label: Envoi automatique du mail de validation par défaut
       is_automatic_sending_refusal_mail:
