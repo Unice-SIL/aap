@@ -554,6 +554,8 @@ app:
         label: 'Créee le '
       acceptedAt:
         label: 'Acceptée le'
+      sentAt:
+        label: 'Envoyée le'
     modal:
       remove_warning_title: 'Etes-vous sûr de vouloir supprimer cette invitation. '
       detail_remove_warning_title: 'Les données rattachées à cette invitation seront supprimées (rapports, affectation à un groupe, ...).'
