@@ -16,11 +16,6 @@ abstract class AbstractHtmlWidget extends AbstractWidget
     protected $content;
 
     /**
-     * @var string|null
-     */
-    protected $style;
-
-    /**
      * @return string|null
      */
     public function getContent(): ?string
@@ -36,26 +31,10 @@ abstract class AbstractHtmlWidget extends AbstractWidget
         $this->content = $content;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getStyle(): ?string
-    {
-        return $this->style;
-    }
-
-    /**
-     * @param string|null $style
-     */
-    public function setStyle(?string $style): void
-    {
-        $this->style = $style;
-    }
 
     public function render(): string
     {
-        return '<' . $this->getHtmlTag() . ' style="'. $this->getStyle() .'" >' . $this->getContent() . '</' . $this->getHtmlTag() .'>';
+        return $this->getContent();
     }
 
-    abstract public function getHtmlTag(): ?string;
 }

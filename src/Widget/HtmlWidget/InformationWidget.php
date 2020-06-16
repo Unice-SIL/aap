@@ -13,13 +13,8 @@ class InformationWidget extends AbstractHtmlWidget implements HtmlWidgetInterfac
         return HtmlInformationWidgetType::class;
     }
 
-    public function getHtmlTag(): ?string
-    {
-        return 'p';
-    }
-
     public function getPosition(): int
     {
-        return 2;
+        return 1;
     }
 }
