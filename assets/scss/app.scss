@@ -1,5 +1,10 @@
 @font-face {
   font-family: "Apex New Book";
+  src: url("../font/ufonts.com_apexnew-book-opentype.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Apex New Light";
   src: url("../font/ufonts.com_apexnew-light-opentype.woff") format("woff");
 }
 
@@ -8,7 +13,7 @@ $info: #00AFD7;
 
 $sidebar-dark-bg: $primary;
 
-$font-family-sans-serif: "Apex New Book";
+$font-family-sans-serif: "Apex New Light";
 
 @import "~admin-lte";
 @import "~@fortawesome/fontawesome-free/css/all.css";
@@ -28,6 +33,10 @@ $font-family-sans-serif: "Apex New Book";
  */
 a {
   color:  var(--info);
+}
+
+h1, h2, h3, h4, h5, dt {
+  font-family: "Apex New Book", sans-serif;
 }
 
 .sortable-handle {
@@ -191,6 +200,13 @@ body.layout-fixed {
   .sidebar a {
     color: var(--white);
   }
+}
+
+/**
+ * Summernote
+ */
+.note-editable {
+  font-family: "Apex New Light", sans-serif !important;
 }
 
 /**

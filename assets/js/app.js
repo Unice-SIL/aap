@@ -48,6 +48,7 @@ $(document).ready(function () {
             $(this).summernote({
                 lang: 'fr-FR',
                 placeholder: $(this).attr('placeholder'),
+                fontNames: ['Apex New Book', 'Apex New Light', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana']
             })
         });
     }
