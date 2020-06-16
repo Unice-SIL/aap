@@ -50,7 +50,7 @@
                                         {{ projectContent.stringContent|trans }}
                                     </a>
                                 {% else %}
-                                    {{ projectContent.stringContent|trans }}
+                                    {{ projectContent.stringContent|trans|raw }}
                                 {% endif %}
                             </dl>
                         {% endfor %}

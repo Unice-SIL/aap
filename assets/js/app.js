@@ -44,8 +44,11 @@ $(document).ready(function () {
      * Summernote
      */
     function initSummernote() {
-        $('.summernote').summernote({
-            lang: 'fr-FR'
+        $('.summernote').each(function () {
+            $(this).summernote({
+                lang: 'fr-FR',
+                placeholder: $(this).attr('placeholder'),
+            })
         });
     }
 
@@ -309,6 +312,7 @@ $(document).ready(function () {
         $.get(url).done(function (html) {
             modal.find('#form-container').html(html).hide().fadeIn(500);
             modal.find('#form-container').removeClass('loader-active');
+            initSummernote();
         });
     });
 
@@ -325,8 +329,7 @@ $(document).ready(function () {
 
             let element = $(html);
 
-            if (element.hasClass('form-widget')) {
-
+            if (element.find('form.form-widget').length > 0) {
                 $('.form-widget').replaceWith(element);
                 return;
             }
