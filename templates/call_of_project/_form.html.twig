@@ -15,10 +15,6 @@
     {{ form_label(form.description) }}
     {{ form_widget(form.description) }}
 </div>
-<div class="form-group">
-    {{ form_label(form.publicationDate) }}
-    {{ form_widget(form.publicationDate) }}
-</div>
 <div class="row">
     <div class="col-12 text-bold mb-2">
         {{ 'app.call_of_project.open_date.label'|trans }}
@@ -35,6 +31,10 @@
             {{ form_widget(form.endDate) }}
         </div>
     </div>
+</div>
+<div class="form-group">
+    {{ form_label(form.publicationDate) }}
+    {{ form_widget(form.publicationDate) }}
 </div>
 
 {% if form.initProject is defined %}

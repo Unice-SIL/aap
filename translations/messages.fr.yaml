@@ -66,6 +66,7 @@ app:
             new: Nouveau
             label: Utilisateurs
         call_of_project:
+          presentation_before_adding_project: Récapitulatif de l'appel à projets
           mail_template: Modèle d'email
           batch_action: Actions Groupées
           all: Ouvert ou fermé
@@ -227,7 +228,7 @@ app:
       h1: Création d'un nouvel appel à projets
     property:
       publication_date:
-        label: Date de publication
+        label: Date de publication des résultats
       is_automatic_sending_validation_mail:
         label: Envoi automatique du mail de validation par défaut
       is_automatic_sending_refusal_mail:
@@ -270,6 +271,12 @@ app:
       h1: 'Actions Groupées'
     mail_template:
       h1: 'Modèle d''email'
+    presenation_before_adding_project:
+      h1: Récapitulatif de l'appel à projets
+    action:
+      drop_new_project: 'Déposer un projet'
+    closed_date:
+      label: 'Date de fermeture au dépôts de projets'
   dashboard:
     my_calls_of_project:
       title: Mes appels à projets

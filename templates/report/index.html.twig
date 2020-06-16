@@ -33,7 +33,7 @@
                                 </a>
                             </td>
                             <td>
-                                {{ report.deadline|format_datetime() }}
+                                {{ report.deadline ? report.deadline|format_datetime : report.deadline|humanize_data }}
                             </td>
                             <td class="text-center">
                                 {{ include('report/_status_badge.html.twig', { 'report' : report}) }}

@@ -41,7 +41,7 @@
                         <td>
                             {{ invitation.createdBy.firstname }} {{ invitation.createdBy.lastname }}
                         </td>
-                        <td>{{ invitation.sentAt|format_datetime }}</td>
+                        <td>{{ invitation.sentAt ? invitation.sentAt|format_datetime : invitation.sentAt|humanize_data}}</td>
                         <td>
                             {% if invitation.acceptedAt %}
                                 {{ invitation.acceptedAt|format_datetime }}

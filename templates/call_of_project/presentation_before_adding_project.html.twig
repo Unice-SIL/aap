@@ -1,0 +1,58 @@
+{% extends 'top_navbar_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.call_of_project.presenation_before_adding_project.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ call_of_project.name }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+
+            <div class="text-center mb-4">
+                <a href="{{ path('app.call_of_project.add_project', {'id' : call_of_project.id}) }}" class="btn btn-lg btn-primary">
+                    {{ 'app.call_of_project.action.drop_new_project'|trans }}
+                </a>
+            </div>
+
+            <div class="table-responsive mb-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="bg-info">
+                            <th>
+                                {{ 'app.call_of_project.open_date.label'|trans }}
+                            </th>
+                            <th>
+                                {{ 'app.call_of_project.closed_date.label'|trans }}
+                            </th>
+                            <th>
+                                {{ 'app.call_of_project.property.publication_date.label'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                {{ call_of_project.startDate ? call_of_project.startDate|format_datetime : call_of_project.startDate|humanize_data }}
+                            </td>
+                            <td>
+                                {{ call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data }}
+                            </td>
+                            <td>
+                                {{ call_of_project.publicationDate ? call_of_project.publicationDate|format_datetime : call_of_project.publicationDate|humanize_data }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            {{ call_of_project.description|raw }}
+        </div>
+    </div>
+
+{% endblock %}
+

@@ -168,6 +168,7 @@ class CallOfProjectInformationTypeSubscriber implements EventSubscriberInterface
                'multiple' => false,
                'remote_route' => 'app.admin.organizing_center.list_by_user_and_permissions_select_2',
                'class' => OrganizingCenter::class,
+               'minimum_input_length' => 0,
                'primary_key' => 'id',
                'text_property' => 'name',
                'page_limit' => 10,

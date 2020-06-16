@@ -5,6 +5,7 @@ namespace App\Form\CallOfProject;
 use App\Entity\CallOfProject;
 use App\EventSubscriber\CallOfProjectInformationTypeSubscriber;
 use App\Form\Type\DateTimePickerType;
+use App\Form\Type\SummernoteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -38,18 +39,13 @@ class CallOfProjectInformationType extends AbstractType
                     'placeholder' => 'app.call_of_project.property.name.placeholder'
                 ],
             ])
-            ->add('description', null, [
+            ->add('description', SummernoteType::class, [
                 'required' => false,
                 'label' => 'app.call_of_project.property.description.label',
                 'attr' => [
                     'rows' => 8,
                     'placeholder' => 'app.call_of_project.property.description.placeholder'
                 ]
-            ])
-            ->add('publicationDate', DateTimePickerType::class, [
-                'label' => 'app.call_of_project.property.publication_date.label',
-                'required' => false
-
             ])
             ->add('startDate', DateTimePickerType::class, [
                 'label' => 'app.call_of_project.property.start_date.label',
@@ -62,6 +58,11 @@ class CallOfProjectInformationType extends AbstractType
                 'attr' => [
                     'data-linked-id' => $uniqid
                 ]
+            ])
+            ->add('publicationDate', DateTimePickerType::class, [
+                'label' => 'app.call_of_project.property.publication_date.label',
+                'required' => false
+
             ])
             ->addEventSubscriber($this->callOfProjectInformationTypeSubscriber)
             ;
