@@ -26,6 +26,10 @@ $font-family-sans-serif: "Apex New Book";
 /**
   General
  */
+a {
+  color:  var(--info);
+}
+
 .sortable-handle {
   cursor: pointer;
 }
