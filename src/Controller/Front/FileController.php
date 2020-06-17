@@ -4,9 +4,15 @@
 namespace App\Controller\Front;
 
 
+use App\Entity\CallOfProject;
 use App\Entity\ProjectContent;
 use App\Entity\Report;
 use App\Entity\WidgetFile;
+use App\Utils\Zip\ZipHelper;
+use League\Csv\Writer;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -15,7 +21,10 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mime\FileinfoMimeTypeGuesser;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Handler\DownloadHandler;
+use ZipStream\Option\Archive;
+use ZipStream\ZipStream;
 
 /**
  * Class FileController
@@ -70,5 +79,20 @@ class FileController extends AbstractController
     public function downloadReportFileAction(Report $report, DownloadHandler $downloadHandler): Response
     {
         return $downloadHandler->downloadObject($report, $fileField = 'reportFile');
+    }
+
+    /**
+     * @param CallOfProject $callOfProject
+     * @param ZipHelper $zipHelper
+     * @Route("/{id}/get-zip-from-call-of-project", name="get_zip_from_call_of_project", methods={"GET"})
+     * @Entity("callOfProject", expr="repository.getCallOfProjectForZip(id)")
+     * @IsGranted(App\Security\CallOfProjectVoter::EDIT, subject="callOfProject")
+     */
+    public function getZipFromCallOfProject(CallOfProject $callOfProject, ZipHelper $zipHelper)
+    {
+        $zipHelper->createZipFromCallOfProject($callOfProject, [
+            'sentHttpHeaders' => true
+        ]);
+
     }
 }

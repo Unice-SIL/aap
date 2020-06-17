@@ -1,5 +1,21 @@
 {% extends 'sidebar_layout.html.twig' %}
 
+{% block after_header %}
+    <div class="container-fluid clearfix">
+        <div class="btn-group dropleft float-right">
+
+            <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-cog"></i>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">{{ 'app.action.export'|trans }}</a>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
 {% block sidebar %}
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
