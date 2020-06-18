@@ -87,12 +87,13 @@ class FileController extends AbstractController
      * @Route("/{id}/get-zip-from-call-of-project", name="get_zip_from_call_of_project", methods={"GET"})
      * @Entity("callOfProject", expr="repository.getCallOfProjectForZip(id)")
      * @IsGranted(App\Security\CallOfProjectVoter::EDIT, subject="callOfProject")
+     * @return Response
      */
     public function getZipFromCallOfProject(CallOfProject $callOfProject, ZipHelper $zipHelper)
     {
         $zipHelper->createZipFromCallOfProject($callOfProject, [
             'sentHttpHeaders' => true
         ]);
-
+        return new Response();
     }
 }
