@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CallOfProject;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -52,6 +53,23 @@ class CallOfProjectRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getResult()
             ;
+    }
+
+    /**
+     * @param string $id
+     * @return int|mixed|string|null
+     * @throws NonUniqueResultException
+     */
+    public function getCallOfProjectForZip(string $id) {
+        return $this->createQueryBuilder('cop')
+            ->leftJoin('cop.projects', 'p')
+            ->leftJoin('p.projectContents', 'pc')
+            ->leftJoin('pc.projectFormWidget', 'pfw')
+            ->addSelect('p', 'pc', 'pfw')
+            ->andWhere('cop.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**

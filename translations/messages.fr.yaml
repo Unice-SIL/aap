@@ -275,6 +275,7 @@ app:
       h1: Récapitulatif de l'appel à projets
     action:
       drop_new_project: 'Déposer un projet'
+      label: 'Actions'
     closed_date:
       label: 'Date de fermeture au dépôts de projets'
   dashboard:
@@ -327,6 +328,7 @@ app:
     back_to_view: 'Revenir à la vue'
     back_to_list: 'Revenir à la liste'
     configure: 'Configurer'
+    export: 'Exporter'
   sidebar:
     item:
       projects:
