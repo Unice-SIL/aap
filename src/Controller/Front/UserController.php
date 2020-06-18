@@ -40,7 +40,11 @@ class UserController extends AbstractController
         $users = array_map(function ($user) use ($translator){
             return [
                 'id' => $user->getId(),
-                'text' => $user->getUsername()
+                'text' => sprintf('%s %s (%s)',
+                        $user->getFirstname(),
+                        $user->getLastname(),
+                        $user->getEmail()
+                    )
             ];
         }, $userRepository->findByQuery($query));
 
