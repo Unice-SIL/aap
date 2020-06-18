@@ -16,7 +16,10 @@ class NotificationFixtures extends Fixture implements DependentFixtureInterface
     {
         $notification = new Notification();
         $notification->setTitle('Première notification');
-        $notification->setRouteName('app.homepage');
+        $notification->setRouteName('app.project.show');
+        $notification->setRouteParams([
+            "id" => $this->getReference(ProjectFixtures::class . ProjectFixtures::PROJECT_1)->getId()
+        ]);
         $notification->setUser($this->getReference(UserFixtures::class . UserFixtures::USER_ADMIN));
         $manager->persist($notification);
 
@@ -32,7 +35,8 @@ class NotificationFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            UserFixtures::class
+            UserFixtures::class,
+            ProjectFixtures::class
         ];
     }
 }
