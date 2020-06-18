@@ -57,7 +57,7 @@ class MailHelper
      * @param Project $project
      * @return string|string[]
      */
-    public static function parseValidationOrRefusalMessage(string $message, Project $project)
+    public static function parseMessageWithProject(string $message, Project $project)
     {
         $owner = $project->getCreatedBy();
         $message = str_replace(MailTemplate::PLACEHOLDER_FIRSTNAME, $owner->getFirstname(), $message);
@@ -76,7 +76,7 @@ class MailHelper
         $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORT);
         $message = new \Swift_Message(
             $mailTemplate->getSubject(),
-            self::parseValidationOrRefusalMessage($mailTemplate->getBody(), $report->getProject())
+            self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject())
         );
         $message
             ->setFrom($this->mailFrom)
@@ -102,7 +102,7 @@ class MailHelper
         $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORTS);
         $message = new \Swift_Message(
             $mailTemplate->getSubject(),
-            self::parseValidationOrRefusalMessage($mailTemplate->getBody(), $report->getProject())
+            self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject())
         );
         $message
             ->setFrom($this->mailFrom)
@@ -143,5 +143,21 @@ class MailHelper
         $this->mailer->send($message);
 
         $invitation->setSentAt(new \DateTime());
+    }
+
+    public function notifyCreatorOfANewProject(Project $project)
+    {
+        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFY_CREATOR_OF_A_NEW_PROJECT);
+        $message = new \Swift_Message(
+            $mailTemplate->getSubject(),
+            self::parseMessageWithProject($mailTemplate->getBody(), $project)
+        );
+        $message
+            ->setFrom($this->mailFrom)
+            ->setTo($project->getCreatedBy()->getEmail())
+            ->setContentType('text/html')
+        ;
+
+        $this->mailer->send($message);
     }
 }
