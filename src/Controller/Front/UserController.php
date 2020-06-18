@@ -5,10 +5,13 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Invitation;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\UserVoter;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -42,5 +45,28 @@ class UserController extends AbstractController
         }, $userRepository->findByQuery($query));
 
         return $this->json($users);
+    }
+
+    /**
+     * @param User $user
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @return RedirectResponse
+     * @Route("/{id}/delete-notifications", name="delete_notifications")
+     */
+    public function deleteNotifications(User $user, EntityManagerInterface $entityManager, Request $request)
+    {
+        if ($this->isCsrfTokenValid('delete'. $user->getId(), $request->request->get('_token'))) {
+            foreach ($user->getNotifications() as $notification) {
+                $entityManager->remove($notification);
+            }
+
+            $entityManager->flush();
+        }
+
+        return $this->redirect(
+            $request->headers->get('referer')
+        );
+
     }
 }

@@ -10,7 +10,6 @@
 
 {%  block modals %}
     {{ parent() }}
-    {{ include('partial/modal/_alert_form.html.twig') }}
     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) %}
         {{ include('partial/modal/_add_reporters_form.html.twig') }}
         {{ include('partial/modal/_validation_project.html.twig', {'form' : validation_form, title : 'app.project.validation_project.modal_title'|trans}) }}

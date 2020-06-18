@@ -28,9 +28,9 @@ class Notification
     private $routeName;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="json")
      */
-    private $routeParams;
+    private $routeParams = [];
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="notifications")
@@ -67,12 +67,12 @@ class Notification
         return $this;
     }
 
-    public function getRouteParams(): ?string
+    public function getRouteParams(): ?array
     {
         return $this->routeParams;
     }
 
-    public function setRouteParams(?string $routeParams): self
+    public function setRouteParams(?array $routeParams): self
     {
         $this->routeParams = $routeParams;
 
