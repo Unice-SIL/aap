@@ -182,7 +182,7 @@ class ProjectController extends AbstractController
             if ($form->get('automaticSending')->getData()) {
                 $message = new \Swift_Message(
                     'Message de validation/refus',
-                    MailHelper::parseValidationOrRefusalMessage($form->get('mailTemplate')->getData(), $project)
+                    MailHelper::parseMessageWithProject($form->get('mailTemplate')->getData(), $project)
                 );
                 $message
                     ->setFrom($user->getEmail())

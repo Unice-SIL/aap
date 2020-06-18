@@ -42,6 +42,8 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user->setUsername(self::USER_ADMIN)
+            ->setFirstname(self::USER_ADMIN)
+            ->setLastname(self::USER_ADMIN)
             ->setEmail(self::USER_ADMIN . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_ADMIN))
             ->setIsActive(true)
@@ -54,6 +56,8 @@ class UserFixtures extends Fixture
 
         $user = new User();
         $user->setUsername(self::USER_USER1)
+            ->setFirstname(self::USER_USER1)
+            ->setLastname(self::USER_USER1)
             ->setEmail(self::USER_USER1 . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_USER1))
             ->setIsActive(true)
@@ -63,6 +67,8 @@ class UserFixtures extends Fixture
 
         $user = new User();
         $user->setUsername(self::USER_USER2)
+            ->setFirstname(self::USER_USER2)
+            ->setLastname(self::USER_USER2)
             ->setEmail(self::USER_USER2 . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_USER2));
         $manager->persist($user);
@@ -70,6 +76,8 @@ class UserFixtures extends Fixture
 
         $user = new User();
         $user->setUsername(self::USER_USER3)
+            ->setFirstname(self::USER_USER3)
+            ->setLastname(self::USER_USER3)
             ->setEmail(self::USER_USER3 . '@aap.com')
             ->setPassword($this->encoder->encodePassword($user, self::USER_USER3));
         $manager->persist($user);

@@ -316,6 +316,8 @@ app:
         label: Aide
       my_invitations:
         label: 'Invitations envoyées'
+      notification:
+        label: ']-Inf,1]Notification|]1,Inf]Notifications'
   action:
     label: Actions
     save: Enregistrer
@@ -571,3 +573,7 @@ app:
       remove_warning_label_button: 'Supprimer l''invitation'
       resend_warning_title: 'Etes-vous sûr de vouloir réenvoyer l''invitation'
       resend_warning_label_button: 'Réenvoyer'
+  notifications:
+    modal:
+      remove_warning_title: 'Etes-vous sûr de vouloir supprimer toutes vos notifications.'
+      remove_warning_label_button: 'Supprimer'

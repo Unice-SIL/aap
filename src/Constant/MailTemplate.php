@@ -29,4 +29,6 @@ class MailTemplate
     const NOTIFICATION_NEW_REPORTS = 'notification pour ajout de rapport en masse';
 
     const INVITATION_MAIL = 'inviter un utilisateur';
+
+    const NOTIFY_CREATOR_OF_A_NEW_PROJECT = 'notification à destination du créateur d\'un nouveau projet';
 }

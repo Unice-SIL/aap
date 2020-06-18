@@ -1,3 +1,4 @@
+
 <nav id="main-navbar" class="main-header navbar navbar-expand-md navbar-white navbar-light">
 
     {#
@@ -56,9 +57,28 @@
         <li class="nav-item dropdown">
             <a href="#" class="nav-link" data-toggle="dropdown" style="font-size: 1.2rem;">
                 <i class="far fa-bell"></i>
-                <span class="badge badge-secondary navbar-badge">0</span>
+                {% set notificationBadge = 'badge-secondary' %}
+                {% if app.user.notifications|length > 0 %}
+                    {% set notificationBadge = 'badge-warning text-bold' %}
+                {% endif %}
+                <span class="badge {{ notificationBadge }} navbar-badge">{{ app.user.notifications|length}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">
+                    {{ app.user.notifications|length}} {{ 'app.navbar.item.notification.label'|transchoice(app.user.notifications|length) }}
+                </span>
+                <div class="dropdown-divider"></div>
+                {% for notification in app.user.notifications %}
+                    <a href="{{ path('app.notification.process', {'id' : notification.id }) }}" class="dropdown-item notification">{{ notification.title }}</a>
+                    <div class="dropdown-divider"></div>
+                {% endfor %}
+                {% if app.user.notifications|length > 0 %}
+                    <span class="clearfix">
+                            <span class="d-inline-block float-right">
+                                {{ include('user/_delete_notifications.html.twig') }}
+                            </span>
+                        </span>
+                {% endif %}
             </div>
         </li>
 

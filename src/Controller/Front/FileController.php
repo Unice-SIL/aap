@@ -94,6 +94,7 @@ class FileController extends AbstractController
         $zipHelper->createZipFromCallOfProject($callOfProject, [
             'sentHttpHeaders' => true
         ]);
+
         return new Response();
     }
 }
