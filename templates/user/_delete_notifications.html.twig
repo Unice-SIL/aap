@@ -2,9 +2,11 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
     <button
-            class="btn btn-sm alert-button-modal btn-danger"
+            class="btn btn-link alert-button-modal"
             data-modal-title="{{ 'app.notifications.modal.remove_warning_title'|trans }}"
             data-modal-warning-label="{{ 'app.notifications.modal.remove_warning_label_button'|trans }}"
             data-modal-warning-class="btn btn-danger"
-    ><i class="fa fa-trash"></i></button>
+    >
+        <small>Supprimer les notifications</small>
+    </button>
 </form>

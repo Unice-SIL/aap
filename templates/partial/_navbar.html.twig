@@ -57,23 +57,29 @@
         <li class="nav-item dropdown">
             <a href="#" class="nav-link" data-toggle="dropdown" style="font-size: 1.2rem;">
                 <i class="far fa-bell"></i>
-                <span class="badge badge-secondary navbar-badge">{{ app.user.notifications|length}}</span>
+                {% set notificationBadge = 'badge-secondary' %}
+                {% if app.user.notifications|length > 0 %}
+                    {% set notificationBadge = 'badge-warning text-bold' %}
+                {% endif %}
+                <span class="badge {{ notificationBadge }} navbar-badge">{{ app.user.notifications|length}}</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">
                     {{ app.user.notifications|length}} {{ 'app.navbar.item.notification.label'|transchoice(app.user.notifications|length) }}
-                    {% if app.user.notifications|length > 0 %}
-                        <span class="clearfix">
+                </span>
+                <div class="dropdown-divider"></div>
+                {% for notification in app.user.notifications %}
+                    <a href="{{ path('app.notification.process', {'id' : notification.id }) }}" class="dropdown-item notification">{{ notification.title }}</a>
+                    <div class="dropdown-divider"></div>
+                {% endfor %}
+                {% if app.user.notifications|length > 0 %}
+                    <span class="clearfix">
                             <span class="d-inline-block float-right">
                                 {{ include('user/_delete_notifications.html.twig') }}
                             </span>
                         </span>
-                    {% endif %}
-                </span>
-                {% for notification in app.user.notifications %}
-                    <a href="{{ path('app.notification.process', {'id' : notification.id }) }}" class="dropdown-item" style="white-space: break-spaces">{{ notification.title }}</a>
-                {% endfor %}
-            </ul>
+                {% endif %}
+            </div>
         </li>
 
         <li class="nav-item dropdown">
