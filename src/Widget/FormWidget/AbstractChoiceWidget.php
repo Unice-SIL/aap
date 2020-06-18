@@ -48,7 +48,7 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
     public function getOptions(): array
     {
         return array_merge_recursive(parent::getOptions(), [
-            'choices' => array_flip($this->getChoices()),
+            'choices' => array_combine($this->getChoices(), $this->getChoices()),
         ]);
     }
 
@@ -59,6 +59,7 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
 
     public function transformData($value, array $options = [])
     {
+
         return unserialize($value);
     }
 

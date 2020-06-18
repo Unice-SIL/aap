@@ -94,5 +94,6 @@ class FileController extends AbstractController
             'sentHttpHeaders' => true
         ]);
 
+        return new Response();
     }
 }

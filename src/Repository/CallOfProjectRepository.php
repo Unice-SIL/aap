@@ -62,9 +62,9 @@ class CallOfProjectRepository extends ServiceEntityRepository
      */
     public function getCallOfProjectForZip(string $id) {
         return $this->createQueryBuilder('cop')
-            ->innerJoin('cop.projects', 'p')
-            ->innerJoin('p.projectContents', 'pc')
-            ->innerJoin('pc.projectFormWidget', 'pfw')
+            ->leftJoin('cop.projects', 'p')
+            ->leftJoin('p.projectContents', 'pc')
+            ->leftJoin('pc.projectFormWidget', 'pfw')
             ->addSelect('p', 'pc', 'pfw')
             ->andWhere('cop.id = :id')
             ->setParameter('id', $id)
