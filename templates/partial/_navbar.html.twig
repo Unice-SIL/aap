@@ -56,10 +56,14 @@
         <li class="nav-item dropdown">
             <a href="#" class="nav-link" data-toggle="dropdown" style="font-size: 1.2rem;">
                 <i class="far fa-bell"></i>
-                <span class="badge badge-secondary navbar-badge">0</span>
+                <span class="badge badge-secondary navbar-badge">{{ app.user.notifications|length}}</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            </div>
+            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-item dropdown-header">{{ app.user.notifications|length}} Notifications</span>
+                {% for notification in app.user.notifications %}
+                    <li class="dropdown-item" style="white-space: break-spaces">{{ notification.title }}</li>
+                {% endfor %}
+            </ul>
         </li>
 
         <li class="nav-item dropdown">

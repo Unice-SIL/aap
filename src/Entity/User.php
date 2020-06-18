@@ -94,6 +94,11 @@ class User implements UserInterface
     private $invitation;
 
     /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $notifications;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -101,6 +106,7 @@ class User implements UserInterface
         $this->acls = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
 
@@ -367,6 +373,37 @@ class User implements UserInterface
         // set the owning side of the relation if necessary
         if ($invitation->getUser() !== $this) {
             $invitation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
+            }
         }
 
         return $this;
