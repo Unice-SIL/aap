@@ -16,6 +16,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         shibboleth:
+            context: main
             pattern: ^/shibboleth-login
             anonymous: lazy
             provider: app_user_provider
@@ -27,6 +28,7 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
         main:
+            context: main
             pattern: ^/
             anonymous: lazy
             provider: app_user_provider

@@ -16,7 +16,6 @@ class AuthenticatorController extends AbstractController
      */
     public function shibbolethAuthentication(Request $request)
     {
-        dd($this->getUser());
-        return $this->redirect();
+        return $this->redirect($request->get('_target_path'));
     }
 }
