@@ -577,3 +577,6 @@ app:
     modal:
       remove_warning_title: 'Etes-vous sûr de vouloir supprimer toutes vos notifications.'
       remove_warning_label_button: 'Supprimer'
+  authentication:
+    shibboleth:
+      button_label: 'Se connecter via Shibboleth'
