@@ -43,6 +43,10 @@
                         {% trans %}app.login.form.button.submit{% endtrans %}
                     </button>
                 </div>
+                {# todo: get dynamic providerKey (here "main" in "_security.main.target_path" is hard coded) #}
+                <a href="{{ path('app.shibboleth_login', {'_target_path' : app.request.session.get('_security.main.target_path')}) }}" class="btn btn-block btn-success">
+                    {{ 'app.authentication.shibboleth.button_label'|trans }}
+                </a>
             </form>
         </div>
     </div>
