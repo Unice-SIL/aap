@@ -1,0 +1,24 @@
+{% extends 'top_navbar_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.user.edit_my_profile.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.user.edit_my_profile.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary mr-3">{{ 'app.action.save'|trans }}</button>
+                <a href="{{ path('app.user.show_my_profile') }}" class="text-muted">
+                    {{ 'app.action.canceled'|trans }}
+                </a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

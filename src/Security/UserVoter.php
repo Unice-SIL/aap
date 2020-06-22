@@ -16,6 +16,7 @@ class UserVoter extends Voter
     const ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST = 'admin_one_organizing_center_at_least';
     const ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST = 'admin_one_organizing_center_or_call_of_project_at_least';
     const MANAGE_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST = 'manage_one_organizing_center_or_call_of_project_at_least';
+    const AUTH_BASIC = 'auth_basic';
 
     /**
      * @var AuthorizationCheckerInterface
@@ -38,10 +39,10 @@ class UserVoter extends Voter
                 self::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST,
                 self::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST,
                 self::MANAGE_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST,
+                self::AUTH_BASIC,
             ])) {
             return false;
         }
-
         // only vote on `User` objects
         if (!$subject instanceof User) {
             return false;
@@ -73,6 +74,8 @@ class UserVoter extends Voter
                 return $this->adminOneOrganizingCenterOrCallOfProjectAtLeast($user);
             case self::MANAGE_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST:
                 return $this->manageOneOrganizingCenterOrCallOfProjectAtLeast($user);
+            case self::AUTH_BASIC:
+                return $this->hasBasicAuth($user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -103,6 +106,11 @@ class UserVoter extends Voter
         });
 
         return ($acls->count() > 0) or $this->adminOneOrganizingCenterAtLeast($user);
+    }
+
+    private function hasBasicAuth(User $user)
+    {
+        return $user->getAuth() === User::AUTH_BASIC;
     }
 
 }

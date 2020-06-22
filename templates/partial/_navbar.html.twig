@@ -87,7 +87,7 @@
                 <i class="far fa-user-circle"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">{{ 'app.navbar.item.my_profile.label'|trans }}</a>
+                <a href="{{ path('app.user.show_my_profile') }}" class="dropdown-item">{{ 'app.navbar.item.my_profile.label'|trans }}</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app.admin.user.index') }}" class="dropdown-item">{{ 'app.navbar.item.administration.label'|trans }}</a>
                 {% endif %}

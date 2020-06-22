@@ -101,6 +101,13 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        /** @var User $user */
+        $user = $token->getUser();
+        if ($token->getUser()->getAuth() === null) {
+            $user->setAuth(User::AUTH_BASIC);
+            $this->entityManager->flush();
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
