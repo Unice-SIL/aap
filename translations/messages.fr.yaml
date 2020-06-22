@@ -84,6 +84,9 @@ app:
           label: Projet
         home:
           label: Accueil
+        user:
+          label: Mon profil
+          edit_my_profile: Modifier mon profil
   group:
     property:
       name:
@@ -318,6 +321,8 @@ app:
         label: 'Invitations envoyées'
       notification:
         label: ']-Inf,1]Notification|]1,Inf]Notifications'
+      user:
+        label: 'Mon profile'
   action:
     label: Actions
     save: Enregistrer
@@ -479,6 +484,10 @@ app:
       lastname:
         label: Nom
     singular_label: 'Utilisateur'
+    show_my_profile:
+      h1: 'Mon profil'
+    edit_my_profile:
+      h1: 'Modifier mon profil'
   organizing_center:
     select_2:
       placeholder: Selectionnez un centre organisateur

@@ -1,0 +1,33 @@
+{% extends 'top_navbar_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.user.show_my_profile.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.user.show_my_profile.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+
+            {% if is_granted(constant('App\\Security\\UserVoter::AUTH_BASIC'), app.user) %}
+                <a href="{{ path('app.user.edit_my_profile') }}" class="button btn btn-primary float-right text-white">
+                    {{ 'app.action.edit'|trans }}
+                </a>
+            {% endif %}
+            <dl>
+                <dt>{{ 'app.user.property.username.label'|trans }}</dt>
+                <dd>{{ app.user.username|humanize_data }}</dd>
+                <dt>{{ 'app.user.property.lastname.label'|trans }}</dt>
+                <dd>{{ app.user.lastname|humanize_data }}</dd>
+                <dt>{{ 'app.user.property.firstname.label'|trans }}</dt>
+                <dd>{{ app.user.firstname|humanize_data }}</dd>
+                <dt>{{ 'app.user.property.email.label'|trans }}</dt>
+                <dd>{{ app.user.email|humanize_data }}</dd>
+            </dl>
+        </div>
+    </div>
+{% endblock %}
+

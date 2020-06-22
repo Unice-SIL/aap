@@ -6,13 +6,16 @@ namespace App\Controller\Front;
 
 use App\Entity\Invitation;
 use App\Entity\User;
+use App\Form\User\EditMyProfileType;
 use App\Repository\UserRepository;
 use App\Security\UserVoter;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -72,5 +75,42 @@ class UserController extends AbstractController
             $request->headers->get('referer')
         );
 
+    }
+
+    /**
+     * @Route("/show-my-profile", name="show_my_profile", methods={"GET"})
+     */
+    public function showMyProfile()
+    {
+        return $this->render('user/show_my_profile.html.twig');
+    }
+
+    /**
+     * @Route("/edit-my-profile", name="edit_my_profile", methods={"GET", "POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function editMyProfile(Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    {
+        $this->denyAccessUnlessGranted(UserVoter::AUTH_BASIC, $this->getUser());
+
+        $form = $this->createForm(EditMyProfileType::class, $this->getUser());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', $translator->trans(
+                'app.flash_message.edit_success', [
+                '%item%' => $this->getUser()->getUsername()
+            ]));
+
+            return $this->redirectToRoute('app.user.show_my_profile');
+        }
+        return $this->render('user/edit_my_profile.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

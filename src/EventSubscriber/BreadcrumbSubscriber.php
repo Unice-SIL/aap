@@ -145,6 +145,9 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
                     'labelBy' => 'name'
                 ],
             ],
+            'app.user' => [
+                'path' => 'app.user.show_my_profile',
+            ],
         ];
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();

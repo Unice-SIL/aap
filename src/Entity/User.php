@@ -17,6 +17,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User implements UserInterface
 {
 
+    const AUTH_BASIC = 'basic';
+    const AUTH_SHIBBOLETH = 'shibboleth';
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid", unique=true)
@@ -99,6 +102,12 @@ class User implements UserInterface
     private $notifications;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     */
+    private $auth;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -141,7 +150,7 @@ class User implements UserInterface
      * @param string $username
      * @return $this
      */
-    public function setUsername(string $username): self
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
@@ -405,6 +414,18 @@ class User implements UserInterface
                 $notification->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuth(): ?string
+    {
+        return $this->auth;
+    }
+
+    public function setAuth(?string $auth): self
+    {
+        $this->auth = $auth;
 
         return $this;
     }
