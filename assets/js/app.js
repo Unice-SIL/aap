@@ -15,7 +15,6 @@ require('select2/dist/js/i18n/fr');
 require('../../public/bundles/tetranzselect2entity/js/select2entity');
 require('./custom')
 
-
 $(document).ready(function () {
 
     /**
@@ -117,11 +116,15 @@ $(document).ready(function () {
     }
 
     /**
-     * Flash message => toastr
+     * Flash message => toastr/Swal
      */
     $('.flash-message').each(function () {
         let label = $(this).data('label');
         let message = $(this).data('message');
+
+        if (typeof Swal[label] === 'function') {
+            Swal[label](message);
+        }
 
         if (typeof toastr[label] === 'function') {
             toastr[label](message);

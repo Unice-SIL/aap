@@ -108,6 +108,11 @@ class User implements UserInterface
     private $auth;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastConnection;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -426,6 +431,18 @@ class User implements UserInterface
     public function setAuth(?string $auth): self
     {
         $this->auth = $auth;
+
+        return $this;
+    }
+
+    public function getLastConnection(): ?\DateTimeInterface
+    {
+        return $this->lastConnection;
+    }
+
+    public function setLastConnection(?\DateTimeInterface $lastConnection): self
+    {
+        $this->lastConnection = $lastConnection;
 
         return $this;
     }
