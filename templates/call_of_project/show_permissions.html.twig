@@ -6,30 +6,35 @@
 
 {% block content %}
 
+    <h3>{{ 'app.call_of_project.own_acls'|trans }}</h3>
     <div class="card">
         <div class="card-body">
+            {% if is_granted(constant('App\\Security\\CallOfProjectVoter::ADMIN'), call_of_project) %}
+                <div class="d-flex justify-content-end">
+                    <a href="{{ path('app.call_of_project.edit_permissions', { 'id' : call_of_project.id }) }}" class="btn btn-primary">
+                        {{ 'app.action.edit'|trans }}
+                    </a>
+                </div>
+            {% endif %}
 
-            <div>
-                <h2>{{ 'app.call_of_project.own_acls'|trans }}</h2>
-                {% for permission in constant('App\\Entity\\Acl::PERMISSION_BASES')  %}
-                    <dt>{{ ('app.acl.constant.' ~ permission)|trans }}</dt>
-                    <dl>{{ call_of_project.acls.toArray|filter(acl => acl.permission == permission)|array_unique|join(', ')|humanize_data }}</dl>
-                {% endfor %}
-            </div>
+            {% for permission in constant('App\\Entity\\Acl::PERMISSION_BASES')  %}
+                <dt>{{ ('app.acl.constant.' ~ permission)|trans }}</dt>
+                <dl>{{ call_of_project.acls.toArray|filter(acl => acl.permission == permission)|array_unique|join(', ')|humanize_data }}</dl>
+            {% endfor %}
 
+        </div>
+    </div>
+
+
+    <h3>{{ 'app.call_of_project.own_inherited_from_organizing_center'|trans }}</h3>
+    <div class="card">
+        <div class="card-body">
             <div>
-                <h2>{{ 'app.call_of_project.own_inherited_from_organizing_center'|trans }}</h2>
                 {% for permission in constant('App\\Entity\\Acl::PERMISSION_BASES')  %}
                     <dt>{{ ('app.acl.constant.' ~ permission)|trans }}</dt>
                     <dl>{{ call_of_project.organizingCenter.acls.toArray|filter(acl => acl.permission == permission)|array_unique|join(', ')|humanize_data }}</dl>
                 {% endfor %}
             </div>
-
-            {% if is_granted(constant('App\\Security\\CallOfProjectVoter::ADMIN'), call_of_project) %}
-                <a href="{{ path('app.call_of_project.edit_permissions', { 'id' : call_of_project.id }) }}" class="btn btn-primary">
-                    {{ 'app.action.edit'|trans }}
-                </a>
-            {% endif %}
         </div>
     </div>
 {% endblock %}
