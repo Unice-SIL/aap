@@ -193,18 +193,37 @@ body.layout-fixed {
 /**
  * Sidebar
  */
+@mixin sidebarActive($color) {
+  .nav-sidebar {
+    .nav-item {
+      .nav-link.active {
+        background: white;
+        color: $color;
+      }
+    }
+  }
+}
 .sidebar-dark-danger {
   background-color: var(--danger);
 
   .brand-link:not([class*="navbar"]) {
     background-color: var(--danger) !important;
   }
+
+  @include sidebarActive($danger);
+}
+
+.sidebar-dark-primary {
+
+  @include sidebarActive($primary);
 }
 
 .sidebar-dark-primary, .sidebar-dark-danger {
   .sidebar a {
     color: var(--white);
+
   }
+
 }
 
 /**
