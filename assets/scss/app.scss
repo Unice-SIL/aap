@@ -197,8 +197,8 @@ body.layout-fixed {
   .nav-sidebar {
     .nav-item {
       .nav-link.active {
-        background: white;
-        color: $color;
+        background: var(--info);
+        color: var(--light);
       }
     }
   }
@@ -214,16 +214,19 @@ body.layout-fixed {
 }
 
 .sidebar-dark-primary {
-
   @include sidebarActive($primary);
 }
 
 .sidebar-dark-primary, .sidebar-dark-danger {
   .sidebar a {
     color: var(--white);
-
   }
+}
 
+.sidebar-dark-danger {
+  .nav-link.active {
+    background-color: #fc5565 !important;
+  }
 }
 
 /**
