@@ -324,6 +324,7 @@ app:
       user:
         label: 'Mon profile'
   action:
+    add: Ajouter
     label: Actions
     save: Enregistrer
     edit: Modifier
@@ -331,6 +332,7 @@ app:
     new: Nouveau
     list_all: Tout voir
     canceled: Annuler
+    duplicate: Dupliquer
     trash: 'Corbeille'
     back_to_view: 'Revenir à la vue'
     back_to_list: 'Revenir à la liste'

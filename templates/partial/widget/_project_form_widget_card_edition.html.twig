@@ -18,13 +18,13 @@
                                 'id' : project_form_widget.id
                             }) }}"
                     >
-                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-edit" title="{{ 'app.action.edit'|trans }}"></i>
                     </button>
                     <button class="btn btn-sm btn-warning my-1 widget-button text-white rounded-circle">
-                        <i class="far fa-clone"></i>
+                        <i class="far fa-clone" title="{{ 'app.action.duplicate'|trans }}"></i>
                     </button>
 
-                    <div class="project-form-widget-delete">
+                    <div class="project-form-widget-delete" title="{{ 'app.action.delete'|trans }}">
 
                         {# this is to prevent weird behavior due to html form nested #}
                         {% if loop is defined and loop.first %}
