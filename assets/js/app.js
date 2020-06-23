@@ -123,7 +123,10 @@ $(document).ready(function () {
         let message = $(this).data('message');
 
         if (typeof Swal[label] === 'function') {
-            Swal[label](message);
+            Swal.fire({
+                'html': message,
+                'confirmButtonColor': getComputedStyle(document.documentElement).getPropertyValue('--primary')
+            });
         }
 
         if (typeof toastr[label] === 'function') {

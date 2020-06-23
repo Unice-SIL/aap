@@ -31,8 +31,8 @@
                 <div
                         class="flash-message d-none"
                         data-label="{{ label }}"
-                        data-message="{{ message|trans }}">
-                    {{ message }}
+                        data-message="{{ message|trans|raw }}">
+                    {{ message|raw }}
                 </div>
             {% endfor %}
         {% endfor %}
