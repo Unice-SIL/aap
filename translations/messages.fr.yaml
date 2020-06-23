@@ -1,5 +1,6 @@
 app:
 
+  project_form_widget_label: Widget
   mail_template:
     placeholder:
       call_of_project_name: Nom de l'appel à projet
@@ -336,6 +337,7 @@ app:
     back_to_list: 'Revenir à la liste'
     configure: 'Configurer'
     export: 'Exporter'
+    import: 'Importer'
   sidebar:
     item:
       projects:
@@ -393,6 +395,8 @@ app:
     deadline:
       title: 'Modification de la date butoir'
   project_form_widget:
+    select_2:
+      placeholder: Sélectionner un widget
     humanize: Widget
     modal:
       trash_warning_title: 'Êtes-vous sûr de vouloir mettre ce widget dans la corbeille?'

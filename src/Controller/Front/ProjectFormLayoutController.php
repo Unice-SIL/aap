@@ -6,6 +6,7 @@ namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
+use App\Form\ProjectFormLayout\ImportWidgetType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
@@ -14,6 +15,7 @@ use App\Repository\ProjectFormLayoutRepository;
 use App\Security\CallOfProjectVoter;
 use App\Security\UserVoter;
 use App\Widget\WidgetManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,8 +39,6 @@ class ProjectFormLayoutController extends AbstractController
      * @param RouterInterface $router
      * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
      * @param ProjectManagerInterface $projectManager
-     * @param CallOfProjectManagerInterface $callOfProjectManager
-     * @param ProjectFormLayoutManagerInterface $projectFormLayoutManager
      * @return Response
      */
     public function addWidget(
@@ -101,6 +101,47 @@ class ProjectFormLayoutController extends AbstractController
 
         return $this->render($widget->getTemplate(), [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param ProjectFormLayout $projectFormLayout
+     * @param EntityManagerInterface $em
+     * @param ProjectFormWidgetManagerInterface $projectFormWidgetManager
+     * @return Response
+     * @Route("/{id}/import-widget", name="import_widget", methods={"GET", "POST"})
+     */
+    public function importWidget(
+        Request $request, ProjectFormLayout $projectFormLayout, EntityManagerInterface $em,
+        ProjectFormWidgetManagerInterface $projectFormWidgetManager
+    )
+    {
+        $form = $this->createForm(ImportWidgetType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+
+                if ($projectFormWidget = $form->get('projectFormWidget')->getData()) {
+                    $projectFormWidget = $projectFormWidgetManager->cloneForNewProjectFormLayout($projectFormWidget);
+                    $projectFormWidget->setPosition(null);
+                    $projectFormLayout->addProjectFormWidget($projectFormWidget);
+                }
+
+                $em->flush();
+            }
+
+            if (!$request->isXmlHttpRequest()) {
+                return $this->redirect(
+                    $request->headers->get('referer')
+                );
+            }
+
+        }
+        return $this->render('partial/widget/_import_widget_form.html.twig', [
+            'form' => $form->createView(),
+            'project_form_layout' => $projectFormLayout
         ]);
     }
 

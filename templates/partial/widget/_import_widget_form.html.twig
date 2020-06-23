@@ -1,0 +1,6 @@
+
+{{ form_start(form, {'attr' : {'action' : path('app.project_form_layout.import_widget', {'id' : project_form_layout.id })}}) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary mr-3" type="submit">{{ 'app.action.import'|trans }}</button>
+    <a href="#" class="text-muted" data-dismiss="modal">{{ 'app.modal.widget_form.action.close'|trans }}</a>
+{{ form_end(form) }}

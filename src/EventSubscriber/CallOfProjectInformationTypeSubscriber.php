@@ -7,6 +7,7 @@ namespace App\EventSubscriber;
 use App\Entity\CallOfProject;
 use App\Entity\OrganizingCenter;
 use App\Entity\ProjectFormLayout;
+use App\Form\Type\CallOfProjectSelect2EntityType;
 use App\Form\Type\InitProjectChoiceType;
 use App\Manager\ProjectFormLayout\ProjectFormLayoutManagerInterface;
 use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
@@ -120,22 +121,7 @@ class CallOfProjectInformationTypeSubscriber implements EventSubscriberInterface
                 $formParent = $form->getParent();
                 if ($data === InitProjectChoiceType::INIT_BY_CALL_OF_PROJECT) {
 
-                    $formParent->add('callOfProjectModel', Select2EntityType::class, [
-                        'multiple' => false,
-                        'remote_route' => 'app.call_of_project.list_by_user_select_2',
-                        'class' => CallOfProject::class,
-                        'primary_key' => 'id',
-                        'text_property' => 'name',
-                        'minimum_input_length' => 2,
-                        'page_limit' => 10,
-                        'allow_clear' => true,
-                        'delay' => 250,
-                        'cache' => true,
-                        'cache_timeout' => 60000, // if 'cache' is true
-                        'placeholder' => 'app.call_of_project.select_2.placeholder',
-                        'mapped' => false,
-                        'label' => 'app.call_of_project.init.choices.init_by_call_of_project',
-                        'required' => true,
+                    $formParent->add('callOfProjectModel', CallOfProjectSelect2EntityType::class, [
                         'constraints' => [new NotBlank()]
                     ]);
 
