@@ -305,23 +305,29 @@ $(document).ready(function () {
     /**
      * Widget modal
      */
-    $('#widget-form-modal').modal({
-        backdrop: 'static',
-        show: false
-    });
-
-    $('#widget-form-modal').on('show.bs.modal', function (event) {
-        let button = $(event.relatedTarget); // Button that triggered the modal
-        let modal = $(this);
-        let url = button.data('url');
-
-        modal.find('#form-container').addClass('loader-active');
-        $.get(url).done(function (html) {
-            modal.find('#form-container').html(html).hide().fadeIn(500);
-            modal.find('#form-container').removeClass('loader-active');
-            initSummernote();
+    function chargeFormOnShowBsModal () {
+        $(this).modal({
+            backdrop: 'static',
+            show: false
         });
-    });
+
+        $(this).on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget); // Button that triggered the modal
+            let modal = $(this);
+            let url = button.data('url');
+
+            modal.find('#form-container').addClass('loader-active');
+            $.get(url).done(function (html) {
+                modal.find('#form-container').html(html).hide().fadeIn(500);
+                modal.find('#form-container').removeClass('loader-active');
+                $(document).trigger('init');
+            });
+        });
+
+
+    }
+    let formOnShowBSModal =  [$('#import-widget-modal'), $('#widget-form-modal')]
+    $.each(formOnShowBSModal, chargeFormOnShowBsModal);
 
     /**
      * Widget Form
@@ -499,4 +505,27 @@ $(document).ready(function () {
         $(this).hide();
     })
 
+    /**
+     * Dynamic import widget form modal
+     */
+
+    $(document).on('change', '#import_widget_callOfProject', function() {
+        let $form = $(this).closest('form');
+        let data = {};
+        data[$(this).attr('name')] = $(this).val();
+        $.ajax({
+            url : $form.attr('action'),
+            type: $form.attr('method'),
+            data : data,
+            success: function(html) {
+
+                $('#import_widget_projectFormWidget').replaceWith(
+                    $(html).find('#import_widget_projectFormWidget')
+                );
+
+                $(document).trigger('init');
+
+            }
+        });
+    });
 });

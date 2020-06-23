@@ -474,6 +474,28 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
+     * @Route("/list-all-select-2", name="list_all_select_2", methods={"GET"})
+     * @param Request $request
+     * @param CallOfProjectRepository $callOfProjectRepository
+     * @return JsonResponse
+     */
+    public function listAllSelect2(Request $request, CallOfProjectRepository $callOfProjectRepository)
+    {
+
+        $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST, $this->getUser());
+
+        $query = $request->query->get('q');
+
+        $callOfProjects = array_map(function ($callOfProject) {
+            return [
+                'id' => $callOfProject->getId(),
+                'text' => $callOfProject->getName()
+            ];
+        }, $callOfProjectRepository->getLikeQuery($query));
+        return $this->json($callOfProjects);
+    }
+
+    /**
      * Route("/{id}", name="delete", methods={"DELETE"})
      */
     /*public function delete(Request $request, CallOfProject $callOfProject): Response

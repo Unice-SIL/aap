@@ -47,4 +47,17 @@ class ProjectFormWidgetRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getLikeQuery($query, ?string $callOfProjectId)
+    {
+        return $this->createQueryBuilder('pfw')
+            ->leftJoin('pfw.projectFormLayout', 'pfl')
+            ->leftJoin('pfl.callOfProject', 'cop')
+            ->andWhere('pfw.title LIKE :query')
+            ->andWhere('cop.id = :id')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('id', $callOfProjectId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

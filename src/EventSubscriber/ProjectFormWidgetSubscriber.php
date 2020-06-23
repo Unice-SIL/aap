@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\ProjectFormWidget;
+use App\Widget\FormWidget\FormWidgetInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -43,6 +44,7 @@ class ProjectFormWidgetSubscriber implements EventSubscriber
         }
 
         $this->setWidgetClass($projectFormWidget);
+        $this->setTitle($projectFormWidget);
     }
 
     public function preUpdate(LifecycleEventArgs $args)
@@ -55,12 +57,20 @@ class ProjectFormWidgetSubscriber implements EventSubscriber
         }
 
         $this->setWidgetClass($projectFormWidget);
+        $this->setTitle($projectFormWidget);
     }
 
     private function setWidgetClass(ProjectFormWidget $projectFormWidget)
     {
         if ($widget = $projectFormWidget->getWidget()) {
             $projectFormWidget->setWidgetClass(get_class($widget));
+        }
+    }
+
+    private function setTitle(ProjectFormWidget $projectFormWidget)
+    {
+        if ($widget = $projectFormWidget->getWidget() and $widget instanceof FormWidgetInterface) {
+            $projectFormWidget->setTitle($widget->getLabel());
         }
     }
 }

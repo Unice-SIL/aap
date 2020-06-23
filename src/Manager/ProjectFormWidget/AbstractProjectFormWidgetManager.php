@@ -19,6 +19,7 @@ abstract class AbstractProjectFormWidgetManager implements ProjectFormWidgetMana
         $clone->setPosition($projectFormWidget->getPosition());
         $clone->setWidget($projectFormWidget->getWidget());
         $clone->setWidgetClass($projectFormWidget->getWidgetClass());
+        $clone->setTitle($projectFormWidget->getTitle());
 
         return $clone;
     }
