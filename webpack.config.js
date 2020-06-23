@@ -72,6 +72,7 @@ Encore
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
         'toastr': 'toastr',
+        'Swal': 'sweetalert2',
         'moment': 'moment',
         'bsCustomFileInput': 'bs-custom-file-input',
     })
