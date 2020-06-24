@@ -3,8 +3,32 @@
 
 namespace App\Widget;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 abstract class AbstractWidget
 {
+
+    /**
+     * @var string|null
+     * @Assert\NotBlank()
+     */
+    protected $label;
+
+    /**
+     * @return string|null
+     */
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string|null $label
+     */
+    public function setLabel(?string $label): void
+    {
+        $this->label = $label;
+    }
 
     public function getTemplate(): string
     {

@@ -17,7 +17,6 @@ class HtmlWidgetType extends AbstractType
             'label' => 'app.form.widget.content.label',
             'required' => true,
         ])
-            ->remove('style')
         ;
     }
 
