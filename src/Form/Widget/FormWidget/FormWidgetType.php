@@ -13,9 +13,9 @@ class FormWidgetType  extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('label', null, [
-                'label' => 'app.form.widget.label.label',
-                'required' => true,
+            ->add('style', null, [
+                'label' => 'app.form.widget.style.label',
+                'required' => false
             ])
             ->add('visibilityLabel', CheckboxType::class, [
                 'label' => 'app.form.widget.visibility_label.label',
