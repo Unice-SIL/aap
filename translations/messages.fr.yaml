@@ -333,6 +333,7 @@ app:
     save: Enregistrer
     edit: Modifier
     delete: Supprimer
+    delete_call_of_projects: Je comprends les conséquences et confirme la suppression
     new: Nouveau
     import_widget: Importer un élément d'un autre appel
     list_all: Tout voir

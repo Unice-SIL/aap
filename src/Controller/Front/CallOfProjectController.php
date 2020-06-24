@@ -23,6 +23,7 @@ use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -502,7 +503,7 @@ class CallOfProjectController extends AbstractController
      * @param Request $request
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @param TranslatorInterface $translator
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      * @Route("/{id}/delete-form", name="delete_form", methods={"GET", "POST"})
      */
     public function deleteForm(

@@ -25,6 +25,7 @@ class DeleteType extends AbstractType
         if ($callOfProject)
         $builder
             ->add('name', TextType::class, [
+                'label' => false,
                 'mapped' => false,
                 'attr' => [
                     'data-name' => $callOfProject->getName(),

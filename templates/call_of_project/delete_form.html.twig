@@ -9,11 +9,20 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="card">
         <div class="card-body">
+            <div class="callout callout-danger text-danger text-bold">
+                <p>
+                    <u>ATTENTION cette action est irréversible et entraine la suppression de l'appel à projets et de l'ensemble de son contenu (configuration, projets, rapports, ...).</u>
+                </p>
+                <p>
+                    Pour supprimer l'appel veuillez renseigner son titre "{{ call_of_project.name }}" dans le champ ci-dessous et confirmer.
+                </p>
+            </div>
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <button class="btn btn-danger" disabled>{{ 'app.action.delete'|trans }}</button>
+            <button class="btn btn-danger" disabled>{{ 'app.action.delete_call_of_projects'|trans }}</button>
             {{ form_end(form) }}
         </div>
     </div>
