@@ -6,12 +6,14 @@ use App\Entity\CallOfProject;
 use App\Entity\Project;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\CallOfProjectAclsType;
+use App\Form\CallOfProject\DeleteType;
 use App\Form\CallOfProject\MailTemplateType;
 use App\Form\Project\ProjectToStudyType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use App\Security\CallOfProjectVoter;
+use App\Security\OrganizingCenterVoter;
 use App\Security\UserVoter;
 use App\Utils\Batch\AddReportBatchAction;
 use App\Utils\Batch\BatchActionManagerInterface;
@@ -493,6 +495,43 @@ class CallOfProjectController extends AbstractController
             ];
         }, $callOfProjectRepository->getLikeQuery($query));
         return $this->json($callOfProjects);
+    }
+
+    /**
+     * @param CallOfProject $callOfProject
+     * @param Request $request
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @param TranslatorInterface $translator
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Route("/{id}/delete-form", name="delete_form", methods={"GET", "POST"})
+     */
+    public function deleteForm(
+        CallOfProject $callOfProject,
+        Request $request,
+        CallOfProjectManagerInterface $callOfProjectManager,
+        TranslatorInterface $translator
+    )
+    {
+        $this->denyAccessUnlessGranted(OrganizingCenterVoter::ADMIN, $callOfProject->getOrganizingCenter());
+
+        $form = $this->createForm(DeleteType::class, $callOfProject);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $name = $callOfProject->getName();
+            $callOfProjectManager->delete($callOfProject);
+
+            $this->addFlash('success', $translator->trans('app.flash_message.delete_success', [
+                '%item%' => $name
+            ]));
+
+            return $this->redirectToRoute('app.call_of_project.index');
+        }
+
+        return $this->render('call_of_project/delete_form.html.twig', [
+            'call_of_project' => $callOfProject,
+            'form' => $form->createView()
+        ]);
     }
 
     /**

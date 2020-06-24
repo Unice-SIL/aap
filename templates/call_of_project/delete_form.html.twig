@@ -1,0 +1,20 @@
+{% extends 'call_of_project/layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.call_of_project.delete_form.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.call_of_project.delete_form.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-danger" disabled>{{ 'app.action.delete'|trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
