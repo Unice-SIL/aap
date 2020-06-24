@@ -22,18 +22,6 @@ class CallOfProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, CallOfProject::class);
     }
 
-    public function getByUserAndNameLikeQuery(?UserInterface $user, ?string $query)
-    {
-        return $this->createQueryBuilder('cop')
-            ->andWhere('cop.createdBy = :user')
-            ->setParameter('user', $user)
-            ->andWhere('cop.name LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
     public function getIfUserHasOnePermissionAtLeast(User $user,array $options = [])
     {
         $qb = $this->createQueryBuilder('cop')
@@ -72,32 +60,25 @@ class CallOfProjectRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    // /**
-    //  * @return CallOfProject[] Returns an array of CallOfProject objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getLikeQuery($query)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('cop')
+            ->andWhere('cop.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?CallOfProject
+    public function getByUserAndNameLikeQuery(?UserInterface $user, ?string $query)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('cop')
+            ->andWhere('cop.createdBy = :user')
+            ->setParameter('user', $user)
+            ->andWhere('cop.name LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult()
+            ;
     }
-    */
 }

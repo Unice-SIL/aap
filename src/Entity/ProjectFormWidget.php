@@ -49,6 +49,11 @@ class ProjectFormWidget
      */
     private $projectFormLayout;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $title;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -59,7 +64,7 @@ class ProjectFormWidget
         return $this->position;
     }
 
-    public function setPosition(int $position): self
+    public function setPosition(?int $position): self
     {
         $this->position = $position;
 
@@ -134,5 +139,17 @@ class ProjectFormWidget
     {
         $clone = $this;
         $clone->setId(null);
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
     }
 }
