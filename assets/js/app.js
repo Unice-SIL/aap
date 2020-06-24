@@ -532,4 +532,16 @@ $(document).ready(function () {
     $(document).on('submit', 'form[name="import_widget"]', function () {
         $(this).find('button').disable(true);
     })
+
+    /**
+     * Aap Delete Form
+     */
+    $('.delete-aap-form').find('.name-field').keyup(function () {
+        let button = $(this).closest('form').find('button');
+        button.attr('disabled', 'disabled');
+
+        if ($(this).val() === $(this).data('name')) {
+            button.removeAttr('disabled');
+        }
+    })
 });

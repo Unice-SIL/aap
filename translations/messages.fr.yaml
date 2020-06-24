@@ -79,6 +79,7 @@ app:
           informations: Informations
           show_permissions: Liste de permissions
           label: Appel à projet
+          delete_form: Supprimer
         project:
           edit: Edition
           show: Vue
@@ -282,6 +283,8 @@ app:
       label: 'Actions'
     closed_date:
       label: 'Date de fermeture au dépôts de projets'
+    delete_form:
+      h1: 'Supprimer l''appel à projet'
   dashboard:
     my_calls_of_project:
       title: Mes appels à projets
@@ -352,6 +355,7 @@ app:
         permissions: 'Permissions'
         widget: 'Formulaire projet'
         mail_template: 'Modèle email'
+        delete_form: 'Supprimer l''appel'
     admin:
       user:
         label: 'Utilisateurs'
@@ -408,9 +412,9 @@ app:
     edition_on_trash_widget_denied: 'Vous ne pouvez pas modifier un widget dans la corbeille '
   flash_message:
     success: Ajout de l'élément "%item%" réalisé avec succès
-    edit_success: Modification de l'élément "%item%" réalisée avec succès
-    create_success: Création de l'élément "%item%" réalisée avec succès
-    delete_success: Suppression de l'élément "%item%" réalisée avec succès
+    edit_success: Modification de l'élément %item% réalisée avec succès
+    create_success: Création de l'élément %item% réalisée avec succès
+    delete_success: Suppression de l'élément %item% réalisée avec succès
     error_project_to_study: Echec du passage à l'étude du projet %item%
     error_project_validate: Echec de la validation du projet %item%
     error_project_refused: Echec du refus du projet %item%
