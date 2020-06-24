@@ -331,6 +331,7 @@ app:
     edit: Modifier
     delete: Supprimer
     new: Nouveau
+    import_widget: Importer un élément d'un autre appel
     list_all: Tout voir
     canceled: Annuler
     duplicate: Dupliquer

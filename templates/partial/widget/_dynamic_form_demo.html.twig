@@ -16,13 +16,14 @@
                 <div class="tab-pane fade show active" id="able-widget" role="tabpanel" aria-labelledby="able-widget-tab">
                     <div class="clearfix mb-3">
                         <button
-                                class="btn btn-success float-right"
+                                class="btn btn-sm btn-success rounded-circle mr-2 float-right"
                                 data-toggle="modal"
                                 data-target="#import-widget-modal"
                                 type="button"
                                 data-url="{{ path('app.project_form_layout.import_widget', {'id' : form.vars.data.callOfProject.projectFormLayout.id }) }}"
+                                title="{{ 'app.action.import_widget'|trans }}"
                         >
-                            <i class="fas fa-sync-alt"></i>
+                            <i class="fas fa-file-import"></i>
                         </button>
                     </div>
                     {{ _self.showOnlyActive(form, projectFormWidgets) }}
