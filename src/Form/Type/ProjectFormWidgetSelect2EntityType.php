@@ -24,7 +24,7 @@ class ProjectFormWidgetSelect2EntityType extends AbstractType
             'class' => ProjectFormWidget::class,
             'primary_key' => 'id',
             'text_property' => 'title',
-            'minimum_input_length' => 2,
+            'minimum_input_length' => 0,
             'page_limit' => 10,
             'allow_clear' => true,
             'delay' => 250,

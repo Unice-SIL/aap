@@ -1,6 +1,7 @@
 {% extends 'partial/widget/_base_form.html.twig' %}
 {% block general %}
     {% if form.content is defined %}
+        {{ form_row(form.label) }}
         {{ form_row(form.content) }}
     {% endif %}
 {% endblock %}

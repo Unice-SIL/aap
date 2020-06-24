@@ -13,10 +13,12 @@ class WidgetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('style', null, [
-            'label' => 'app.form.widget.style.label',
-            'required' => false
-        ])
+
+        $builder
+            ->add('label', null, [
+                'label' => 'app.form.widget.label.label',
+                'required' => true,
+            ])
         ;
     }
 

@@ -69,7 +69,7 @@ class ProjectFormWidgetSubscriber implements EventSubscriber
 
     private function setTitle(ProjectFormWidget $projectFormWidget)
     {
-        if ($widget = $projectFormWidget->getWidget() and $widget instanceof FormWidgetInterface) {
+        if ($widget = $projectFormWidget->getWidget()) {
             $projectFormWidget->setTitle($widget->getLabel());
         }
     }

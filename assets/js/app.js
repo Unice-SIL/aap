@@ -525,4 +525,8 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(document).on('submit', 'form[name="import_widget"]', function () {
+        $(this).find('button').disable(true);
+    })
 });
