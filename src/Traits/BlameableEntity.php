@@ -12,7 +12,7 @@ trait BlameableEntity
      * @var User|null
      *
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="elements")
      */
     private $createdBy;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -113,6 +114,11 @@ class User implements UserInterface
     private $lastConnection;
 
     /**
+     * @ORM\OneToMany(targetEntity=Common::class, mappedBy="createdBy")
+     */
+    private $elements;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -121,6 +127,7 @@ class User implements UserInterface
         $this->reports = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->elements = new ArrayCollection();
     }
 
 
@@ -445,6 +452,19 @@ class User implements UserInterface
         $this->lastConnection = $lastConnection;
 
         return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return Collection
+     */
+    public function getElements(string $type): Collection
+    {
+        return new ArrayCollection(
+            array_filter($this->elements->toArray(), function ($element) use ($type){
+                return $element instanceof $type;
+            })
+        );
     }
 
 }
