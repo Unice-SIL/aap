@@ -58,7 +58,7 @@ class Common
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Acl", mappedBy="common", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Acl", mappedBy="common", cascade={"persist"}, orphanRemoval=true)
      * @Assert\Valid()
      */
     private $acls;

@@ -62,7 +62,7 @@ class CallOfProject extends Common
     private $endDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectFormLayout", mappedBy="callOfProject", cascade={"persist"}, orphanRemoval=true)
      */
     private $projectFormLayouts;
 
