@@ -13,12 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetInterface
 {
 
-    /**
-     * @var string|null
-     * @Assert\NotBlank()
-     */
-    protected $label;
-
     /** @var bool */
     protected $visibilityLabel = true;
 
@@ -36,22 +30,6 @@ abstract class AbstractFormWidget extends AbstractWidget implements FormWidgetIn
      * @Assert\Valid
      */
     protected $dynamicConstraints = [];
-
-    /**
-     * @return string|null
-     */
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    /**
-     * @param string|null $label
-     */
-    public function setLabel(?string $label): void
-    {
-        $this->label = $label;
-    }
 
     /**
      * @return bool

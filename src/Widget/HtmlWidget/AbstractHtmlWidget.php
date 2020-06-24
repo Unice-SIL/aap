@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class AbstractHtmlWidget extends AbstractWidget
 {
+
     /**
      * @var string|null
      * @Assert\NotBlank()
