@@ -19,19 +19,19 @@ class DictionaryFixtures extends Fixture implements DependentFixtureInterface
 
 
         $content1 = (new DictionaryContent())
-                    ->setKeyy('key1')
+                    ->setCode('key1')
                     ->setValue('value1')
         ;
         $dictionary->addDictionaryContent($content1);
 
         $content2 = (new DictionaryContent())
-            ->setKeyy('key2')
+            ->setCode('key2')
             ->setValue('value2')
         ;
         $dictionary->addDictionaryContent($content2);
 
         $content3 = (new DictionaryContent())
-            ->setKeyy('key3')
+            ->setCode('key3')
             ->setValue('value3')
         ;
         $dictionary->addDictionaryContent($content3);

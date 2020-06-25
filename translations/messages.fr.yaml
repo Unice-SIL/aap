@@ -47,6 +47,7 @@ app:
             label: Listes
             new: Nouveau
             edit: Edition
+            show: Vue
           invitation:
             index: Invitations
           group:
@@ -490,6 +491,8 @@ app:
         h1: 'Nouvelle liste'
       edit:
         h1: 'Editer la liste'
+      show:
+        h1: 'Vue sur la liste'
   user:
     label: Utilisateur(s)
     select_2:
@@ -625,7 +628,7 @@ app:
 
   dictionary_content:
     property:
-      keyy:
+      code:
         label: Clé
       value:
         label: Valeur

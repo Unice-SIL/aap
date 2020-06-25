@@ -1,0 +1,41 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.dictionary.show.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.dictionary.show.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <a href="{{ path('app.admin.dictionary.edit', {'id' : dictionary.id}) }}" class="btn btn-primary float-right">{{ 'app.action.edit'|trans }}</a>
+           <dl>
+               <dt>{{ 'app.dictionary.property.name.label'|trans }}</dt>
+               <dd>{{ dictionary.name }}</dd>
+
+               <dt>{{ 'app.dictionary.property.dictionary_contents.label'|trans }}</dt>
+               <dd>
+                   <table class="table">
+                       <thead>
+                        <tr>
+                            <td>{{ 'app.dictionary_content.property.code.label'|trans }}</td>
+                            <td>{{ 'app.dictionary_content.property.value.label'|trans }}</td>
+                        </tr>
+                       </thead>
+                       <tbody>
+                            {% for dictionary in dictionary.dictionaryContents %}
+                                <tr>
+                                    <td>{{dictionary.code  }}</td>
+                                    <td>{{dictionary.value  }}</td>
+                                </tr>
+                            {% endfor %}
+                       </tbody>
+                   </table>
+               </dd>
+           </dl>
+        </div>
+    </div>
+{% endblock %}

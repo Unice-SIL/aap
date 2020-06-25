@@ -5,10 +5,14 @@
 
     {% macro displayOptions(dictionaryContentsForm) %}
         <div class="row mb-2">
-            <div class="col-md-5 d-flex flex-column justify-content-end">
-                {{ form_widget(dictionaryContentsForm.keyy) }}
-            </div>
-            <div class="col-md-5 d-flex flex-column justify-content-end">
+            {% if dictionaryContentsForm.code is defined %}
+                <div class="col-md-5 d-flex flex-column justify-content-end">
+                    {{ form_errors(dictionaryContentsForm.code) }}
+                    {{ form_widget(dictionaryContentsForm.code) }}
+                </div>
+            {% endif %}
+            <div class="col-md-{{ dictionaryContentsForm.code is defined ? '5' : '10'}} d-flex flex-column justify-content-end">
+                {{ form_errors(dictionaryContentsForm.value) }}
                 {{ form_widget(dictionaryContentsForm.value) }}
             </div>
             <div class="col-md-2 d-flex align-items-end">
@@ -49,7 +53,7 @@
 
     {% set path = path('app.admin.dictionary.index') %}
     {% if dictionary.id != null %}
-        {% set path = path('app.admin.dictionary.edit', {'id': dictionary.id}) %}
+        {% set path = path('app.admin.dictionary.show', {'id': dictionary.id}) %}
     {% endif %}
     <a href="{{ path }}" class="text-muted">
         {{ 'app.action.canceled'|trans }}

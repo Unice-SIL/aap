@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\DictionaryContentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DictionaryContentRepository::class)
+ * @UniqueEntity(fields={"code", "dictionary"})
  */
 class DictionaryContent
 {
@@ -19,11 +22,13 @@ class DictionaryContent
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
-    private $keyy;
+    private $code;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $value;
 
@@ -38,14 +43,14 @@ class DictionaryContent
         return $this->id;
     }
 
-    public function getKeyy(): ?string
+    public function getCode(): ?string
     {
-        return $this->keyy;
+        return $this->code;
     }
 
-    public function setKeyy(string $keyy): self
+    public function setCode(?string $code): self
     {
-        $this->keyy = $keyy;
+        $this->code = $code;
 
         return $this;
     }

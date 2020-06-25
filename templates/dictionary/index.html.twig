@@ -27,7 +27,7 @@
                 {% for dictionary in dictionaries %}
                     <tr>
                         <td>
-                            <a href="{{ path('app.admin.dictionary.edit', {'id' : dictionary.id}) }}">{{ dictionary.name }}</a>
+                            <a href="{{ path('app.admin.dictionary.show', {'id' : dictionary.id}) }}">{{ dictionary.name }}</a>
                         </td>
                     </tr>
                 {% else %}
