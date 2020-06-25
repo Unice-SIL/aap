@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "report" = "Report",
  *     "group" = "Group",
  *     "invitation" = "Invitation",
+ *     "dictionary" = "Dictionary",
  * })
  */
 class Common

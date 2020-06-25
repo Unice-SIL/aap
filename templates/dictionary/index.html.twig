@@ -1,0 +1,42 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.dictionary.index.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.dictionary.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.dictionary.property.keyy.label'|trans }}</th>
+                    <th>{{ 'app.dictionary.property.value.label'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for dictionary in dictionaries %}
+                    <tr>
+                        <td>
+                            {{ dictionary.keyy }}
+                        </td>
+                        <td>
+                            {{ dictionary.value }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
