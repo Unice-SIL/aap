@@ -1,57 +1,57 @@
 {{ form_start(form) }}
-            {{ form_row(form.name) }}
-                {{ form_label(form.dictionaryContents) }}
-<div class="alert alert-info no-item" {{ form.dictionaryContents|length > 0 ? 'style="display:none;"' }}>Aucune options n'a été ajoutée</div>
+    {{ form_row(form.name) }}
+    {{ form_label(form.dictionaryContents) }}
+    <div class="alert alert-info no-item" {{ form.dictionaryContents|length > 0 ? 'style="display:none;"' }}>Aucune options n'a été ajoutée</div>
 
-{% macro displayOptions(dictionaryContentsForm) %}
-    <div class="row mb-2">
-        <div class="col-md-5 d-flex flex-column justify-content-end">
-            {{ form_widget(dictionaryContentsForm.keyy) }}
+    {% macro displayOptions(dictionaryContentsForm) %}
+        <div class="row mb-2">
+            <div class="col-md-5 d-flex flex-column justify-content-end">
+                {{ form_widget(dictionaryContentsForm.keyy) }}
+            </div>
+            <div class="col-md-5 d-flex flex-column justify-content-end">
+                {{ form_widget(dictionaryContentsForm.value) }}
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-danger btn-block remove-collection-widget mb-0"><i class="fa fa-trash"></i></button>
+            </div>
         </div>
-        <div class="col-md-5 d-flex flex-column justify-content-end">
-            {{ form_widget(dictionaryContentsForm.value) }}
-        </div>
-        <div class="col-md-2 d-flex align-items-end">
-            <button class="btn btn-danger btn-block remove-collection-widget mb-0"><i class="fa fa-trash"></i></button>
+    {% endmacro %}
+
+    <ul id="dictionary-content-field-list" class="list-unstyled collection-wrapper"
+        data-prototype="{{ _self.displayOptions(form.dictionaryContents.vars.prototype)|e('html_attr') }}"
+        data-widget-tags="{{ '<li class="item-collection"></li>'|e }}"
+        data-widget-counter="{{ form.dictionaryContents|length }}">
+        {% for choiceForm in form.dictionaryContents %}
+            <li class="item-collection">
+                {{ _self.displayOptions(choiceForm) }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {# prevents weird label from showing up in new #}
+                    {{ form_widget(form.dictionaryContents) }}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+
+                <button type="button"
+                        class="add-another-collection-widget btn btn-primary btn-block mr-0"
+                        data-list-selector="#dictionary-content-field-list"
+                >
+                    Ajouter une option
+                </button>
+            </div>
         </div>
     </div>
-{% endmacro %}
 
-<ul id="dictionary-content-field-list" class="list-unstyled collection-wrapper"
-    data-prototype="{{ _self.displayOptions(form.dictionaryContents.vars.prototype)|e('html_attr') }}"
-    data-widget-tags="{{ '<li class="item-collection"></li>'|e }}"
-    data-widget-counter="{{ form.dictionaryContents|length }}">
-    {% for choiceForm in form.dictionaryContents %}
-        <li class="item-collection">
-            {{ _self.displayOptions(choiceForm) }}
-        </li>
-    {% endfor %}
-</ul>
+    <button type="submit" class="btn btn-primary mr-3">{{ button_label|default( 'app.action.save'|trans ) }}</button>
 
-{# prevents weird label from showing up in new #}
-                {{ form_widget(form.dictionaryContents) }}
-
-<div class="row">
-    <div class="col-12">
-        <div class="form-group">
-
-            <button type="button"
-                    class="add-another-collection-widget btn btn-primary btn-block mr-0"
-                    data-list-selector="#dictionary-content-field-list"
-            >
-                Ajouter une option
-            </button>
-        </div>
-    </div>
-</div>
-
-<button type="submit" class="btn btn-primary mr-3">{{ button_label|default( 'app.action.save'|trans ) }}</button>
-
-{% set path = path('app.admin.dictionary.index') %}
-                {% if dictionary.id != null %}
-                    {% set path = path('app.admin.dictionary.show', {'id': group.id}) %}
-                {% endif %}
-<a href="{{ path }}" class="text-muted">
-    {{ 'app.action.canceled'|trans }}
-</a>
+    {% set path = path('app.admin.dictionary.index') %}
+    {% if dictionary.id != null %}
+        {% set path = path('app.admin.dictionary.edit', {'id': dictionary.id}) %}
+    {% endif %}
+    <a href="{{ path }}" class="text-muted">
+        {{ 'app.action.canceled'|trans }}
+    </a>
 {{ form_end(form) }}

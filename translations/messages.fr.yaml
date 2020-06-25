@@ -46,6 +46,7 @@ app:
           dictionary:
             label: Listes
             new: Nouveau
+            edit: Edition
           invitation:
             index: Invitations
           group:
@@ -487,6 +488,8 @@ app:
         h1: 'Liste des dictionnaires'
       new:
         h1: 'Nouvelle liste'
+      edit:
+        h1: 'Editer la liste'
   user:
     label: Utilisateur(s)
     select_2:

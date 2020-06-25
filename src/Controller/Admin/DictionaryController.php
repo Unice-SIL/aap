@@ -63,4 +63,34 @@ class DictionaryController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @param Dictionary $dictionary
+     * @param Request $request
+     * @param DictionaryManagerInterface $dictionaryManager
+     * @param TranslatorInterface $translator
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function edit(Dictionary $dictionary, Request $request, DictionaryManagerInterface $dictionaryManager, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(DictionaryType::class, $dictionary);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $dictionaryManager->update($dictionary);
+
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', [
+                '%item%' => $dictionary->getName()
+            ]));
+
+            return $this->redirectToRoute('app.admin.dictionary.edit', [
+                'id' => $dictionary->getId()
+            ]);
+        }
+
+        return $this->render('dictionary.edit.html.twig', [
+            'form' => $form->createView(),
+            'dictionary' => $dictionary
+        ]);
+    }
 }

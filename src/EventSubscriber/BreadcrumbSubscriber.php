@@ -142,7 +142,7 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
                     'class' => Dictionary::class,
                     'method' => 'find',
                     'parameter' => 'id',
-                    'path' => 'app.admin.dictionary.show',
+                    'path' => 'app.admin.dictionary.edit',
                     'labelBy' => 'name'
                 ],
             ],
