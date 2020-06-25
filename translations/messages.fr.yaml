@@ -45,6 +45,7 @@ app:
         admin:
           dictionary:
             label: Listes
+            new: Nouveau
           invitation:
             index: Invitations
           group:
@@ -484,6 +485,8 @@ app:
     dictionary:
       index:
         h1: 'Liste des dictionnaires'
+      new:
+        h1: 'Nouvelle liste'
   user:
     label: Utilisateur(s)
     select_2:
@@ -612,7 +615,14 @@ app:
     first_connection: "<p>Bienvenue %firstname%,</p><p>Si vous avez besoin d'aide n'hésitez à cliquer sur l'icône <i class='far fa-question-circle'></i> située en haut à droite dans le menu de navigation</p>"
   dictionary:
     property:
+      name:
+        label: 'Nom'
+      dictionary_contents:
+        label: Options
+
+  dictionary_content:
+    property:
       keyy:
-        label: 'Clé'
+        label: Clé
       value:
-        label: 'Valeur'
+        label: Valeur
