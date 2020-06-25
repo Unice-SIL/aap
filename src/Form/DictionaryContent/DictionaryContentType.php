@@ -14,14 +14,11 @@ class DictionaryContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        if ($options['context'] === 'new') {
-
-            $builder->add('code', null, [
-                'attr' => [
-                    'placeholder' => 'app.dictionary_content.property.code.label'
-                ]
-            ]);
-        }
+        $builder->add('code', null, [
+            'attr' => [
+                'placeholder' => 'app.dictionary_content.property.code.label'
+            ]
+        ]);
 
         $builder->add('value', null, [
                 'attr' => [
@@ -35,7 +32,6 @@ class DictionaryContentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DictionaryContent::class,
-            'context' => 'edit'
         ]);
     }
 }
