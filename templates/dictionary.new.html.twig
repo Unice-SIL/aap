@@ -1,0 +1,17 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.admin.dictionary.new.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.dictionary.new.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+           {{ include('dictionary/_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
