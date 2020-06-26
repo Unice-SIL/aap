@@ -48,11 +48,10 @@ class DictionarySubscriber implements EventSubscriberInterface
             $this->widgetManager->getChoiceTypeWidget()
         );
 
-        $i = 1;
         foreach ($choiceTypeProjectFormWidgets as $choiceTypeProjectFormWidget) {
             $widget = $choiceTypeProjectFormWidget->getWidget();
-            if ($dictionaryWidgeet = $widget->getDictionary()
-            and $dictionary->getId() === $dictionaryWidgeet->getId()) {
+            if ($dictionaryWidget = $widget->getDictionary()
+            and $dictionary->getId() === $dictionaryWidget->getId()) {
 
                 $widget->setChoices(
                     $dictionary->getDictionaryContents()->map(function ($dc) {
