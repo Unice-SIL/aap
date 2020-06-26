@@ -4,6 +4,8 @@
 
     {{ parent() }}
 
+    {{ form_row(form.dictionary) }}
+
     {% macro displayOptions(choiceForm) %}
         <li class="item-collection">
             <div class="row mb-2">
@@ -18,33 +20,36 @@
     {% endmacro %}
 
 
-    {{ form_label(form.choices) }}
-    <div class="alert alert-info no-item" {{ form.choices|length > 0 ? 'style="display:none;"' }}>Aucune options n'a été ajoutée</div>
+    <div class="options-container">
 
-    <ul id="material-fields-list" class="list-unstyled collection-wrapper"
-        data-prototype="{{ _self.displayOptions(form.choices.vars.prototype)|e('html_attr') }}"
-        data-widget-tags="{{ '<li></li>'|e }}"
-        data-widget-counter="{{ form.choices|length }}">
-        {% for choiceForm in form.choices %}
-            <li>
-                {{ _self.displayOptions(choiceForm) }}
-            </li>
-        {% endfor %}
-    </ul>
+        {{ form_label(form.choices) }}
+        <div class="alert alert-info no-item" {{ form.choices|length > 0 ? 'style="display:none;"' }}>Aucune options n'a été ajoutée</div>
 
-    {# prevents weird label from showing up in new #}
-    {{ form_widget(form.choices) }}
+        <ul id="material-fields-list" class="list-unstyled collection-wrapper"
+            data-prototype="{{ _self.displayOptions(form.choices.vars.prototype)|e('html_attr') }}"
+            data-widget-tags="{{ '<li></li>'|e }}"
+            data-widget-counter="{{ form.choices|length }}">
+            {% for choiceForm in form.choices %}
+                <li>
+                    {{ _self.displayOptions(choiceForm) }}
+                </li>
+            {% endfor %}
+        </ul>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
+        {# prevents weird label from showing up in new #}
+        {{ form_widget(form.choices) }}
 
-                <button type="button"
-                        class="add-another-collection-widget btn btn-primary btn-block mr-0"
-                        data-list-selector="#material-fields-list"
-                >
-                    Ajouter une option
-                </button>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+
+                    <button type="button"
+                            class="add-another-collection-widget btn btn-primary btn-block mr-0"
+                            data-list-selector="#material-fields-list"
+                    >
+                        Ajouter une option
+                    </button>
+                </div>
             </div>
         </div>
     </div>

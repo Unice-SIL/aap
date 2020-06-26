@@ -321,6 +321,10 @@ $(document).ready(function () {
                 modal.find('#form-container').html(html).hide().fadeIn(500);
                 modal.find('#form-container').removeClass('loader-active');
                 $(document).trigger('init');
+
+                if (modal.find('#form_choice_widget_dictionary').length > 0) {
+                    toggleOptionContainer(modal.find('#form_choice_widget_dictionary'));
+                }
             });
         });
 
@@ -362,6 +366,30 @@ $(document).ready(function () {
             $(document).trigger('init');
         })
     });
+
+    function toggleOptionContainer(dictionarySelect) {
+        let optionContainer = dictionarySelect.closest('form').find('.options-container');
+
+        let inputs = optionContainer.map(function () {
+            return $(this).find('.item-collection').find('input');
+        });
+
+
+        if (dictionarySelect.val() === '') {
+            optionContainer.show()
+            inputs.each(function () {
+                $(this).attr('required', 'required');
+            })
+        } else {
+            optionContainer.hide()
+            inputs.each(function () {
+                $(this).removeAttr('required');
+            })
+        }
+    }
+    $(document).on('change', '#form_choice_widget_dictionary', function () {
+        toggleOptionContainer($(this))
+    })
 
     /**
      * CallOfProjectInformationType

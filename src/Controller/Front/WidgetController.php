@@ -56,7 +56,7 @@ class WidgetController extends AbstractController
             $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject());
         }
 
-        $widget = $projectFormWidget->getWidget();
+        $widget = $widgetManager->extractWidget($projectFormWidget);
 
         $form = $this->createForm($widget->getFormType(), $widget, [
             'action' => $router->generate('app.widget.edit', [
