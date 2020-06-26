@@ -220,4 +220,13 @@ class WidgetManager
 
         return $widget;
     }
+
+    public function getChoiceTypeWidget(): array
+    {
+        $choiceTypeWidgets = array_filter($this->getFormWidgets(), function ($formWidget) {
+            return $formWidget instanceof AbstractChoiceWidget;
+        });
+
+        return array_keys($choiceTypeWidgets);
+    }
 }
