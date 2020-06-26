@@ -437,6 +437,7 @@ app:
       label: 'Corbeille'
       no_element: 'Aucun élément dans la corbeille'
   call_of_project_label: 'Appel à projets'
+  dictionary_label: Liste
   file:
     current_file: 'Fichier actuel'
   admin:

@@ -4,6 +4,7 @@
 namespace App\Widget\FormWidget;
 
 
+use App\Entity\Dictionary;
 use App\Form\Widget\FormWidget\FormChoiceWidgetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -11,6 +12,11 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
 {
     /** @var array  */
     private $choices = [];
+
+    /**
+     * @var Dictionary|null
+     */
+    private $dictionary;
 
     public function getFormType(): string
     {
@@ -36,6 +42,22 @@ abstract class AbstractChoiceWidget extends AbstractFormWidget implements FormWi
     public function setChoices(array $choices): void
     {
         $this->choices = $choices;
+    }
+
+    /**
+     * @return Dictionary|null
+     */
+    public function getDictionary(): ?Dictionary
+    {
+        return $this->dictionary;
+    }
+
+    /**
+     * @param Dictionary|null $dictionary
+     */
+    public function setDictionary(?Dictionary $dictionary): void
+    {
+        $this->dictionary = $dictionary;
     }
 
     public function addChoice(string $choice): self

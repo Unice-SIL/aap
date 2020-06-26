@@ -4,14 +4,18 @@
 namespace App\Widget;
 
 
+use App\Entity\Dictionary;
 use App\Entity\Project;
 use App\Entity\ProjectContent;
+use App\Entity\ProjectFormWidget;
 use App\Entity\WidgetFile;
 use App\Form\Widget\DynamicWidgetsType;
 use App\Utils\File\FileUploaderInterface;
+use App\Widget\FormWidget\AbstractChoiceWidget;
 use App\Widget\FormWidget\FormWidgetInterface;
 use App\Widget\HtmlWidget\HtmlWidgetInterface;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
@@ -36,14 +40,24 @@ class WidgetManager
      * @var FileUploaderInterface
      */
     private $fileUploader;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * WidgetManager constructor.
      * @param FormFactoryInterface $formFactory
      * @param Environment $twig
      * @param FileUploaderInterface $fileUploader
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(FormFactoryInterface $formFactory, Environment $twig, FileUploaderInterface $fileUploader)
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        Environment $twig,
+        FileUploaderInterface $fileUploader,
+        EntityManagerInterface $entityManager
+    )
     {
         $this->widgets = [];
         $this->formWidgets = [];
@@ -52,6 +66,7 @@ class WidgetManager
         $this->twig = $twig;
 
         $this->fileUploader = $fileUploader;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -192,5 +207,17 @@ class WidgetManager
         });
 
         return array_keys($fileFormWidgets);
+    }
+
+    public function extractWidget(ProjectFormWidget $projectFormWidget)
+    {
+        $widget = $projectFormWidget->getWidget();
+
+        if ($widget instanceof AbstractChoiceWidget and $widget->getDictionary()) {
+            $dictionary = $this->entityManager->find(Dictionary::class, $widget->getDictionary()->getId());
+            $widget->setDictionary($dictionary);
+        }
+
+        return $widget;
     }
 }
