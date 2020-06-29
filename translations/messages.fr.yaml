@@ -1,5 +1,12 @@
 app:
 
+  import_choices:
+    label: Import des options depuis un fichier csv
+    message:
+      error_message: Une erreur est survenue
+      no_data: Il n'y a aucune donnée
+      wrong_format: Le fichier n'est pas au format csv
+
   project_form_widget_label: Widget
   mail_template:
     placeholder:

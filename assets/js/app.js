@@ -5,6 +5,7 @@ require('admin-lte/plugins/bootstrap-switch/js/bootstrap-switch');
 require('admin-lte/plugins/jquery-knob/jquery.knob.min');
 require('admin-lte/plugins/summernote/summernote-bs4');
 require('admin-lte/plugins/summernote/lang/summernote-fr-FR');
+require('jquery-csv');
 require('bootstrap');
 require('datatables.net-bs4');
 require('moment/locale/fr');
@@ -182,10 +183,7 @@ $(document).ready(function () {
 
     });
 
-    //Add a listener on add activity button
-    $(document).on('click', '.add-another-collection-widget', function (e) {
-        let list = $($(this).attr('data-list-selector'));
-
+    function addItemToList(list) {
         // Try to find the counter of the list or use the length of the list
         let counter = list.data('widget-counter') || list.children().length;
 
@@ -204,6 +202,15 @@ $(document).ready(function () {
         // create a new list element and add it to the list
         let newElem = $(list.attr('data-widget-tags')).html(newWidget);
         newElem.hide().appendTo(list).slideDown();
+
+        return newElem;
+    }
+
+    //Add a listener on add activity button
+    $(document).on('click', '.add-another-collection-widget', function (e) {
+        let list = $($(this).attr('data-list-selector'));
+
+        let newElem = addItemToList(list)
 
         let number = 1;
         $('.item-collection').find('.item-collection-number').each(function () {
@@ -571,5 +578,47 @@ $(document).ready(function () {
         if ($(this).val() === $(this).data('name')) {
             button.removeAttr('disabled');
         }
+    });
+
+    /**
+     * Load widget's choices from csv
+     */
+    $(document).on('change', '#form_choice_widget_file', function (e) {
+        let data = null;
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        let input = $(this);
+
+        if (file === undefined) {
+            return;
+        }
+
+        let splitFileName = file.name.split('.');
+        if (splitFileName[splitFileName.length -1] !== 'csv') {
+            toastr.error(input.data('wrong-format-message'));
+            return;
+        }
+
+        reader.readAsText(file);
+
+        reader.onload = function(event) {
+            let csvData = event.target.result;
+            data = $.csv.toArrays(csvData);
+            if (data && data.length > 0) {
+                let list = $(input.attr('data-list-selector'));
+                list.find('li').remove();
+                data.forEach(function (element) {
+                    addItemToList(list).find('.input-text-choice').val(element[0]);
+                })
+            } else {
+                toastr.error(input.data('no-data-message'));
+            }
+        };
+
+        reader.onerror = function() {
+            toastr.error(input.data('error-message'));
+        };
+
+
     })
 });
