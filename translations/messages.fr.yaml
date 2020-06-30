@@ -116,6 +116,8 @@ app:
         label: 'Nom'
   form:
     widget:
+      choices:
+        label: Choix
       content:
         label: Texte
       html_tag:
@@ -162,6 +164,8 @@ app:
         submit: Se connecter
       logout: Se déconnecter
       connected_as: Vous êtes connecté en tant que
+    via_university_credentials: 'Vous authentifier avec vos identifiants universitaires'
+    password_forgot: 'Mot de passe oublié'
   table:
     no_results_found: Aucun élément n'a été trouvé
   project_content:
@@ -621,9 +625,11 @@ app:
     modal:
       remove_warning_title: 'Etes-vous sûr de vouloir supprimer toutes vos notifications.'
       remove_warning_label_button: 'Supprimer'
+    project_validated: Votre projet %project% a été validé
+    project_refused: Votre projet %project% a été refusé
   authentication:
     shibboleth:
-      button_label: 'Se connecter via Shibboleth'
+      button_label: 'Connexion'
 
   message:
     first_connection: "<p>Bienvenue %firstname%,</p><p>Si vous avez besoin d'aide n'hésitez à cliquer sur l'icône <i class='far fa-question-circle'></i> située en haut à droite dans le menu de navigation</p>"

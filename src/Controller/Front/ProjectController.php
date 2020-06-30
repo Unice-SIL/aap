@@ -8,6 +8,7 @@ use App\Entity\Project;
 use App\Entity\User;
 use App\Form\Project\AddReporterType;
 use App\Form\Project\ValidationType;
+use App\Manager\Notification\NotificationManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Security\CallOfProjectVoter;
 use App\Utils\Mail\MailHelper;
@@ -108,6 +109,7 @@ class ProjectController extends AbstractController
      * @param TranslatorInterface $translator
      * @param Registry $workflowRegistry
      * @param \Swift_Mailer $mailer
+     * @param NotificationManagerInterface $notificationManager
      * @return Response
      * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      */
@@ -117,12 +119,12 @@ class ProjectController extends AbstractController
         EntityManagerInterface $em,
         TranslatorInterface $translator,
         Registry $workflowRegistry,
-        \Swift_Mailer $mailer
+        \Swift_Mailer $mailer,
+        NotificationManagerInterface $notificationManager
     )
     {
         $context = $request->query->get('context');
         $reporterAdded = $request->getSession()->remove('reporterAdded');
-
 
         $addReportersForm = $this->createForm(AddReporterType::class, $project);
         $addReportersForm->handleRequest($request);
@@ -147,10 +149,19 @@ class ProjectController extends AbstractController
 
             return $this->redirectToRoute('app.project.show', $routeParameters);
         }
-
         /** @var User $user */
         $user = $this->getUser();
-        $processValidationForm = function (FormInterface $form) use ($workflowRegistry, $translator, $project, $em, $mailer, $user, $context) {
+
+        $processValidationForm = function (FormInterface $form) use (
+            $workflowRegistry,
+            $translator,
+            $project,
+            $em,
+            $mailer,
+            $user,
+            $context,
+            $notificationManager
+        ) {
 
             $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $project->getCallOfProject());
             if ($project->getStatus() !== Project::STATUS_STUDYING) {
@@ -177,7 +188,17 @@ class ProjectController extends AbstractController
                 )
             );
 
+            $notification = $notificationManager->create();
+            $notificationTitle = $form->get('action')->getData() === Project::STATUS_VALIDATED ?
+                'app.notifications.project_validated' : 'app.notifications.project_refused';
+
+            $notification->setTitle($translator->trans($notificationTitle, ['%project%' => $project->getName()]));
+            $notification->setRouteName('app.project.show');
+            $notification->setRouteParams(['id' => $project->getId()]);
+            $project->getCreatedBy()->addNotification($notification);
+
             $em->flush();
+
 
             if ($form->get('automaticSending')->getData()) {
                 $message = new \Swift_Message(
@@ -192,6 +213,8 @@ class ProjectController extends AbstractController
 
                 $mailer->send($message);
             }
+
+
 
             $routeParameters = ['id' => $project->getId()];
             if ($context === 'call_of_project') {

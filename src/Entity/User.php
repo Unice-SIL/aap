@@ -98,7 +98,7 @@ class User implements UserInterface
     private $invitation;
 
     /**
-     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private $notifications;
 

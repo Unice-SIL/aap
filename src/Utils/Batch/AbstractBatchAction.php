@@ -23,8 +23,6 @@ abstract class AbstractBatchAction implements BatchActionInterface
 
     abstract protected function processOnEntity($entity, FormInterface $form);
 
-    public function getFormClassName(): string
-    {
-        // TODO: add default FormClassName
-    }
+    abstract function getFormClassName(): string;
+
 }
