@@ -21,11 +21,12 @@
 
 
     <div class="options-container">
+        {{ form_row(form.file) }}
 
         {{ form_label(form.choices) }}
         <div class="alert alert-info no-item" {{ form.choices|length > 0 ? 'style="display:none;"' }}>Aucune options n'a été ajoutée</div>
 
-        <ul id="material-fields-list" class="list-unstyled collection-wrapper"
+        <ul id="choice-fields-list" class="list-unstyled collection-wrapper"
             data-prototype="{{ _self.displayOptions(form.choices.vars.prototype)|e('html_attr') }}"
             data-widget-tags="{{ '<li></li>'|e }}"
             data-widget-counter="{{ form.choices|length }}">
@@ -45,7 +46,7 @@
 
                     <button type="button"
                             class="add-another-collection-widget btn btn-primary btn-block mr-0"
-                            data-list-selector="#material-fields-list"
+                            data-list-selector="#choice-fields-list"
                     >
                         Ajouter une option
                     </button>

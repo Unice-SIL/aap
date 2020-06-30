@@ -4994,6 +4994,11 @@ jju@^1.1.0:
   resolved "https://registry.yarnpkg.com/jju/-/jju-1.4.0.tgz#a3abe2718af241a2b2904f84a625970f389ae32a"
   integrity sha1-o6vicYryQaKykE+EpiWXDzia4yo=
 
+jquery-csv@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/jquery-csv/-/jquery-csv-1.0.11.tgz#1eeb689d4a11e9467c31b9bb426260b8acd326a6"
+  integrity sha512-KDPc3wFLTFO68p/4IqsODZCjBp+y9axDa/pr36pDKrWk6yyHf8Nk1FqAGXvaUb6H7J1zJSYszABIFj0a40QXRA==
+
 jquery-knob-chif@^1.2.13:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/jquery-knob-chif/-/jquery-knob-chif-1.2.13.tgz#5f1e462ef3745d27a9fd66ce1141fe82b44a5762"
