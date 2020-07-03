@@ -59,7 +59,7 @@ class FormChoiceWidgetType extends AbstractType
             ->add('choices', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'label_format' => 'Option',
-                'label' => 'Choices',
+                'label' => 'app.form.widget.choices.label',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_options' => [

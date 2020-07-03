@@ -2,52 +2,75 @@
 
 {% block title %}Log in!{% endblock %}
 
+{% set body_class = "login-page" %}
+
 {% block body %}
-    <div class="card m-auto" style="max-width: 500px;">
-        <div class="card-body">
-            <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+    <div class="login-box" style="width:700px">
+        <div class="card">
+            <div class="card-body login-card-body text-center">
+                <div class="row">
 
-                {% if app.user %}
-                    <div class="mb-3">
-                        {{ 'app.login.form.connected_as'|trans }} {{ app.user.username }}, <a href="{{ path('app.logout') }}">{{ 'app.login.form.logout'|trans }}</a>
+                    <div class="col border-right p-5">
+
+                        <h3 class="mb-2">{{ 'app.login.via_university_credentials'|trans }}</h3>
+                        <a href="{{ path('app.shibboleth_login', {'_target_path' : app.request.session.get('_security.basic.target_path')}) }}"
+                           class="btn btn-block btn-primary">
+                            {{ 'app.authentication.shibboleth.button_label'|trans }}
+                        </a>
                     </div>
-                {% endif %}
+                    <div class="col p-5">
 
-                <div class="form-group">
-                    <label for="inputUsername">{% trans %}app.login.form.username.label{% endtrans %}</label>
-                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword">{% trans %}app.login.form.password.label{% endtrans %}</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
-                </div>
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
+                        <form method="post">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
 
-                {#
-                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                    See https://symfony.com/doc/current/security/remember_me.html
+                            {% if app.user %}
+                                <div class="mb-3">
+                                    {{ 'app.login.form.connected_as'|trans }} {{ app.user.username }}, <a href="{{ path('app.logout') }}">{{ 'app.login.form.logout'|trans }}</a>
+                                </div>
+                            {% endif %}
 
-                    <div class="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" name="_remember_me"> Remember me
-                        </label>
+                            <div class="form-group">
+                                <input
+                                        type="text" value="{{ last_username }}" name="username"
+                                        id="inputUsername" class="form-control" required autofocus
+                                        placeholder="{% trans %}app.login.form.username.label{% endtrans %}"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <input
+                                        type="password" name="password"
+                                        id="inputPassword" class="form-control" required
+                                        placeholder="{% trans %}app.login.form.password.label{% endtrans %}"
+                                >
+                            </div>
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            >
+
+                            {#
+                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                                See https://symfony.com/doc/current/security/remember_me.html
+
+                                <div class="checkbox mb-3">
+                                    <label>
+                                        <input type="checkbox" name="_remember_me"> Remember me
+                                    </label>
+                                </div>
+                            #}
+                            <div class="form-group">
+                                <button class="btn btn-lg btn-primary" type="submit">
+                                    {% trans %}app.login.form.button.submit{% endtrans %}
+                                </button>
+                            </div>
+
+                        </form>
                     </div>
-                #}
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary" type="submit">
-                        {% trans %}app.login.form.button.submit{% endtrans %}
-                    </button>
                 </div>
-                {# todo: get dynamic providerKey (here "main" in "_security.main.target_path" is hard coded) #}
-                <a href="{{ path('app.shibboleth_login', {'_target_path' : app.request.session.get('_security.basic.target_path')}) }}" class="btn btn-block btn-success">
-                    {{ 'app.authentication.shibboleth.button_label'|trans }}
-                </a>
-            </form>
+            </div>
+            <!-- /.login-card-body -->
         </div>
     </div>
+
 {% endblock %}
