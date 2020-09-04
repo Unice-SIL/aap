@@ -283,6 +283,86 @@ class CallOfProjectController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/{id}/reports", name="reports", methods={"GET", "POST"})
+     * @param CallOfProject $callOfProject
+     * @param Request $request
+     * @param Registry $workflowRegistry
+     * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
+     * @param BatchActionManagerInterface $batchManager
+     * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
+     */
+    public function reports(
+        CallOfProject $callOfProject,
+        Request $request,
+        Registry $workflowRegistry,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator,
+        BatchActionManagerInterface $batchManager
+    ): Response
+    {
+        $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
+        $projectToStudyForm->handleRequest($request);
+
+        if ($projectToStudyForm->isSubmitted() and $projectToStudyForm->isValid()) {
+
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::TO_STUDY_MASS, $callOfProject);
+
+            foreach ($callOfProject->getProjects() as $project) {
+
+                $stateMachine = $workflowRegistry->get($project, 'project_validation_process');
+
+                try {
+
+                    if ($stateMachine->can($project, 'to_study')) {
+                        $stateMachine->apply($project, 'to_study');
+                    }
+                } catch (\Exception $exception) {
+                    $this->addFlash('error', $translator->trans('app.flash_message.error_project_to_study', ['%item%' => $project->getName()]));
+                }
+
+            }
+
+            $em->flush();
+
+            return  $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
+        }
+
+        $batchActionBlackList = [];
+        if (
+            $callOfProject->getProjects()->filter(function ($project) {
+                return $project->getStatus() !== Project::STATUS_STUDYING;
+            })->count() > 0
+        ) {
+            $batchActionBlackList[] = AddReportBatchAction::class;
+        }
+
+        $batchActionForm = $batchManager->getForm(Project::class, $batchActionBlackList);
+        $batchActionForm->handleRequest($request);
+
+        if ($batchActionForm->isSubmitted() and $batchActionForm->isValid()) {
+
+            $ok = $batchManager->saveDataInSession($batchActionForm, $request->getSession());
+
+            if (!$ok) {
+                $this->addFlash('error', $translator->trans('app.error_occured'));
+                return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
+            }
+
+            return $this->redirectToRoute('app.call_of_project.batch_action', ['id'=> $callOfProject->getId()]);
+
+        }
+
+        return $this->render('call_of_project/reports_list.html.twig', [
+            'call_of_project' => $callOfProject,
+            'project_to_study_form' => $projectToStudyForm->createView(),
+            'batch_action_form' => $batchActionForm->createView()
+        ]);
+    }
+
     /**
      * @Route("/{id}/batch-action", name="batch_action", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject

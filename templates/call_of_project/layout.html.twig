@@ -62,6 +62,21 @@
                         </li>
                     {% endif %}
 
+                    {% if is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_PROJECTS'), call_of_project) %}
+                        <li class="nav-item">
+                            <a href="{{ path('app.call_of_project.reports', {'id' : call_of_project.id}) }}"
+                               class="nav-link {{ 'app.call_of_project.reports' == app.request.get('_route')
+                               or 'app.report' in app.request.get('_route')
+                               ? 'active' }}"
+                            >
+                                <i class="fas fa-folder-open nav-icon"></i>
+                                <p>
+                                    {{ 'app.sidebar.item.reports.label'|trans }}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_PERMISSIONS'), call_of_project) %}
                         <li class="nav-item">
                             <a href="{{ path('app.call_of_project.show_permissions', { 'id' : call_of_project.id }) }}"
