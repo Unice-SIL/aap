@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("username", groups={"new", "edit", "register_for_invitation"})
  * @UniqueEntity("email", groups={"new", "edit", "register_for_invitation"})
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
 
     const AUTH_BASIC = 'basic';
@@ -467,4 +467,21 @@ class User implements UserInterface
         );
     }
 
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            ) = unserialize($serialized);
+    }
 }
