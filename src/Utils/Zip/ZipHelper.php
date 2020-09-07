@@ -65,7 +65,7 @@ class ZipHelper
                 //to be able to open the file directly from index.xlsx
                 if ($widget->isFileWidget()) {
                     //adds file in appropriate project directory
-                    $zip->addFileFromPath($project->getName() . DIRECTORY_SEPARATOR . $projectContent->getStringContent(), $projectContent->getContent()->getPathName());
+                    $zip->addFileFromPath($project->getName() . '/'. $projectContent->getStringContent(), $projectContent->getContent()->getPathName());
                     //sets a link on the value to open directly the file
                     $sheet->getCellByColumnAndRow($column, $row)->getHyperlink()->setUrl($project->getName() . DIRECTORY_SEPARATOR . $projectContent->getStringContent());
                 }
