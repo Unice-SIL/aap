@@ -8,6 +8,7 @@ require('admin-lte/plugins/summernote/lang/summernote-fr-FR');
 require('jquery-csv');
 require('bootstrap');
 require('datatables.net-bs4');
+require('datatables.net-responsive-bs4');
 require('moment/locale/fr');
 require('tempusdominus-bootstrap-4');
 require('jquery-ui/ui/widgets/sortable');

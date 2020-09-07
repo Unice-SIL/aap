@@ -107,7 +107,7 @@
                                         </td>
                                         <td>{{ include('report/_status_badge.html.twig') }}</td>
                                         <td class="text-center fit">
-                                            {{ include('report/_delete_form.html.twig') }}
+                                            {{ include('report/_delete_form.html.twig', {'route': 'app.report.delete_from_project'}) }}
                                         </td>
                                     </tr>
                                 {% endfor %}

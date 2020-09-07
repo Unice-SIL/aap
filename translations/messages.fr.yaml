@@ -86,6 +86,7 @@ app:
           edit_permissions: Edition des permissions
           add_project: Ajouter un projet
           projects: Liste des projets
+          reports: Liste des rapports
           form: Configuration
           new: Nouveau
           informations: Informations
@@ -225,6 +226,13 @@ app:
       modal_title: 'Validation du projet'
     reports:
       card_header_title: 'Rapports'
+  reports:
+    property:
+      reporter: Rapporteur
+      project_name: Nom du projet
+      deadline: Date butoir
+      status: Statut
+
   call_of_project:
     init:
       choices:
@@ -245,6 +253,8 @@ app:
       h1: Informations
     project_list:
       h1: Liste des projets
+    reports_list:
+      h1: Liste des rapports
     new:
       h1: Création d'un nouvel appel à projets
     property:
@@ -365,6 +375,8 @@ app:
     item:
       projects:
         label: Projets
+      reports:
+        label: Rapports
       admin:
         label: 'Administration'
         infos: 'Informations'

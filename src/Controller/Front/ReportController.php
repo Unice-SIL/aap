@@ -114,13 +114,11 @@ class ReportController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
      * @param Request $request
      * @param Report $report
      * @param TranslatorInterface $translator
-     * @return Response
      */
-    public function delete(Request $request, Report $report, TranslatorInterface $translator): Response
+    private function delete(Request $request, Report $report, TranslatorInterface $translator)
     {
         if ($this->isCsrfTokenValid('delete'.$report->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -128,10 +126,37 @@ class ReportController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', $translator->trans('app.flash_message.report_delete_success', ['%reporter%' => $report->getReporter()->getUsername()]));
         }
+    }
 
+    /**
+     * @Route("/{id}/project", name="delete_from_project", methods={"DELETE"})
+     * @param Request $request
+     * @param Report $report
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function deleteFromProject(Request $request, Report $report, TranslatorInterface $translator): Response
+    {
+        $this->delete($request, $report, $translator);
         return $this->redirectToRoute('app.project.show', [
-                'id' => $report->getProject()->getId(),
-                'context' => 'call_of_project'
-            ]);
+            'id' => $report->getProject()->getId(),
+            'context' => 'call_of_project'
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/call_of_project", name="delete_from_cop", methods={"DELETE"})
+     * @param Request $request
+     * @param Report $report
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function deleteFromCOP(Request $request, Report $report, TranslatorInterface $translator): Response
+    {
+        $this->delete($request, $report, $translator);
+        return $this->redirectToRoute('app.call_of_project.reports', [
+            'id' => $report->getProject()->getCallOfProject()->getId(),
+            'context' => 'call_of_project'
+        ]);
     }
 }

@@ -1,0 +1,70 @@
+{% extends 'call_of_project/layout.html.twig' %}
+
+{% block h1_content %}
+    {{ 'app.call_of_project.reports_list.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        {% if
+            is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project)
+            and call_of_project.projects|filter(p => workflow_can(p, 'to_study')) is not empty
+        %}
+            <div class="card-header">
+                <div class="float-right">
+                    {{ form(project_to_study_form) }}
+                </div>
+            </div>
+        {% endif %}
+        <div class="card-body">
+            <table
+                    id="project-list-datatable"
+                    class="table table table-hover dataTable"
+                    data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                    <tr>
+                        <th>{{ 'app.reports.property.reporter'|trans }}</th>
+                        <th>{{ 'app.reports.property.project_name'|trans }}</th>
+                        <th>{{ 'app.reports.property.deadline'|trans }}</th>
+                        <th>{{ 'app.reports.property.status'|trans }}</th>
+                        <th data-no-filter="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for project in call_of_project.projects %}
+                    {% for report in project.reports %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
+                                    {{ project.name }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ report.deadline ? report.deadline|format_datetime : report.deadline|humanize_data }}
+                            </td>
+                            <td>{{ include('report/_status_badge.html.twig') }}</td>
+                            <td class="text-center fit">
+                                {{ include('report/_delete_form.html.twig', {'route': 'app.report.delete_from_cop'}) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="mb-2" data-batch-datatable-target="#project-list-datatable">
+                {{ form(batch_action_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
