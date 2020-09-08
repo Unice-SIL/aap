@@ -474,6 +474,9 @@ $(document).ready(function () {
     $('.knob-render-warning').knob({
         'fgColor': window.getComputedStyle(document.body).getPropertyValue('--warning')
     });
+    $('.knob-render-success').knob({
+        'fgColor': window.getComputedStyle(document.body).getPropertyValue('--success')
+    });
     $('.knob-render-danger').knob({
         'fgColor': window.getComputedStyle(document.body).getPropertyValue('--danger')
     });
