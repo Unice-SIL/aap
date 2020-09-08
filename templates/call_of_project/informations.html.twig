@@ -6,33 +6,260 @@
 {% endblock %}
 
 {% block h1_content %}
-    {{ 'app.call_of_project.informations.h1'|trans }}
+    {{ 'app.call_of_project.dashboard.h1'|trans }}
 {% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">
-            <button  class="btn btn-primary float-right"
-                     data-toggle="modal"
-                     data-target="#call-of-project-information-form-modal"
-                     type="button"
-            >
-                {{ 'app.action.edit'|trans }}
-            </button>
-            <h2 class="d-inline-block mr-3">{{ call_of_project }}</h2>
-            {{ include('call_of_project/_status_badge.html.twig', { 'call_of_project' : call_of_project}) }}
 
-        </div>
-        <div class="card-body py-5">
-            <span class="text-bold">{{ 'app.call_of_project.organized_by'|trans }} {{ call_of_project.organizingCenter.name }}</span>
-            <span class="text-bold float-right">
-                {{ 'app.call_of_project.opened_date'|trans({
-                    '%startDate%' : call_of_project.startDate ? call_of_project.startDate|format_datetime : call_of_project.startDate|humanize_data,
-                    '%endDate%' : call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data
-                }) }}
-            </span>
-            <p class="mt-4">{{ call_of_project.description|raw }}</p>
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+                <div>
+                    <h4>{{ call_of_project }}</h4>
+                    {% include('call_of_project/_status_badge.html.twig') %}
+                </div>
+                <button  class="btn btn-primary align-self-start "
+                         data-toggle="modal"
+                         data-target="#call-of-project-information-form-modal"
+                         type="button"
+                >
+                    {{ 'app.action.edit'|trans }}
+                </button>
+            </div>
+            {{ call_of_project.description|raw }}
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <strong>{{ 'app.call_of_project.dashboard.organizing_center'|trans }}</strong>
+                    <div class="d-flex justify-content-between align-items-center pt-2 text-info">
+                        <i class="fas fa-university fa-2x" style="opacity: 0.5;"></i>
+                        <span class="badge badge-pill p-2 badge-info">
+                            {{ call_of_project.organizingCenter.name }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <strong>{{ 'app.call_of_project.dashboard.start_date'|trans }}</strong>
+                    <div class="d-flex justify-content-between align-items-center pt-2 text-success">
+                        <i class="fas fa-door-open fa-2x" style="opacity: 0.5;"></i>
+                        <span class="badge badge-pill p-2 badge-success">
+                            {{ call_of_project.startDate ? call_of_project.startDate|format_datetime : call_of_project.startDate|humanize_data }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <strong>{{ 'app.call_of_project.dashboard.end_date'|trans }}</strong>
+                    <div class="d-flex justify-content-between align-items-center pt-2 text-danger">
+                        <i class="fas fa-door-closed fa-2x" style="opacity: 0.5;"></i>
+                        <span class="badge badge-pill p-2 badge-danger">
+                            {{ call_of_project.endDate ? call_of_project.endDate|format_datetime : call_of_project.endDate|humanize_data }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <strong>{{ 'app.call_of_project.dashboard.publication_date'|trans }}</strong>
+                    <div class="d-flex justify-content-between align-items-center pt-2 text-primary">
+                        <i class="fas fa-eye fa-2x" style="opacity: 0.5;"></i>
+                        <span class="badge badge-pill p-2 badge-primary">
+                            {{ call_of_project.publicationDate ? call_of_project.publicationDate|format_datetime : call_of_project.publicationDate|humanize_data }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h4 class="text-gray">{{ 'app.call_of_project.dashboard.projects'|trans }}</h4>
+    <div class="row mt-3">
+        <div class="col-12 col-xl-8">
+            <div class="card">
+                <div class="card-body">
+                    <table
+                            id="project-list-datatable"
+                            class="table table table-hover dataTable"
+                            data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+                            data-page-length=5
+                            data-auto-width="false"
+                            data-length-change="false"
+                            data-ordering="false"
+                            data-searching="false"
+                            data-processing="false"
+                            data-info="false"
+                    >
+                        <thead>
+                        <tr>
+                            <th>{{ 'app.project.property.name.label'|trans }}</th>
+                            <th>{{ 'app.project.property.created_by.label'|trans }}</th>
+                            <th>{{ 'app.project.property.status.label'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for project in call_of_project.projects %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
+                                        {{ project.name }}
+                                    </a>
+                                </td>
+                                <td>{{ project.createdBy }}</td>
+                                <td>{{ include('project/_status_badge.html.twig', { 'project' : project}) }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">{{ 'app.table.no_results_found'|trans }}</td>
+                                <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                                <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="progress-group mb-4">
+                        {{ 'app.project.constant.waiting'|trans }}
+                        <span class="float-right">{{ call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_WAITING'))|length}} / {{ call_of_project.projects|length }}</span>
+                        {% set waitingProjectsPercent =  call_of_project.projects|length > 0 ? call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_WAITING'))|length / call_of_project.projects|length * 100 : 0%}
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-info" style="width: {{ waitingProjectsPercent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group mb-4">
+                        {{ 'app.project.constant.studying'|trans }}
+                        <span class="float-right">{{ call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_STUDYING'))|length }} / {{ call_of_project.projects|length }}</span>
+                        {% set studyingProjectsPercent =  call_of_project.projects|length > 0 ? call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_STUDYING'))|length / call_of_project.projects|length * 100 : 0%}
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-warning" style="width: {{ studyingProjectsPercent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group mb-4">
+                        {{ 'app.project.constant.validated'|trans }}
+                        <span class="float-right">{{ call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_VALIDATED'))|length }} / {{ call_of_project.projects|length }}</span>
+                        {% set validatedProjectsPercent =  call_of_project.projects|length > 0 ? call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_VALIDATED'))|length / call_of_project.projects|length * 100 : 0%}
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-success" style="width: {{ validatedProjectsPercent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group mb-4">
+                        {{ 'app.project.constant.refused'|trans }}
+                        <span class="float-right">{{ call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_REFUSED'))|length }} / {{ call_of_project.projects|length }}</span>
+                        {% set refusedProjectsPercent =  call_of_project.projects|length > 0 ? call_of_project.projectsByStatus(constant('App\\Entity\\Project::STATUS_REFUSED'))|length / call_of_project.projects|length * 100 : 0%}
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-danger" style="width: {{ refusedProjectsPercent }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h4 class="text-gray">Rapports</h4>
+
+    <div class="row mt-3">
+        <div class="col-12 col-xl-8">
+            <div class="card">
+                <div class="card-body">
+                    <table
+                            id="project-list-datatable"
+                            class="table table table-hover dataTable"
+                            data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+                            data-page-length=5
+                            data-auto-width="false"
+                            data-length-change="false"
+                            data-ordering="false"
+                            data-searching="false"
+                            data-processing="false"
+                            data-info="false"
+                    >
+                        <thead>
+                        <tr>
+                            <th>{{ 'app.report.property.reporter.label'|trans }}</th>
+                            <th>{{ 'app.report.property.project_name.label'|trans }}</th>
+                            <th>{{ 'app.report.property.dead_line.label'|trans }}</th>
+                            <th>{{ 'app.report.property.status.label'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for report in call_of_project.getProjectsReports() %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.project.name }}</a>
+                                </td>
+                                <td>
+                                    {{ report.deadline ? report.deadline|format_datetime : report.deadline|humanize_data }}
+                                </td>
+                                <td>{{ include('report/_status_badge.html.twig') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">{{ 'app.table.no_results_found'|trans }}</td>
+                                <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                                <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                                <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="progress-group mb-4">
+                        {{ 'app.project.constant.to_complete'|trans }}
+                        <span class="float-right">{{ call_of_project.projectsReportsByStatus(constant('App\\Entity\\Report::STATUS_TO_COMPLETE'))|length}} / {{ call_of_project.projectsReports|length }}</span>
+                        {% set toCompleteReportsPercent =  call_of_project.projectsReports|length > 0 ? call_of_project.projectsReportsByStatus(constant('App\\Entity\\Report::STATUS_TO_COMPLETE'))|length / call_of_project.projectsReports|length * 100 : 0%}
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-warning" style="width: {{ toCompleteReportsPercent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group mb-4">
+                        {{ 'app.project.constant.complete'|trans }}
+                        <span class="float-right">{{ call_of_project.projectsReportsByStatus(constant('App\\Entity\\Report::STATUS_COMPLETE'))|length }} / {{ call_of_project.projectsReports|length }}</span>
+                        {% set completeReportsPercent =  call_of_project.projectsReports|length > 0 ? call_of_project.projectsReportsByStatus(constant('App\\Entity\\Report::STATUS_COMPLETE'))|length / call_of_project.projectsReports|length * 100 : 0%}
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-info" style="width: {{ completeReportsPercent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-group mb-4">
+                        {{ 'app.project.constant.finished'|trans }}
+                        <span class="float-right">{{ call_of_project.projectsReportsByStatus(constant('App\\Entity\\Report::STATUS_FINISHED'))|length }} / {{ call_of_project.projectsReports|length }}</span>
+                        {% set finishedReportsPercent =  call_of_project.projectsReports|length > 0 ? call_of_project.projectsReportsByStatus(constant('App\\Entity\\Report::STATUS_FINISHED'))|length / call_of_project.projectsReports|length * 100 : 0%}
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-danger" style="width: {{ finishedReportsPercent }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 

@@ -13,6 +13,7 @@ use App\Validator\Constraints as AppAssert;
  */
 class CallOfProject extends Common
 {
+
     const STATUS_INIT = 'init';
     const STATUS_CLOSED = 'closed';
     const STATUS_OPENED = 'opened';
@@ -100,6 +101,9 @@ class CallOfProject extends Common
     private $publicationDate;
 
 
+    /**
+     * CallOfProject constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -108,11 +112,18 @@ class CallOfProject extends Common
         $this->setStatus(self::STATUS_INIT);
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -128,6 +139,50 @@ class CallOfProject extends Common
         return $this->projects;
     }
 
+    /**
+     * @param string $status
+     * @return Collection
+     */
+    public function getProjectsByStatus(string $status)
+    {
+        return $this->getProjects()->filter(function(Project $project) use ($status) {
+            return $project->getStatus() === $status;
+        });
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getProjectsReports()
+    {
+        $reports = new ArrayCollection();
+        /** @var Project $project */
+        foreach ($this->projects as $project)
+        {
+            /** @var Report $report */
+            foreach ($project->getReports() as $report)
+            {
+                $reports->add($report);
+            }
+        }
+        return $reports;
+    }
+
+    /**
+     * @param string $status
+     * @return ArrayCollection
+     */
+    public function getProjectsReportsByStatus(string $status)
+    {
+        return $this->getProjectsReports()->filter(function(Report $report) use ($status) {
+            return $report->getStatus() === $status;
+        });
+    }
+
+    /**
+     * @param Project $project
+     * @return $this
+     */
     public function addProject(Project $project): self
     {
         if (!$this->projects->contains($project)) {
@@ -138,6 +193,10 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @param Project $project
+     * @return $this
+     */
     public function removeProject(Project $project): self
     {
         if ($this->projects->contains($project)) {
@@ -151,6 +210,9 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function __toString()
     {
         return $this->getName();
@@ -164,11 +226,18 @@ class CallOfProject extends Common
         return $this->projectFormLayouts;
     }
 
+    /**
+     * @return ProjectFormLayout
+     */
     public function getProjectFormLayout(): ProjectFormLayout
     {
         return $this->getProjectFormLayouts()->first();
     }
 
+    /**
+     * @param ProjectFormLayout $projectFormLayout
+     * @return $this
+     */
     public function addProjectFormLayout(ProjectFormLayout $projectFormLayout): self
     {
         if (!$this->projectFormLayouts->contains($projectFormLayout)) {
@@ -179,6 +248,10 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @param ProjectFormLayout $projectFormLayout
+     * @return $this
+     */
     public function removeProjectFormLayout(ProjectFormLayout $projectFormLayout): self
     {
         if ($this->projectFormLayouts->contains($projectFormLayout)) {
@@ -224,6 +297,9 @@ class CallOfProject extends Common
         $this->endDate = $endDate;
     }
 
+    /**
+     * @return string
+     */
     public function getStatus(): string
     {
         $currentDate = new \DateTime();
@@ -236,11 +312,18 @@ class CallOfProject extends Common
         }
     }
 
+    /**
+     * @return OrganizingCenter|null
+     */
     public function getOrganizingCenter(): ?OrganizingCenter
     {
         return $this->organizingCenter;
     }
 
+    /**
+     * @param OrganizingCenter|null $organizingCenter
+     * @return $this
+     */
     public function setOrganizingCenter(?OrganizingCenter $organizingCenter): self
     {
         $this->organizingCenter = $organizingCenter;
@@ -248,11 +331,18 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getValidationMailTemplate(): ?string
     {
         return $this->validationMailTemplate;
     }
 
+    /**
+     * @param string $validationMailTemplate
+     * @return $this
+     */
     public function setValidationMailTemplate(string $validationMailTemplate): self
     {
         $this->validationMailTemplate = $validationMailTemplate;
@@ -260,11 +350,18 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getRefusalMailTemplate(): ?string
     {
         return $this->refusalMailTemplate;
     }
 
+    /**
+     * @param string $refusalMailTemplate
+     * @return $this
+     */
     public function setRefusalMailTemplate(string $refusalMailTemplate): self
     {
         $this->refusalMailTemplate = $refusalMailTemplate;
@@ -272,11 +369,18 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getIsAutomaticSendingValidationMail(): ?bool
     {
         return $this->isAutomaticSendingValidationMail;
     }
 
+    /**
+     * @param bool $isAutomaticSendingValidationMail
+     * @return $this
+     */
     public function setIsAutomaticSendingValidationMail(bool $isAutomaticSendingValidationMail): self
     {
         $this->isAutomaticSendingValidationMail = $isAutomaticSendingValidationMail;
@@ -284,11 +388,18 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getIsAutomaticSendingRefusalMail(): ?bool
     {
         return $this->isAutomaticSendingRefusalMail;
     }
 
+    /**
+     * @param bool $isAutomaticSendingRefusalMail
+     * @return $this
+     */
     public function setIsAutomaticSendingRefusalMail(bool $isAutomaticSendingRefusalMail): self
     {
         $this->isAutomaticSendingRefusalMail = $isAutomaticSendingRefusalMail;
@@ -296,11 +407,18 @@ class CallOfProject extends Common
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getPublicationDate(): ?\DateTimeInterface
     {
         return $this->publicationDate;
     }
 
+    /**
+     * @param \DateTimeInterface|null $publicationDate
+     * @return $this
+     */
     public function setPublicationDate(?\DateTimeInterface $publicationDate): self
     {
         $this->publicationDate = $publicationDate;

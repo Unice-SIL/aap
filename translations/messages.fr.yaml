@@ -249,6 +249,13 @@ app:
       closed: Fermé
       review: En attente de résultat
       archived: Archivé
+    dashboard:
+      h1: Tableau de bord
+      organizing_center: Organisateur
+      start_date: Ouverture
+      end_date: Fermeture
+      publication_date: Publication résultats
+      projects: Projets
     informations:
       h1: Informations
     project_list:
@@ -270,7 +277,7 @@ app:
         label: Modèle d'email de refus
       organizing_center: Centre organisateur
       start_date:
-        label: Du
+        label: Date d'ouverture
       end_date:
         label: au
       description:
@@ -380,6 +387,7 @@ app:
       admin:
         label: 'Administration'
         infos: 'Informations'
+        dashboard: 'Tableau de bord'
         project_form: 'Configuration'
         permissions: 'Permissions'
         widget: 'Formulaire projet'
