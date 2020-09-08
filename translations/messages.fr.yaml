@@ -256,7 +256,7 @@ app:
     reports_list:
       h1: Liste des rapports
     new:
-      h1: Création d'un nouvel appel à projets
+      h1: Création d'un nouvel appel à projet
     property:
       publication_date:
         label: Date de publication des résultats
@@ -294,6 +294,8 @@ app:
     add_project:
       h1: Dépôt d'un nouveau projet
       not_opened: Ce projet n'est pas ouvert
+      mail:
+        subject: "Dépôt d'un nouveau projet sur %call_of_project%"
     show_permissions:
       h1: 'Liste des permissions'
     own_acls: Permissions de l'appel à projets

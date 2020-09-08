@@ -19,6 +19,8 @@ use App\Utils\Batch\AddReportBatchAction;
 use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -117,16 +119,18 @@ class CallOfProjectController extends AbstractController
      * @param ProjectManagerInterface $projectManager
      * @param WidgetManager $widgetManager
      * @param TranslatorInterface $translator
+     * @param \Swift_Mailer $mailer
      * @return Response
-     * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
      * @throws \Exception
+     * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
      */
     public function addProject(
         CallOfProject $callOfProject,
         Request $request,
         ProjectManagerInterface $projectManager,
         WidgetManager $widgetManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        \Swift_Mailer $mailer
     ): Response
     {
         $this->denyAccessUnlessGranted(CallOfProjectVoter::OPEN, $callOfProject);
@@ -137,12 +141,25 @@ class CallOfProjectController extends AbstractController
         $dynamicForm->handleRequest($request);
 
         if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
+            // Add mail
+            $message = (new \Swift_Message($translator->trans('app.call_of_project.add_project.mail.subject', ['%call_of_project%' => $callOfProject->getName()])))
+                ->setFrom('aap@no-reply.fr')
+                ->setTo(['kgenes@unice.fr'])
+                ->setBody(
+                    $this->renderView(
+                        'mail/call_of_project/new_project.html.twig'
+                    ),
+                    'text/html'
+                );
+
+            $mailer->send($message);
 
             $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
 
             $projectManager->save($project);
 
             $this->addFlash('success', $translator->trans('app.flash_message.create_success', ['%item%' => $project->getName()]));
+
 
             return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
@@ -509,6 +526,7 @@ class CallOfProjectController extends AbstractController
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @param Request $request
      * @param TranslatorInterface $translator
+     * @return RedirectResponse|Response
      */
     public function editMailTemplate(
         CallOfProject $callOfProject,
