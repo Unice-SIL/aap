@@ -17,7 +17,7 @@ interface BatchActionManagerInterface
 
     public function getForm(string $className, array $blackList = []): FormInterface;
 
-    public function renderBreadcrumb(string $id, string $formId);
+    public function renderBreadcrumb(string $id, string $formId, array $attributes = []);
 
     public function saveDataInSession(FormInterface $batchActionForm, SessionInterface $session): bool;
 

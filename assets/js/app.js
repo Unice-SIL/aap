@@ -505,6 +505,13 @@ $(document).ready(function () {
         batchActionButton.disable(entitiesField.find('option').length < 1);
     });
 
+    $(document).on('change', '.toggle-multiple-checkboxes', function() {
+        let element = $(this);
+        $('input[type="checkbox"]').filter('[data-toggle-element="'+element.attr('id')+'"]').each(function() {
+            $(this).prop("checked", element.is(":checked"));
+        });
+    });
+
     /**
      *  Help
      */

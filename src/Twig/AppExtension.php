@@ -6,8 +6,15 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
+/**
+ * Class AppExtension
+ * @package App\Twig
+ */
 class AppExtension extends AbstractExtension
 {
+    /**
+     * @return TwigFilter[]
+     */
     public function getFilters(): array
     {
         return [
@@ -17,6 +24,9 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @return TwigFunction[]
+     */
     public function getFunctions(): array
     {
         return [
@@ -26,11 +36,20 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param $instance
+     * @param $classFulName
+     * @return bool
+     */
     public function instanceof($instance, $classFulName) {
 
         return $instance instanceof $classFulName;
     }
 
+    /**
+     * @param array $array
+     * @return array
+     */
     public function arrayUnique(array $array)
     {
         return array_unique($array);
