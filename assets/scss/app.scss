@@ -297,3 +297,20 @@ body.layout-fixed {
     list-style: none;
   }
 }
+
+/**
+ * Buttons toolbar
+ */
+
+.buttons-toolbar {
+  display: flex;
+  justify-content: end;
+  a {
+    color: var(--dark) !important;
+    margin-left: 0.5rem !important;
+    i {
+      width: 100%;
+      font-size: 1.5em;
+    }
+  }
+}

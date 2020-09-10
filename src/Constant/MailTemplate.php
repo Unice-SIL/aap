@@ -6,9 +6,9 @@ namespace App\Constant;
 
 class MailTemplate
 {
-    const VALIDATION_PROJECT = 'validation de projet';
+    const VALIDATION_PROJECT = 'Validation de projet';
 
-    const REFUSAL_PROJECT = 'refus de projet';
+    const REFUSAL_PROJECT = 'Refus de projet';
 
 
     const PLACEHOLDER_LASTNAME = '[__LASTNAME__]';
@@ -24,11 +24,13 @@ class MailTemplate
         'app.mail_template.placeholder.call_of_project_name' => self::PLACEHOLDER_CALL_OF_PROJECT_NAME,
     ];
 
-    const NOTIFICATION_NEW_REPORT = 'notification pour un nouveau rapport';
+    const NOTIFICATION_NEW_REPORT = 'Notification pour un nouveau rapport';
 
-    const NOTIFICATION_NEW_REPORTS = 'notification pour ajout de rapport en masse';
+    const NOTIFICATION_NEW_REPORTS = 'Notification pour ajout de rapport en masse';
 
-    const INVITATION_MAIL = 'inviter un utilisateur';
+    const INVITATION_MAIL = 'Inviter un utilisateur';
 
-    const NOTIFY_CREATOR_OF_A_NEW_PROJECT = 'notification à destination du créateur d\'un nouveau projet';
+    const NOTIFY_CREATOR_OF_A_NEW_PROJECT = 'Notification à destination du créateur d\'un nouveau projet';
+
+    const NOTIFY_MANAGERS_OF_A_NEW_PROJECT = 'Notification à destination des gestionnaires d\'un nouveau projet';
 }

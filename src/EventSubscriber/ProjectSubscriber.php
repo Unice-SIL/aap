@@ -37,5 +37,6 @@ class ProjectSubscriber implements EventSubscriberInterface
         $project = $event->getProject();
 
         $this->mailHelper->notifyCreatorOfANewProject($project);
+        $this->mailHelper->notifyManagersOfANewProject($project);
     }
 }

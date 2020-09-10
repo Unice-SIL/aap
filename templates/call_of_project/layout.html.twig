@@ -1,18 +1,15 @@
 {% extends 'sidebar_layout.html.twig' %}
 
 {% block after_header %}
-    <div class="container-fluid clearfix">
-        <div class="btn-group dropleft float-right">
-
-            <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-cog"></i>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <div class="dropdown-menu" role="menu">
-                <a class="dropdown-item" href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">{{ 'app.action.export'|trans }}</a>
-            </div>
-
-        </div>
+    <div class="buttons-toolbar container-fluid">
+        <a class="ml-2" href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
+            {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'text-info' : '' %}
+            {% set followingTitle = (call_of_project.subscribers.contains(app.user) ? 'app.action.toggle_subscription.off' : 'app.action.toggle_subscription.on') | trans %}
+            <i class="fas fa-eye {{ followingClass }}" title="{{ followingTitle }}"></i>
+        </a>
+        <a class="ml-2" href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">
+            <i class="fas fa-file-archive" title="{{ 'app.action.export'|trans }}"></i>
+        </a>
     </div>
 {% endblock %}
 

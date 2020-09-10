@@ -160,4 +160,20 @@ class MailHelper
 
         $this->mailer->send($message);
     }
+
+    public function notifyManagersOfANewProject(Project $project)
+    {
+        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFY_MANAGERS_OF_A_NEW_PROJECT);
+        $message = new \Swift_Message(
+            $mailTemplate->getSubject(),
+            self::parseMessageWithProject($mailTemplate->getBody(), $project)
+        );
+        $message
+            ->setFrom($this->mailFrom)
+            ->setTo($project->getCallOfProject()->getCreatedBy()->getEmail())
+            ->setContentType('text/html')
+        ;
+
+        $this->mailer->send($message);
+    }
 }

@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\JoinTable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -64,12 +65,25 @@ class Common
      */
     private $acls;
 
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="subscriptions")
+     */
+    private $subscribers;
 
+    /**
+     * Common constructor.
+     */
     public function __construct()
     {
         $this->acls = new ArrayCollection();
+        $this->subscribers = new ArrayCollection();
     }
 
+    /**
+     * @return null|string
+     */
     public function getId(): ?string
     {
         return $this->id;
@@ -118,6 +132,10 @@ class Common
         return $this->acls;
     }
 
+    /**
+     * @param Acl $acl
+     * @return Common
+     */
     public function addAcl(Acl $acl): self
     {
         if (!$this->acls->contains($acl)) {
@@ -128,6 +146,10 @@ class Common
         return $this;
     }
 
+    /**
+     * @param Acl $acl
+     * @return Common
+     */
     public function removeAcl(Acl $acl): self
     {
         if ($this->acls->contains($acl)) {
@@ -135,6 +157,58 @@ class Common
             // set the owning side to null (unless already changed)
             if ($acl->getCommon() === $this) {
                 $acl->setCommon(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSubscribers(): Collection
+    {
+        return $this->subscribers;
+    }
+
+    /**
+     * @param Collection $subscribers
+     * @return Common
+     */
+    public function setSubscribers(Collection $subscribers): Common
+    {
+        $this->subscribers = $subscribers;
+        return $this;
+    }
+
+    /**
+     * @param User $subscriber
+     * @return Common
+     */
+    public function addSubscriber(User $subscriber): self
+    {
+        if (!$this->subscribers->contains($subscriber)) {
+            $this->subscribers->add($subscriber);
+            if (!$subscriber->getSubscriptions()->contains($this))
+            {
+                $subscriber->getSubscriptions()->add($this);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param User $subscriber
+     * @return Common
+     */
+    public function removeSubscriber(User $subscriber): self
+    {
+        if ($this->subscribers->contains($subscriber)) {
+            $this->subscribers->removeElement($subscriber);
+            if ($subscriber->getSubscriptions()->contains($this))
+            {
+                $subscriber->getSubscriptions()->removeElement($this);
             }
         }
 

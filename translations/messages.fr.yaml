@@ -78,6 +78,8 @@ app:
             show: Vue
             new: Nouveau
             label: Utilisateurs
+          mail_template:
+            index: Modèles de mails
         call_of_project:
           presentation_before_adding_project: Récapitulatif de l'appel à projets
           mail_template: Modèle d'email
@@ -373,6 +375,9 @@ app:
     configure: 'Configurer'
     export: 'Exporter'
     import: 'Importer'
+    toggle_subscription:
+      on: Suivre l'appel à projet
+      off: Ne plus suivre l'appel à projet
   sidebar:
     item:
       projects:

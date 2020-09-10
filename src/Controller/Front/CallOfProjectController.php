@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
 use App\Entity\Project;
+use App\Entity\User;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\CallOfProjectAclsType;
 use App\Form\CallOfProject\DeleteType;
@@ -11,6 +12,7 @@ use App\Form\CallOfProject\MailTemplateType;
 use App\Form\Project\ProjectToStudyType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
+use App\Manager\User\UserManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use App\Security\CallOfProjectVoter;
 use App\Security\OrganizingCenterVoter;
@@ -219,6 +221,31 @@ class CallOfProjectController extends AbstractController
             'form' => $form->createView(),
             'open_edition_form_modal' => $openEditionFormModal
         ]);
+    }
+
+    /**
+     * @Route("/{id}/toggle-subscription", name="toggle_subscription")
+     * @param CallOfProject $callOfProject
+     * @param UserManagerInterface $userManager
+     * @param Request $request
+     * @return Response
+     */
+    public function toggleSubscription(CallOfProject $callOfProject, UserManagerInterface $userManager, Request $request)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($user->getSubscriptions()->contains($callOfProject))
+        {
+            $user->removeSubscription($callOfProject);
+        }
+        else
+        {
+            $user->addSubscription($callOfProject);
+        }
+
+        $userManager->update($user);
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
