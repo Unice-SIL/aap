@@ -8,6 +8,7 @@ use App\Constant\MailTemplate;
 use App\Entity\Invitation;
 use App\Entity\Project;
 use App\Entity\Report;
+use App\Entity\User;
 use App\Repository\MailTemplateRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -145,6 +146,9 @@ class MailHelper
         $invitation->setSentAt(new \DateTime());
     }
 
+    /**
+     * @param Project $project
+     */
     public function notifyCreatorOfANewProject(Project $project)
     {
         $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFY_CREATOR_OF_A_NEW_PROJECT);
@@ -161,8 +165,15 @@ class MailHelper
         $this->mailer->send($message);
     }
 
+    /**
+     * @param Project $project
+     */
     public function notifyManagersOfANewProject(Project $project)
     {
+        $mails = $project->getCallOfProject()->getSubscribers()->map(function (User $subscriber)
+        {
+           return $subscriber->getEmail();
+        });
         $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFY_MANAGERS_OF_A_NEW_PROJECT);
         $message = new \Swift_Message(
             $mailTemplate->getSubject(),
@@ -170,7 +181,7 @@ class MailHelper
         );
         $message
             ->setFrom($this->mailFrom)
-            ->setTo($project->getCallOfProject()->getCreatedBy()->getEmail())
+            ->setTo($mails)
             ->setContentType('text/html')
         ;
 
