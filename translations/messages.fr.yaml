@@ -80,6 +80,7 @@ app:
             label: Utilisateurs
           mail_template:
             index: Modèles de mails
+            edit: Édition d'un modèle de mail
         call_of_project:
           presentation_before_adding_project: Récapitulatif de l'appel à projets
           mail_template: Modèle d'email
@@ -513,6 +514,8 @@ app:
     mail_template:
       index:
         h1: Liste de modèles de mails
+      edit:
+        h1: Édition d'un modèle de mail
     invitation:
       index:
         h1: Liste des invitations

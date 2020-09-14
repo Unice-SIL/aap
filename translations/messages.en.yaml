@@ -80,6 +80,7 @@ app:
             new: New
           mail_template:
             index: Mails template
+            edit: Edit a mail template
         call_of_project:
           presentation_before_adding_project: Call of project's summary
           mail_template: Mail template
@@ -513,6 +514,8 @@ app:
     mail_template:
       index:
         h1: List of mail templates
+      edit:
+        h1: Edit a mail template
     invitation:
       index:
         h1: List of invitations
