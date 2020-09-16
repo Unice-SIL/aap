@@ -5,8 +5,8 @@ namespace App\Controller\Front;
 use App\Entity\CallOfProject;
 use App\Entity\Project;
 use App\Entity\User;
-use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\CallOfProjectAclsType;
+use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\DeleteType;
 use App\Form\CallOfProject\MailTemplateType;
 use App\Form\Project\ProjectToStudyType;
@@ -21,9 +21,6 @@ use App\Utils\Batch\AddReportBatchAction;
 use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\RFCValidation;
-use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -121,7 +118,6 @@ class CallOfProjectController extends AbstractController
      * @param ProjectManagerInterface $projectManager
      * @param WidgetManager $widgetManager
      * @param TranslatorInterface $translator
-     * @param \Swift_Mailer $mailer
      * @return Response
      * @throws \Exception
      * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
@@ -131,8 +127,7 @@ class CallOfProjectController extends AbstractController
         Request $request,
         ProjectManagerInterface $projectManager,
         WidgetManager $widgetManager,
-        TranslatorInterface $translator,
-        \Swift_Mailer $mailer
+        TranslatorInterface $translator
     ): Response
     {
         $this->denyAccessUnlessGranted(CallOfProjectVoter::OPEN, $callOfProject);
@@ -143,19 +138,6 @@ class CallOfProjectController extends AbstractController
         $dynamicForm->handleRequest($request);
 
         if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
-            // Add mail
-            $message = (new \Swift_Message($translator->trans('app.call_of_project.add_project.mail.subject', ['%call_of_project%' => $callOfProject->getName()])))
-                ->setFrom('aap@no-reply.fr')
-                ->setTo(['kgenes@unice.fr'])
-                ->setBody(
-                    $this->renderView(
-                        'mail/call_of_project/new_project.html.twig'
-                    ),
-                    'text/html'
-                );
-
-            $mailer->send($message);
-
             $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
 
             $projectManager->save($project);

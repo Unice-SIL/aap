@@ -10,6 +10,8 @@ use App\Entity\Project;
 use App\Entity\Report;
 use App\Entity\User;
 use App\Repository\MailTemplateRepository;
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
@@ -181,7 +183,7 @@ class MailHelper
         );
         $message
             ->setFrom($this->mailFrom)
-            ->setTo($mails)
+            ->setTo($mails->toArray())
             ->setContentType('text/html')
         ;
 

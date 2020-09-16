@@ -27,7 +27,16 @@ final class Version20200617122857 extends AbstractMigration
             (
                 "' . MailTemplate::NOTIFY_CREATOR_OF_A_NEW_PROJECT . '",
                 "Vous avez créer un nouveau projet",
-                "Bonjour votre projet ' . MailTemplate::PLACEHOLDER_PROJECT_NAME . ' a bien été enregistré..."
+                "Bonjour votre projet \"' . MailTemplate::PLACEHOLDER_PROJECT_NAME . '\" a bien été enregistré."
+            )
+
+        ');
+
+        $this->addSql('INSERT INTO mail_template (name, subject, body) VALUES
+            (
+                "' . MailTemplate::NOTIFY_MANAGERS_OF_A_NEW_PROJECT . '",
+                "Un nouveau projet a été créé",
+                "Bonjour le projet \"' . MailTemplate::PLACEHOLDER_PROJECT_NAME . '\" a été ajouté sur \"' . MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME .'\"."
             )
 
         ');
