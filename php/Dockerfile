@@ -1,8 +1,8 @@
-FROM php:7.2.4-cli
+FROM php:7.2.34-cli
 
 RUN apt-get update \
     &&  apt-get install -y --no-install-recommends \
-        locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs npm wget \
+        locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs wget \
         apt-transport-https lsb-release ca-certificates
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
@@ -21,8 +21,6 @@ RUN docker-php-ext-configure \
             pdo pdo_mysql pdo_pgsql opcache intl zip calendar dom mbstring gd xsl
 
 RUN pecl install apcu && docker-php-ext-enable apcu
-
-RUN npm install --global yarn
 
 RUN git config --global user.email "you@example.com" \
     &&  git config --global user.name "Your Name"
