@@ -18,4 +18,5 @@ return [
     Tetranz\Select2EntityBundle\TetranzSelect2EntityBundle::class => ['all' => true],
     Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
+    UniceSIL\ShibbolethBundle\UniceSILShibbolethBundle::class => ['all' => true],
 ];
