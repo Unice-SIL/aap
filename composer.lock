@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0e3637824955ba2f0f60ad3549cda9e",
+    "content-hash": "e9f1169aa6407e52e9b956e0711f914c",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -9265,6 +9265,58 @@
             "time": "2022-04-06T06:47:41+00:00"
         },
         {
+            "name": "unicesil/shibboleth-bundle",
+            "version": "v4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Unice-SIL/ShibbolethBundle.git",
+                "reference": "e38580cc818972478b67e753366ca90dd1c36c24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Unice-SIL/ShibbolethBundle/zipball/e38580cc818972478b67e753366ca90dd1c36c24",
+                "reference": "e38580cc818972478b67e753366ca90dd1c36c24",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/framework-bundle": "~4.4",
+                "symfony/security-guard": "~4.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "UniceSIL\\ShibbolethBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frédéric Casazza",
+                    "email": "frederic.casazza@unice.fr"
+                }
+            ],
+            "description": "Shibboleth bundle authentication for Symfony 3+ or 4+",
+            "keywords": [
+                "Authentication",
+                "Guard Authenticator",
+                "Symfony 3",
+                "Symfony 4",
+                "UNS",
+                "Unice",
+                "Unice-SIL",
+                "shibboleth"
+            ],
+            "support": {
+                "issues": "https://github.com/Unice-SIL/ShibbolethBundle/issues",
+                "source": "https://github.com/Unice-SIL/ShibbolethBundle/tree/v4.4.0"
+            },
+            "time": "2021-02-10T10:31:27+00:00"
+        },
+        {
             "name": "vich/uploader-bundle",
             "version": "1.15.0",
             "source": {
@@ -11616,5 +11668,5 @@
     "platform-overrides": {
         "php": "7.2.34"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

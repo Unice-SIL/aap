@@ -717,6 +717,9 @@
     "twig/twig": {
         "version": "v3.0.3"
     },
+    "unicesil/shibboleth-bundle": {
+        "version": "v4.4.0"
+    },
     "vich/uploader-bundle": {
         "version": "1.5",
         "recipe": {
