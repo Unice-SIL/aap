@@ -1,0 +1,7 @@
+unice_sil_shibboleth:
+  login_path: '%env(SHIBB_LOGIN_PATH)%'
+  logout_path: '%env(SHIBB_LOGOUT_PATH)'
+  username: '%env(SHIBB_USERNAME_ATTRIBUTE)%'
+  attributes: '%shibboleth_attributes_list%'
+  login_target : '%env(SHIBB_LOGIN_TARGET)%'
+  logout_target : '%env(SHIBB_LOGOUT_TARGET)%'

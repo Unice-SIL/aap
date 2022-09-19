@@ -474,6 +474,9 @@ $(document).ready(function () {
     $('.knob-render-warning').knob({
         'fgColor': window.getComputedStyle(document.body).getPropertyValue('--warning')
     });
+    $('.knob-render-success').knob({
+        'fgColor': window.getComputedStyle(document.body).getPropertyValue('--success')
+    });
     $('.knob-render-danger').knob({
         'fgColor': window.getComputedStyle(document.body).getPropertyValue('--danger')
     });
@@ -500,6 +503,13 @@ $(document).ready(function () {
         }
 
         batchActionButton.disable(entitiesField.find('option').length < 1);
+    });
+
+    $(document).on('change', '.toggle-multiple-checkboxes', function() {
+        let element = $(this);
+        $('input[type="checkbox"]').filter('[data-toggle-element="'+element.attr('id')+'"]').each(function() {
+            $(this).prop("checked", element.is(":checked"));
+        });
     });
 
     /**

@@ -61,11 +61,11 @@ class User implements UserInterface, \Serializable
     private $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @var string|null The hashed password
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(groups={"edit"})
      */
-    private $password;
+    private $password = null;
 
     /**
      * @var string|null The plain password
@@ -263,7 +263,7 @@ class User implements UserInterface, \Serializable
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return (string) $this->password;
     }
