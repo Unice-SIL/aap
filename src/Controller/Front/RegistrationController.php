@@ -10,6 +10,7 @@ use App\Manager\User\UserManagerInterface;
 use App\Security\UserVoter;
 use App\Utils\Mail\MailHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,6 +29,7 @@ class RegistrationController extends AbstractController
      * @param MailHelper $mailHelper
      * @param InvitationManagerInterface $invitationManager
      * @return Response
+     * @throws Exception
      */
     public function registerForInvitation(
         Request $request,

@@ -386,6 +386,7 @@ app:
       reports:
         label: Reports
       admin:
+        dashboard: Dashboard
         label: Administration
         infos: Informations
         project_form: Configuration

@@ -393,6 +393,7 @@ app:
       reports:
         label: Rapports
       admin:
+        dashboard: Tableau de bord
         label: Administration
         infos: Informations
         project_form: Configuration

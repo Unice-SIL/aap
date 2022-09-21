@@ -41,6 +41,7 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @Security("is_granted(constant('App\\Security\\UserVoter::VIEW_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST'))")
      * @param EntityManagerInterface $em
      * @return Response
      */
