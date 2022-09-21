@@ -22,6 +22,8 @@ class User implements UserInterface, \Serializable
     const AUTH_BASIC = 'basic';
     const AUTH_SHIBBOLETH = 'shibboleth';
 
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid", unique=true)
