@@ -112,10 +112,7 @@
                             </h6>
                         </div>
 
-                        {% if is_granted(constant(
-                            'App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST'), app.user
-                            )
-                        %}
+                        {% if is_granted(constant('App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST')) %}
                             <div class="col-6 px-5 mt-2">
                                 <div class="form-group">
                                     <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>

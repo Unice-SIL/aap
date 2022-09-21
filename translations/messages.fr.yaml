@@ -16,20 +16,20 @@ app:
       creator_lastname: Nom du créateur du projet
     property:
       name:
-        label: 'Nom'
+        label: Nom
       subject:
-        label: 'Sujet'
+        label: Sujet
       body:
-        label: 'Corps'
+        label: Corps
 
   batch_action:
     add_reporter: Ajouter des rapporteurs
     delete: Supprimer
     button:
-      label: 'Actions'
-    action_announcement: Vou souhaitez effectuer l'action "%name_action%" pour les éléments suivants
-    success: 'Les éléments ont été modifiés avec succès'
-    no_action: 'Aucune action'
+      label: Actions
+    action_announcement: Vous souhaitez effectuer l'action "%name_action%" pour les éléments suivants
+    success: Les éléments ont été modifiés avec succès
+    no_action: Aucune action
   acl:
     property:
       label: Permissions
@@ -39,7 +39,7 @@ app:
       admin: Administrateur
   data:
     no_communicate: Non renseigné(e)
-    none: 'Aucun(e)'
+    none: Aucun(e)
   breadcrumb:
     main:
       app:
@@ -53,7 +53,7 @@ app:
           dictionary:
             label: Listes
             new: Nouveau
-            edit: Edition
+            edit: Édition
             show: Vue
           invitation:
             index: Invitations
@@ -61,29 +61,32 @@ app:
             label: Groupes
             new: Nouveau
             show: Vue
-            edit: Edition
+            edit: Édition
           project_form_layout:
             label: Modèles de formulaires
             new: Nouveau
             configure: Configuration
             show: Vue
-            edit: Edition
+            edit: Édition
           organizing_center:
-            edit: Edition
+            edit: Édition
             show: Vue
             new: Nouveau
             label: Centres Organisateurs
           user:
-            edit: Edition
+            edit: Édition
             show: Vue
             new: Nouveau
             label: Utilisateurs
+          mail_template:
+            index: Modèles de mails
+            edit: Édition d'un modèle de mail
         call_of_project:
           presentation_before_adding_project: Récapitulatif de l'appel à projets
           mail_template: Modèle d'email
           batch_action: Actions Groupées
           all: Ouvert ou fermé
-          edit_permissions: Edition des permissions
+          edit_permissions: Édition des permissions
           add_project: Ajouter un projet
           projects: Liste des projets
           reports: Liste des rapports
@@ -94,7 +97,7 @@ app:
           label: Appel à projet
           delete_form: Supprimer
         project:
-          edit: Edition
+          edit: Édition
           show: Vue
           label: Projet
         home:
@@ -105,16 +108,16 @@ app:
   group:
     property:
       name:
-        label: 'Nom'
+        label: Nom
       members:
-        label: 'membres'
-    label: 'Groupe'
+        label: membres
+    label: Groupe
   project_form_layout:
     select_2:
       placeholder: Selectionnez un modèle
     property:
       name:
-        label: 'Nom'
+        label: Nom
   form:
     widget:
       choices:
@@ -152,8 +155,8 @@ app:
         label: Label
     type:
       bootstrap_switch:
-        yes: 'Oui'
-        no: 'Non'
+        yes: Oui
+        no: Non
 
   login:
     form:
@@ -165,13 +168,13 @@ app:
         submit: Se connecter
       logout: Se déconnecter
       connected_as: Vous êtes connecté en tant que
-    via_university_credentials: 'Vous authentifier avec vos identifiants universitaires'
-    password_forgot: 'Mot de passe oublié'
+    via_university_credentials: Vous authentifier avec vos identifiants universitaires
+    password_forgot: Mot de passe oublié
   table:
     no_results_found: Aucun élément n'a été trouvé
   project_content:
     form:
-      no_communicate: 'Non renseigné'
+      no_communicate: Non renseigné
   project:
     validation:
       validation:
@@ -180,9 +183,9 @@ app:
         label: Ne pas retenir le projet
     validation_form:
       automatic_sending:
-        label: 'Envoie du mail automatique'
+        label: Envoie du mail automatique
     action:
-      add_reporters: 'Ajouter des rapporteurs'
+      add_reporters: Ajouter des rapporteurs
     workflow:
       to_study:
         button: Lancer l'étude des projets
@@ -210,22 +213,22 @@ app:
       h1: Liste de vos projets
       add_project: Déposer un projet
     edit:
-      h1: 'Editer le projet'
+      h1: Éditer le projet
     show:
-      h1: 'Voir le projet'
+      h1: Voir le projet
     informations:
-      label: 'Informations'
+      label: Informations
     report:
-      label: 'Rapports'
+      label: Rapports
     validation_refusal:
-      label: 'Valider / Refuser'
-      card_header_title: 'Valider / Refuser'
+      label: Valider / Refuser
+      card_header_title: Valider / Refuser
     refusal_project:
-      modal_title: 'Refus du projet'
+      modal_title: Refus du projet
     validation_project:
-      modal_title: 'Validation du projet'
+      modal_title: Validation du projet
     reports:
-      card_header_title: 'Rapports'
+      card_header_title: Rapports
   reports:
     property:
       reporter: Rapporteur
@@ -292,32 +295,34 @@ app:
     dates: Dates
     open_date:
       label: Date d'ouverture au dépôt de projets
-    opened_date: 'Ouverture du %startDate% au %endDate%'
+    opened_date: Ouverture du %startDate% au %endDate%
     index:
-      h1: 'Liste de vos appels à projets'
+      h1: Liste de vos appels à projets
     all:
       h1: Dépôt d'un nouveau projet
       select_opened_cap: Veuillez sélectionner un appel à projets actuellement ouvert dans la liste ci-dessous
     add_project:
       h1: Dépôt d'un nouveau projet
       not_opened: Ce projet n'est pas ouvert
+      mail:
+        subject: Dépôt d'un nouveau projet sur %call_of_project%
     show_permissions:
-      h1: 'Liste des permissions'
+      h1: Liste des permissions
     own_acls: Permissions de l'appel à projets
     own_inherited_from_organizing_center: Permissions héritées du centre organisateur
     batch_action:
-      h1: 'Actions Groupées'
+      h1: Actions Groupées
     mail_template:
-      h1: 'Modèle d''email'
-    presenation_before_adding_project:
+      h1: Modèle d'email
+    presentation_before_adding_project:
       h1: Récapitulatif de l'appel à projets
     action:
-      drop_new_project: 'Déposer un projet'
-      label: 'Actions'
+      drop_new_project: Déposer un projet
+      label: Actions
     closed_date:
-      label: 'Date de fermeture au dépôts de projets'
+      label: Date de fermeture au dépôts de projets
     delete_form:
-      h1: 'Supprimer l''appel à projet'
+      h1: Supprimer l'appel à projets
   dashboard:
     my_calls_of_project:
       title: Mes appels à projets
@@ -330,22 +335,22 @@ app:
     call_of_projects_dropped: ]-Inf,1]Appel à projets|]1,Inf]Appels à projets
     reports_complete: ]-Inf,1]Rapport complété ou terminé|]1,Inf]Rapports complétés ou terminés
     reports_to_complete: ]-Inf,1]Rapport à compléter|]1,Inf]Rapports à compléter
-    drop_new_project: 'Déposer un nouveau projet'
-    create_new_call_of_projects: 'Créer un nouvel appel à projets'
+    drop_new_project: Déposer un nouveau projet
+    create_new_call_of_projects: Créer un nouvel appel à projets
     last_dropped_projects: ]-Inf,1]Dernier projet déposé|]1,Inf]Derniers projets déposés
-    list_all_projects: 'Voir la liste complète de mes projets'
+    list_all_projects: Voir la liste complète de mes projets
     last_dropped_call_of_project: ]-Inf,1]Dernier appel à projet déposé|]1,Inf]Derniers appels à projets déposés
-    list_all_call_of_projects: 'Voir la liste complète de mes appels à projets'
+    list_all_call_of_projects: Voir la liste complète de mes appels à projets
   navbar:
     item:
       dashboard:
         label: Tableau de bord
       my_projects:
-        label: 'Mes Projets'
+        label: Mes Projets
       my_repports:
-        label: 'Mes rapports'
+        label: Mes rapports
       my_call_of_projects:
-        label: 'Mes appels à projets'
+        label: Mes appels à projets
       my_profile:
         label: Mon profil
       administration:
@@ -355,11 +360,11 @@ app:
       help:
         label: Aide
       my_invitations:
-        label: 'Invitations envoyées'
+        label: Invitations envoyées
       notification:
         label: ']-Inf,1]Notification|]1,Inf]Notifications'
       user:
-        label: 'Mon profile'
+        label: Mon profil
   action:
     add: Ajouter
     label: Actions
@@ -372,12 +377,15 @@ app:
     list_all: Tout voir
     canceled: Annuler
     duplicate: Dupliquer
-    trash: 'Corbeille'
-    back_to_view: 'Revenir à la vue'
-    back_to_list: 'Revenir à la liste'
-    configure: 'Configurer'
-    export: 'Exporter'
-    import: 'Importer'
+    trash: Corbeille
+    back_to_view: Revenir à la vue
+    back_to_list: Revenir à la liste
+    configure: Configurer
+    export: Exporter
+    import: Importer
+    toggle_subscription:
+      on: Suivre l'appel à projet
+      off: Ne plus suivre l'appel à projet
   sidebar:
     item:
       projects:
@@ -385,37 +393,37 @@ app:
       reports:
         label: Rapports
       admin:
-        label: 'Administration'
-        infos: 'Informations'
-        dashboard: 'Tableau de bord'
-        project_form: 'Configuration'
-        permissions: 'Permissions'
-        widget: 'Formulaire projet'
-        mail_template: 'Modèle email'
-        delete_form: 'Supprimer l''appel'
+        dashboard: Tableau de bord
+        label: Administration
+        infos: Informations
+        project_form: Configuration
+        permissions: Permissions
+        widget: Formulaire projet
+        mail_template: Modèle email
+        delete_form: Supprimer l'appel
     admin:
       user:
-        label: 'Utilisateurs'
+        label: Utilisateurs
       organizing_center:
         label: Centres Organisateurs
       project_form_layout:
-        label: 'Modèles de formulaires'
+        label: Modèles de formulaires
       group:
-        label: 'Groupes'
+        label: Groupes
       mail_template:
-        label: 'Modèle de mails'
+        label: Modèle de mails
       invitation:
-        label: 'Invitations'
+        label: Invitations
       dictionary:
-        label: 'Listes'
+        label: Listes
   widget:
     html_widget:
       label: Textes
     form_widget:
       label: Questions
       category:
-        general: 'Général'
-        advanced: 'Paramètres avancés'
+        general: Général
+        advanced: Paramètres avancés
     App\Widget\FormWidget\UniqueSelectWidget: Liste déroulante
     App\Widget\FormWidget\CheckboxWidget: Choix multiple
     App\Widget\FormWidget\RadioboxWidget: Choix unique
@@ -433,30 +441,30 @@ app:
       title: Ajouter un widget
     widget_form:
       action:
-        close: 'Annuler'
-        save: 'Enregistrer'
-        reactivate: 'Réactiver'
+        close: Annuler
+        save: Enregistrer
+        reactivate: Réactiver
     call_of_project_informations_form:
-      title: Editer l'appel à projets
+      title: Éditer l'appel à projets
     deadline:
-      title: 'Modification de la date butoir'
+      title: Modification de la date butoir
   project_form_widget:
     select_2:
       placeholder: Sélectionner un widget
     humanize: Widget
     modal:
-      trash_warning_title: 'Êtes-vous sûr de vouloir mettre ce widget dans la corbeille?'
-      reactivate_warning_title: 'Êtes-vous sûr de vouloir réactiver ce widget?'
-      delete_warning_title: 'Êtes-vous sûr de vouloir supprimer ce widget?'
-    edition_on_trash_widget_denied: 'Vous ne pouvez pas modifier un widget dans la corbeille '
+      trash_warning_title: Êtes-vous sûr de vouloir mettre ce widget dans la corbeille?
+      reactivate_warning_title: Êtes-vous sûr de vouloir réactiver ce widget?
+      delete_warning_title: Êtes-vous sûr de vouloir supprimer ce widget?
+    edition_on_trash_widget_denied: Vous ne pouvez pas modifier un widget dans la corbeille
   flash_message:
     success: Ajout de l'élément "%item%" réalisé avec succès
     edit_success: Modification de l'élément %item% réalisée avec succès
     create_success: Création de l'élément %item% réalisée avec succès
     delete_success: Suppression de l'élément %item% réalisée avec succès
-    error_project_to_study: Echec du passage à l'étude du projet %item%
-    error_project_validate: Echec de la validation du projet %item%
-    error_project_refused: Echec du refus du projet %item%
+    error_project_to_study: Échec du passage à l'étude du projet %item%
+    error_project_validate: Échec de la validation du projet %item%
+    error_project_refused: Échec du refus du projet %item%
     success_project_validate: Validation du projet %item% réalisée avec succès
     success_project_refused: Refus du projet %item% réalisé avec succès
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
@@ -466,70 +474,72 @@ app:
     copyright: Tous droits reservés
   common:
     trash:
-      label: 'Corbeille'
-      no_element: 'Aucun élément dans la corbeille'
-  call_of_project_label: 'Appel à projets'
+      label: Corbeille
+      no_element: Aucun élément dans la corbeille
+  call_of_project_label: Appel à projets
   dictionary_label: Liste
   file:
-    current_file: 'Fichier actuel'
+    current_file: Fichier actuel
   admin:
     group:
       index:
         h1: Liste des groupes
       new:
-        h1: 'Nouveau Groupe'
+        h1: Nouveau Groupe
       show:
-        h1: 'Vue sur le groupe'
+        h1: Vue sur le groupe
       edit:
-        h1: 'Modifier le groupe'
+        h1: Modifier le groupe
     user:
       index:
-        h1: 'Liste des utilisateurs'
+        h1: Liste des utilisateurs
       new:
-        h1: 'Nouvel utilisateur'
+        h1: Nouvel utilisateur
       show:
-        h1: 'Vue sur l''utilisateur'
+        h1: Vue sur l'utilisateur
       edit:
-        h1: 'Modifier l''utilisateur'
+        h1: Modifier l'utilisateur
     organizing_center:
       index:
         h1: Liste des centres organisateurs
       new:
-        h1: 'Nouveau Centre Organisateur'
+        h1: Nouveau Centre Organisateur
       show:
-        h1: 'Vue sur le centre organisateur'
+        h1: Vue sur le centre organisateur
       edit:
-        h1: 'Modifier le centre organisateur'
+        h1: Modifier le centre organisateur
     project_form_layout:
       index:
-        h1: 'Liste des modèles de formulaires'
+        h1: Liste des modèles de formulaires
       new:
-        h1: 'Nouveau modèle de formulaire'
+        h1: Nouveau modèle de formulaire
       configure:
-        h1: 'Configuration du modèle de formulaire'
+        h1: Configuration du modèle de formulaire
       show:
-        h1: 'Vue sur le modèle de formulaire'
+        h1: Vue sur le modèle de formulaire
       edit:
-        h1: 'Editer le modèle de formulaire'
+        h1: Éditer le modèle de formulaire
     mail_template:
       index:
-        h1: 'Liste de modèles de mails'
+        h1: Liste de modèles de mails
+      edit:
+        h1: Édition d'un modèle de mail
     invitation:
       index:
-        h1: 'Liste des invitations'
+        h1: Liste des invitations
     dictionary:
       index:
-        h1: 'Liste des dictionnaires'
+        h1: Liste des dictionnaires
       new:
-        h1: 'Nouvelle liste'
+        h1: Nouvelle liste
       edit:
-        h1: 'Editer la liste'
+        h1: Éditer la liste
       show:
-        h1: 'Vue sur la liste'
+        h1: Vue sur la liste
   user:
     label: Utilisateur(s)
     select_2:
-      placeholder: Selectionnez un utilisateur
+      placeholder: Sélectionnez un utilisateur
     property:
       plain_password_repeated:
         label: Confirmation du mot de passe
@@ -543,14 +553,14 @@ app:
         label: Prénom
       lastname:
         label: Nom
-    singular_label: 'Utilisateur'
+    singular_label: Utilisateur
     show_my_profile:
-      h1: 'Mon profil'
+      h1: Mon profil
     edit_my_profile:
-      h1: 'Modifier mon profil'
+      h1: Modifier mon profil
   organizing_center:
     select_2:
-      placeholder: Selectionnez un centre organisateur
+      placeholder: Sélectionnez un centre organisateur
     property:
       members:
         label:  Membres
@@ -560,35 +570,35 @@ app:
     notify_reporters_by_mail: Notifier les nouveaux rapporteurs par mail
     property:
       report_file:
-        label: Element(s) du rapport
+        label: Élement(s) du rapport
       comment:
-        label: 'Commentaire'
+        label: Commentaire
       status:
-        label: 'Statut'
+        label: Statut
       created_by:
-        label: 'Crée par'
+        label: Crée par
       reporter:
-        label: 'Rapporteur'
+        label: Rapporteur
       dead_line:
-        label: 'Date butoir'
+        label: Date butoir
       project_name:
-        label: 'Nom du projet'
+        label: Nom du projet
       file:
-        label: 'Element(s) du rapport'
+        label: Élement(s) du rapport
     index:
-      h1: 'Liste de vos rapports'
+      h1: Liste de vos rapports
     edit:
-      h1: 'Renseigner le rapport'
+      h1: Renseigner le rapport
     show:
-      h1: 'Vue sur le rapport'
-    inform_report: 'Renseigner le rapport'
+      h1: Vue sur le rapport
+    inform_report: Renseigner le rapport
     modal:
-      remove_warning_title: 'Etes-vous sûr de vouloir retirer ce rapporteur du projet'
-      remove_warning_label_button: 'Retirer'
+      remove_warning_title: Êtes-vous sûr de vouloir retirer ce rapporteur du projet ?
+      remove_warning_label_button: Retirer
     action:
-      change_deadline: 'Modifier date butoir'
-  page_not_found: 'Cette page n''existe pas'
-  error_occured: 'Une erreur est survenue'
+      change_deadline: Modifier date butoir
+  page_not_found: Cette page n'existe pas
+  error_occured: Une erreur est survenue
 
   help:
     title: Aide
@@ -607,57 +617,57 @@ app:
       project_my_list: Consulter la liste de mes projets
 
   keyword:
-    call_of_projects: 'appel à projets'
-    create: 'créer'
-    edit: 'éditer, modifier'
-    list: 'liste'
-    information: 'informations'
-    project: 'projet'
-    projects: 'projets'
-    submit: 'déposer, soumettre'
-    view: 'consulter, vue, voir'
+    call_of_projects: appel à projets
+    create: créer
+    edit: éditer, modifier
+    list: liste
+    information: informations
+    project: projet
+    projects: projets
+    submit: déposer, soumettre
+    view: consulter, vue, voir
   registration:
     invitation_sent: Invitation envoyée avec succès
     invitation_link: Inviter une personne
-    invitation_ongoing: 'Invitation en cours'
-    invitation_form_title: 'Inviter une personne'
-    invitation_button_label: 'Inviter'
+    invitation_ongoing: Invitation en cours
+    invitation_form_title: Inviter une personne
+    invitation_button_label: Inviter
   invitation:
     property:
       recipient_full_name:
-        label: 'Invité(e)'
+        label: Invité(e)
       recipient_email:
-        label: 'Email'
+        label: Email
       sender_full_name:
-        label: 'Envoyée par'
+        label: Envoyée par
       createdAt:
-        label: 'Créee le '
+        label: Créee le
       acceptedAt:
-        label: 'Acceptée le'
+        label: Acceptée le
       sentAt:
-        label: 'Envoyée le'
+        label: Envoyée le
     modal:
-      remove_warning_title: 'Etes-vous sûr de vouloir supprimer cette invitation. '
-      detail_remove_warning_title: 'Les données rattachées à cette invitation seront supprimées (rapports, affectation à un groupe, ...).'
-      remove_warning_label_button: 'Supprimer l''invitation'
-      resend_warning_title: 'Etes-vous sûr de vouloir réenvoyer l''invitation'
-      resend_warning_label_button: 'Réenvoyer'
+      remove_warning_title: Êtes-vous sûr de vouloir supprimer cette invitation.
+      detail_remove_warning_title: Les données rattachées à cette invitation seront supprimées (rapports, affectation à un groupe, ...).
+      remove_warning_label_button: Supprimer l'invitation
+      resend_warning_title: Êtes-vous sûr de vouloir réenvoyer l'invitation
+      resend_warning_label_button: Réenvoyer
   notifications:
     modal:
-      remove_warning_title: 'Etes-vous sûr de vouloir supprimer toutes vos notifications.'
-      remove_warning_label_button: 'Supprimer'
+      remove_warning_title: Êtes-vous sûr de vouloir supprimer toutes vos notifications.
+      remove_warning_label_button: Supprimer'
     project_validated: Votre projet %project% a été validé
     project_refused: Votre projet %project% a été refusé
   authentication:
     shibboleth:
-      button_label: 'Connexion'
+      button_label: Connexion
 
   message:
-    first_connection: "<p>Bienvenue %firstname%,</p><p>Si vous avez besoin d'aide n'hésitez à cliquer sur l'icône <i class='far fa-question-circle'></i> située en haut à droite dans le menu de navigation</p>"
+    first_connection: "<p>Bienvenue %firstname%,</p><p>Si vous avez besoin d'aide n'hésitez pas à cliquer sur l'icône <i class='far fa-question-circle'></i> située en haut à droite dans le menu de navigation</p>"
   dictionary:
     property:
       name:
-        label: 'Nom'
+        label: Nom
       dictionary_contents:
         label: Options
 

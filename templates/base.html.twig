@@ -21,21 +21,23 @@
             {% include 'partial/modal/_alert_form.html.twig' %}
         {% endblock %}
 
-        {% for label, messages in app.flashes %}
+        {% block messages %}
+            {% for label, messages in app.flashes %}
 
-            {% if constant('App\\Constant\\CssMatching::BOOTSTRAP_TO_TOASTR')[label] is defined %}
-                {% set label = constant('App\\Constant\\CssMatching::BOOTSTRAP_TO_TOASTR')[label] %}
-            {% endif %}
+                {% if constant('App\\Constant\\CssMatching::BOOTSTRAP_TO_TOASTR')[label] is defined %}
+                    {% set label = constant('App\\Constant\\CssMatching::BOOTSTRAP_TO_TOASTR')[label] %}
+                {% endif %}
 
-            {% for message in messages %}
-                <div
-                        class="flash-message d-none"
-                        data-label="{{ label }}"
-                        data-message="{{ message|trans|raw }}">
-                    {{ message|raw }}
-                </div>
+                {% for message in messages %}
+                    <div
+                            class="flash-message d-none"
+                            data-label="{{ label }}"
+                            data-message="{{ message|trans|raw }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
+        {% endblock %}
 
         {% block body %}{% endblock %}
 
