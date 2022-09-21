@@ -33,12 +33,14 @@
                     {{ 'app.navbar.item.my_projects.label'|trans }}
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app.report.index') }}">
-                    <i class="fas fa-scroll"></i>
-                    {{ 'app.navbar.item.my_repports.label'|trans }}
-                </a>
-            </li>
+            {% if app.user.reports|length > 0 %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app.report.index') }}">
+                        <i class="fas fa-scroll"></i>
+                        {{ 'app.navbar.item.my_repports.label'|trans }}
+                    </a>
+                </li>
+            {% endif %}
             {% if is_granted(constant('App\\Security\\UserVoter::VIEW_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST')) %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app.call_of_project.index') }}">
