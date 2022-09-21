@@ -653,7 +653,7 @@ app:
     project_refused: Your project %project% has been refused
   authentication:
     shibboleth:
-      button_label: Connexion
+      button_label: UCA login
 
   message:
     first_connection: "<p>Welcome %firstname%,</p><p>If you need help do not hesitate to click on the icon <i class='far fa-question-circle'></i> in the top right corner of your navigation menu</p>"

@@ -12,9 +12,9 @@
 
                     <div class="col border-right py-3 px-5">
                         <img src="{{ asset('build/logo2.png') }}" alt="{{ app_name }}" class="img-fluid mb-3" style="max-width: 200px;">
-                        <h3 class="mb-2">{{ 'app.login.via_university_credentials'|trans }}</h3>
+                        <h3 class="mb-3">{{ 'app.login.via_university_credentials'|trans }}</h3>
                         <a href="{{ path('app.shibboleth_login', {'_target_path' : app.request.session.get('_security.basic.target_path')}) }}"
-                           class="btn btn-block btn-primary">
+                           class="btn btn-block btn-lg btn-primary">
                             {{ 'app.authentication.shibboleth.button_label'|trans }}
                         </a>
                     </div>
@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <input
                                         type="text" value="{{ last_username }}" name="username"
-                                        id="inputUsername" class="form-control" required autofocus
+                                        id="inputUsername" class="form-control" required
                                         placeholder="{% trans %}app.login.form.username.label{% endtrans %}"
                                 >
                             </div>
@@ -48,17 +48,6 @@
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('authenticate') }}"
                             >
-
-                            {#
-                                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                                See https://symfony.com/doc/current/security/remember_me.html
-
-                                <div class="checkbox mb-3">
-                                    <label>
-                                        <input type="checkbox" name="_remember_me"> Remember me
-                                    </label>
-                                </div>
-                            #}
                             <div class="form-group">
                                 <button class="btn btn-lg btn-primary" type="submit">
                                     {% trans %}app.login.form.button.submit{% endtrans %}
