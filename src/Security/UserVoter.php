@@ -9,6 +9,7 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Security;
 
 class UserVoter extends Voter
 {
@@ -24,12 +25,19 @@ class UserVoter extends Voter
     private $authorizationChecker;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * CallOfUserVoter constructor.
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param Security $security
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, Security $security)
     {
         $this->authorizationChecker = $authorizationChecker;
+        $this->security = $security;
     }
 
     protected function supports($attribute, $subject)
@@ -43,29 +51,26 @@ class UserVoter extends Voter
             ])) {
             return false;
         }
-        // only vote on `User` objects
-        if (!$subject instanceof User) {
-            return false;
-        }
 
         return true;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        $user = $token->getUser();
-
-        if (!$user instanceof User) {
-            // the user must be logged in; if not, deny access
-            return false;
-        }
-
-        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
 
         /** @var User $user */
         $user = $subject;
+
+        if (!$user instanceof User) {
+            $user = $token->getUser();
+            // the user must be logged in; if not, deny access
+            if (!$user instanceof User) return false;
+        }
+
+        if ($this->authorizationChecker->isGranted(User::ROLE_ADMIN)) {
+            return true;
+        }
+
 
         switch ($attribute) {
             case self::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST:

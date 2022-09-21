@@ -22,6 +22,7 @@ use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -79,6 +80,7 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
+     * @Security("is_granted(constant('App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST'))")
      * @param Request $request
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @return Response

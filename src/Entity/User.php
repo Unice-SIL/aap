@@ -93,7 +93,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActive = false;
+    private $isActive = true;
 
     /**
      * @ORM\OneToOne(targetEntity=Invitation::class, mappedBy="user", cascade={"persist"})
