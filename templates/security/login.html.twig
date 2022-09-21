@@ -10,8 +10,8 @@
             <div class="card-body login-card-body text-center">
                 <div class="row">
 
-                    <div class="col border-right p-5">
-
+                    <div class="col border-right py-3 px-5">
+                        <img src="{{ asset('build/logo2.png') }}" alt="{{ app_name }}" class="img-fluid mb-3" style="max-width: 200px;">
                         <h3 class="mb-2">{{ 'app.login.via_university_credentials'|trans }}</h3>
                         <a href="{{ path('app.shibboleth_login', {'_target_path' : app.request.session.get('_security.basic.target_path')}) }}"
                            class="btn btn-block btn-primary">
