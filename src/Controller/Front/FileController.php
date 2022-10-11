@@ -9,6 +9,7 @@ use App\Entity\ProjectContent;
 use App\Entity\Report;
 use App\Entity\WidgetFile;
 use App\Utils\Zip\ZipHelper;
+use Exception;
 use League\Csv\Writer;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -16,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -89,12 +91,17 @@ class FileController extends AbstractController
      * @IsGranted(App\Security\CallOfProjectVoter::EDIT, subject="callOfProject")
      * @return Response
      */
-    public function getZipFromCallOfProject(CallOfProject $callOfProject, ZipHelper $zipHelper)
+    public function getZipFromCallOfProject(CallOfProject $callOfProject, ZipHelper $zipHelper, Request $request)
     {
-        $zipHelper->createZipFromCallOfProject($callOfProject, [
-            'sentHttpHeaders' => true
-        ]);
+        try {
+            $zipHelper->createZipFromCallOfProject($callOfProject, [
+                'sentHttpHeaders' => true
+            ]);
 
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute($request->get('_route'));
+        }
         return new Response();
     }
 }

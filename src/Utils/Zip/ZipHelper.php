@@ -5,6 +5,7 @@ namespace App\Utils\Zip;
 
 
 use App\Entity\CallOfProject;
+use App\Entity\ProjectContent;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -63,7 +64,7 @@ class ZipHelper
 
                 //If the value we add the file in a directory with project name as name and we set an url into the cell
                 //to be able to open the file directly from index.xlsx
-                if ($widget->isFileWidget()) {
+                if ($widget->isFileWidget() && $projectContent->getContent() !== null) {
                     //adds file in appropriate project directory
                     $zip->addFileFromPath($project->getName() . '/'. $projectContent->getStringContent(), $projectContent->getContent()->getPathName());
                     //sets a link on the value to open directly the file
