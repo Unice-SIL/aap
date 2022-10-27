@@ -108,26 +108,6 @@ class OrganizingCenterController extends AbstractController
     }
 
     /**
-     * @Route("/list-by-user-and-permissions-select-2", name="list_by_user_and_permissions_select_2", methods={"GET"})
-     * @param Request $request
-     * @param OrganizingCenterRepository $organizingCenterRepository
-     * @return JsonResponse
-     */
-    public function listByUserSelect2(Request $request, OrganizingCenterRepository $organizingCenterRepository)
-    {
-
-        $query = $request->query->get('q');
-
-        $organizingCenters = array_map(function ($organizingCenter) {
-            return [
-                'id' => $organizingCenter->getId(),
-                'text' => $organizingCenter->getName()
-            ];
-        }, $organizingCenterRepository->getByUserPermissionsLikeQuery($this->getUser(), $query));
-        return $this->json($organizingCenters);
-    }
-
-    /**
      * Route("/{id}", name="delete", methods={"DELETE"})
      * @param Request $request
      * @param OrganizingCenter $organizingCenter
