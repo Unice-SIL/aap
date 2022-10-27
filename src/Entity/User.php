@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,6 +21,8 @@ class User implements UserInterface, \Serializable
 
     const AUTH_BASIC = 'basic';
     const AUTH_SHIBBOLETH = 'shibboleth';
+
+    const ROLE_ADMIN = 'ROLE_ADMIN';
 
     /**
      * @ORM\Id()
@@ -60,11 +63,11 @@ class User implements UserInterface, \Serializable
     private $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @var string|null The hashed password
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(groups={"edit"})
      */
-    private $password;
+    private $password = null;
 
     /**
      * @var string|null The plain password
@@ -90,7 +93,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActive = false;
+    private $isActive = true;
 
     /**
      * @ORM\OneToOne(targetEntity=Invitation::class, mappedBy="user", cascade={"persist"})
@@ -119,6 +122,15 @@ class User implements UserInterface, \Serializable
     private $elements;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\Common", inversedBy="subscribers")
+     * @JoinTable(name="subscription")
+     */
+
+    private $subscriptions;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -128,6 +140,7 @@ class User implements UserInterface, \Serializable
         $this->groups = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->elements = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
 
@@ -252,7 +265,7 @@ class User implements UserInterface, \Serializable
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return (string) $this->password;
     }
@@ -450,6 +463,58 @@ class User implements UserInterface, \Serializable
     public function setLastConnection(?\DateTimeInterface $lastConnection): self
     {
         $this->lastConnection = $lastConnection;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    /**
+     * @param Collection $subscriptions
+     * @return User
+     */
+    public function setSubscriptions(Collection $subscriptions): User
+    {
+        $this->subscriptions = $subscriptions;
+        return $this;
+    }
+
+    /**
+     * @param Common $subscription
+     * @return User
+     */
+    public function addSubscription(Common $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions->add($subscription);
+            if (!$subscription->getSubscribers()->contains($this))
+            {
+                $subscription->getSubscribers()->add($this);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Common $subscription
+     * @return User
+     */
+    public function removeSubscription(Common $subscription): self
+    {
+        if ($this->subscriptions->contains($subscription)) {
+            $this->subscriptions->removeElement($subscription);
+            if ($subscription->getSubscribers()->contains($this))
+            {
+                $subscription->getSubscribers()->removeElement($this);
+            }
+        }
 
         return $this;
     }

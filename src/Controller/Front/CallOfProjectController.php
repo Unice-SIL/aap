@@ -4,13 +4,15 @@ namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
 use App\Entity\Project;
-use App\Form\CallOfProject\CallOfProjectInformationType;
+use App\Entity\User;
 use App\Form\CallOfProject\CallOfProjectAclsType;
+use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\DeleteType;
 use App\Form\CallOfProject\MailTemplateType;
 use App\Form\Project\ProjectToStudyType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
+use App\Manager\User\UserManagerInterface;
 use App\Repository\CallOfProjectRepository;
 use App\Security\CallOfProjectVoter;
 use App\Security\OrganizingCenterVoter;
@@ -19,8 +21,8 @@ use App\Utils\Batch\AddReportBatchAction;
 use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,6 +41,7 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @Security("is_granted(constant('App\\Security\\UserVoter::VIEW_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST'))")
      * @param EntityManagerInterface $em
      * @return Response
      */
@@ -78,6 +81,7 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
+     * @Security("is_granted(constant('App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST'))")
      * @param Request $request
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @return Response
@@ -118,8 +122,8 @@ class CallOfProjectController extends AbstractController
      * @param WidgetManager $widgetManager
      * @param TranslatorInterface $translator
      * @return Response
-     * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
      * @throws \Exception
+     * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
      */
     public function addProject(
         CallOfProject $callOfProject,
@@ -137,12 +141,12 @@ class CallOfProjectController extends AbstractController
         $dynamicForm->handleRequest($request);
 
         if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
-
             $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
 
             $projectManager->save($project);
 
             $this->addFlash('success', $translator->trans('app.flash_message.create_success', ['%item%' => $project->getName()]));
+
 
             return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
@@ -202,6 +206,31 @@ class CallOfProjectController extends AbstractController
             'form' => $form->createView(),
             'open_edition_form_modal' => $openEditionFormModal
         ]);
+    }
+
+    /**
+     * @Route("/{id}/toggle-subscription", name="toggle_subscription")
+     * @param CallOfProject $callOfProject
+     * @param UserManagerInterface $userManager
+     * @param Request $request
+     * @return Response
+     */
+    public function toggleSubscription(CallOfProject $callOfProject, UserManagerInterface $userManager, Request $request)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($user->getSubscriptions()->contains($callOfProject))
+        {
+            $user->removeSubscription($callOfProject);
+        }
+        else
+        {
+            $user->addSubscription($callOfProject);
+        }
+
+        $userManager->update($user);
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**
@@ -509,6 +538,7 @@ class CallOfProjectController extends AbstractController
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @param Request $request
      * @param TranslatorInterface $translator
+     * @return RedirectResponse|Response
      */
     public function editMailTemplate(
         CallOfProject $callOfProject,

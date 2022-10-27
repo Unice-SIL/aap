@@ -11,10 +11,13 @@
 {% block content %}
     <div class="card">
         <div class="card-body">
-            <div class=" py-3">
-                <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary float-right">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>
-                <div class="clearfix"></div>
-            </div>
+            {% if is_granted(constant('App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST')) %}
+                <div class=" py-3">
+                    <a href="{{ path('app.call_of_project.new') }}" class="btn btn-primary float-right">{{ 'app.dashboard.create_new_call_of_projects'|trans }}</a>
+
+                    <div class="clearfix"></div>
+                </div>
+            {% endif %}
             <div class="table-responsive">
                 <table
                         class="table m-0 table-hover dataTable"

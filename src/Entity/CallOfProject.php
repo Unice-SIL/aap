@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,11 +43,12 @@ class CallOfProject extends Common
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="callOfProject", orphanRemoval=true)
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $projects;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
      * @Assert\DateTime
@@ -54,7 +56,7 @@ class CallOfProject extends Common
     private $startDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
      * @Assert\DateTime
@@ -266,33 +268,33 @@ class CallOfProject extends Common
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    public function getStartDate(): ?\DateTime
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
     /**
-     * @param \DateTime|null $startDate
+     * @param DateTime|null $startDate
      */
-    public function setStartDate(?\DateTime $startDate): void
+    public function setStartDate(?DateTime $startDate): void
     {
         $this->startDate = $startDate;
     }
 
     /**
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    public function getEndDate(): ?\DateTime
+    public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }
 
     /**
-     * @param \DateTime|null $endDate
+     * @param DateTime|null $endDate
      */
-    public function setEndDate(?\DateTime $endDate): void
+    public function setEndDate(?DateTime $endDate): void
     {
         $this->endDate = $endDate;
     }
@@ -302,7 +304,7 @@ class CallOfProject extends Common
      */
     public function getStatus(): string
     {
-        $currentDate = new \DateTime();
+        $currentDate = new DateTime();
         if ($currentDate < $this->getStartDate()) {
             return self::STATUS_CLOSED;
         } elseif ($this->getStartDate() <= $currentDate and $currentDate <= $this->getEndDate()) {

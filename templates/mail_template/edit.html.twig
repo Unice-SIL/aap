@@ -11,12 +11,20 @@
 {% block content %}
     <div class="card">
         <div class="card-body">
+            <div class="callout callout-info">
+                <strong>Variables disponibles :</strong>
+                <ul class="list-unstyled">
+                    {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS') %}
+                        <li>{{ placeholder }} => {{ legend|trans }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
             {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button type="submit" class="btn btn-primary mr-3">{{ 'app.action.edit'|trans }}</button>
-                <a href="{{ path('app.admin.mail_template.index') }}" class="text-muted">
-                    {{ 'app.action.canceled'|trans }}
-                </a>
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary mr-3">{{ 'app.action.edit'|trans }}</button>
+            <a href="{{ path('app.admin.mail_template.index') }}" class="text-muted">
+                {{ 'app.action.canceled'|trans }}
+            </a>
             {{ form_end(form) }}
         </div>
     </div>

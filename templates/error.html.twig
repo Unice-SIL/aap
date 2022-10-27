@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('error') }}
+{% endblock %}
+
+{% block modals %}{% endblock %}
+{% block messages %}{% endblock %}
+
+{% block body %}
+    <div class="error-bg error-bg-{{ code }}"></div>
+    <div class="error-card">
+        <span class="font-size-30">{{ message }}</span>
+        <span class="font-size-80">{{ code }}</span>
+        <a href="{{ path('app.homepage') }}" class="btn btn-link text-white border mt-4">Retour à la page d'accueil</a>
+    </div>
+{% endblock %}

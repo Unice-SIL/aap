@@ -1,0 +1,672 @@
+app:
+
+  import_choices:
+    label: Options of import from a csv file
+    message:
+      error_message: An error occured
+      no_data: There is no data
+      wrong_format: The file is not a csv format
+
+  project_form_widget_label: Widget
+  mail_template:
+    placeholder:
+      call_of_project_name: Call of project's name
+      project_name: Project's name
+      creator_firstname: Firstname of the project's creator
+      creator_lastname: Lastname of the project's creator
+    property:
+      name:
+        label: Name
+      subject:
+        label: Subject
+      body:
+        label: Content
+
+  batch_action:
+    add_reporter: Add reporters
+    delete: Delete
+    button:
+      label: Actions
+    action_announcement: You want to do the following action "%name_action%" for the following elements
+    success: Elements have been successfully updated
+    no_action: No action
+  acl:
+    property:
+      label: Permissions
+    constant:
+      viewer: Viewer
+      manager: Manager
+      admin: Administrator
+  data:
+    no_communicate: Not communicated
+    none: None
+  breadcrumb:
+    main:
+      app:
+        invitation:
+          index: Invitations sent
+        report:
+          label: Reports
+          edit: Edit report
+          show: View
+        admin:
+          dictionary:
+            label: Lists
+            new: New
+            edit: Edit
+            show: View
+          invitation:
+            index: Invitations
+          group:
+            label: Groups
+            new: New
+            show: View
+            edit: Edit
+          project_form_layout:
+            label: Projects form layout
+            new: New
+            configure: Configure
+            show: View
+            edit: Edit
+          organizing_center:
+            label: Organizing center
+            edit: Edit
+            show: View
+            new: New
+          user:
+            label: Users
+            edit: Edit
+            show: View
+            new: New
+          mail_template:
+            index: Mails template
+            edit: Edit a mail template
+        call_of_project:
+          presentation_before_adding_project: Call of project's summary
+          mail_template: Mail template
+          batch_action: Batched actions
+          all: Open or close
+          edit_permissions: Edit permissions
+          add_project: Add a project
+          projects: List of projects
+          reports: List of reports
+          form: Configuration
+          new: New
+          informations: Informations
+          show_permissions: List of permissions
+          label: Call of project
+          delete_form: Delete
+        project:
+          edit: Edit
+          show: View
+          label: Project
+        home:
+          label: Home
+        user:
+          label: My profile
+          edit_my_profile: Edit my profile
+  group:
+    property:
+      name:
+        label: Name
+      members:
+        label: members
+    label: group
+  project_form_layout:
+    select_2:
+      placeholder: Select a template
+    property:
+      name:
+        label: Name
+  form:
+    widget:
+      choices:
+        label: Choice
+      content:
+        label: Text
+      html_tag:
+        label: Type
+      validation:
+        count:
+          label: Limit
+        regex:
+          label: Regex
+        greater_than_or_equal:
+          label: Minimum
+        less_than_or_equal:
+          label: Maximum
+        length:
+          label: Length
+        email:
+          label: Email
+        url:
+          label: Url
+      dynamic_constraints:
+        label: Validations' constraints
+      style:
+        label: Css Style
+      placeholder:
+        label: Placeholder
+      required:
+        label: Required
+      visibility_label:
+        label: Label visibility
+      label:
+        label: Label
+    type:
+      bootstrap_switch:
+        yes: Yes
+        no: No
+
+  login:
+    form:
+      password:
+        label: Password
+      username:
+        label: Username
+      button:
+        submit: Login
+      logout: Logout
+      connected_as: You're connected as
+    via_university_credentials: Log in with your university credentials
+    password_forgot: Password forgotten
+  table:
+    no_results_found: No result has been found
+  project_content:
+    form:
+      no_communicate: Not communicated
+  project:
+    validation:
+      validation:
+        label: Validate the project
+      refusal:
+        label: Refuse the project
+    validation_form:
+      automatic_sending:
+        label: Sending automatic mail
+    action:
+      add_reporters: Add reporter
+    workflow:
+      to_study:
+        button: Start projects' workflow
+    constant:
+      complete: Completed
+      to_complete: To complete
+      finished: Finished
+      init: Initial
+      waiting: Waiting
+      studying: Studying
+      validated: Validated
+      refused: Refused
+    property:
+      created_at:
+        label: Creation date
+      created_by:
+        label: Created by
+      status:
+        label: Status
+      name:
+        label: Title
+      call_of_project:
+        label: Call of project
+    index:
+      h1: List of your projects
+      add_project: Add a project
+    edit:
+      h1: Edit project
+    show:
+      h1: View project
+    informations:
+      label: Informations
+    report:
+      label: Reports
+    validation_refusal:
+      label: Validate / Refuse
+      card_header_title: Validate / Refuse
+    refusal_project:
+      modal_title: Project refused
+    validation_project:
+      modal_title: Project validated
+    reports:
+      card_header_title: Reports
+  reports:
+    property:
+      reporter: Reporter
+      project_name: Project's name
+      deadline: Deadline
+      status: Status
+
+  call_of_project:
+    init:
+      choices:
+        label: Do you want to initialize the configuration of the project's form?
+        init_by_project_form_layout: From a template
+        init_by_call_of_project: From the configuration of another call of projects
+        no_init: No
+    select_2:
+      placeholder: Choose a call of projects
+    form:
+      h1: Configuration of the project
+    constant:
+      opened: Opened
+      closed: Closed
+      review: Waiting for results
+      archived: Archived
+    informations:
+      h1: Informations
+    project_list:
+      h1: List of projects
+    reports_list:
+      h1: List of reports
+    new:
+      h1: Creation of a new call of projects
+    property:
+      publication_date:
+        label: Results' publication date
+      is_automatic_sending_validation_mail:
+        label: Sending automatic validation mail by default
+      is_automatic_sending_refusal_mail:
+        label: Sending automatic refusal mail by default
+      validation_mail_template:
+        label: Validation mail template
+      refusal_mail_template:
+        label: Refusal mail template
+      organizing_center: Organizing center
+      start_date:
+        label: From
+      end_date:
+        label: to
+      description:
+        label: Description
+        placeholder: Enter a description (optionnal)
+      status:
+        label: Status
+      name:
+        label: Title
+        placeholder: Call of project's title
+    organized_by: Organized by
+    dates: Dates
+    open_date:
+      label: Open date of projects delivery
+    opened_date: 'Open from %startDate% to %endDate%'
+    index:
+      h1: List of your call of projects
+    all:
+      h1: Add a ne project
+      select_opened_cap: Select a call of projects from the list below
+    add_project:
+      h1: Add a new project
+      not_opened: This project is not open
+      mail:
+        subject: "Delivery from a new project on %call_of_project%"
+    show_permissions:
+      h1: List of permissions
+    own_acls: Call of project's permissions
+    own_inherited_from_organizing_center: Permissions inherited from organizing center
+    batch_action:
+      h1: Batched actions
+    mail_template:
+      h1: Mail template
+    presentation_before_adding_project:
+      h1: Call of project's summary
+    action:
+      drop_new_project: Drop a new project
+      label: Actions
+    closed_date:
+      label: Delivery's close date of projects
+    delete_form:
+      h1: Delete call of projects
+  dashboard:
+    my_calls_of_project:
+      title: My call of projects
+    my_projects:
+      title: My projects
+    my_reports:
+      title: My reports
+    h1: Dashboard
+    projects_dropped: ]-Inf,1]Project dropped|]1,Inf]Projects dropped
+    call_of_projects_dropped: ]-Inf,1]Call of projects|]1,Inf]Calls of projects
+    reports_complete: ]-Inf,1]Report completed of finished|]1,Inf]Rapports complétés ou terminés
+    reports_to_complete: ]-Inf,1]Report to complete|]1,Inf]Reports to complete
+    drop_new_project: Drop a new project
+    create_new_call_of_projects: Create a new call of projects
+    last_dropped_projects: ]-Inf,1]Last dropped project|]1,Inf]Last dropped projects
+    list_all_projects: See the complete list of my projects
+    last_dropped_call_of_project: ]-Inf,1]Last dropped call of projects|]1,Inf]Last dropped calls of projects
+    list_all_call_of_projects: See the complete list of my call of projects
+  navbar:
+    item:
+      dashboard:
+        label: Dashboard
+      my_projects:
+        label: My projects
+      my_repports:
+        label: My reports
+      my_call_of_projects:
+        label: My calls of projects
+      my_profile:
+        label: My profile
+      administration:
+        label: Administration
+      logout:
+        label: Logout
+      help:
+        label: Help
+      my_invitations:
+        label: Invitations send
+      notification:
+        label: ']-Inf,1]Notification|]1,Inf]Notifications'
+      user:
+        label: My profile
+  action:
+    add: Add
+    label: Actions
+    save: Save
+    edit: Edit
+    delete: Delete
+    delete_call_of_projects: I understand the consequences and I confirm the suppression
+    new: New
+    import_widget: Import a new element from another call of projects
+    list_all: See all
+    canceled: Cancel
+    duplicate: Duplicate
+    trash: Trash
+    back_to_view: Go back to view
+    back_to_list: Go back to the list
+    configure: Configure
+    export: Export
+    import: Import
+    toggle_subscription:
+      on: Follow the call of projects
+      off: Stop following the call of projects
+  sidebar:
+    item:
+      projects:
+        label: Projects
+      reports:
+        label: Reports
+      admin:
+        dashboard: Dashboard
+        label: Administration
+        infos: Informations
+        project_form: Configuration
+        permissions: Permissions
+        widget: Project form
+        mail_template: Mail template
+        delete_form: Delete the call of projects
+    admin:
+      user:
+        label: Users
+      organizing_center:
+        label: Organizing center
+      project_form_layout:
+        label: Form template
+      group:
+        label: Groups
+      mail_template:
+        label: Mail template
+      invitation:
+        label: Invitations
+      dictionary:
+        label: Lists
+  widget:
+    html_widget:
+      label: Texts
+    form_widget:
+      label: Questions
+      category:
+        general: General
+        advanced: Advanced parameters
+    App\Widget\FormWidget\UniqueSelectWidget: Dropdown
+    App\Widget\FormWidget\CheckboxWidget: Multiple choices
+    App\Widget\FormWidget\RadioboxWidget: Unique choice
+    App\Widget\FormWidget\TextWidget: Short text
+    App\Widget\FormWidget\TextAreaWidget: Long text
+    App\Widget\FormWidget\IntegerWidget: Number
+    App\Widget\FormWidget\RangeWidget: Range
+    App\Widget\FormWidget\DateWidget: Date
+    App\Widget\FormWidget\DateTimeWidget: Date and Hours
+    App\Widget\FormWidget\FileWidget: File
+    App\Widget\HtmlWidget\TitleWidget: Title
+    App\Widget\HtmlWidget\InformationWidget: Information
+  modal:
+    widget:
+      title: Add a widget
+    widget_form:
+      action:
+        close: Cancel
+        save: Save
+        reactivate: Reactivate
+    call_of_project_informations_form:
+      title: Edit the call of projects
+    deadline:
+      title: Edit deadline
+  project_form_widget:
+    select_2:
+      placeholder: Select a widget
+    humanize: Widget
+    modal:
+      trash_warning_title: Are you sure you want to put this widget in the bin?
+      reactivate_warning_title: Are you sure you want to reactivate this widget?
+      delete_warning_title: Are you sure you want to delete this widget?
+    edition_on_trash_widget_denied: You can't edit a widget in the bin
+  flash_message:
+    success: The element "%item%" has been successfully added
+    edit_success: The element "%item%" has been successfully edited
+    create_success: The element "%item%" has been successfully created
+    delete_success: The element "%item%" has been successfully deleted
+    error_project_to_study: Failed to study the project %item%
+    error_project_validate: Failed to validate the project %item%
+    error_project_refused: Failed to refuse the project %item%
+    success_project_validate: The project %item% has been validated with success
+    success_project_refused: The project %item% has been refused with success
+    report_delete_success: The reporter %reporter% has been deleted from this project
+    invitation_resend_success: The invitation "%invitation%" has been sent again
+
+  footer:
+    copyright: All rights reserved
+  common:
+    trash:
+      label: Bin
+      no_element: No element in the bin
+  call_of_project_label: Call of projects
+  dictionary_label: List
+  file:
+    current_file: Current file
+  admin:
+    group:
+      index:
+        h1: List of groups
+      new:
+        h1: New group
+      show:
+        h1: Show group
+      edit:
+        h1: Edit group
+    user:
+      index:
+        h1: List of users
+      new:
+        h1: New user
+      show:
+        h1: Show user
+      edit:
+        h1: Edit user
+    organizing_center:
+      index:
+        h1: List of organizing center
+      new:
+        h1: New organizing center
+      show:
+        h1: Show organizing center
+      edit:
+        h1: Edit organizing center
+    project_form_layout:
+      index:
+        h1: List of form template
+      new:
+        h1: New form template
+      configure:
+        h1: Configure form template
+      show:
+        h1: Show form template
+      edit:
+        h1: Edit form template
+    mail_template:
+      index:
+        h1: List of mail templates
+      edit:
+        h1: Edit a mail template
+    invitation:
+      index:
+        h1: List of invitations
+    dictionary:
+      index:
+        h1: List of dictionnaries
+      new:
+        h1: New list
+      edit:
+        h1: Edit list
+      show:
+        h1: Show list
+  user:
+    label: User(s)
+    select_2:
+      placeholder: Select a user
+    property:
+      plain_password_repeated:
+        label: Confirm password
+      plain_password:
+        label: Password
+      username:
+        label: Username
+      email:
+        label: Email
+      firstname:
+        label: Firstname
+      lastname:
+        label: Lastname
+    singular_label: User
+    show_my_profile:
+      h1: My profile
+    edit_my_profile:
+      h1: Edit my profile
+  organizing_center:
+    select_2:
+      placeholder: Select an organizing center
+    property:
+      members:
+        label:  Members
+      name:
+        label: Name
+  report:
+    notify_reporters_by_mail: Notify the new reporters by mail
+    property:
+      report_file:
+        label: Report's elements
+      comment:
+        label: Comment
+      status:
+        label: Status
+      created_by:
+        label: Created by
+      reporter:
+        label: Reporter
+      dead_line:
+        label: Deadline
+      project_name:
+        label: Project's name
+      file:
+        label: Report's elements
+    index:
+      h1: List of your reports
+    edit:
+      h1: Edit report
+    show:
+      h1: Show report
+    inform_report: Show report
+    modal:
+      remove_warning_title: Are you sure you want to remove this reporter from the project?
+      remove_warning_label_button: Remove
+    action:
+      change_deadline: Edit deadline
+  page_not_found: This page doesn't exist
+  error_occured: An error occured
+
+  help:
+    title: Help
+    placeholder: What do you want to do?
+    results_not_found: No result found
+    more_results: See more results
+    labels:
+      call_of_projects_create: Create a new call of projects
+      call_of_projects_info_edit: Edit call of projects' informations
+      call_of_projects_info_view: View call of projects' informations
+      call_of_projects_list: View list of call of projects
+      call_of_projects_projects_list: View list of projects from a call of projects
+      project_create: Create project
+      project_info_edit: Edit project's informations
+      project_info_view: View project's informations
+      project_my_list: View list of my projects
+
+  keyword:
+    call_of_projects: call of projects
+    create: create
+    edit: edit
+    list: list
+    information: informations
+    project: project
+    projects: projects
+    submit: submit
+    view: view
+  registration:
+    invitation_sent: Invitation sent with success
+    invitation_link: Invite someone
+    invitation_ongoing: Invitation pending
+    invitation_form_title: Invite someone
+    invitation_button_label: Invite
+  invitation:
+    property:
+      recipient_full_name:
+        label: Invite
+      recipient_email:
+        label: Email
+      sender_full_name:
+        label: Send by
+      createdAt:
+        label: Created at
+      acceptedAt:
+        label: Accepted at
+      sentAt:
+        label: Send at
+    modal:
+      remove_warning_title: Are you sure you want to delete this invitation?
+      detail_remove_warning_title: The data attached to this invitation will be deleted (reports, affectation to a group, ...).
+      remove_warning_label_button: Delete the invitation
+      resend_warning_title: Are you sure you want to resend the invitation?
+      resend_warning_label_button: Resend
+  notifications:
+    modal:
+      remove_warning_title: Are you sure you want to delete all your notifications?
+      remove_warning_label_button: Delete
+    project_validated: Your project %project% has been validated
+    project_refused: Your project %project% has been refused
+  authentication:
+    shibboleth:
+      button_label: UCA login
+
+  message:
+    first_connection: "<p>Welcome %firstname%,</p><p>If you need help do not hesitate to click on the icon <i class='far fa-question-circle'></i> in the top right corner of your navigation menu</p>"
+  dictionary:
+    property:
+      name:
+        label: Name
+      dictionary_contents:
+        label: Options
+
+  dictionary_content:
+    property:
+      code:
+        label: Key
+      value:
+        label: Value

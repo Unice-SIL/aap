@@ -1,7 +1,7 @@
 version: '3.7'
 services:
     database:
-        image: 'mysql:latest'
+        image: 'mariadb:10.3.34'
         environment:
             MYSQL_ROOT_PASSWORD: password
             MYSQL_DATABASE: main
@@ -14,19 +14,17 @@ services:
             - default
     phpmyadmin:
         image: phpmyadmin
-        container_name: phpmyadmin_preferences
         restart: always
         depends_on:
             - database
         ports:
-            - "8080:80"
+            - "9021:80"
         environment:
             PMA_HOST: database
     php:
-        container_name: php
         build: php
         ports:
-            - "9000:8000"
+            - "9020:8000"
         volumes:
             - .:/app
             - /app/vendor # ignore vendor folder

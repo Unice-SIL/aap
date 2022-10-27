@@ -1,0 +1,44 @@
+html, body {
+  height: 100% !important;
+}
+
+.error-bg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: blur(6px);
+  -webkit-filter: blur(6px);
+  height: 100%;
+}
+
+.error-bg-403 {
+  background-image: url("../img/403.jpg");
+}
+
+.error-bg-404 {
+  background-image: url("../img/404.jpg");
+}
+
+.error-bg-500 {
+  background-image: url("../img/500.jpg");
+}
+
+.error-card {
+  padding: 2rem;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.4);
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  text-shadow: 0 0 10px black;
+  color: white;
+  font-weight: 700;
+}
