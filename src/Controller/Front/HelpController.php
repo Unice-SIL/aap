@@ -67,8 +67,6 @@ class HelpController extends AbstractController
         // Keep only 6 high score
         $moreHelps = array_slice($helps, 4);
         $helps = array_slice($helps, 0, 4);
-        dump($helps, $moreHelps);
-
 
         return $this->render('partial/modal/_help_results.html.twig', [
             'helps' => $helps,
