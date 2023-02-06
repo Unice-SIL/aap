@@ -268,6 +268,8 @@ app:
     new:
       h1: Création d'un nouvel appel à projets
     property:
+      public:
+        label: Public (si non public, l'appel ne sera pas visible dans la liste des appels ouverts, vous devrez communiquer le lien de l'appel aux intéressés)
       publication_date:
         label: Date de publication des résultats
       is_automatic_sending_validation_mail:

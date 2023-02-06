@@ -7,6 +7,7 @@ use App\EventSubscriber\CallOfProjectInformationTypeSubscriber;
 use App\Form\Type\DateTimePickerType;
 use App\Form\Type\SummernoteType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -46,6 +47,11 @@ class CallOfProjectInformationType extends AbstractType
                     'rows' => 8,
                     'placeholder' => 'app.call_of_project.property.description.placeholder'
                 ]
+            ])
+            ->add('public', CheckboxType::class, [
+                'required' => false,
+                'label' => 'app.call_of_project.property.public.label',
+                'label_attr' => ['class' => 'switch-custom']
             ])
             ->add('startDate', DateTimePickerType::class, [
                 'label' => 'app.call_of_project.property.start_date.label',
