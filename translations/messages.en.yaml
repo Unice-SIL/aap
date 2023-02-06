@@ -261,6 +261,8 @@ app:
     new:
       h1: Creation of a new call of projects
     property:
+      public:
+        label: Public (if not public, the call will not be visible in the list of open calls, you will have to communicate the link of the call to the interested parties)
       publication_date:
         label: Results' publication date
       is_automatic_sending_validation_mail:

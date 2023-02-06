@@ -102,6 +102,11 @@ class CallOfProject extends Common
      */
     private $publicationDate;
 
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default": 1})
+     */
+    private $public = true;
 
     /**
      * CallOfProject constructor.
@@ -425,6 +430,24 @@ class CallOfProject extends Common
     {
         $this->publicationDate = $publicationDate;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublic(): bool
+    {
+        return $this->public;
+    }
+
+    /**
+     * @param bool $public
+     * @return CallOfProject
+     */
+    public function setPublic(bool $public): CallOfProject
+    {
+        $this->public = $public;
         return $this;
     }
 }
