@@ -4,8 +4,8 @@
             <div class="modal-body">
                 <h4 class="modal-title">{{ title }}</h4>
                 {{ form_start(form) }}
-                {{ form_widget(form.automaticSending) }}
                 {{ form_row(form.comment) }}
+                {{ form_widget(form.automaticSending) }}
                 <div class="mail-template-container">
                     {% if form.mailTemplate is defined %}
                         {% set value =

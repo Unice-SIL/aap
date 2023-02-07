@@ -23,6 +23,7 @@ class ValidationType extends AbstractType
     {
         $builder
             ->add('comment', TextareaType::class, [
+                'required' => false,
                 'label' => 'app.project.property.comment.label'
             ])
             ->add('action', HiddenType::class, [
