@@ -5,6 +5,7 @@
 {{ form_start(form, {'attr' : form_attr}) }}
 
     {{ form_row(form.name) }}
+    {{ form_row(form.comment) }}
     {% for project_form_widget in projectFormWidgets %}
         <div class="form-group">
             {{ include('partial/widget/_render_widget.html.twig') }}

@@ -207,6 +207,8 @@ app:
         label: Statut
       name:
         label: Titre
+      comment:
+        label: Commentaire
       call_of_project:
         label: Appel à projets
     index:

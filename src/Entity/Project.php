@@ -37,6 +37,11 @@ class Project extends Common
     /** @var bool */
     private $notifyReporters = true;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
     public function __construct()
     {
         parent::__construct();
@@ -129,6 +134,18 @@ class Project extends Common
                 $report->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

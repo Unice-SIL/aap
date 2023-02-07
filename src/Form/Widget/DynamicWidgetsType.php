@@ -20,7 +20,14 @@ class DynamicWidgetsType extends AbstractType
         $builder->add('name', null, [
             'label' => 'app.project.property.name.label'
         ]);
-        
+
+        $builder->add('comment', null, [
+            'label' => 'app.project.property.comment.label',
+            'attr' => [
+                'class' => 'form-control'
+            ]
+        ]);
+
         if (!$project instanceof Project) {
             return;
         }

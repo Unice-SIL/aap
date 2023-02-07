@@ -30,6 +30,7 @@
                     <th>{{ 'app.project.property.name.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_at.label'|trans }}</th>
+                    <th>{{ 'app.project.property.comment.label'|trans }}</th>
                     <th>{{ 'app.project.property.status.label'|trans }}</th>
                 </tr>
                 </thead>
@@ -46,6 +47,7 @@
                         <td>
                             {{ project.createdAt ? project.createdAt|format_datetime : project.createdAt|humanize_data }}
                         </td>
+                        <td>{{ project.comment }}</td>
                         <td>{{ include('project/_status_badge.html.twig', { 'project' : project}) }}</td>
                     </tr>
                 {% else %}

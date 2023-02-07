@@ -5,9 +5,9 @@
                 <h4 class="modal-title">{{ title }}</h4>
                 {{ form_start(form) }}
                 {{ form_widget(form.automaticSending) }}
+                {{ form_row(form.comment) }}
                 <div class="mail-template-container">
                     {% if form.mailTemplate is defined %}
-
                         {% set value =
                             form.action.vars.data == constant('App\\Entity\\Project::STATUS_VALIDATED')
                             ?  form.vars.data.callOfProject.getValidationMailTemplate
