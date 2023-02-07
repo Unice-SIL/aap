@@ -258,6 +258,14 @@ app:
       closed: Closed
       review: Waiting for results
       archived: Archived
+    dashboard:
+      h1: Dashboard
+      organizing_center: Organizing center
+      start_date: Opening
+      end_date: Closing
+      publication_date: Publishing results
+      projects: Projects
+      submission_url: Url for projects submission
     informations:
       h1: Informations
     project_list:

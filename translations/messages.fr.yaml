@@ -265,6 +265,8 @@ app:
       closed: Fermé
       review: En attente de résultat
       archived: Archivé
+      public: Public
+      not_public: Non public
     dashboard:
       h1: Tableau de bord
       organizing_center: Organisateur
@@ -272,6 +274,7 @@ app:
       end_date: Fermeture
       publication_date: Publication résultats
       projects: Projets
+      submission_url: Url pour le dépôt de projets
     informations:
       h1: Informations
     project_list:

@@ -631,5 +631,13 @@ $(document).ready(function () {
         };
 
 
+    });
+
+    $(document).on('click', '#callOfProjectSubmissionUrlClipboard i', function () {
+        let callOfProjectSubmissionUrl = document.getElementById("callOfProjectSubmissionUrl");
+        callOfProjectSubmissionUrl.select();
+        callOfProjectSubmissionUrl.setSelectionRange(0, 99999); // For mobile devices
+        document.execCommand("copy");
+        toastr.success('URL copiée');
     })
 });
