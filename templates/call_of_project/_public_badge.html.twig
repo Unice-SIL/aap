@@ -1,0 +1,9 @@
+{% if call_of_project.public %}
+    <span class="badge badge-info">
+    {{ 'app.call_of_project.constant.public'|trans }}
+</span>
+{% else %}
+    <span class="badge badge-warning">
+    {{ 'app.call_of_project.constant.not_public'|trans }}
+</span>
+{% endif %}
