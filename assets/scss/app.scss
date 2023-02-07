@@ -314,3 +314,8 @@ body.layout-fixed {
     }
   }
 }
+
+#callOfProjectSubmissionUrlClipboard > i {
+  color: var(--primary);
+  cursor: pointer;
+}

@@ -17,6 +17,7 @@
                 <div>
                     <h4>{{ call_of_project }}</h4>
                     {% include('call_of_project/_status_badge.html.twig') %}
+                    {% include('call_of_project/_public_badge.html.twig') %}
                 </div>
                 <button  class="btn btn-primary align-self-start "
                          data-toggle="modal"
@@ -88,6 +89,22 @@
     <hr class="my-4">
 
     <h4 class="text-gray">{{ 'app.call_of_project.dashboard.projects'|trans }}</h4>
+    <div class="card">
+        <div class="card-body">
+            <label for="callOfProjectSubmissionUrl" class="form-label">{{ 'app.call_of_project.dashboard.submission_url'|trans }}</label>
+            <div class="input-group">
+                <input id="callOfProjectSubmissionUrl" type="text" class="form-control" readonly
+                       aria-describedby="callOfProjectSubmissionUrlClipboard"
+                       value="{{ url('app.call_of_project.add_project', {id: call_of_project.id}) }}"
+                >
+                <div class="input-group-append">
+                    <span class="input-group-text" id="callOfProjectSubmissionUrlClipboard">
+                        <i class="fas fa-clipboard"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row mt-3">
         <div class="col-12 col-xl-8">
             <div class="card">
@@ -262,4 +279,3 @@
     </div>
 
 {% endblock %}
-
