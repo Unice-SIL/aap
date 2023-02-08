@@ -42,12 +42,18 @@ class Project extends Common
      */
     private $comment;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="project")
+     */
+    private $comments;
+
     public function __construct()
     {
         parent::__construct();
         $this->projectContents = new ArrayCollection();
         $this->setStatus(self::STATUS_INIT);
         $this->reports = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getCallOfProject(): ?CallOfProject
@@ -146,6 +152,36 @@ class Project extends Common
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getProject() === $this) {
+                $comment->setProject(null);
+            }
+        }
 
         return $this;
     }

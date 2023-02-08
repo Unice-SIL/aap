@@ -8,20 +8,22 @@
     {{ 'app.project.show.h1'|trans }} {{ project.name }}
 {% endblock %}
 
-{%  block modals %}
+{% block modals %}
     {{ parent() }}
     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) %}
         {{ include('partial/modal/_add_reporters_form.html.twig') }}
         {{ include('partial/modal/_validation_project.html.twig', {'form' : validation_form, title : 'app.project.validation_project.modal_title'|trans}) }}
         {{ include('partial/modal/_validation_project.html.twig', {'form' : refusal_form, title : 'app.project.refusal_project.modal_title'|trans}) }}
+        {{ include('partial/modal/_add_comment_to_project_form.html.twig', { 'form' : add_comment_form, title: 'Ajouter un commentaire'}) }}
+
     {% endif %}
-{%  endblock %}
+{% endblock %}
 
 {% block content %}
 
     <div class="row">
         <div class="col">
-            <div class="card" style="height: 100%">
+            <div class="card">
                 <div class="card-body">
                     <div class="text-right mt-2">
 
@@ -40,13 +42,15 @@
                     </div>
                     {{ include('project/_project_infos.html.twig', {'project' : project}) }}
                 </div>
+
             </div>
+            {{ include('project/_project_comments.html.twig', {'project' : project}) }}
+
         </div>
 
         {% if
             is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
-            and project.status != constant('App\\Entity\\Project::STATUS_WAITING')
-        %}
+            and project.status != constant('App\\Entity\\Project::STATUS_WAITING') %}
             <div class="col">
                 {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
                     <div class="card">
@@ -69,53 +73,53 @@
                 {% endif %}
 
                 <div class="card mb-0">
-                        <div class="card-header">
-                            <h4>{{ 'app.project.reports.card_header_title'|trans }}</h4>
-                        </div>
-                        <div class="card-body">
-
-                            {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
-                                <div class="mb-4 pb-2 clearfix border-bottom">
-                                    <button class="btn btn-primary float-right"
-                                            data-toggle="modal"
-                                            data-target="#add-reporters-form-modal"
-                                            type="button"
-                                    >
-                                        {{ 'app.project.action.add_reporters'|trans }}
-                                    </button>
-                                </div>
-                            {% endif %}
-
-                            <table
-                                    class="table dataTable"
-                                    data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
-                            >
-                                <thead>
-                                <th>{{ 'app.report.property.reporter.label'|trans }}</th>
-                                <th>{{ 'app.report.property.dead_line.label'|trans }}</th>
-                                <th>{{ 'app.report.property.status.label'|trans }}</th>
-                                <th data-no-filter="true"></th>
-                                </thead>
-                                <tbody>
-                                {% for report in project.reports %}
-                                    <tr>
-                                        <td>
-                                            <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
-                                        </td>
-                                        <td>
-                                            {{ report.deadline ? report.deadline|format_datetime : report.deadline|humanize_data }}
-                                        </td>
-                                        <td>{{ include('report/_status_badge.html.twig') }}</td>
-                                        <td class="text-center fit">
-                                            {{ include('report/_delete_form.html.twig', {'route': 'app.report.delete_from_project'}) }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
-                        </div>
+                    <div class="card-header">
+                        <h4>{{ 'app.project.reports.card_header_title'|trans }}</h4>
                     </div>
+                    <div class="card-body">
+
+                        {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
+                            <div class="mb-4 pb-2 clearfix border-bottom">
+                                <button class="btn btn-primary float-right"
+                                        data-toggle="modal"
+                                        data-target="#add-reporters-form-modal"
+                                        type="button"
+                                >
+                                    {{ 'app.project.action.add_reporters'|trans }}
+                                </button>
+                            </div>
+                        {% endif %}
+
+                        <table
+                                class="table dataTable"
+                                data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+                        >
+                            <thead>
+                            <th>{{ 'app.report.property.reporter.label'|trans }}</th>
+                            <th>{{ 'app.report.property.dead_line.label'|trans }}</th>
+                            <th>{{ 'app.report.property.status.label'|trans }}</th>
+                            <th data-no-filter="true"></th>
+                            </thead>
+                            <tbody>
+                            {% for report in project.reports %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('app.report.show', {'id' : report.id, 'context' : 'call_of_project'}) }}">{{ report.reporter }}</a>
+                                    </td>
+                                    <td>
+                                        {{ report.deadline ? report.deadline|format_datetime : report.deadline|humanize_data }}
+                                    </td>
+                                    <td>{{ include('report/_status_badge.html.twig') }}</td>
+                                    <td class="text-center fit">
+                                        {{ include('report/_delete_form.html.twig', {'route': 'app.report.delete_from_project'}) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
 
             </div>
         {% endif %}

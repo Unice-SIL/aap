@@ -577,6 +577,7 @@ app:
         label: Élement(s) du rapport
       comment:
         label: Commentaire
+        contenu: Contenu
       status:
         label: Statut
       created_by:

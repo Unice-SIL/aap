@@ -4,8 +4,10 @@
 namespace App\Controller\Front;
 
 
+use App\Entity\Comment;
 use App\Entity\Project;
 use App\Entity\User;
+use App\Form\Project\AddCommentType;
 use App\Form\Project\AddReporterType;
 use App\Form\Project\ValidationType;
 use App\Manager\Notification\NotificationManagerInterface;
@@ -127,7 +129,28 @@ class ProjectController extends AbstractController
         $reporterAdded = $request->getSession()->remove('reporterAdded');
 
         $addReportersForm = $this->createForm(AddReporterType::class, $project);
+        $addCommentForm = $this->createForm(AddCommentType::class, new Comment());
+        $addCommentForm->handleRequest($request);
         $addReportersForm->handleRequest($request);
+
+        if ($addCommentForm->isSubmitted()) {
+            /** @var Comment $comment */
+            $comment =  $addCommentForm->getData();
+            $comment->setUser($this->getUser());
+            $em->persist($comment);
+            $project->addComment($comment);
+            $em->flush();
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $project->getName()]));
+
+            $routeParameters = ['id' => $project->getId()];
+            if ($context === 'call_of_project') {
+                $routeParameters['context'] = $context;
+            }
+
+            $request->getSession()->set('reporterAdded', true);
+
+            return $this->redirectToRoute('app.project.show', $routeParameters);
+        }
 
         if ($addReportersForm->isSubmitted() and $addReportersForm->isValid()) {
 
@@ -253,7 +276,8 @@ class ProjectController extends AbstractController
             'add_reporters_form' => $addReportersForm->createView(),
             'reporter_added' => $reporterAdded,
             'validation_form' => $validationForm->createView(),
-            'refusal_form' => $refusalForm->createView()
+            'refusal_form' => $refusalForm->createView(),
+            'add_comment_form' => $addCommentForm->createView()
         ]);
     }
 

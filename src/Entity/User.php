@@ -131,6 +131,11 @@ class User implements UserInterface, \Serializable
     private $subscriptions;
 
     /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -141,6 +146,7 @@ class User implements UserInterface, \Serializable
         $this->notifications = new ArrayCollection();
         $this->elements = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -548,5 +554,35 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password,
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

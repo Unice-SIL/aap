@@ -1,0 +1,16 @@
+<div class="modal fade validation-form-modal" id="add-comment-to-project-form-modal" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-title">{{ title }}</h4>
+                {{ form_start(form) }}
+                {{ form_row(form.content) }}
+                <button class="btn btn-primary submit-button">{{ 'app.action.save'|trans }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'app.modal.widget_form.action.close'|trans }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
