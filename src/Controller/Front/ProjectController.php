@@ -140,7 +140,7 @@ class ProjectController extends AbstractController
             $em->persist($comment);
             $project->addComment($comment);
             $em->flush();
-            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $project->getName()]));
+            $this->addFlash('success', $translator->trans('app.flash_message.add_comment_success', ['%item%' => $project->getName()]));
 
             $routeParameters = ['id' => $project->getId()];
             if ($context === 'call_of_project') {

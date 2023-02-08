@@ -209,6 +209,7 @@ app:
         label: Titre
       comment:
         label: Commentaire
+        contenu: Contenu
       call_of_project:
         label: Appel à projets
     index:
@@ -473,6 +474,8 @@ app:
     success_project_refused: Refus du projet %item% réalisé avec succès
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
     invitation_resend_success: L'invitation "%invitation%" a bien été réenvoyée
+    add_comment_success: Ajout d'un commentaire avec succès pour le projet %item%
+
 
   footer:
     copyright: Tous droits reservés
@@ -577,7 +580,6 @@ app:
         label: Élement(s) du rapport
       comment:
         label: Commentaire
-        contenu: Contenu
       status:
         label: Statut
       created_by:

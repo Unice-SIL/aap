@@ -44,6 +44,7 @@ class Project extends Common
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="project")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
 
