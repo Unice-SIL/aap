@@ -14,7 +14,7 @@
         {{ include('partial/modal/_add_reporters_form.html.twig') }}
         {{ include('partial/modal/_validation_project.html.twig', {'form' : validation_form, title : 'app.project.validation_project.modal_title'|trans}) }}
         {{ include('partial/modal/_validation_project.html.twig', {'form' : refusal_form, title : 'app.project.refusal_project.modal_title'|trans}) }}
-        {{ include('partial/modal/_add_comment_to_project_form.html.twig', { 'form' : add_comment_form, title: 'Ajouter un commentaire'}) }}
+        {{ include('partial/modal/_add_comment_to_project_form.html.twig', { 'form' : add_comment_form, title: 'app.project.add_comment.modal_title'|trans}) }}
 
     {% endif %}
 {% endblock %}

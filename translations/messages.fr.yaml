@@ -176,6 +176,8 @@ app:
     form:
       no_communicate: Non renseigné
   project:
+    add_comment:
+      modal_title: Ajouter commentaire
     validation:
       validation:
         label: Retenir le projet
