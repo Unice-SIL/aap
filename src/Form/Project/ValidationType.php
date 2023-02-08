@@ -22,10 +22,6 @@ class ValidationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('comment', TextareaType::class, [
-                'required' => false,
-                'label' => 'app.project.property.comment.label'
-            ])
             ->add('action', HiddenType::class, [
                 'data' => $options['context'],
                 'mapped' => false

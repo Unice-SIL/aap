@@ -38,11 +38,6 @@ class Project extends Common
     private $notifyReporters = true;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $comment;
-
-    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="project")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
@@ -141,18 +136,6 @@ class Project extends Common
                 $report->setProject(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    public function setComment(?string $comment): self
-    {
-        $this->comment = $comment;
 
         return $this;
     }
