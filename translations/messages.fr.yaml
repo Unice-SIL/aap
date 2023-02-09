@@ -686,6 +686,7 @@ app:
 
   message:
     first_connection: "<p>Bienvenue %firstname%,</p><p>Si vous avez besoin d'aide n'hésitez pas à cliquer sur l'icône <i class='far fa-question-circle'></i> située en haut à droite dans le menu de navigation</p>"
+    news: "<div class='text-left'><p><h3>Nouveau !</h3></p><p><strong>Gestionnaires d'appels à projets :</strong><ul><li>Possibilité de passer votre appel en non public afin qu'il n'apparaisse pas dans la liste des appels ouverts (et communiquez directement le lien de dépôt par mail à la population concernée)</li><li>Ajouter des commentaires sur les projets de vos appels</li></ul></div>"
   dictionary:
     property:
       name:
