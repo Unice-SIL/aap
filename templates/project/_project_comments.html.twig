@@ -2,16 +2,16 @@
     <div class="card-body">
         <h5>{{ 'app.project.comments.card_header_title'|trans }}</h5>
         {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) %}
-        <div class="mb-4 pb-2 clearfix border-bottom">
-            <button class="btn btn-primary float-right"
-                    data-toggle="modal"
-                    data-target="#add-comment-to-project-form-modal"
-                    type="button"
-            >
-                <i class="fas fa-comment"></i>
-                {{ 'app.project.action.add_comment'|trans }}
-            </button>
-        </div>
+            <div class="mb-4 pb-2 clearfix border-bottom">
+                <button class="btn btn-primary float-right"
+                        data-toggle="modal"
+                        data-target="#add-comment-to-project-form-modal"
+                        type="button"
+                >
+                    <i class="fas fa-comment"></i>
+                    {{ 'app.project.action.add_comment'|trans }}
+                </button>
+            </div>
         {% endif %}
         <div>
             {% for comment in project.comments %}
@@ -19,6 +19,9 @@
                     <div class="card-body">
                         <strong>{{ comment.user.lastName }}  {{ comment.user.firstName }}</strong>
                         <small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i:s') }}</small>
+                        {% if comment.user == app.user %}
+                        {{ include('project/_delete_comment_form.html.twig', { path : path('app.project.delete_comment', { id: comment.id}) }) }}
+                        {% endif %}
                         <div>{{ comment.content }}</div>
                     </div>
                 </div>

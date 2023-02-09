@@ -42,7 +42,6 @@
                                 </button>
                             </div>
                         {% endif %}
-
                         <table
                                 class="table dataTable"
                                 data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
@@ -128,7 +127,7 @@
             </div>
         </div>
         <div class="col-xl-4 pb-2">
-            {{ include('project/_project_comments.html.twig', {'project' : project}) }}
+            {{ include('project/_project_comments.html.twig', {}) }}
         </div>
     </div>
 {% endblock %}

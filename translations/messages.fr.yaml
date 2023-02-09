@@ -219,6 +219,9 @@ app:
         contenu: Contenu
       call_of_project:
         label: Appel à projets
+    modal:
+      remove_warning_title: Êtes-vous sûr de vouloir retirer ce message du projet ?
+      remove_warning_label_button: Retirer
     index:
       h1: Liste de vos projets
       add_project: Déposer un projet
@@ -482,6 +485,7 @@ app:
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
     invitation_resend_success: L'invitation "%invitation%" a bien été réenvoyée
     add_comment_success: Ajout d'un commentaire avec succès pour le projet %item%
+    comment_delete_success: Le message a bien été supprimé de ce projet
 
 
   footer:

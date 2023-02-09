@@ -12,6 +12,7 @@ use App\Form\Project\AddReporterType;
 use App\Form\Project\ValidationType;
 use App\Manager\Notification\NotificationManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
+use App\Repository\CommentRepository;
 use App\Security\CallOfProjectVoter;
 use App\Utils\Mail\MailHelper;
 use App\Widget\WidgetManager;
@@ -61,11 +62,11 @@ class ProjectController extends AbstractController
      * @throws \Exception
      */
     public function edit(
-        Project $project,
-        WidgetManager $widgetManager,
-        Request $request,
+        Project                 $project,
+        WidgetManager           $widgetManager,
+        Request                 $request,
         ProjectManagerInterface $projectManager,
-        TranslatorInterface $translator
+        TranslatorInterface     $translator
     )
     {
         $context = $request->query->get('context');
@@ -116,12 +117,12 @@ class ProjectController extends AbstractController
      * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      */
     public function show(
-        Project $project,
-        Request $request,
-        EntityManagerInterface $em,
-        TranslatorInterface $translator,
-        Registry $workflowRegistry,
-        \Swift_Mailer $mailer,
+        Project                      $project,
+        Request                      $request,
+        EntityManagerInterface       $em,
+        TranslatorInterface          $translator,
+        Registry                     $workflowRegistry,
+        \Swift_Mailer                $mailer,
         NotificationManagerInterface $notificationManager
     )
     {
@@ -135,7 +136,7 @@ class ProjectController extends AbstractController
 
         if ($addCommentForm->isSubmitted()) {
             /** @var Comment $comment */
-            $comment =  $addCommentForm->getData();
+            $comment = $addCommentForm->getData();
             $comment->setUser($this->getUser());
             $em->persist($comment);
             $project->addComment($comment);
@@ -231,12 +232,10 @@ class ProjectController extends AbstractController
                 $message
                     ->setFrom($user->getEmail())
                     ->setTo($project->getCreatedBy()->getEmail())
-                    ->setContentType('text/html')
-                ;
+                    ->setContentType('text/html');
 
                 $mailer->send($message);
             }
-
 
 
             $routeParameters = ['id' => $project->getId()];
@@ -278,6 +277,29 @@ class ProjectController extends AbstractController
             'validation_form' => $validationForm->createView(),
             'refusal_form' => $refusalForm->createView(),
             'add_comment_form' => $addCommentForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/comment/{id}/remove", name="delete_comment", methods={"GET", "POST","DELETE"})
+     * @param Request $request
+     * @param Comment $comment
+     * @param TranslatorInterface $translator
+     * @return Response
+     */
+    public function deleteFromProject(Request $request,Comment $comment, TranslatorInterface $translator): Response
+    {
+        $rojectId = $comment->getProject()->getId();
+
+        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($comment);
+            $entityManager->flush();
+            $this->addFlash('success', $translator->trans('app.flash_message.comment_delete_success'));
+        }
+        return $this->redirectToRoute('app.project.show', [
+            'id' => $rojectId,
+            'context' => 'call_of_project'
         ]);
     }
 
