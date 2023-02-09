@@ -289,7 +289,16 @@ class ProjectController extends AbstractController
      */
     public function deleteFromProject(Request $request,Comment $comment, TranslatorInterface $translator): Response
     {
+
         $rojectId = $comment->getProject()->getId();
+
+        if($comment->getUser()!==$this->getUser()){
+            $this->addFlash('danger', $translator->trans('app.flash_message.comment_unauthorized_deletion'));
+            return $this->redirectToRoute('app.project.show', [
+                'id' => $rojectId,
+                'context' => 'call_of_project'
+            ]);
+        }
 
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

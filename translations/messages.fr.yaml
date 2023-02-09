@@ -486,6 +486,7 @@ app:
     invitation_resend_success: L'invitation "%invitation%" a bien été réenvoyée
     add_comment_success: Ajout d'un commentaire avec succès pour le projet %item%
     comment_delete_success: Le message a bien été supprimé de ce projet
+    comment_unauthorized_deletion: Vous n'êtes pas autorisé à supprimer ce message
 
 
   footer:
