@@ -177,7 +177,11 @@ app:
       no_communicate: Non renseigné
   project:
     add_comment:
-      modal_title: Ajouter commentaire
+      modal_title: Ajouter un commentaire
+    detail:
+      card_header_title: Détail
+    comments:
+      card_header_title: Commentaires
     validation:
       validation:
         label: Retenir le projet
@@ -188,6 +192,7 @@ app:
         label: Envoie du mail automatique
     action:
       add_reporters: Ajouter des rapporteurs
+      add_comment: Ajouter un commentaire
     workflow:
       to_study:
         button: Lancer l'étude des projets

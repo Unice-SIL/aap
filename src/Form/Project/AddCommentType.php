@@ -16,7 +16,7 @@ class AddCommentType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-                'label' => 'app.project.property.comment.contenu'
+                'label' => false
             ])
         ;
     }

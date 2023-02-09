@@ -21,63 +21,15 @@
 
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="text-right mt-2">
-
-                        {% set parameters = { 'id' : project.id, } %}
-
-                        {% if context == 'call_of_project' %}
-                            {% set parameters = parameters|merge({ 'context' : context }) %}
-                        {% endif %}
-
-                        {% if is_granted(constant('App\\Security\\ProjectVoter::EDIT'), project) %}
-                            <a href="{{ path('app.project.edit', parameters) }}" class="btn btn-primary">
-                                {{ 'app.action.edit'|trans }}
-                            </a>
-                        {% endif %}
-
-                    </div>
-                    {{ include('project/_project_infos.html.twig', {'project' : project}) }}
-                </div>
-
-            </div>
-            {{ include('project/_project_comments.html.twig', {'project' : project}) }}
-
-        </div>
-
-        {% if
-            is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
-            and project.status != constant('App\\Entity\\Project::STATUS_WAITING') %}
+    {% if
+        is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject)
+        and project.status != constant('App\\Entity\\Project::STATUS_WAITING') %}
+        <div class="row">
             <div class="col">
-                {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>{{ 'app.project.validation_refusal.card_header_title'|trans }}</h4>
-                        </div>
-                        <div class="card-body d-flex justify-content-around">
-                            <button class="btn btn-primary btn-lg mr-3"
-                                    data-toggle="modal"
-                                    data-target="#validation-project-form-modal-{{ validation_form.action.vars.data }}"
-                                    type="button"
-                            >{{ 'app.project.validation.validation.label'|trans }}</button>
-                            <button class="btn btn-danger btn-lg"
-                                    data-toggle="modal"
-                                    data-target="#validation-project-form-modal-{{ refusal_form.action.vars.data }}"
-                                    type="button"
-                            >{{ 'app.project.validation.refusal.label'|trans }}</button>
-                        </div>
-                    </div>
-                {% endif %}
-
-                <div class="card mb-0">
-                    <div class="card-header">
-                        <h4>{{ 'app.project.reports.card_header_title'|trans }}</h4>
-                    </div>
+                <div class="card">
                     <div class="card-body">
 
+                        <h5>{{ 'app.project.reports.card_header_title'|trans }}</h5>
                         {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
                             <div class="mb-4 pb-2 clearfix border-bottom">
                                 <button class="btn btn-primary float-right"
@@ -85,6 +37,7 @@
                                         data-target="#add-reporters-form-modal"
                                         type="button"
                                 >
+                                    <i class="fas fa-user-plus"></i>
                                     {{ 'app.project.action.add_reporters'|trans }}
                                 </button>
                             </div>
@@ -120,9 +73,63 @@
 
                     </div>
                 </div>
-
             </div>
-        {% endif %}
+            {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) and project.status == constant('App\\Entity\\Project::STATUS_STUDYING') %}
+                <div class="col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="mb-4">{{ 'app.project.validation_refusal.card_header_title'|trans }}</h5>
+                            <button class="btn btn-primary btn-block"
+                                    data-toggle="modal"
+                                    data-target="#validation-project-form-modal-{{ validation_form.action.vars.data }}"
+                                    type="button"
+                            >
+                                <i class="fas fa-check-circle"></i>
+                                {{ 'app.project.validation.validation.label'|trans }}
+                            </button>
+                            <button class="btn btn-danger btn-block"
+                                    data-toggle="modal"
+                                    data-target="#validation-project-form-modal-{{ refusal_form.action.vars.data }}"
+                                    type="button"
+                            >
+                                <i class="fas fa-times-circle"></i>
+                                {{ 'app.project.validation.refusal.label'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col pb-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5>{{ 'app.project.detail.card_header_title'|trans }}</h5>
+                    <div class="mb-4 pb-2 clearfix border-bottom">
+
+                        {% set parameters = { 'id' : project.id, } %}
+
+                        {% if context == 'call_of_project' %}
+                            {% set parameters = parameters|merge({ 'context' : context }) %}
+                        {% endif %}
+
+                        {% if is_granted(constant('App\\Security\\ProjectVoter::EDIT'), project) %}
+                            <a href="{{ path('app.project.edit', parameters) }}" class="btn btn-primary float-right">
+                                <i class="fas fa-pen-nib"></i>
+                                {{ 'app.action.edit'|trans }}
+                            </a>
+                        {% endif %}
+
+                    </div>
+                    {{ include('project/_project_infos.html.twig', {'project' : project}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 pb-2">
+            {{ include('project/_project_comments.html.twig', {'project' : project}) }}
+        </div>
     </div>
 {% endblock %}
 

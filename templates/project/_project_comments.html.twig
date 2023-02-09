@@ -1,24 +1,25 @@
 <div class="card">
-    <div class="card-header">
-        <h3>Commentaires</h3>
-    </div>
     <div class="card-body">
+        <h5>{{ 'app.project.comments.card_header_title'|trans }}</h5>
+        {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), project.callOfProject) %}
         <div class="mb-4 pb-2 clearfix border-bottom">
             <button class="btn btn-primary float-right"
                     data-toggle="modal"
                     data-target="#add-comment-to-project-form-modal"
                     type="button"
             >
-                Ajouter
+                <i class="fas fa-comment"></i>
+                {{ 'app.project.action.add_comment'|trans }}
             </button>
         </div>
+        {% endif %}
         <div>
             {% for comment in project.comments %}
-                <div class="mb-3">
-                    <small>{{ comment.createdAt|date('d/m/Y H:i:s') }}
-                        par {{ comment.user.lastName }}  {{ comment.user.firstName }}</small>
-                    <div style="border-radius: 10px;" class="alert alert-default-info">
-                        <p style="margin-left: 10px; padding: 5px;">{{ comment.content }}</p>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <strong>{{ comment.user.lastName }}  {{ comment.user.firstName }}</strong>
+                        <small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i:s') }}</small>
+                        <div>{{ comment.content }}</div>
                     </div>
                 </div>
             {% endfor %}
