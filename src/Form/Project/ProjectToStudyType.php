@@ -15,6 +15,7 @@ class ProjectToStudyType extends AbstractType
         $builder->add('submit', SubmitType::class, [
             'label' => 'app.project.workflow.to_study.button',
             'attr' => [
+                'id' => "btn-launch-projects-review",
                 'class' => 'btn btn-primary'
             ]
         ]);

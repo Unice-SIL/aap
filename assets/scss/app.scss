@@ -319,3 +319,15 @@ body.layout-fixed {
   color: var(--primary);
   cursor: pointer;
 }
+
+#project_to_study_submit::before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f04b";
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 900;
+  margin-right: 5px;
+}

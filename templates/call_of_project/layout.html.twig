@@ -1,15 +1,25 @@
 {% extends 'sidebar_layout.html.twig' %}
 
 {% block after_header %}
-    <div class="buttons-toolbar container-fluid">
-        <a class="ml-2" href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
-            {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'text-info' : '' %}
-            {% set followingTitle = (call_of_project.subscribers.contains(app.user) ? 'app.action.toggle_subscription.off' : 'app.action.toggle_subscription.on') | trans %}
-            <i class="fas fa-eye {{ followingClass }}" title="{{ followingTitle }}"></i>
-        </a>
-        <a class="ml-2" href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">
-            <i class="fas fa-file-archive" title="{{ 'app.action.export'|trans }}"></i>
-        </a>
+    <div class="container-fluid">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle float-right" type="button" id="dropdownMenu2"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+            </button><br><br>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                <i class="fas fa-eye ml-1"></i> <a class="mr-2 text-dark"
+                                                   href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
+                    {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'text-info' : '' %}
+                    {% set followingTitle = (call_of_project.subscribers.contains(app.user) ? 'app.action.toggle_subscription.off' : 'app.action.toggle_subscription.on') | trans %}
+                    {{ followingTitle }}
+                </a><br>
+                <i class="fas fa-file-archive ml-1"></i><a class="text-dark"
+                                                           href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">
+                    {{ 'app.action.export'|trans }}
+                </a>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -29,7 +39,8 @@
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
-                <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
 
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), call_of_project) %}
                         <li class="nav-item">
@@ -78,8 +89,7 @@
                         <li class="nav-item">
                             <a href="{{ path('app.call_of_project.show_permissions', { 'id' : call_of_project.id }) }}"
                                class="nav-link {{ 'app.call_of_project.show_permissions' == app.request.get('_route')
-                               or 'app.call_of_project.edit_permissions' == app.request.get('_route') ? 'active'
-                               }}"
+                               or 'app.call_of_project.edit_permissions' == app.request.get('_route') ? 'active' }}"
                             >
                                 <i class="fas fa-user-lock nav-icon"></i>
                                 <p>{{ 'app.sidebar.item.admin.permissions'|trans }}</p>
