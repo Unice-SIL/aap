@@ -1,8 +1,8 @@
 <dl>
     <dt>{{ 'app.project.property.name.label'|trans }}</dt>
-    <dl>{{ project.name }}</dl>
+    <dd>{{ project.name }}</dd>
     <dt>{{ 'app.project.property.status.label'|trans }}</dt>
-    <d1>{{ ('app.project.constant.' ~ project.status)|trans }}</d1>
+    <dd>{{ ('app.project.constant.' ~ project.status)|trans }}</dd>
     {% for projectContent in project.projectContents %}
         <dt>{{ projectContent.projectFormWidget.widget.label }}</dt>
         <dl>

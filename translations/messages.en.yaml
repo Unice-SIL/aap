@@ -176,6 +176,12 @@ app:
     form:
       no_communicate: Not communicated
   project:
+    add_comment:
+      modal_title: Add a comment
+    detail:
+      card_header_title: Détail
+    comments:
+      card_header_title: Commentaires
     validation:
       validation:
         label: Validate the project

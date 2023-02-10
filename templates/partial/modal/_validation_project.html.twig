@@ -7,7 +7,6 @@
                 {{ form_widget(form.automaticSending) }}
                 <div class="mail-template-container">
                     {% if form.mailTemplate is defined %}
-
                         {% set value =
                             form.action.vars.data == constant('App\\Entity\\Project::STATUS_VALIDATED')
                             ?  form.vars.data.callOfProject.getValidationMailTemplate

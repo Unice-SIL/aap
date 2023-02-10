@@ -1,5 +1,5 @@
 #!/bin/sh
 
-make install
+make reinstall
 symfony server:stop
 symfony serve

@@ -176,6 +176,12 @@ app:
     form:
       no_communicate: Non renseigné
   project:
+    add_comment:
+      modal_title: Ajouter un commentaire
+    detail:
+      card_header_title: Détail
+    comments:
+      card_header_title: Commentaires
     validation:
       validation:
         label: Retenir le projet
@@ -186,6 +192,7 @@ app:
         label: Envoie du mail automatique
     action:
       add_reporters: Ajouter des rapporteurs
+      add_comment: Ajouter un commentaire
     workflow:
       to_study:
         button: Lancer l'étude des projets
@@ -207,8 +214,14 @@ app:
         label: Statut
       name:
         label: Titre
+      comment:
+        label: Commentaire
+        contenu: Contenu
       call_of_project:
         label: Appel à projets
+    modal:
+      remove_warning_title: Êtes-vous sûr de vouloir retirer ce message du projet ?
+      remove_warning_label_button: Retirer
     index:
       h1: Liste de vos projets
       add_project: Déposer un projet
@@ -474,6 +487,10 @@ app:
     success_project_refused: Refus du projet %item% réalisé avec succès
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
     invitation_resend_success: L'invitation "%invitation%" a bien été réenvoyée
+    add_comment_success: Ajout d'un commentaire avec succès pour le projet %item%
+    comment_delete_success: Le message a bien été supprimé de ce projet
+    comment_unauthorized_deletion: Vous n'êtes pas autorisé à supprimer ce message
+
 
   footer:
     copyright: Tous droits reservés

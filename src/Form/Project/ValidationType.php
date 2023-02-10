@@ -6,8 +6,10 @@ namespace App\Form\Project;
 use App\Entity\Project;
 use App\Form\Type\BootstrapSwitchType;
 use App\Form\Type\SummernoteType;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -24,7 +26,7 @@ class ValidationType extends AbstractType
                 'data' => $options['context'],
                 'mapped' => false
             ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options){
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
 
                 $form = $event->getForm();
 
@@ -40,7 +42,7 @@ class ValidationType extends AbstractType
                     ->getConfig()
                     ->getFormFactory()
                     ->createNamedBuilder('automaticSending', BootstrapSwitchType::class, null, array(
-                        'auto_initialize'=> false, // it's important!!!
+                        'auto_initialize' => false, // it's important!!!
                         'mapped' => false,
                         'data' => $automaticSendingData,
                         'attr' => [
@@ -79,27 +81,23 @@ class ValidationType extends AbstractType
                 });
 
                 $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($formTransformer) {
-                   $form = $event->getForm();
-                   $automaticSending = $form->getData();
+                    $form = $event->getForm();
+                    $automaticSending = $form->getData();
 
                     $formTransformer($form, $automaticSending);
 
                 });
-
                 $form->add($builder->getForm());
-
-            })
-        ;
-
+            });
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $class = $view->vars['attr']['class'] ?? '';
-        $class .=  ' validation-form';
+        $class .= ' validation-form';
 
         $view->vars['attr']['class'] = $class;
-        $view->vars['name'] = 'validation_'. $options['context'];
+        $view->vars['name'] = 'validation_' . $options['context'];
     }
 
     public function configureOptions(OptionsResolver $resolver)

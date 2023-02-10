@@ -20,7 +20,7 @@ class DynamicWidgetsType extends AbstractType
         $builder->add('name', null, [
             'label' => 'app.project.property.name.label'
         ]);
-        
+
         if (!$project instanceof Project) {
             return;
         }
