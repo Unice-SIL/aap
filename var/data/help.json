@@ -16,6 +16,11 @@
     "keywords": ["view", "information", "call_of_projects"]
   },
   {
+    "label": "app.help.labels.call_of_projects_launch_projects_review",
+    "template": "call_of_projects_launch_projects_review",
+    "keywords": ["start", "launch", "study", "reporter", "reporters", "workflow", "call_of_projects", "projects"]
+  },
+  {
     "label": "app.help.labels.call_of_projects_list",
     "template": "call_of_projects_list",
     "keywords": ["view", "list", "call_of_projects"]
