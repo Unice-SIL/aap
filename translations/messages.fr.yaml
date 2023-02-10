@@ -631,6 +631,7 @@ app:
       call_of_projects_create: Créer un appel à projets
       call_of_projects_info_edit: Modifier les informations d'un appel à projets
       call_of_projects_info_view: Consulter les informations d'un appel à projets
+      call_of_projects_launch_projects_review: Démarrer l'étude des projets d'un appel
       call_of_projects_list: Consulter la liste de mes appels à projets
       call_of_projects_projects_list: Consulter la liste des projets d'un appel
       project_create: Déposer un projet
@@ -642,12 +643,20 @@ app:
     call_of_projects: appel à projets
     create: créer
     edit: éditer, modifier
+    launch: lancer, exécuter, démarrer
     list: liste
     information: informations
     project: projet
     projects: projets
+    report: rapport
+    reporter: rapporteur
+    reporters: rapporteurs
+    review: revue, étude
+    start: démarrer, exécuter
+    study: étude, revue
     submit: déposer, soumettre
     view: consulter, vue, voir
+    workflow: workflow
   registration:
     invitation_sent: Invitation envoyée avec succès
     invitation_link: Inviter une personne
