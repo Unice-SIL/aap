@@ -26,7 +26,7 @@ class CommentController extends AbstractController
 
     /**
      * @IsGranted(App\Security\CommentVoter::DELETE, subject="comment")
-     * @Route("/comment/{id}/remove", name="delete", methods={"DELETE"})
+     * @Route("/{id}/remove", name="delete", methods={"DELETE"})
      * @param Request $request
      * @param Comment $comment
      * @param TranslatorInterface $translator

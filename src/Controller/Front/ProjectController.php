@@ -134,12 +134,8 @@ class ProjectController extends AbstractController
         $addCommentForm->handleRequest($request);
         $addReportersForm->handleRequest($request);
 
-        if ($addCommentForm->isSubmitted()) {
+        if ($addCommentForm->isSubmitted() && $addCommentForm->isValid()) {
             $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $project->getCallOfProject());
-            if ($project->getStatus() !== Project::STATUS_STUDYING) {
-                throw new AccessDeniedException();
-            }
-
             /** @var Comment $comment */
             $comment = $addCommentForm->getData();
             $comment->setUser($this->getUser());
