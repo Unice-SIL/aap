@@ -134,7 +134,8 @@ class ProjectController extends AbstractController
         $addCommentForm->handleRequest($request);
         $addReportersForm->handleRequest($request);
 
-        if ($addCommentForm->isSubmitted()) {
+        if ($addCommentForm->isSubmitted() && $addCommentForm->isValid()) {
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $project->getCallOfProject());
             /** @var Comment $comment */
             $comment = $addCommentForm->getData();
             $comment->setUser($this->getUser());
@@ -279,37 +280,4 @@ class ProjectController extends AbstractController
             'add_comment_form' => $addCommentForm->createView()
         ]);
     }
-
-    /**
-     * @Route("/comment/{id}/remove", name="delete_comment", methods={"GET", "POST","DELETE"})
-     * @param Request $request
-     * @param Comment $comment
-     * @param TranslatorInterface $translator
-     * @return Response
-     */
-    public function deleteFromProject(Request $request,Comment $comment, TranslatorInterface $translator): Response
-    {
-
-        $rojectId = $comment->getProject()->getId();
-
-        if($comment->getUser()!==$this->getUser()){
-            $this->addFlash('danger', $translator->trans('app.flash_message.comment_unauthorized_deletion'));
-            return $this->redirectToRoute('app.project.show', [
-                'id' => $rojectId,
-                'context' => 'call_of_project'
-            ]);
-        }
-
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($comment);
-            $entityManager->flush();
-            $this->addFlash('success', $translator->trans('app.flash_message.comment_delete_success'));
-        }
-        return $this->redirectToRoute('app.project.show', [
-            'id' => $rojectId,
-            'context' => 'call_of_project'
-        ]);
-    }
-
 }

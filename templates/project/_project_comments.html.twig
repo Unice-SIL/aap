@@ -17,11 +17,11 @@
             {% for comment in project.comments %}
                 <div class="card shadow">
                     <div class="card-body">
+                        {% if is_granted(constant('App\\Security\\CommentVoter::DELETE'), comment) %}
+                            {{ include('project/_delete_comment_form.html.twig', { path : path('app.comment.delete', { id: comment.id}) }) }}
+                        {% endif %}
                         <strong>{{ comment.user.lastName }}  {{ comment.user.firstName }}</strong>
                         <small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i:s') }}</small>
-                        {% if comment.user == app.user %}
-                        {{ include('project/_delete_comment_form.html.twig', { path : path('app.project.delete_comment', { id: comment.id}) }) }}
-                        {% endif %}
                         <div>{{ comment.content }}</div>
                     </div>
                 </div>

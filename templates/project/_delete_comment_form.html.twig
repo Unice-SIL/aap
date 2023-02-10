@@ -2,7 +2,7 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
     <button
-            class="btn btn-sm alert-button-modal btn-danger float-right"
+            class="btn btn-link btn-sm alert-button-modal float-right text-danger"
             data-modal-title="{{ 'app.project.modal.remove_warning_title'|trans }}"
             data-modal-warning-label="{{ 'app.project.modal.remove_warning_label_button'|trans }}"
             data-modal-warning-class="btn btn-danger"

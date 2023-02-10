@@ -126,9 +126,11 @@
                 </div>
             </div>
         </div>
+        {% if is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), project.callOfProject) %}
         <div class="col-xl-4 pb-2">
             {{ include('project/_project_comments.html.twig', {}) }}
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 
