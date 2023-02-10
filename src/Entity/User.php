@@ -109,12 +109,17 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=50, nullable=true)
      *
      */
-    private $auth;
+    private $auth = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $lastConnection;
+    private $lastConnection = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $news = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Common::class, mappedBy="createdBy")
@@ -536,6 +541,24 @@ class User implements UserInterface, \Serializable
                 return $element instanceof $type;
             })
         );
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNews(): ?string
+    {
+        return $this->news;
+    }
+
+    /**
+     * @param string|null $news
+     * @return User
+     */
+    public function setNews(?string $news): User
+    {
+        $this->news = $news;
+        return $this;
     }
 
     public function serialize()
