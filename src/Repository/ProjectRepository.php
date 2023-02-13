@@ -19,9 +19,21 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    // /**
-    //  * @return Project[] Returns an array of Project objects
-    //  */
+    /**
+     * @param string $callOfProjectId
+     * @return int
+     */
+    public function getLastNumberProject(string $callOfProjectId): int
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('p, MAX(p.number) AS max_number')
+            ->Where('p.callOfProject = :val')
+            ->setParameter('val', $callOfProjectId)
+            ->getQuery()
+            ->getResult();
+        return $query[0]['max_number'] ?? 0;
+    }
+
     /*
     public function findByExampleField($value)
     {

@@ -214,6 +214,8 @@ app:
         label: Statut
       name:
         label: Titre
+      number:
+        label: N° du projet
       comment:
         label: Commentaire
         contenu: Contenu

@@ -73,6 +73,11 @@ class Common
     private $subscribers;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $number;
+
+    /**
      * Common constructor.
      */
     public function __construct()
@@ -211,6 +216,18 @@ class Common
                 $subscriber->getSubscriptions()->removeElement($this);
             }
         }
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }
