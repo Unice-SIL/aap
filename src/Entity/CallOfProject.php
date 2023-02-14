@@ -109,6 +109,11 @@ class CallOfProject extends Common
     private $public = true;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $code;
+
+    /**
      * CallOfProject constructor.
      */
     public function __construct()
@@ -448,6 +453,18 @@ class CallOfProject extends Common
     public function setPublic(bool $public): CallOfProject
     {
         $this->public = $public;
+        return $this;
+    }
+
+    public function getCode(): ?int
+    {
+        return $this->code;
+    }
+
+    public function setCode(int $code): self
+    {
+        $this->code = $code;
+
         return $this;
     }
 }

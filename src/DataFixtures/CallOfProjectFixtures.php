@@ -60,6 +60,8 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject->setName(self::CALL_OF_PROJECT_1);
         $callOfProject->setDescription('Description de l\'appel à projet');
         $callOfProject->setOrganizingCenter($organizingCenter1);
+        $callOfProject->setCode(1) ;
+
 
         $callOfProject->setStartDate((new \DateTime())->modify('-1 day'));
         $callOfProject->setEndDate((new \DateTime())->modify('+1 day'));
@@ -86,6 +88,7 @@ class CallOfProjectFixtures extends Fixture implements DependentFixtureInterface
         $callOfProject->setName(self::CALL_OF_PROJECT_2);
         $callOfProject->setDescription('Description de l\'appel à projet');
         $callOfProject->setOrganizingCenter($organizingCenter1);
+        $callOfProject->setCode(2);
 
         $callOfProject->setStartDate((new \DateTime())->modify('+3 day'));
         $callOfProject->setEndDate((new \DateTime())->modify('+5 day'));
