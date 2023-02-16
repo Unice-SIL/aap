@@ -96,6 +96,7 @@ app:
           show_permissions: Liste de permissions
           label: Appel à projet
           delete_form: Supprimer
+          preview_add_form: Aperçu formulaire projet
         project:
           edit: Édition
           show: Vue
@@ -262,6 +263,8 @@ app:
       placeholder: Choisissez un appel à projets
     form:
         h1: Configuration du projet
+    preview_add_form:
+        h1: Aperçu du formulaire de dépôt de projet
     constant:
       opened: Ouvert
       closed: Fermé
@@ -419,6 +422,7 @@ app:
         project_form: Configuration
         permissions: Permissions
         widget: Formulaire projet
+        preview_add_form: Apercu formulaire projet
         mail_template: Modèle email
         delete_form: Supprimer l'appel
     admin:

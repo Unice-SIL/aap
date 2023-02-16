@@ -100,6 +100,7 @@
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::ADMIN'), call_of_project) %}
                         {% set isConfigRoute = app.request.get('_route') in [
                             'app.call_of_project.form',
+                            'app.call_of_project.preview_add_form',
                             'app.call_of_project.mail_template',
                             'app.call_of_project.delete_form'
                         ] %}
@@ -120,6 +121,14 @@
                                        class="nav-link {{ app.request.get('_route') == 'app.call_of_project.form' ? 'active' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ 'app.sidebar.item.admin.widget'|trans }}</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ path('app.call_of_project.preview_add_form', {'id' : call_of_project.id}) }}"
+                                       class="nav-link {{ app.request.get('_route') == 'app.call_of_project.preview_add_form' ? 'active' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{ 'app.sidebar.item.admin.preview_add_form'|trans }}</p>
                                     </a>
                                 </li>
 

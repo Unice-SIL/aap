@@ -646,16 +646,30 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{id}/preview-add-form", name="preview_add_form", methods={"GET","POST"})
+     * @param CallOfProject $callOfProject
+     * @param WidgetManager $widgetManager
+     * @param ProjectManagerInterface $projectManager
+     * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
+     * @throws \Exception
      */
-    /*public function delete(Request $request, CallOfProject $callOfProject): Response
+    public function previewAddForm(
+        CallOfProject $callOfProject,
+        WidgetManager $widgetManager,
+        ProjectManagerInterface $projectManager
+    ): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$callOfProject->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($callOfProject);
-            $entityManager->flush();
-        }
+        $project = $projectManager->create($callOfProject);
+        $dynamicForm = $widgetManager->getDynamicForm($project, [ 'disabled' => true ]);
 
-        return $this->redirectToRoute('index');
-    }*/
+        return $this->render('call_of_project/preview_add_form.html.twig', [
+            'call_of_project' => $callOfProject,
+            'widget_manager' => $widgetManager,
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
+                $dynamicForm,
+                'partial/widget/_dynamic_preview_add_form.html.twig'
+            ),
+        ]);
+    }
 }
