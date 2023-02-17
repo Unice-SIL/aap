@@ -118,17 +118,11 @@
 
                                 <li class="nav-item">
                                     <a href="{{ path('app.call_of_project.form', {'id' : call_of_project.id}) }}"
-                                       class="nav-link {{ app.request.get('_route') == 'app.call_of_project.form' ? 'active' }}">
+                                       class="nav-link {{ app.request.get('_route') == 'app.call_of_project.form' or
+                                       app.request.get('_route') == 'app.call_of_project.preview_add_form'
+                                       ? 'active'  }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ 'app.sidebar.item.admin.widget'|trans }}</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ path('app.call_of_project.preview_add_form', {'id' : call_of_project.id}) }}"
-                                       class="nav-link {{ app.request.get('_route') == 'app.call_of_project.preview_add_form' ? 'active' }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>{{ 'app.sidebar.item.admin.preview_add_form'|trans }}</p>
                                     </a>
                                 </li>
 
