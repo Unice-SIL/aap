@@ -646,6 +646,34 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/preview-add-form", name="preview_add_form", methods={"GET","POST"})
+     * @param CallOfProject $callOfProject
+     * @param WidgetManager $widgetManager
+     * @param ProjectManagerInterface $projectManager
+     * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
+     * @throws \Exception
+     */
+    public function previewAddForm(
+        CallOfProject $callOfProject,
+        WidgetManager $widgetManager,
+        ProjectManagerInterface $projectManager
+    ): Response
+    {
+        $project = $projectManager->create($callOfProject);
+        $dynamicForm = $widgetManager->getDynamicForm($project, [ 'disabled' => true ]);
+
+        return $this->render('call_of_project/preview_add_form.html.twig', [
+            'call_of_project' => $callOfProject,
+            'widget_manager' => $widgetManager,
+            'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
+                $dynamicForm,
+                'partial/widget/_dynamic_preview_add_form.html.twig'
+            ),
+        ]);
+    }
+
+    /**
      * Route("/{id}", name="delete", methods={"DELETE"})
      */
     /*public function delete(Request $request, CallOfProject $callOfProject): Response
@@ -655,7 +683,6 @@ class CallOfProjectController extends AbstractController
             $entityManager->remove($callOfProject);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('index');
     }*/
 }
