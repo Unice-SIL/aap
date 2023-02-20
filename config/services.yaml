@@ -52,6 +52,10 @@ services:
         tags:
             - { name: 'doctrine.event_subscriber' }
 
+    App\EventSubscriber\ProjectDoctrineSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
     _instanceof:
         App\Widget\FormWidget\FormWidgetInterface:
             tags: ['app.form_widget']

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,19 +21,20 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+
     /**
-     * @param string $callOfProjectId
-     * @return int
+     * @throws NonUniqueResultException
+     * @throws NoResultException
      */
     public function getLastNumberProject(string $callOfProjectId): int
     {
         $query = $this->createQueryBuilder('p')
-            ->select('p, MAX(p.number) AS max_number')
+            ->select('MAX(p.number) AS max_number')
             ->Where('p.callOfProject = :val')
             ->setParameter('val', $callOfProjectId)
             ->getQuery()
-            ->getResult();
-        return $query[0]['max_number'] ?? 0;
+            ->getSingleResult();
+        return $query['max_number'] ?? 0;
     }
 
     /*

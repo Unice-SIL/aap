@@ -6,12 +6,9 @@ use App\Entity\CallOfProject;
 use App\EventSubscriber\CallOfProjectInformationTypeSubscriber;
 use App\Form\Type\DateTimePickerType;
 use App\Form\Type\SummernoteType;
-use App\Repository\CallOfProjectRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Blank;
 
@@ -23,20 +20,12 @@ class CallOfProjectInformationType extends AbstractType
     private $callOfProjectInformationTypeSubscriber;
 
     /**
-     * @var CallOfProjectRepository
-     */
-    private $callOfProjectRepository;
-
-    /**
      * CallOfProjectInformationType constructor.
      * @param CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber
      */
-    public function __construct(CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber,
-    CallOfProjectRepository $callOfProjectRepository
-    )
+    public function __construct(CallOfProjectInformationTypeSubscriber $callOfProjectInformationTypeSubscriber)
     {
         $this->callOfProjectInformationTypeSubscriber = $callOfProjectInformationTypeSubscriber;
-        $this->callOfProjectRepository = $callOfProjectRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -78,16 +67,7 @@ class CallOfProjectInformationType extends AbstractType
                 'required' => false
 
             ])
-            ->addEventSubscriber($this->callOfProjectInformationTypeSubscriber)
-            ->addEventListener(
-                FormEvents::POST_SUBMIT,
-                function (FormEvent $event) {
-                    /** @var CallOfProject $callOfProject */
-                    $callOfProject = $event->getData();
-                    $lastCode = 1 + $this->callOfProjectRepository->getLastCode();
-                    $callOfProject->setCode($lastCode);
-                });
-            ;
+            ->addEventSubscriber($this->callOfProjectInformationTypeSubscriber);
 
     }
 

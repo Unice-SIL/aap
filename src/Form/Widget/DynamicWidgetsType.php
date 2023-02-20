@@ -89,14 +89,6 @@ class DynamicWidgetsType extends AbstractType
             ]));
 
         }
-
-        $builder->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                $project = $event->getData();
-                $numberLastProject = 1 + $this->projectRepository->getLastNumberProject($project->getCallOfProject()->getId());
-                $project->setNumber($numberLastProject);
-            });
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -82,12 +82,16 @@ class CallOfProjectRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
     public function getLastCode (): int
     {
         $query = $this->createQueryBuilder('cop')
-            ->select('cop, MAX(cop.code) AS max_code')
+            ->select('MAX(cop.code) AS max_code')
               ->getQuery()
-            ->getResult();
-        return $query[0]['max_code'] ?? 0;
+            ->getSingleResult();
+        return $query['max_code'] ?? 0;
     }
 }
