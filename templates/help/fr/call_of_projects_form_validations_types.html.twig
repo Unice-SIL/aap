@@ -1,0 +1,26 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_form_validations_types' %}
+
+{% block help_content %}
+    <ul>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_length'}) }}" target="_blank">Type {{ 'app.form.widget.validation.length.label'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_less_than_or_equal'}) }}" target="_blank">Type {{ 'app.form.widget.validation.less_than_or_equal.label'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_greater_than_or_equal'}) }}" target="_blank">Type {{ 'app.form.widget.validation.greater_than_or_equal.label'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_email'}) }}" target="_blank">Type {{ 'app.form.widget.validation.email.label'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_url'}) }}" target="_blank">Type {{ 'app.form.widget.validation.url.label'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_regex'}) }}" target="_blank">Type {{ 'app.form.widget.validation.regex.label'|trans }}</a>
+        </li>
+    </ul>
+{% endblock %}

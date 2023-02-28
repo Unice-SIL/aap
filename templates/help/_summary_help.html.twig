@@ -1,0 +1,7 @@
+{% set label = 'app.help.labels.' ~ help %}
+
+<li>
+    <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': help}) }}">
+        {{ label | trans }}
+    </a>
+</li>

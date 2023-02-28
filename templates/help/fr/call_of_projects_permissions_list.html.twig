@@ -1,6 +1,6 @@
 {% extends 'help/help_layout.html.twig' %}
 
-{% set title = 'app.help.labels.call_of_projects_info_view' %}
+{% set title = 'app.help.labels.call_of_projects_permissions_list' %}
 
 {% block help_content %}
     <div class="alert alert-warning">
@@ -13,7 +13,10 @@
     </div>
     <ol>
         <li>
-            Depuis la <a target="_blank" href="{{ path('app.call_of_project.index') }}"><u>liste de vos appels à projets</u></a> sélectionnez un appel à projets en cliquant sur son titre
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations d'un appel à projets</u></a>
+        </li>
+        <li>
+            Dans le menu de gauche cliquez sur <u>{{ 'app.sidebar.item.admin.permissions'|trans }}</u>
         </li>
     </ol>
 {% endblock %}

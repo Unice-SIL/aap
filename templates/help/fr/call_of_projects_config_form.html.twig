@@ -1,0 +1,93 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_config_form' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+        </ul>
+    </div>
+    <h5>Accéder à la partie configuration du formulaire de dépôt de projets</h5>
+    <ol>
+        <li>
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations d'un appel à projets</u></a>
+        </li>
+        <li>
+            Dans le menu à gauche, cliquez sur <u>{{ 'app.sidebar.item.admin.project_form'|trans }}</u>, puis sur <u>{{ 'app.sidebar.item.admin.widget'|trans }}</u>
+        </li>
+    </ol>
+    <h5>Ajouter un champ au formulaire</h5>
+    <ol>
+        <li>
+            Dans le menu de droite, cliquez sur le bouton <i class="fas fa-plus-circle"></i> en face du type de champ que vous souhaitez ajouter
+        </li>
+        <li>
+            Renseignez les informations concernant le champ (les informations à renseigner diffèrent en fonction du type de champs cf. <a href="#widgetTypes">Types de champs</a> ci-dessous)
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+    <h5>Modifier les informations d'un champ</h5>
+    <ol>
+        <li>
+            Cliquez sur le bouton <i class="fa fa-edit"></i> qui se trouve au niveau du champ pour lequel vous souhaitez apporter des modifications
+        </li>
+        <li>
+            Modifiez les informations souhaitées
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+    <h5>Changer la position d'un champ</h5>
+    <span>Les champs apparaitront dans le formulaire dans l'ordre dans lequel vous les avez placés. Leur position peut donc avoir une importance et vous pourriez vouloir changer cet ordre</span>
+    <ol>
+        <li>
+            Cliquez sur le bouton <i class="fas fa-ellipsis-h"></i> qui se trouve au niveau du champ que vous souhaitez déplacer
+        </li>
+        <li>
+            Tout en restant appuyé sur le bouton, faites glisser le champ jusqu'à la position souhaitée
+        </li>
+        <li>
+            Relâchez le bouton
+        </li>
+    </ol>
+    <h5>Supprimer un champ</h5>
+    <ol>
+        <li>
+            Cliquez sur le bouton <i class="fa fa-trash"></i> qui se trouve au niveau du champ que vous souhaitez supprimer
+        </li>
+        <li>
+            Confirmez la suppression en cliquant sur <u>{{ 'app.action.trash'|trans }}</u>
+        </li>
+    </ol>
+    <h5>Importer un champ depuis le formulaire d'un autre appel à projets</h5>
+    <ol>
+        <li>
+            Cliquez sur le bouton <i class="fas fa-file-import"></i> qui se trouve tout en haut de la configuration du formulaire
+        </li>
+        <li>
+            Recherchez l'appel à projets contenant l'élément, puis recherchez le champ (widget) que vous souhaitez dupliquer
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.import'|trans }}</u>
+        </li>
+    </ol>
+    <h5>Prévisualiser le formulaire</h5>
+    <ol>
+        <li>
+            Cliquez sur le bouton
+        </li>
+    </ol>
+    <h5 id="widgetTypes">Types de champs</h5>
+    <ul>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_text'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\TextWidget'|trans }}</a>
+        </li>
+    </ul>
+{% endblock %}

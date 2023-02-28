@@ -3,11 +3,22 @@
 {% set title = 'app.help.labels.call_of_projects_launch_projects_review' %}
 
 {% block help_content %}
-    <div class="alert alert-warning">
-        Vous devez être administrateur de l'appel à projets ou du centre organisateur et au moins 1 projet doit avoir le statut "{{ 'app.project.constant.waiting'|trans }}"
-    </div>
     <div class="alert alert-danger">
         Cette action est irréversible, elle bascule les projets de votre appel au statut "{{ 'app.project.constant.studying'|trans }}" empêchant la modification des projets par les utilisateurs qui les ont déposés.
+    </div>
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+            <li>
+                La date de fermeture de l'appel à projet doit être dépassée et le projet au statut {{ 'app.project.constant.waiting'|trans }}
+            </li>
+            <li>
+                Au moins 1 projet doit avoir le statut "{{ 'app.project.constant.waiting'|trans }}"
+            </li>
+        </ul>
     </div>
     <ol>
         <li>

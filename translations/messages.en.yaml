@@ -610,31 +610,85 @@ app:
   error_occured: An error occured
 
   help:
+    back: back to summary
     title: Help
     placeholder: What do you want to do?
     results_not_found: No result found
     more_results: See more results
     labels:
+      call_of_projects_add_permission: Add an user access permission for a call
       call_of_projects_create: Create a new call of projects
-      call_of_projects_info_edit: Edit call of projects' informations
-      call_of_projects_info_view: View call of projects' informations
-      call_of_projects_list: View list of call of projects
-      call_of_projects_projects_list: View list of projects from a call of projects
-      project_create: Create project
+      call_of_projects_delete_permission: Remove an user access permission for a call
+      call_of_projects_form_add_widget: Add a field to the project form for a call
+      call_of_projects_form_config: Configure the project form for a call
+      call_of_projects_form_delete_widget: Remove a field to the project form for a call
+      call_of_projects_form_edit_widget: Edit a field to the project form for a call
+      call_of_projects_form_move_widget: Move a field in the project form for a call
+      call_of_projects_form_validations_types: Validations constraints types
+      call_of_projects_form_widgets_types: Fields types available for the project form
+      call_of_projects_info_edit: Edit the call of projects informations
+      call_of_projects_info_view: See the call of projects informations
+      call_of_projects_launch_projects_review: Start the projects review for a call
+      call_of_projects_list: See the list of call of projects
+      call_of_projects_permissions_list: View the call of projects access permissions
+      call_of_projects_project_add_comment: Add a comments to a project
+      call_of_projects_project_add_reporter: Add a reporters to a project
+      call_of_projects_project_delete_reporter: Delete a reporter
+      call_of_projects_project_info_view: See the project informations for a call
+      call_of_projects_project_reporters_list: See the project reporters
+      call_of_projects_projects_list: See list of projects from a call of projects
+      index: Summary
+      project_create: Create a project
       project_info_edit: Edit project's informations
-      project_info_view: View project's informations
-      project_my_list: View list of my projects
-
+      project_info_view: See project's informations
+      project_my_list: See the list of my projects
+      validation_email: Email validation type
+      validation_greater_than_or_equal: Greater than or equals validation type
+      validation_length: Length validation type
+      validation_less_than_or_equal: Less than or equals validation type
+      validation_url: Url validation type
+      widget_checkbox: Multiple choices field type
+      widget_integer: Number field type
+      widget_radiobox: Unique choice field type
+      widget_range: Range field type
+      widget_text: Short Text field type
+      widget_textarea: Long Text field type
+      widget_unique_select: Select choice field type
   keyword:
+    access: access
+    add: add, append
+    append: append, add
     call_of_projects: call of projects
-    create: create
-    edit: edit
+    comment: comment
+    comments: comments
+    config: config, configure, configuration
+    create: create, creation
+    delete: delete, remove
+    edit: edit, modify
+    field: field
+    fields: fields
+    form: form
+    launch: launch, execute, start
     list: list
     information: informations
+    move: move
+    my: my
+    permission: permission
+    permissions: permissions
+    position: position, order
     project: project
     projects: projects
+    remove: remove, delete
+    report: report
+    reports: reports
+    reporter: reporter
+    reporters: reporters
+    review: review, study
     submit: submit
+    user: utilisateur
     view: view
+    widget: widget
+    workflow: workflow
   registration:
     invitation_sent: Invitation sent with success
     invitation_link: Invite someone

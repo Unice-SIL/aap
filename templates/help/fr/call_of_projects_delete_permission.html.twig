@@ -1,0 +1,31 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_delete_permission' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+        </ul>
+    </div>
+    <ol>
+        <li>
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_permissions_list'}) }}"><u>consultation des permissions d'accès d'un appel à projets</u></a>
+        </li>
+        <li>
+            Dans la partie {{ 'app.call_of_project.own_acls'|trans }}, cliquez sur le bouton <u>{{ 'app.action.edit'|trans }}</u>
+        </li>
+        <li>
+            Cliquez sur la croix qui se trouve à droite de l'utilisateur que vous souhaitez supprimer
+        </li>
+        <li>
+            Supprimez autant de permissions que vous le souhaitez
+        </li>
+        <li>
+            Une fois terminé, cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

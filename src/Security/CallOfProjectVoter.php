@@ -80,7 +80,7 @@ class CallOfProjectVoter extends Voter
             case self::ADMIN:
                 return $this->canAdmin($callOfProject, $user);
             case self::EDIT:
-                return $this->cantEdit($callOfProject, $user);
+                return $this->canEdit($callOfProject, $user);
             case self::OPEN:
                 return $this->isOpen($callOfProject);
             case self::SHOW_INFORMATIONS:
@@ -108,7 +108,7 @@ class CallOfProjectVoter extends Voter
             return false;
         }
 
-        if (!$this->cantEdit($callOfProject, $user)) {
+        if (!$this->canEdit($callOfProject, $user)) {
             return false;
         }
 
@@ -150,7 +150,7 @@ class CallOfProjectVoter extends Voter
         return $this->canSeeInformations($callOfProject, $user);
     }
 
-    private function cantEdit(CallOfProject $callOfProject, User $user)
+    private function canEdit(CallOfProject $callOfProject, User $user)
     {
         $userPermissions = AbstractAclManager::getPermissions($user, $callOfProject);
         $userPermissions = array_merge(

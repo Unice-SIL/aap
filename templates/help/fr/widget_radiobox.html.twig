@@ -1,0 +1,34 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.widget_radiobox' %}
+
+{% block help_content %}
+    <h5>Informations</h5>
+    <ul>
+        <li>
+            <b>{{ 'app.form.widget.label.label'|trans }} <i>(obligatoire)</i></b> : Nom du champ
+        </li>
+        <li>
+            <b>{{ 'app.form.widget.visibility_label.label'|trans }}</b> : Détermine si le nom du champ sera visible ou pas dans le formulaire
+        </li>
+        <li>
+            <b>{{ 'app.form.widget.required.label'|trans }}</b> : Détermine si le champ devra être obligatoirement renseigné pour pouvoir soumettre le formulaire
+        </li>
+        <li>
+            <b>{{ 'app.dictionary_label'|trans }}</b> : Liste de choix préexistante sur laquelle votre champ sera basé
+        </li>
+        <li>
+            <b>{{ 'app.import_choices.label'|trans }}</b> : Importer les choix depuis un fichier csv
+        </li>
+        <li>
+            <b>{{ 'app.form.widget.choices.label'|trans }}</b> : Ajouter la liste des choix (valeurs) qui seront disponibles pour le champ
+        </li>
+    </ul>
+
+    <h5>{{ 'app.widget.form_widget.category.advanced'|trans }}</h5>
+    <ul>
+        <li>
+            <b>{{ 'app.form.widget.style.label'|trans }}</b> : Possibilité de renseigner des règles CSS qui seront appliquées sur le champ
+        </li>
+    </ul>
+{% endblock %}

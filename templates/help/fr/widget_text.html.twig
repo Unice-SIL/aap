@@ -1,0 +1,45 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.widget_text' %}
+
+{% block help_content %}
+    <h5>Informations</h5>
+    <ul>
+        <li>
+            <b>{{ 'app.form.widget.label.label'|trans }} <i>(obligatoire)</i></b> : Nom du champ
+        </li>
+        <li>
+            <b>{{ 'app.form.widget.visibility_label.label'|trans }}</b> : Détermine si le nom du champ sera visible ou pas dans le formulaire
+        </li>
+        <li>
+            <b>{{ 'app.form.widget.required.label'|trans }}</b> : Détermine si le champ devra être obligatoirement renseigné pour pouvoir soumettre le formulaire
+        </li>
+        <li>
+            <b>{{ 'app.form.widget.placeholder.label'|trans }}</b> : Permet d'afficher à l'utilisateur un exemple de valeur possible pour le champ
+        </li>
+    </ul>
+
+    <h5>{{ 'app.widget.form_widget.category.advanced'|trans }}</h5>
+    <ul>
+        <li>
+            <b>{{ 'app.form.widget.dynamic_constraints.label'|trans }}</b> :
+            <ul>
+                <li>
+                    <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_length'}) }}">{{ 'app.form.widget.validation.length.label'|trans }}</a>
+                </li>
+                <li>
+                    <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_email'}) }}">{{ 'app.form.widget.validation.email.label'|trans }}</a>
+                </li>
+                <li>
+                    <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_url'}) }}">{{ 'app.form.widget.validation.url.label'|trans }}</a>
+                </li>
+                <li>
+                    <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'validation_regex'}) }}">{{ 'app.form.widget.validation.regex.label'|trans }}</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>{{ 'app.form.widget.style.label'|trans }}</b> : Possibilité de renseigner des règles CSS qui seront appliquées sur le champ
+        </li>
+    </ul>
+{% endblock %}

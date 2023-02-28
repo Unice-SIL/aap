@@ -1,0 +1,14 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.validation_regex' %}
+
+{% block help_content %}
+    <span>
+        Permet de valider que la valeur renseignée respecte bien le format de l'expression régulière indiquée
+    </span>
+    <ul>
+        <li>
+            <b>Pattern</b> : Expression régulière qui servira à valider la valeur renseignée pour le champ
+        </li>
+    </ul>
+{% endblock %}

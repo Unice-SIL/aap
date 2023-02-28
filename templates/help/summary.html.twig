@@ -1,0 +1,48 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.index' %}
+
+{% block help %}
+    <h2><u>Utilisateur</u></h2>
+    <ul>
+        {% include 'help/_summary_help.html.twig' with { 'help': 'project_my_list' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'project_create' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'project_info_view' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'project_info_edit' } %}
+    </ul>
+
+    <h2><u>Gestionnaire ou administrateur d'appel à projets</u></h2>
+    <h4>Appel à projets</h4>
+    <ul>
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_create' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_list' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_info_view' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_info_edit' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_permissions_list' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_add_permission' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_delete_permission' } %}
+    </ul>
+    <h4>Configuration du formulaire du projet</h4>
+    <ul>
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_form_config' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_form_add_widget' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_form_edit_widget' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_form_move_widget' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_form_delete_widget' } %}
+    </ul>
+    <h4>Projets</h4>
+    <ul>
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_projects_list' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_project_info_view' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_project_add_comment' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_launch_projects_review' } %}
+    </ul>
+    <h4>Rapporteurs</h4>
+    <ul>
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_project_reporters_list' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_project_add_reporter' } %}
+        {% include 'help/_summary_help.html.twig' with { 'help': 'call_of_projects_project_delete_reporter' } %}
+    </ul>
+
+    <h2><u>Administrateur</u></h2>
+{% endblock %}

@@ -96,7 +96,7 @@ app:
           show_permissions: Liste de permissions
           label: Appel à projet
           delete_form: Supprimer
-          preview_add_form: Aperçu formulaire projet
+          form_preview: Aperçu formulaire projet
         project:
           edit: Édition
           show: Vue
@@ -263,7 +263,7 @@ app:
       placeholder: Choisissez un appel à projets
     form:
         h1: Configuration du projet
-    preview_add_form:
+    form_preview:
         h1: Aperçu du formulaire de dépôt de projet
     constant:
       opened: Ouvert
@@ -422,7 +422,7 @@ app:
         project_form: Configuration
         permissions: Permissions
         widget: Formulaire projet
-        preview_add_form: Apercu formulaire projet
+        form_preview: Apercu formulaire projet
         mail_template: Modèle email
         delete_form: Supprimer l'appel
     admin:
@@ -629,39 +629,86 @@ app:
   error_occured: Une erreur est survenue
 
   help:
+    back: Retour au sommaire
     title: Aide
     placeholder: Que souhaitez-vous faire ?
     results_not_found: Aucun résultats trouvés
     more_results: Voir plus de résultats
     labels:
+      call_of_projects_add_permission: Ajouter une permission d'accès à un appel pour un utilisateur
       call_of_projects_create: Créer un appel à projets
+      call_of_projects_delete_permission: Supprimer une permission d'accès à un appel pour un utilisateur
+      call_of_projects_form_add_widget: Ajouter un champ au formulaire de dépôt de projets d'un appel
+      call_of_projects_form_config: Configurer le formulaire de dépôt de projets d'un appel
+      call_of_projects_form_delete_widget: Supprimer un champ du formulaire de dépôt de projets d'un appel
+      call_of_projects_form_edit_widget: Modifier un champ du formulaire de dépôt de projets d'un appel
+      call_of_projects_form_move_widget: Changer la position d'un champ dans le formulaire de dépôt de projets d'un appel
+      call_of_projects_form_validations_types: Types de contraintes de validation
+      call_of_projects_form_widgets_types: Types de champs disponibles pour le formulaire de dépôt de projets
       call_of_projects_info_edit: Modifier les informations d'un appel à projets
       call_of_projects_info_view: Consulter les informations d'un appel à projets
       call_of_projects_launch_projects_review: Démarrer l'étude des projets d'un appel
       call_of_projects_list: Consulter la liste de mes appels à projets
+      call_of_projects_permissions_list: Consulter la liste des permissions d'accès à l'appel à projets
+      call_of_projects_project_add_comment: Ajouter des commentaires sur un projet
+      call_of_projects_project_add_reporter: Ajouter des rapporteurs à un projet
+      call_of_projects_project_delete_reporter: Supprimer un rapporteur
+      call_of_projects_project_info_view: Consulter les informations d'un projet d'un appel
+      call_of_projects_project_reporters_list: Consulter la liste des rapporteurs d'un projet
       call_of_projects_projects_list: Consulter la liste des projets d'un appel
+      index: Sommaire
       project_create: Déposer un projet
       project_info_edit: Modifier les informations d'un projet
       project_info_view: Consulter les informations d'un projet
       project_my_list: Consulter la liste de mes projets
-
+      validation_email: Validation de type "email"
+      validation_greater_than_or_equal: Validation de type "supérieur ou égal"
+      validation_length: Validation de type "longueur"
+      validation_less_than_or_equal: Validation de type "inférieur ou égal"
+      validation_url: Validation de type "Url"
+      widget_checkbox: Champ de type "Choix multiple"
+      widget_integer: Champ de type "Nombre"
+      widget_radiobox: Champ de type "Choix unique"
+      widget_range: Champ de type "Intervalle"
+      widget_text: Champ de type "Texte court"
+      widget_textarea: Champ de type "Texte long"
+      widget_unique_select: Champ de type "Liste déroulante"
   keyword:
+    access: accès
+    add: ajoute, ajouter, rajoute, rajouter
+    append: ajoute, ajouter, rajoute, rajouter
     call_of_projects: appel à projets
-    create: créer
-    edit: éditer, modifier
-    launch: lancer, exécuter, démarrer
-    list: liste
+    comment: commente, commentaire, commenter
+    comments: commentaires
+    config: config, configure, configurer, configuration
+    create: créer, création
+    delete: supprime, supprimer, suppression, enlève, enlever, enlèvement, retire, retirer, retirement
+    edit: édite, éditer, édition, modifie, modifier, modification
+    field: champ
+    fields: champs
+    form: formulaire
+    launch: lance, lancer, exécute, exécuter, exécution, démarre, démarrer, démarrage
+    list: liste, lister
     information: informations
+    move: bouge, bouger, déplace, déplacer, déplacement, change, changer, changement
+    my: ma, mon, mes
+    permission: permission
+    permissions: permissions
+    position: position, ordre
     project: projet
     projects: projets
+    remove: supprime, supprimer, suppression, enlève, enlever, enlèvement, retire, retirer, retirement
     report: rapport
+    reports: rapports
     reporter: rapporteur
     reporters: rapporteurs
     review: revue, étude
-    start: démarrer, exécuter
+    start: lance, lancer, exécute, exécuter, exécution, démarre, démarrer, démarrage
     study: étude, revue
-    submit: déposer, soumettre
-    view: consulter, vue, voir
+    submit: dépose, déposer, soumet, soumettre, envoi, envoyer
+    user: utilisateur
+    view: consulte, consulter, consultation, vue, voir, visualiser
+    widget: widget
     workflow: workflow
   registration:
     invitation_sent: Invitation envoyée avec succès

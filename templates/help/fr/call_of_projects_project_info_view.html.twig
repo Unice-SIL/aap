@@ -1,6 +1,6 @@
 {% extends 'help/help_layout.html.twig' %}
 
-{% set title = 'app.help.labels.call_of_projects_projects_list' %}
+{% set title = 'app.help.labels.call_of_projects_project_info_view' %}
 
 {% block help_content %}
     <div class="alert alert-warning">
@@ -13,10 +13,7 @@
     </div>
     <ol>
         <li>
-            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations de l'appel à projets</u></a>
-        </li>
-        <li>
-            Dans le menu de gauche cliquez sur <u>{{ 'app.sidebar.item.projects.label'|trans }}</u>
+            Depuis la <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_projects_list'}) }}">liste des projets de votre appel à projets</a>, sélectionnez un projet en cliquant sur son titre
         </li>
     </ol>
 {% endblock %}
