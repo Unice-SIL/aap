@@ -1,21 +1,18 @@
 {% extends 'sidebar_layout.html.twig' %}
 
 {% block after_header %}
-    <div class="container-fluid">
+    <div class="container-fluid text-right">
         <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle float-right" type="button" id="dropdownMenu2"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Action
-            </button><br><br>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
-                <i class="fas fa-eye ml-1"></i> <a class="mr-2 text-dark"
-                                                   href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
-                    {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'text-info' : '' %}
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Actions</button>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
+                    {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'fas fa-eye-slash' : 'fas fa-eye' %}
                     {% set followingTitle = (call_of_project.subscribers.contains(app.user) ? 'app.action.toggle_subscription.off' : 'app.action.toggle_subscription.on') | trans %}
+                    <i class="{{ followingClass }} mr-2"></i>
                     {{ followingTitle }}
-                </a><br>
-                <i class="fas fa-file-archive ml-1"></i><a class="text-dark"
-                                                           href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">
+                </a>
+                <a class="dropdown-item" href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">
+                    <i class="fas fa-download mr-2"></i>
                     {{ 'app.action.export'|trans }}
                 </a>
             </div>
@@ -100,7 +97,7 @@
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::ADMIN'), call_of_project) %}
                         {% set isConfigRoute = app.request.get('_route') in [
                             'app.call_of_project.form',
-                            'app.call_of_project.preview_add_form',
+                            'app.call_of_project.form_preview',
                             'app.call_of_project.mail_template',
                             'app.call_of_project.delete_form'
                         ] %}
@@ -119,7 +116,7 @@
                                 <li class="nav-item">
                                     <a href="{{ path('app.call_of_project.form', {'id' : call_of_project.id}) }}"
                                        class="nav-link {{ app.request.get('_route') == 'app.call_of_project.form' or
-                                       app.request.get('_route') == 'app.call_of_project.preview_add_form'
+                                       app.request.get('_route') == 'app.call_of_project.form_preview'
                                        ? 'active'  }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ 'app.sidebar.item.admin.widget'|trans }}</p>

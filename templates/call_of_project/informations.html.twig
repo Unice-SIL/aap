@@ -2,7 +2,9 @@
 
 {% block modals %}
     {{ parent() }}
-    {{ include('partial/modal/_call_of_project_informations_form.html.twig') }}
+    {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), call_of_project)  %}
+        {{ include('partial/modal/_call_of_project_informations_form.html.twig') }}
+    {% endif %}
 {% endblock %}
 
 {% block h1_content %}
@@ -19,13 +21,15 @@
                     {% include('call_of_project/_status_badge.html.twig') %}
                     {% include('call_of_project/_public_badge.html.twig') %}
                 </div>
-                <button  class="btn btn-primary align-self-start "
-                         data-toggle="modal"
-                         data-target="#call-of-project-information-form-modal"
-                         type="button"
-                >
-                    {{ 'app.action.edit'|trans }}
-                </button>
+                {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), call_of_project)  %}
+                    <button  class="btn btn-primary align-self-start "
+                             data-toggle="modal"
+                             data-target="#call-of-project-information-form-modal"
+                             type="button"
+                    >
+                        {{ 'app.action.edit'|trans }}
+                    </button>
+                {% endif %}
             </div>
             {{ call_of_project.description|raw }}
         </div>

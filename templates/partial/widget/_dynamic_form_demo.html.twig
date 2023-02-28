@@ -14,10 +14,10 @@
                     <i class="fas fa-file-import"></i>
                 </button>
                 <a
-                        class="{{ app.request.get('_route') == 'app.call_of_project.preview_add_form' ? 'active' }}
+                        class="{{ app.request.get('_route') == 'app.call_of_project.form_preview' ? 'active' }}
                         btn btn-sm btn-success rounded-circle mr-1 float-right"
-                        href="{{ path('app.call_of_project.preview_add_form', {'id' : form.vars.data.callOfProject.id }) }}"
-                        title="{{ 'app.sidebar.item.admin.preview_add_form'|trans }}">
+                        href="{{ path('app.call_of_project.form_preview', {'id' : form.vars.data.callOfProject.id }) }}"
+                        title="{{ 'app.sidebar.item.admin.form_preview'|trans }}">
                     <i class="fas fa-eye "></i>
                 </a>
             </div>

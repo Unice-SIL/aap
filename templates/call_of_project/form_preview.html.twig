@@ -8,12 +8,6 @@
     {{ 'app.call_of_project.form.h1'|trans }}
 {% endblock %}
 
-{% block modals %}
-    {{ parent() }}
-    {{ include('partial/modal/_widget_form.html.twig') }}
-    {{ include('partial/modal/_import_widget_form.html.twig') }}
-{% endblock %}
-
 {% block content %}
     {{ dynamic_form_html|raw }}
 {% endblock %}
