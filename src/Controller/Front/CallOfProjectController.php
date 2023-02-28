@@ -182,7 +182,7 @@ class CallOfProjectController extends AbstractController
         $form->handleRequest($request);
 
         $openEditionFormModal = false;
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $this->isGranted(CallOfProjectVoter::EDIT, $callOfProject)) {
 
             if ($form->isValid()) {
 
@@ -646,7 +646,7 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/preview-add-form", name="preview_add_form", methods={"GET","POST"})
+     * @Route("/{id}/form/preview", name="form_preview", methods={"GET","POST"})
      * @param CallOfProject $callOfProject
      * @param WidgetManager $widgetManager
      * @param ProjectManagerInterface $projectManager
@@ -654,21 +654,21 @@ class CallOfProjectController extends AbstractController
      * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
      * @throws \Exception
      */
-    public function previewAddForm(
+    public function formPreview(
         CallOfProject $callOfProject,
         WidgetManager $widgetManager,
         ProjectManagerInterface $projectManager
     ): Response
     {
         $project = $projectManager->create($callOfProject);
-        $dynamicForm = $widgetManager->getDynamicForm($project, [ 'disabled' => true ]);
+        $dynamicForm = $widgetManager->getDynamicForm($project);
 
-        return $this->render('call_of_project/preview_add_form.html.twig', [
+        return $this->render('call_of_project/form_preview.html.twig', [
             'call_of_project' => $callOfProject,
             'widget_manager' => $widgetManager,
             'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
                 $dynamicForm,
-                'partial/widget/_dynamic_preview_add_form.html.twig'
+                'partial/widget/_dynamic_form_preview.html.twig'
             ),
         ]);
     }
