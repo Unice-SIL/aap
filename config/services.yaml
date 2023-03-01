@@ -20,6 +20,7 @@ services:
             $mailFrom: '%env(MAIL_FROM)%'
             $shibbolethUsernameAttribute: '%env(SHIBB_USERNAME_ATTRIBUTE)%'
             $shibbolethAttributesList: '%shibboleth_attributes_list%'
+            $projectDir: '%kernel.project_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
