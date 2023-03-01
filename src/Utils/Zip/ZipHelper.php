@@ -5,10 +5,10 @@ namespace App\Utils\Zip;
 
 
 use App\Entity\CallOfProject;
-use App\Entity\ProjectContent;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 
@@ -20,14 +20,30 @@ class ZipHelper
     private $translator;
 
     /**
+     * @var UploaderHelper
+     */
+    private $uploaderHelper;
+
+    private $projectDir;
+
+    /**
      * ZipHelper constructor.
      * @param TranslatorInterface $translator
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, UploaderHelper $uploaderHelper, string $projectDir)
     {
         $this->translator = $translator;
+        $this->uploaderHelper = $uploaderHelper;
+        $this->projectDir = $projectDir;
     }
 
+    /**
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \ZipStream\Exception\FileNotFoundException
+     * @throws \ZipStream\Exception\OverflowException
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws \ZipStream\Exception\FileNotReadableException
+     */
     public function createZipFromCallOfProject(CallOfProject $callOfProject, $options = [])
     {
 
@@ -40,50 +56,71 @@ class ZipHelper
         //Creates a zip
         $zip = new ZipStream($callOfProject->getName() . '.zip', $zipOptions);
 
-        //Create a sheet (index.xlsx)
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        //Create a sheet (projet.xlsx)
+        $spreadsheetProject = new Spreadsheet();
+        $sheetProject = $spreadsheetProject->getActiveSheet();
 
-        //Sets first header
-        $sheet->setCellValueByColumnAndRow(1, 1, 'Nom du projet');
-
-        $row = 2;
+        $rowProject = 2;
         foreach ($callOfProject->getProjects() as $project) {
-            $sheet->setCellValueByColumnAndRow(1, $row, $project->getName());
-
-            $column = 2;
+            $sheetProject->setCellValueByColumnAndRow(1, $rowProject, $project->getName());
+            $columnProject = 2;
             foreach ($project->getProjectContents() as $projectContent) {
-
                 $widget = $projectContent->getProjectFormWidget()->getWidget();
-
                 //Sets dynamic headers
-                $sheet->setCellValueByColumnAndRow($column, 1, $widget->getLabel());
-
+                $sheetProject->setCellValueByColumnAndRow($columnProject, 1, $widget->getLabel());
                 //Set dynamic values depends on project and field
-                $sheet->setCellValueByColumnAndRow($column, $row, $this->translator->trans($projectContent->getStringContent()));
+                $sheetProject->setCellValueByColumnAndRow($columnProject, $rowProject, $this->translator->trans($projectContent->getStringContent()));
 
                 //If the value we add the file in a directory with project name as name and we set an url into the cell
                 //to be able to open the file directly from index.xlsx
                 if ($widget->isFileWidget() && $projectContent->getContent() !== null) {
                     //adds file in appropriate project directory
-                    $zip->addFileFromPath($project->getName() . '/'. $projectContent->getStringContent(), $projectContent->getContent()->getPathName());
+                    $zip->addFileFromPath($project->getName() . '/Fichiers/' . $projectContent->getStringContent(), $projectContent->getContent()->getPathName());
                     //sets a link on the value to open directly the file
-                    $sheet->getCellByColumnAndRow($column, $row)->getHyperlink()->setUrl($project->getName() . DIRECTORY_SEPARATOR . $projectContent->getStringContent());
+                    $sheetProject->getCellByColumnAndRow($columnProject, $rowProject)->getHyperlink()->setUrl($project->getName() . DIRECTORY_SEPARATOR . 'Fichiers' . DIRECTORY_SEPARATOR . $projectContent->getStringContent());
                 }
-
-                $column++;
+                $columnProject++;
             }
+            $rowProject++;
+            $spreadsheetReport = new Spreadsheet();
+            $sheetReport = $spreadsheetReport->getActiveSheet();
+            $sheetReport->setCellValueByColumnAndRow(1, 1, 'Rapporteur');
+            $sheetReport->setCellValueByColumnAndRow(2, 1, 'Commentaire');
+            $sheetReport->setCellValueByColumnAndRow(3, 1, 'Rapport');
+            $rowReport = 2;
 
-            $row++;
+            $projectHasReports = false;
+            foreach ($project->getReports() as $report) {
+                $reporterName = $report->getReporter()->getFirstname() . ' ' . $report->getReporter()->getLastname();
+                $sheetReport->setCellValueByColumnAndRow(1, $rowReport, $reporterName);
+                $sheetReport->setCellValueByColumnAndRow(2, $rowReport, $report->getComment());
+                $sheetReport->setCellValueByColumnAndRow(3, $rowReport, $report->getReport()->getOriginalName());
+                if ($report->getReport() !== null) {
+                    $projectHasReports = true;
+                    $zip->addFileFromPath($project->getName() . '/Rapports/' . $reporterName . '/' . $report->getReport()->getName(), $this->projectDir . $this->uploaderHelper->asset($report, 'reportFile'));
+                    //sets a link on the value to open directly the file
+                    $sheetReport->getCellByColumnAndRow(3, $rowReport)->getHyperlink()->setUrl('Rapports/' . $reporterName . '/' . $report->getReport()->getName());
+                }
+                $rowReport++;
+            }
+            // The report file is created only if the project has reports
+            if ($projectHasReports) {
+                //Saves temporary the xlsx file
+                $writerReport = new Xlsx($spreadsheetReport);
+                $temporaryLinkReport = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
+                $writerReport->save($temporaryLinkReport);
+                $zip->addFileFromPath($project->getName() . '/rapports.xlsx', $temporaryLinkReport);
+                unlink($temporaryLinkReport);
+            }
         }
 
         //Saves temporary the xlsx file
-        $writer = new Xlsx($spreadsheet);
+        $writer = new Xlsx($spreadsheetProject);
         $temporaryLink = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
         $writer->save($temporaryLink);
 
         //Adds temporary xlsx file into the zip
-        $zip->addFileFromPath('index.xlsx', $temporaryLink);
+        $zip->addFileFromPath($callOfProject->getName() . '.xlsx', $temporaryLink);
 
         //removes temporary xlsx from hard disk
         unlink($temporaryLink);
@@ -92,5 +129,6 @@ class ZipHelper
         $zip->finish();
 
         return $zip;
+
     }
 }
