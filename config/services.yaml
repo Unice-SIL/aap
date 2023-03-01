@@ -6,7 +6,7 @@
 parameters:
     app_name: 'Appel à projet'
     locale: 'fr'
-    files_folder: '/public/files'
+    files_folder: '/files'
     report_folder_uri: '%files_folder%/reports'
     shibboleth_attributes_list: ['eppn', 'mail', 'givenName', 'sn']
 
