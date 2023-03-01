@@ -8,6 +8,7 @@ use App\Entity\CallOfProject;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
@@ -61,6 +62,14 @@ class ZipHelper
         $sheetProject = $spreadsheetProject->getActiveSheet();
 
         $rowProject = 2;
+        $spreadsheetReport = new Spreadsheet();
+        $sheetReport = $spreadsheetReport->getActiveSheet();
+        $sheetReport->setCellValueByColumnAndRow(1, 1, 'Projet');
+        $sheetReport->setCellValueByColumnAndRow(2, 1, 'Rapporteur');
+        $sheetReport->setCellValueByColumnAndRow(3, 1, 'Commentaire');
+        $sheetReport->setCellValueByColumnAndRow(4, 1, 'Rapport');
+        $rowReport = 2;
+
         foreach ($callOfProject->getProjects() as $project) {
             $sheetProject->setCellValueByColumnAndRow(1, $rowProject, $project->getName());
             $columnProject = 2;
@@ -82,45 +91,39 @@ class ZipHelper
                 $columnProject++;
             }
             $rowProject++;
-            $spreadsheetReport = new Spreadsheet();
-            $sheetReport = $spreadsheetReport->getActiveSheet();
-            $sheetReport->setCellValueByColumnAndRow(1, 1, 'Rapporteur');
-            $sheetReport->setCellValueByColumnAndRow(2, 1, 'Commentaire');
-            $sheetReport->setCellValueByColumnAndRow(3, 1, 'Rapport');
-            $rowReport = 2;
 
-            $projectHasReports = false;
-            foreach ($project->getReports() as $report) {
-                $reporterName = $report->getReporter()->getFirstname() . ' ' . $report->getReporter()->getLastname();
-                $sheetReport->setCellValueByColumnAndRow(1, $rowReport, $reporterName);
-                $sheetReport->setCellValueByColumnAndRow(2, $rowReport, $report->getComment());
-                $sheetReport->setCellValueByColumnAndRow(3, $rowReport, $report->getReport()->getOriginalName());
-                if ($report->getReport() !== null) {
-                    $projectHasReports = true;
-                    $zip->addFileFromPath($project->getName() . '/Rapports/' . $reporterName . '/' . $report->getReport()->getName(), $this->projectDir . $this->uploaderHelper->asset($report, 'reportFile'));
-                    //sets a link on the value to open directly the file
-                    $sheetReport->getCellByColumnAndRow(3, $rowReport)->getHyperlink()->setUrl('Rapports/' . $reporterName . '/' . $report->getReport()->getName());
+            if (!$project->getReports()->isEmpty()) {
+                foreach ($project->getReports() as $report) {
+                    $reporterName = $report->getReporter()->getFirstname() . ' ' . $report->getReporter()->getLastname();
+                    $sheetReport->setCellValueByColumnAndRow(1, $rowReport, $project->getName());
+                    $sheetReport->setCellValueByColumnAndRow(2, $rowReport, $reporterName);
+                    $sheetReport->setCellValueByColumnAndRow(3, $rowReport, $report->getComment());
+                    $sheetReport->setCellValueByColumnAndRow(4, $rowReport, $report->getReport()->getOriginalName());
+                    if ($report->getReport() instanceof File and $report->getReport()->getOriginalName() !== null) {
+                        $reportName = 'Rapport ' . $reporterName . '.' . $this->getFileExtention($report->getReport()->getName());
+                        $zip->addFileFromPath($project->getName() . '/Rapports/' . $reportName, $this->projectDir . $this->uploaderHelper->asset($report, 'reportFile'));
+                        //sets a link on the value to open directly the file
+                        $sheetReport->getCellByColumnAndRow(4, $rowReport)->getHyperlink()->setUrl($project->getName() . '/Rapports/' . $reportName);
+                    }
+                    $rowReport++;
                 }
-                $rowReport++;
-            }
-            // The report file is created only if the project has reports
-            if ($projectHasReports) {
-                //Saves temporary the xlsx file
-                $writerReport = new Xlsx($spreadsheetReport);
-                $temporaryLinkReport = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
-                $writerReport->save($temporaryLinkReport);
-                $zip->addFileFromPath($project->getName() . '/rapports.xlsx', $temporaryLinkReport);
-                unlink($temporaryLinkReport);
             }
         }
 
         //Saves temporary the xlsx file
-        $writer = new Xlsx($spreadsheetProject);
+        $writerReport = new Xlsx($spreadsheetReport);
+        $temporaryLinkReport = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
+        $writerReport->save($temporaryLinkReport);
+        $zip->addFileFromPath('rapports.xlsx', $temporaryLinkReport);
+        unlink($temporaryLinkReport);
+
+        //Saves temporary the xlsx file
+        $writerProject = new Xlsx($spreadsheetProject);
         $temporaryLink = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
-        $writer->save($temporaryLink);
+        $writerProject->save($temporaryLink);
 
         //Adds temporary xlsx file into the zip
-        $zip->addFileFromPath($callOfProject->getName() . '.xlsx', $temporaryLink);
+        $zip->addFileFromPath('projets.xlsx', $temporaryLink);
 
         //removes temporary xlsx from hard disk
         unlink($temporaryLink);
@@ -130,5 +133,13 @@ class ZipHelper
 
         return $zip;
 
+    }
+
+    public function getFileExtention(string $fileName): ?string
+    {
+        if (preg_match("/^.*\.([\d\w]*)$/", $fileName, $match) === 1) {
+            return $match[1];
+        }
+        return null;
     }
 }
