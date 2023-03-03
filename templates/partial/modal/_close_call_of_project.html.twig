@@ -1,0 +1,18 @@
+<div class="modal fade" id="close-call-of-project-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-title">{{ 'app.modal.close_call_of_project.title'|trans }}</h4>
+                <h5>{{ 'app.modal.close_call_of_project.text'|trans }}</h5>
+                <div class="mt-3">
+                    <a class="btn btn-danger" href="{{ path('app.call_of_project.finished', {'id': call_of_project.id, 'token': csrf_token('close-call-of-projects')}) }}">
+                        {{ 'app.action.confirm'|trans }}
+                    </a>
+                    <a class="text-muted" data-dismiss="modal">{{ 'app.action.canceled'|trans }}</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

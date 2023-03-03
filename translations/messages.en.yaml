@@ -254,9 +254,9 @@ app:
     form:
       h1: Configuration of the project
     constant:
-      opened: Opened
-      closed: Closed
-      review: Waiting for results
+      opened: Project submission opened
+      closed: Project submission closed
+      review: Study in progress
       archived: Archived
     dashboard:
       h1: Dashboard

@@ -39,6 +39,28 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class CallOfProjectController extends AbstractController
 {
+    /**
+     * @var Registry
+     */
+    private $workflowRegistry;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @param Registry $workflowRegistry
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(
+        Registry $workflowRegistry,
+        TranslatorInterface $translator
+    )
+    {
+        $this->translator = $translator;
+        $this->workflowRegistry = $workflowRegistry;
+    }
 
     /**
      * @Route("/", name="index", methods={"GET"})
@@ -191,7 +213,7 @@ class CallOfProjectController extends AbstractController
 
                 $this->addFlash('success', $translator->trans(
                     'app.flash_message.edit_success', [
-                        '%item%' => $callOfProject->getName()
+                    '%item%' => $callOfProject->getName()
                 ]));
                 return $this->redirectToRoute('app.call_of_project.informations', [
                     'id' => $callOfProject->getId()
@@ -238,46 +260,25 @@ class CallOfProjectController extends AbstractController
      * @Route("/{id}/projects", name="projects", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
      * @param Request $request
-     * @param Registry $workflowRegistry
      * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
      * @param BatchActionManagerInterface $batchManager
+     * @param TranslatorInterface $translator
      * @return Response
      * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
      */
     public function projects(
         CallOfProject $callOfProject,
         Request $request,
-        Registry $workflowRegistry,
         EntityManagerInterface $em,
-        TranslatorInterface $translator,
-        BatchActionManagerInterface $batchManager
+        BatchActionManagerInterface $batchManager,
+        TranslatorInterface $translator
     ): Response
     {
         $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
         $projectToStudyForm->handleRequest($request);
-
         if ($projectToStudyForm->isSubmitted() and $projectToStudyForm->isValid()) {
-
-            $this->denyAccessUnlessGranted(CallOfProjectVoter::TO_STUDY_MASS, $callOfProject);
-
-            foreach ($callOfProject->getProjects() as $project) {
-
-                $stateMachine = $workflowRegistry->get($project, 'project_validation_process');
-
-                try {
-
-                    if ($stateMachine->can($project, 'to_study')) {
-                        $stateMachine->apply($project, 'to_study');
-                    }
-                } catch (\Exception $exception) {
-                    $this->addFlash('error', $translator->trans('app.flash_message.error_project_to_study', ['%item%' => $project->getName()]));
-                }
-
-            }
-
+            $this->toReview($callOfProject);
             $em->flush();
-
             return  $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
         }
 
@@ -289,21 +290,15 @@ class CallOfProjectController extends AbstractController
         ) {
             $batchActionBlackList[] = AddReportBatchAction::class;
         }
-
         $batchActionForm = $batchManager->getForm(Project::class, $batchActionBlackList);
         $batchActionForm->handleRequest($request);
-
         if ($batchActionForm->isSubmitted() and $batchActionForm->isValid()) {
-
             $ok = $batchManager->saveDataInSession($batchActionForm, $request->getSession());
-
             if (!$ok) {
                 $this->addFlash('error', $translator->trans('app.error_occured'));
                 return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
             }
-
             return $this->redirectToRoute('app.call_of_project.batch_action', ['id'=> $callOfProject->getId()]);
-
         }
 
         return $this->render('call_of_project/project_list.html.twig', [
@@ -317,79 +312,13 @@ class CallOfProjectController extends AbstractController
     /**
      * @Route("/{id}/reports", name="reports", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
-     * @param Request $request
-     * @param Registry $workflowRegistry
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @param BatchActionManagerInterface $batchManager
      * @return Response
      * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
      */
-    public function reports(
-        CallOfProject $callOfProject,
-        Request $request,
-        Registry $workflowRegistry,
-        EntityManagerInterface $em,
-        TranslatorInterface $translator,
-        BatchActionManagerInterface $batchManager
-    ): Response
+    public function reports(CallOfProject $callOfProject): Response
     {
-        $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
-        $projectToStudyForm->handleRequest($request);
-
-        if ($projectToStudyForm->isSubmitted() and $projectToStudyForm->isValid()) {
-
-            $this->denyAccessUnlessGranted(CallOfProjectVoter::TO_STUDY_MASS, $callOfProject);
-
-            foreach ($callOfProject->getProjects() as $project) {
-
-                $stateMachine = $workflowRegistry->get($project, 'project_validation_process');
-
-                try {
-
-                    if ($stateMachine->can($project, 'to_study')) {
-                        $stateMachine->apply($project, 'to_study');
-                    }
-                } catch (\Exception $exception) {
-                    $this->addFlash('error', $translator->trans('app.flash_message.error_project_to_study', ['%item%' => $project->getName()]));
-                }
-
-            }
-
-            $em->flush();
-
-            return  $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
-        }
-
-        $batchActionBlackList = [];
-        if (
-            $callOfProject->getProjects()->filter(function ($project) {
-                return $project->getStatus() !== Project::STATUS_STUDYING;
-            })->count() > 0
-        ) {
-            $batchActionBlackList[] = AddReportBatchAction::class;
-        }
-
-        $batchActionForm = $batchManager->getForm(Project::class, $batchActionBlackList);
-        $batchActionForm->handleRequest($request);
-
-        if ($batchActionForm->isSubmitted() and $batchActionForm->isValid()) {
-
-            $ok = $batchManager->saveDataInSession($batchActionForm, $request->getSession());
-
-            if (!$ok) {
-                $this->addFlash('error', $translator->trans('app.error_occured'));
-                return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
-            }
-
-            return $this->redirectToRoute('app.call_of_project.batch_action', ['id'=> $callOfProject->getId()]);
-
-        }
-
         return $this->render('call_of_project/reports_list.html.twig', [
             'call_of_project' => $callOfProject,
-            'project_to_study_form' => $projectToStudyForm->createView(),
-            'batch_action_form' => $batchActionForm->createView()
         ]);
     }
 
@@ -677,7 +606,24 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * Route("/{id}", name="delete", methods={"DELETE"})
+     * @IsGranted(App\Security\CallOfProjectVoter::FINISHED, subject="callOfProject")
+     * @Route("/{id}/finished", name="finished", methods={"GET"})
+     */
+    public function finished(CallOfProject $callOfProject, Request $request, EntityManagerInterface $em)
+    {
+        $token = $request->query->get('token');
+        if ($this->isCsrfTokenValid('close-call-of-projects', $token)) {
+
+            $callOfProject->setStatus(CallOfProject::STATUS_FINISHED);
+            $em->flush();
+        }
+        return $this->redirectToRoute('app.call_of_project.informations', [
+            'id' => $callOfProject->getId()
+        ]);
+    }
+
+    /**
+     * Route("/{id}/delete", name="delete", methods={"DELETE"})
      */
     /*public function delete(Request $request, CallOfProject $callOfProject): Response
     {
@@ -688,4 +634,24 @@ class CallOfProjectController extends AbstractController
         }
         return $this->redirectToRoute('index');
     }*/
+
+    /**
+     * @param CallOfProject $callOfProject
+     * @return void
+     */
+    private function toReview(CallOfProject $callOfProject)
+    {
+        $this->denyAccessUnlessGranted(CallOfProjectVoter::TO_STUDY_MASS, $callOfProject);
+        foreach ($callOfProject->getProjects() as $project) {
+            $stateMachine = $this->workflowRegistry->get($project, 'project_validation_process');
+            try {
+                if ($stateMachine->can($project, 'to_study')) {
+                    $stateMachine->apply($project, 'to_study');
+                }
+            } catch (\Exception $exception) {
+                $this->addFlash('error', $this->translator->trans('app.flash_message.error_project_to_study', ['%item%' => $project->getName()]));
+            }
+        }
+        $callOfProject->setStatus(CallOfProject::STATUS_REVIEW);
+    }
 }

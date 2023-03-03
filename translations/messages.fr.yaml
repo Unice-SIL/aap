@@ -266,11 +266,12 @@ app:
     form_preview:
         h1: Aperçu du formulaire de dépôt de projet
     constant:
-      opened: Ouvert
-      closed: Fermé
-      review: En attente de résultat
+      opened: Dépôt projets ouvert
+      closed: Dépôt projets fermé
+      review: Etude en cours
+      finished: Appel clôturé
       archived: Archivé
-      public: Public
+      public: Appel à projet public
       not_public: Non public
     dashboard:
       h1: Tableau de bord
@@ -390,6 +391,8 @@ app:
         label: Mon profil
   action:
     add: Ajouter
+    close_call_of_projects: Clôturer l'appel à projets
+    confirm: Confirmer
     label: Actions
     save: Enregistrer
     edit: Modifier
@@ -468,6 +471,9 @@ app:
         close: Annuler
         save: Enregistrer
         reactivate: Réactiver
+    close_call_of_project:
+      title: Clôturer l'appel à projet
+      text: Êtes-vous sûr(e) de vouloir clôturer cet appel à projet ?
     call_of_project_informations_form:
       title: Éditer l'appel à projets
     deadline:
