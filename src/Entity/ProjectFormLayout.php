@@ -49,6 +49,11 @@ class ProjectFormLayout
      */
     private $callOfProject;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
     public function __construct()
     {
         $this->projectFormWidgets = new ArrayCollection();
@@ -137,6 +142,18 @@ class ProjectFormLayout
     public function setCallOfProject(?CallOfProject $callOfProject): self
     {
         $this->callOfProject = $callOfProject;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

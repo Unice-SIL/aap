@@ -1,0 +1,24 @@
+<!-- Modal -->
+<div class="modal" id="edit_title_form_modal" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            {{ form_start(form) }}
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modifier le titre</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="edit_title_form_modal_body">
+                {{ form_row(form.title) }}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary submit-button" type="submit">{{ 'app.action.save'|trans }}</button>
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">{{ 'app.modal.widget_form.action.close'|trans }}</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

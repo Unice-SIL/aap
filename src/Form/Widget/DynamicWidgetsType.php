@@ -26,8 +26,8 @@ class DynamicWidgetsType extends AbstractType
     {
         $project = $builder->getData();
 
-        $builder->add('name', null, [
-            'label' => 'app.project.property.name.label'
+      $builder->add('name', null, [
+            'label' =>  $project->getCallOfProject()->getProjectFormLayout()->getTitle() ?? 'Title'
         ]);
 
         if (!$project instanceof Project) {

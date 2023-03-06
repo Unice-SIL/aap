@@ -10,6 +10,7 @@ use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\DeleteType;
 use App\Form\CallOfProject\MailTemplateType;
 use App\Form\Project\ProjectToStudyType;
+use App\Form\ProjectFormLayoutType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\User\UserManagerInterface;
@@ -521,8 +522,10 @@ class CallOfProjectController extends AbstractController
 
         $project = $projectManager->create($callOfProject);
         $dynamicForm = $widgetManager->getDynamicForm($project, ['allWidgets' => true]);
+        $form = $this->createForm(ProjectFormLayoutType::class, $callOfProject->getProjectFormLayout());
 
         return $this->render('call_of_project/form.html.twig', [
+            'form' => $form->createView(),
             'call_of_project' => $callOfProject,
             'widget_manager' => $widgetManager,
             'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(

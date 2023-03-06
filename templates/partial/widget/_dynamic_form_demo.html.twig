@@ -68,11 +68,25 @@
 
 {% macro showOnlyActive(form, projectFormWidgets) %}
 
-    <div class="card">
+    <div class="card" id="card_title_project">
         <div class="card-body">
             <div class="row">
                 <div class="col-11">
                     {{ form_row(form.name) }}
+                </div>
+                <div class="col-1 d-flex flex-column justify-content-center align-items-end">
+                    <button type="button" class="btn btn-sm btn-primary my-1 rounded-circle"
+                            id="button_edit_title"
+                            data-toggle="modal"
+                            data-target="#edit_title_form_modal"
+                            data-url="{{ path('app.widget.edit_title', {
+                                id : form.vars.data.callOfProject.projectFormLayout.id
+                            }) }}"
+                            title="{{ 'app.action.edit'|trans }}"
+                    >
+                        <i class="fa fa-edit"
+                        ></i>
+                    </button>
                 </div>
             </div>
         </div>

@@ -40,17 +40,17 @@ class WidgetController extends AbstractController
      * @return Response
      */
     public function edit(
-        ProjectFormWidget $projectFormWidget,
-        Request $request,
+        ProjectFormWidget                 $projectFormWidget,
+        Request                           $request,
         ProjectFormWidgetManagerInterface $projectFormWidgetManager,
-        TranslatorInterface $translator,
-        RouterInterface $router,
-        ProjectManagerInterface $projectManager,
-        WidgetManager $widgetManager
+        TranslatorInterface               $translator,
+        RouterInterface                   $router,
+        ProjectManagerInterface           $projectManager,
+        WidgetManager                     $widgetManager
 
     ): Response
     {
-        if (!$projectFormWidget->getProjectFormLayout()->getCallOfProject() instanceof  CallOfProject) {
+        if (!$projectFormWidget->getProjectFormLayout()->getCallOfProject() instanceof CallOfProject) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
         } else {
             $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject());
@@ -117,7 +117,7 @@ class WidgetController extends AbstractController
             CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject()
         );
 
-        if ($this->isCsrfTokenValid('trash_toggle'.$projectFormWidget->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('trash_toggle' . $projectFormWidget->getId(), $request->request->get('_token'))) {
 
             $projectFormWidget->isActiveToggle();
 
@@ -138,7 +138,7 @@ class WidgetController extends AbstractController
     public function updatePosition(ProjectFormWidget $projectFormWidget, Request $request, EntityManagerInterface $em)
     {
 
-        if (!$projectFormWidget->getProjectFormLayout()->getCallOfProject() instanceof  CallOfProject) {
+        if (!$projectFormWidget->getProjectFormLayout()->getCallOfProject() instanceof CallOfProject) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
         } else {
             $this->denyAccessUnlessGranted(CallOfProjectVoter::ADMIN, $projectFormWidget->getProjectFormLayout()->getCallOfProject());
@@ -184,4 +184,28 @@ class WidgetController extends AbstractController
         return $this->json(['success' => true]);
     }
 
+    /**
+     * @Route("/{id}/edit-title", name="edit_title", methods={"GET","POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function editTitle($id, EntityManagerInterface $entityManager, Request $request
+    ): Response
+    {
+        if ($request->isMethod("POST")) {
+            $data = $request->request->get('project_form_layout');
+            $title =  $data['title'];
+            /** @var ProjectFormLayout $projectFormLayout */
+            $projectFormLayout =  $entityManager->getRepository(ProjectFormLayout::class)->findOneBy(['id' => $id]);
+            $projectFormLayout->setTitle($title);
+            $entityManager->flush();
+            return new JsonResponse([
+                'statut' => true,
+                'newLabel' => $title
+            ]);
+        }
+        new JsonResponse([
+            'statut' => false
+        ]);
+    }
 }
