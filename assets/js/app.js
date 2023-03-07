@@ -658,7 +658,6 @@ $(document).ready(function () {
             }
         });
     });
-    })
 
     let $helpNewCallOfProjectModal = $('#help-new-call-of-project-modal');
     if ($helpNewCallOfProjectModal.length) {
