@@ -1,5 +1,4 @@
 import '../scss/app.scss';
-import * as http from "http";
 
 require('admin-lte');
 require('admin-lte/plugins/bootstrap-switch/js/bootstrap-switch');
@@ -640,25 +639,24 @@ $(document).ready(function () {
         callOfProjectSubmissionUrl.setSelectionRange(0, 99999); // For mobile devices
         document.execCommand("copy");
         toastr.success('URL copiée');
-    })
-});
+    });
 
-
-$(document).on('submit', 'form[name="project_form_layout"]', function (e) {
-    e.preventDefault();
-    const url = $('#button_edit_title').data('url');
-    $.ajax({
-        type: "POST",
-        url: url,
-        data:   $('form[name="project_form_layout"]').serialize(),
-        success: function (response) {
-            if(response.statut) {
-                $('#edit_title_form_modal').modal('hide');
-                $("#dynamic_widgets_name").prev("label").html(response.newLabel);
+    $(document).on('submit', 'form[name="project_form_layout"]', function (e) {
+        e.preventDefault();
+        const url = $('#button_edit_title').data('url');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data:   $('form[name="project_form_layout"]').serialize(),
+            success: function (response) {
+                if(response.statut) {
+                    $('#edit_title_form_modal').modal('hide');
+                    $("#dynamic_widgets_name").prev("label").html(response.newLabel);
+                }
+            },
+            error: function () {
+                alert('Le label n\'a pas pu être modifié');
             }
-        },
-        error: function () {
-            alert('Le label n\'a pas pu être modifié');
-        }
+        });
     });
 });

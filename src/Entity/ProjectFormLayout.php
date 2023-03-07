@@ -52,7 +52,7 @@ class ProjectFormLayout
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $titleFieldLabel;
 
     public function __construct()
     {
@@ -146,14 +146,14 @@ class ProjectFormLayout
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getTitleFieldLabel(): ?string
     {
-        return $this->title;
+        return $this->titleFieldLabel;
     }
 
-    public function setTitle(string $title): self
+    public function setTitleFieldLabel(string $titleFieldLabel): self
     {
-        $this->title = $title;
+        $this->titleFieldLabel = $titleFieldLabel;
 
         return $this;
     }

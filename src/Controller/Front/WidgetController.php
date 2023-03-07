@@ -7,6 +7,7 @@ namespace App\Controller\Front;
 use App\Entity\CallOfProject;
 use App\Entity\ProjectFormLayout;
 use App\Entity\ProjectFormWidget;
+use App\Form\ProjectFormLayoutType;
 use App\Manager\Project\ProjectManagerInterface;
 use App\Manager\ProjectFormWidget\ProjectFormWidgetManagerInterface;
 use App\Security\CallOfProjectVoter;
@@ -185,23 +186,25 @@ class WidgetController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit-title", name="edit_title", methods={"GET","POST"})
+     * @Route("/{id}/edit-title", name="edit_title", methods={"POST"})
      * @param Request $request
      * @return JsonResponse
      */
     public function editTitle($id, EntityManagerInterface $entityManager, Request $request
     ): Response
     {
-        if ($request->isMethod("POST")) {
-            $data = $request->request->get('project_form_layout');
-            $title =  $data['title'];
-            /** @var ProjectFormLayout $projectFormLayout */
-            $projectFormLayout =  $entityManager->getRepository(ProjectFormLayout::class)->findOneBy(['id' => $id]);
-            $projectFormLayout->setTitle($title);
+        /** @var ProjectFormLayout $projectFormLayout */
+        $projectFormLayout =  $entityManager->getRepository(ProjectFormLayout::class)->findOneBy(['id' => $id]);
+
+        $form = $this->createForm(ProjectFormLayoutType::class, $projectFormLayout);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->flush();
             return new JsonResponse([
                 'statut' => true,
-                'newLabel' => $title
+                'newLabel' => $projectFormLayout->getTitleFieldLabel()
             ]);
         }
         new JsonResponse([
