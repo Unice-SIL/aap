@@ -119,6 +119,7 @@ class CallOfProjectController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $request->getSession()->set('app.call_of_project.new_help', true);
             $callOfProjectManager->save($callOfProject);
 
             return $this->redirectToRoute('app.call_of_project.form', [
@@ -198,7 +199,12 @@ class CallOfProjectController extends AbstractController
         TranslatorInterface $translator
     ): Response
     {
-
+        $session = $request->getSession();
+        $helpNewCallOfProjects = false;
+        if ($session->has('app.call_of_project.new_help')) {
+            $session->remove('app.call_of_project.new_help');
+            $helpNewCallOfProjects = true;
+        }
         $callOfProjectClone = clone $callOfProject;
 
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
@@ -227,7 +233,8 @@ class CallOfProjectController extends AbstractController
         return $this->render('call_of_project/informations.html.twig', [
             'call_of_project' => $callOfProjectClone,
             'form' => $form->createView(),
-            'open_edition_form_modal' => $openEditionFormModal
+            'open_edition_form_modal' => $openEditionFormModal,
+            'help_new_call_of_projects' => $helpNewCallOfProjects
         ]);
     }
 

@@ -10,7 +10,7 @@
 {% block after_header %}
     <div class="container-fluid text-right">
         <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Actions</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ 'app.action.actions'|trans }}</button>
             <div class="dropdown-menu" role="menu">
                 <a class="dropdown-item" href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
                     {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'fas fa-eye-slash' : 'fas fa-eye' %}

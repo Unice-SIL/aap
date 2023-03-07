@@ -42,7 +42,7 @@ services:
             - .:/web/app:cached
             - /web/app/node_modules
             - /web/app/var/cache
-            #- /web/app/vendor
+            - /web/app/vendor
         depends_on:
             - database
         networks:

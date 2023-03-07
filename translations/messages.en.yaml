@@ -619,6 +619,7 @@ app:
       call_of_projects_add_permission: Add an user access permission for a call
       call_of_projects_create: Create a new call of projects
       call_of_projects_delete_permission: Remove an user access permission for a call
+      call_of_projects_finished: Finish a call
       call_of_projects_form_add_widget: Add a field to the project form for a call
       call_of_projects_form_config: Configure the project form for a call
       call_of_projects_form_delete_widget: Remove a field to the project form for a call
@@ -630,13 +631,16 @@ app:
       call_of_projects_info_view: See the call of projects informations
       call_of_projects_launch_projects_review: Start the projects review for a call
       call_of_projects_list: See the list of call of projects
+      call_of_projects_mails_config: Customize notifications mails for a call
       call_of_projects_permissions_list: View the call of projects access permissions
       call_of_projects_project_add_comment: Add a comments to a project
       call_of_projects_project_add_reporter: Add a reporters to a project
       call_of_projects_project_delete_reporter: Delete a reporter
       call_of_projects_project_info_view: See the project informations for a call
       call_of_projects_project_reporters_list: See the project reporters
+      call_of_projects_project_validation: Validate/Reject a project for a call
       call_of_projects_projects_list: See list of projects from a call of projects
+      call_of_projects_submission_link: Get the project submission link for a call
       index: Summary
       project_create: Create a project
       project_info_edit: Edit project's informations
@@ -684,7 +688,7 @@ app:
     reporter: reporter
     reporters: reporters
     review: review, study
-    submit: submit
+    submit: submit, deposit, drop
     user: utilisateur
     view: view
     widget: widget
