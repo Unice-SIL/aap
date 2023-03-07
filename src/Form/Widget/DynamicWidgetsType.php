@@ -25,9 +25,11 @@ class DynamicWidgetsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $project = $builder->getData();
+        $titleFielLabel = $project->getCallOfProject()->getProjectFormLayout()->getTitleFieldLabel();
+        $titleFielLabel = empty($titleFielLabel) ? 'Nom du champ principal (par défaut: "Titre")' : $titleFielLabel;
 
-      $builder->add('name', null, [
-            'label' =>  $project->getCallOfProject()->getProjectFormLayout()->getTitleFieldLabel()  ?? 'Title'
+        $builder->add('name', null, [
+            'label' => $titleFielLabel
         ]);
 
         if (!$project instanceof Project) {
