@@ -15,6 +15,11 @@
     "keywords": ["remove", "delete", "call_of_projects", "permissions", "permission", "access", "user"]
   },
   {
+    "label": "app.help.labels.call_of_projects_finished",
+    "template": "call_of_projects_finished",
+    "keywords": ["finish", "call_of_projects"]
+  },
+  {
     "label": "app.help.labels.call_of_projects_form_add_widget",
     "template": "call_of_projects_form_add_widget",
     "keywords": ["add", "append", "field", "widget", "form", "project"]
@@ -60,6 +65,11 @@
     "keywords": ["view", "my", "list", "call_of_projects"]
   },
   {
+    "label": "app.help.labels.call_of_projects_mails_config",
+    "template": "call_of_projects_mails_config",
+    "keywords": ["config", "mail", "mails", "call_of_projects"]
+  },
+  {
     "label": "app.help.labels.call_of_projects_permissions_list",
     "template": "call_of_projects_permissions_list",
     "keywords": ["view", "call_of_projects", "permissions", "permission"]
@@ -85,9 +95,19 @@
     "keywords": ["view", "information", "project"]
   },
   {
+    "label": "app.help.labels.call_of_projects_project_validation",
+    "template": "call_of_project_validation",
+    "keywords": ["validate", "reject", "project", "projects"]
+  },
+  {
     "label": "app.help.labels.call_of_projects_projects_list",
     "template": "call_of_projects_projects_list",
     "keywords": ["view", "list", "projects", "call_of_projects"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_submission_link",
+    "template": "call_of_projects_submission_link",
+    "keywords": ["submit", "link", "projects", "call_of_projects"]
   },
   {
     "label": "app.help.labels.project_create",

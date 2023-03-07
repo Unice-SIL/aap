@@ -18,7 +18,6 @@ require('../../public/bundles/tetranzselect2entity/js/select2entity');
 require('./custom')
 
 $(document).ready(function () {
-
     /**
      * Init
      */
@@ -659,4 +658,9 @@ $(document).ready(function () {
             }
         });
     });
+
+    let $helpNewCallOfProjectModal = $('#help-new-call-of-project-modal');
+    if ($helpNewCallOfProjectModal.length) {
+        $helpNewCallOfProjectModal.modal('show');
+    }
 });

@@ -1,9 +1,16 @@
 {% extends 'sidebar_layout.html.twig' %}
 
+{% block modals %}
+    {{ parent() }}
+    {% if is_granted(constant("App\\Security\\CallOfProjectVoter::FINISHED"), call_of_project) %}
+        {{ include('partial/modal/_close_call_of_project.html.twig') }}
+    {% endif %}
+{% endblock %}
+
 {% block after_header %}
     <div class="container-fluid text-right">
         <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Actions</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ 'app.action.actions'|trans }}</button>
             <div class="dropdown-menu" role="menu">
                 <a class="dropdown-item" href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
                     {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'fas fa-eye-slash' : 'fas fa-eye' %}
@@ -15,6 +22,12 @@
                     <i class="fas fa-download mr-2"></i>
                     {{ 'app.action.export'|trans }}
                 </a>
+                {% if is_granted(constant("App\\Security\\CallOfProjectVoter::FINISHED"), call_of_project) %}
+                    <button class="dropdown-item text-danger" data-toggle="modal" data-target="#close-call-of-project-modal">
+                        <i class="fas fa-power-off"></i>
+                        {{ 'app.action.close_call_of_projects'|trans }}
+                    </button>
+                {% endif %}
             </div>
         </div>
     </div>

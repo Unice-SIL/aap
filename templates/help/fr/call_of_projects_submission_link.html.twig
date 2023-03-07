@@ -1,0 +1,25 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_submission_link' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}, {{ 'app.acl.constant.manager'|trans }} ou {{ 'app.acl.constant.viewer'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+        </ul>
+    </div>
+    <ol>
+        <li>
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations d'un appel à projets</u></a>
+        </li>
+        <li>
+            Le lien de dépôt de projet de votre appel se trouve dans la partie {{ 'app.call_of_project.dashboard.projects'|trans }} sous <u>{{ 'app.call_of_project.dashboard.submission_url'|trans }}</u>
+        </li>
+        <li>
+            Vous pouvez copier ce lien à l'aide du bouton <u><i class="fas fa-clipboard"></i></u>
+        </li>
+    </ol>
+{% endblock %}

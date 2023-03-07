@@ -266,11 +266,12 @@ app:
     form_preview:
         h1: Aperçu du formulaire de dépôt de projet
     constant:
-      opened: Ouvert
-      closed: Fermé
-      review: En attente de résultat
+      opened: Dépôt projets ouvert
+      closed: Dépôt projets fermé
+      review: Etude en cours
+      finished: Appel clôturé
       archived: Archivé
-      public: Public
+      public: Appel à projet public
       not_public: Non public
     dashboard:
       h1: Tableau de bord
@@ -389,7 +390,10 @@ app:
       user:
         label: Mon profil
   action:
+    actions: Actions
     add: Ajouter
+    close_call_of_projects: Clôturer l'appel à projets
+    confirm: Confirmer
     label: Actions
     save: Enregistrer
     edit: Modifier
@@ -468,6 +472,9 @@ app:
         close: Annuler
         save: Enregistrer
         reactivate: Réactiver
+    close_call_of_project:
+      title: Clôturer l'appel à projet
+      text: Êtes-vous sûr(e) de vouloir clôturer cet appel à projet ?
     call_of_project_informations_form:
       title: Éditer l'appel à projets
     deadline:
@@ -638,6 +645,7 @@ app:
       call_of_projects_add_permission: Ajouter une permission d'accès à un appel pour un utilisateur
       call_of_projects_create: Créer un appel à projets
       call_of_projects_delete_permission: Supprimer une permission d'accès à un appel pour un utilisateur
+      call_of_projects_finished: Clôturer un appel à projet
       call_of_projects_form_add_widget: Ajouter un champ au formulaire de dépôt de projets d'un appel
       call_of_projects_form_config: Configurer le formulaire de dépôt de projets d'un appel
       call_of_projects_form_delete_widget: Supprimer un champ du formulaire de dépôt de projets d'un appel
@@ -649,13 +657,16 @@ app:
       call_of_projects_info_view: Consulter les informations d'un appel à projets
       call_of_projects_launch_projects_review: Démarrer l'étude des projets d'un appel
       call_of_projects_list: Consulter la liste de mes appels à projets
+      call_of_projects_mails_config: Personnalisez les mails de notification d'un appel à projets
       call_of_projects_permissions_list: Consulter la liste des permissions d'accès à l'appel à projets
       call_of_projects_project_add_comment: Ajouter des commentaires sur un projet
       call_of_projects_project_add_reporter: Ajouter des rapporteurs à un projet
       call_of_projects_project_delete_reporter: Supprimer un rapporteur
       call_of_projects_project_info_view: Consulter les informations d'un projet d'un appel
       call_of_projects_project_reporters_list: Consulter la liste des rapporteurs d'un projet
+      call_of_projects_project_validation: Retenir/Rejeter un projet d'un appel
       call_of_projects_projects_list: Consulter la liste des projets d'un appel
+      call_of_projects_submission_link: Récupérer le lien de soumission de projets d'un appel
       index: Sommaire
       project_create: Déposer un projet
       project_info_edit: Modifier les informations d'un projet
@@ -680,16 +691,19 @@ app:
     call_of_projects: appel à projets
     comment: commente, commentaire, commenter
     comments: commentaires
-    config: config, configure, configurer, configuration
+    config: config, configure, configurer, configuration, personnalise, personnaliser, personnalisation
     create: créer, création
     delete: supprime, supprimer, suppression, enlève, enlever, enlèvement, retire, retirer, retirement
     edit: édite, éditer, édition, modifie, modifier, modification
     field: champ
     fields: champs
+    finish: termine, terminer, clôture, clôturer, ferme, fermer
     form: formulaire
     launch: lance, lancer, exécute, exécuter, exécution, démarre, démarrer, démarrage
     list: liste, lister
     information: informations
+    mail: mail, email, e-mail, courriel
+    mails: mails, emails, e-mails, courriels
     move: bouge, bouger, déplace, déplacer, déplacement, change, changer, changement
     my: ma, mon, mes
     permission: permission
@@ -697,6 +711,7 @@ app:
     position: position, ordre
     project: projet
     projects: projets
+    reject: rejet, rejeter, ne pas retenir, invalider, invalidation
     remove: supprime, supprimer, suppression, enlève, enlever, enlèvement, retire, retirer, retirement
     report: rapport
     reports: rapports
@@ -705,8 +720,9 @@ app:
     review: revue, étude
     start: lance, lancer, exécute, exécuter, exécution, démarre, démarrer, démarrage
     study: étude, revue
-    submit: dépose, déposer, soumet, soumettre, envoi, envoyer
+    submit: dépôt, dépose, déposer, soumis, soumet, soumettre, soumission, envoi, envoie, envoyer
     user: utilisateur
+    validate: valide, valider, validation, retenir
     view: consulte, consulter, consultation, vue, voir, visualiser
     widget: widget
     workflow: workflow

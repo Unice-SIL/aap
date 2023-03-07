@@ -1,0 +1,116 @@
+<div class="modal fade" tabindex="-1" id="help-new-call-of-project-modal" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4>Il s'agit de votre premier appel à projet ? Voici comment cela se passe...</h4>
+                <div class="timeline mt-4">
+                    <div class="time-label">
+                        <span class="bg-{{ constant("App\\Constant\\CssMatching::CALL_OF_PROJECT_STATUS_TO_BOOTSTRAP")[constant("App\\Entity\\CallOfProject::STATUS_CLOSED")] }}">
+                            {{ 'app.call_of_project.constant.closed'|trans }}
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-cog bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Configurez le formulaire de dépôt de votre appel afin de définir les champs qui devront être renseignés par les utilisateurs qui souhaiteront y déposer un projet(<a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_form_config'}) }}" target="_blank">documentation<sup><i class="fas fa-external-link-alt"></i></sup></a>)
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <i class="fas fa-envelope bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Si nécessaire, personnalisez les mails de notifications de votre appel qui seront automatiquement envoyés (<a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_mails_config'}) }}" target="_blank">documentation<sup><i class="fas fa-external-link-alt"></i></sup></a>)
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <i class="fas fa-hourglass bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Patientez jusqu'à la date d'ouverture que vous avez renseignée pour votre appel à projets
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-label">
+                        <span class="bg-{{ constant("App\\Constant\\CssMatching::CALL_OF_PROJECT_STATUS_TO_BOOTSTRAP")[constant("App\\Entity\\CallOfProject::STATUS_OPENED")] }}">
+                            {{ 'app.call_of_project.constant.opened'|trans }}
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-bullhorn bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Si votre appel n'est pas public, pensez à communiquer le lien de dépôt de projets auprès de la population concernée (<a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_submission_link'}) }}" target="_blank">documentation<sup><i class="fas fa-external-link-alt"></i></sup></a>)
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <i class="fas fa-eye bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Observez les utilisateurs déposer leurs projets jusqu'à la date de fermeture du dépôt de projets
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-label">
+                        <span class="bg-{{ constant("App\\Constant\\CssMatching::CALL_OF_PROJECT_STATUS_TO_BOOTSTRAP")[constant("App\\Entity\\CallOfProject::STATUS_CLOSED")] }}">
+                            {{ 'app.call_of_project.constant.closed'|trans }}
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-play bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Démarrez la phase d'étude des projets qui ont été déposés (<a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_launch_projects_review'}) }}" target="_blank">documentation<sup><i class="fas fa-external-link-alt"></i></sup></a>)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-label">
+                        <span class="bg-{{ constant("App\\Constant\\CssMatching::CALL_OF_PROJECT_STATUS_TO_BOOTSTRAP")[constant("App\\Entity\\CallOfProject::STATUS_REVIEW")] }}">
+                            {{ 'app.call_of_project.constant.review'|trans }}
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-user-secret bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Identifiés les rapporteurs pour chacun des projets de votre appel qui devront alors soumettre leur rapport d'étude (<a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_project_add_reporter'}) }}" target="_blank">documentation<sup><i class="fas fa-external-link-alt"></i></sup></a>)
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <i class="fas fa-check bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Prenez connaissance des rapports qui ont été soumis pour chaque projet et choisissez quels projets seront retenus ou pas (<a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_project_validation'}) }}" target="_blank">documentation<sup><i class="fas fa-external-link-alt"></i></sup></a>)
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <i class="fas fa-power-off bg-dark"></i>
+                        <div class="timeline-item">
+                            <div class="timeline-body shadow">
+                                Clôturer l'appel à projet (<a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_finished'}) }}" target="_blank">documentation<sup><i class="fas fa-external-link-alt"></i></sup></a>)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-label">
+                        <span class="bg-{{ constant("App\\Constant\\CssMatching::CALL_OF_PROJECT_STATUS_TO_BOOTSTRAP")[constant("App\\Entity\\CallOfProject::STATUS_FINISHED")] }}">
+                            {{ 'app.call_of_project.constant.finished'|trans }}
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-block  btn-primary" data-dismiss="modal">C'est parti !</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

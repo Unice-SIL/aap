@@ -13,15 +13,16 @@ class CssMatching
     ];
 
     const CALL_OF_PROJECT_STATUS_TO_BOOTSTRAP = [
-        CallOfProject::STATUS_CLOSED => 'danger',
+        CallOfProject::STATUS_CLOSED => 'warning',
         CallOfProject::STATUS_OPENED => 'success',
         CallOfProject::STATUS_REVIEW => 'info',
+        CallOfProject::STATUS_FINISHED => 'danger',
         CallOfProject::STATUS_ARCHIVED => 'warning',
     ];
 
     const PROJECT_STATUS_TO_BOOTSTRAP = [
-        Project::STATUS_WAITING => 'info',
-        Project::STATUS_STUDYING => 'warning',
+        Project::STATUS_WAITING => 'warning',
+        Project::STATUS_STUDYING => 'info',
         Project::STATUS_REFUSED => 'danger',
         Project::STATUS_VALIDATED => 'success',
     ];

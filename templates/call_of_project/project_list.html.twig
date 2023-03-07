@@ -6,16 +6,16 @@
 
 {% block content %}
     <div class="card">
-        {% if
-            is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project)
-            and call_of_project.projects|filter(p => workflow_can(p, 'to_study')) is not empty
-        %}
-            <div class="card-header">
-                <div class="float-right">
+        <div class="card-header">
+            <div class="float-right">
+                {% if
+                    is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project)
+                    and call_of_project.projects|filter(p => workflow_can(p, 'to_study')) is not empty
+                %}
                     {{ form(project_to_study_form) }}
-                </div>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
         <div class="card-body">
             <table
                     id="project-list-datatable"

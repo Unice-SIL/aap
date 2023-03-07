@@ -2,6 +2,9 @@
 
 {% block modals %}
     {{ parent() }}
+    {% if help_new_call_of_projects == true %}
+        {{ include('partial/modal/_help_new_call_of_projects.html.twig') }}
+    {% endif %}
     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), call_of_project)  %}
         {{ include('partial/modal/_call_of_project_informations_form.html.twig') }}
     {% endif %}
@@ -281,5 +284,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

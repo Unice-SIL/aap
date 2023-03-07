@@ -1,0 +1,28 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_finished' %}
+
+{% block help_content %}
+    <div class="alert alert-danger">
+        Cette action est irréversible, elle clôture l'appel à projets. Si vous souhaitez uniquement fermer le dépôt de projets de l'appel, veuillez <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_edit'}) }}"><u>modifier la date de fermeture de dépôt au niveau des informations de l'appel</u></a>
+    </div>
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}) au niveau d'un appel à projets ou d'un centre organisateur de l'appel
+            </li>
+        </ul>
+    </div>
+    <ol>
+        <li>
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations d'un appel à projets</u></a>
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.actions'|trans }}</u> qui se trouve en haut de la page, puis sur <u>{{ 'app.action.close_call_of_projects'|trans }}</u>
+        </li>
+        <li>
+            Confirmez la clôture de l'appel à projets en cliquant sur le bouton <u>{{ 'app.action.confirm'|trans }}</u> dans la fenêtre qui s'ouvre
+        </li>
+    </ol>
+{% endblock %}
