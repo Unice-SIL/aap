@@ -52,7 +52,7 @@ class ProjectFormLayout
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $titleFieldLabel;
+    private $titleFieldLabel = 'Titre';
 
     public function __construct()
     {
