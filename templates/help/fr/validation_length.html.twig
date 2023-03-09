@@ -1,0 +1,17 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.validation_length' %}
+
+{% block help_content %}
+    <span>
+        Permet de valider la taille (nombre de caractères) de la valeur renseignée pour le champ
+    </span>
+    <ul>
+        <li>
+            <b>Min</b> : Nombre de caractères minimum à renseigner pour que le champ soit valide
+        </li>
+        <li>
+            <b>Max</b> : Nombre de caractères maximum à renseigner pour que le champ soit valide
+        </li>
+    </ul>
+{% endblock %}

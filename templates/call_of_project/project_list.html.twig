@@ -6,16 +6,16 @@
 
 {% block content %}
     <div class="card">
-        {% if
-            is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project)
-            and call_of_project.projects|filter(p => workflow_can(p, 'to_study')) is not empty
-        %}
-            <div class="card-header">
-                <div class="float-right">
+        <div class="card-header">
+            <div class="float-right">
+                {% if
+                    is_granted(constant('App\\Security\\CallOfProjectVoter::TO_STUDY_MASS'), call_of_project)
+                    and call_of_project.projects|filter(p => workflow_can(p, 'to_study')) is not empty
+                %}
                     {{ form(project_to_study_form) }}
-                </div>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
         <div class="card-body">
             <table
                     id="project-list-datatable"
@@ -27,6 +27,7 @@
                     <th data-no-filter="true">
                         <input type="checkbox" id="toggle-projects" class="toggle-multiple-checkboxes">
                     </th>
+                    <th>{{ 'app.project.property.number.label'|trans }}</th>
                     <th>{{ 'app.project.property.name.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                     <th>{{ 'app.project.property.created_at.label'|trans }}</th>
@@ -37,6 +38,11 @@
                 {% for project in call_of_project.projects %}
                     <tr>
                         <td class="text-center fit">{{ batch_action_render_input(project.id, batch_action_form.vars.attr.id, {'data-toggle-element': 'toggle-projects'}) }}</td>
+                        <td>
+                            {{ project.callOfProject.number }}
+                            {% if project.callOfProject.number is not empty and project.number is not empty %}-{% endif %}
+                            {{project.number }}
+                        </td>
                         <td>
                             <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
                                 {{ project.name }}

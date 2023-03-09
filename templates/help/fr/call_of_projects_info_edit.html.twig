@@ -4,11 +4,16 @@
 
 {% block help_content %}
     <div class="alert alert-warning">
-        Vous devez posséder les permissions nécessaires  au niveau de l'appel à projet ou du centre organisateur pour pouvoir modifier les informations d'un appel à projets
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }} ou {{ 'app.acl.constant.manager'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+        </ul>
     </div>
     <ol>
         <li>
-            Depuis la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}">consultation des informations d'un appel à projets</a> cliquez sur le bouton <u>{{ 'app.action.edit'|trans }}</u>
+            Depuis la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations d'un appel à projets</u></a> cliquez sur le bouton <u>{{ 'app.action.edit'|trans }}</u>
         </li>
         <li>
             Modifier les informations souhaitées dans le formulaire

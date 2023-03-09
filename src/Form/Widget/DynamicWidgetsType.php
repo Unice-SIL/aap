@@ -4,23 +4,34 @@ namespace App\Form\Widget;
 
 use App\Entity\Project;
 use App\Entity\ProjectContent;
-use App\Form\Type\FileWidgetType;
+use App\Repository\ProjectRepository;
 use App\Widget\FormWidget\FormWidgetInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DynamicWidgetsType extends AbstractType
 {
+    private $projectRepository;
+
+    public function __construct(ProjectRepository $projectRepository)
+    {
+        $this->projectRepository = $projectRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $project = $builder->getData();
+        $titleFielLabel = $project->getCallOfProject()->getProjectFormLayout()->getTitleFieldLabel();
+        $titleFielLabel = empty($titleFielLabel) ? 'Nom du champ principal (par défaut: "Titre")' : $titleFielLabel;
 
         $builder->add('name', null, [
-            'label' => 'app.project.property.name.label'
+            'label' => $titleFielLabel
         ]);
-        
+
         if (!$project instanceof Project) {
             return;
         }
@@ -80,7 +91,6 @@ class DynamicWidgetsType extends AbstractType
             ]));
 
         }
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

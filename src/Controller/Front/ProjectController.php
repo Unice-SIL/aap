@@ -4,12 +4,15 @@
 namespace App\Controller\Front;
 
 
+use App\Entity\Comment;
 use App\Entity\Project;
 use App\Entity\User;
+use App\Form\Project\AddCommentType;
 use App\Form\Project\AddReporterType;
 use App\Form\Project\ValidationType;
 use App\Manager\Notification\NotificationManagerInterface;
 use App\Manager\Project\ProjectManagerInterface;
+use App\Repository\CommentRepository;
 use App\Security\CallOfProjectVoter;
 use App\Utils\Mail\MailHelper;
 use App\Widget\WidgetManager;
@@ -59,11 +62,11 @@ class ProjectController extends AbstractController
      * @throws \Exception
      */
     public function edit(
-        Project $project,
-        WidgetManager $widgetManager,
-        Request $request,
+        Project                 $project,
+        WidgetManager           $widgetManager,
+        Request                 $request,
         ProjectManagerInterface $projectManager,
-        TranslatorInterface $translator
+        TranslatorInterface     $translator
     )
     {
         $context = $request->query->get('context');
@@ -114,12 +117,12 @@ class ProjectController extends AbstractController
      * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      */
     public function show(
-        Project $project,
-        Request $request,
-        EntityManagerInterface $em,
-        TranslatorInterface $translator,
-        Registry $workflowRegistry,
-        \Swift_Mailer $mailer,
+        Project                      $project,
+        Request                      $request,
+        EntityManagerInterface       $em,
+        TranslatorInterface          $translator,
+        Registry                     $workflowRegistry,
+        \Swift_Mailer                $mailer,
         NotificationManagerInterface $notificationManager
     )
     {
@@ -127,7 +130,29 @@ class ProjectController extends AbstractController
         $reporterAdded = $request->getSession()->remove('reporterAdded');
 
         $addReportersForm = $this->createForm(AddReporterType::class, $project);
+        $addCommentForm = $this->createForm(AddCommentType::class, new Comment());
+        $addCommentForm->handleRequest($request);
         $addReportersForm->handleRequest($request);
+
+        if ($addCommentForm->isSubmitted() && $addCommentForm->isValid()) {
+            $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $project->getCallOfProject());
+            /** @var Comment $comment */
+            $comment = $addCommentForm->getData();
+            $comment->setUser($this->getUser());
+            $em->persist($comment);
+            $project->addComment($comment);
+            $em->flush();
+            $this->addFlash('success', $translator->trans('app.flash_message.add_comment_success', ['%item%' => $project->getName()]));
+
+            $routeParameters = ['id' => $project->getId()];
+            if ($context === 'call_of_project') {
+                $routeParameters['context'] = $context;
+            }
+
+            $request->getSession()->set('reporterAdded', true);
+
+            return $this->redirectToRoute('app.project.show', $routeParameters);
+        }
 
         if ($addReportersForm->isSubmitted() and $addReportersForm->isValid()) {
 
@@ -208,12 +233,10 @@ class ProjectController extends AbstractController
                 $message
                     ->setFrom($user->getEmail())
                     ->setTo($project->getCreatedBy()->getEmail())
-                    ->setContentType('text/html')
-                ;
+                    ->setContentType('text/html');
 
                 $mailer->send($message);
             }
-
 
 
             $routeParameters = ['id' => $project->getId()];
@@ -253,8 +276,8 @@ class ProjectController extends AbstractController
             'add_reporters_form' => $addReportersForm->createView(),
             'reporter_added' => $reporterAdded,
             'validation_form' => $validationForm->createView(),
-            'refusal_form' => $refusalForm->createView()
+            'refusal_form' => $refusalForm->createView(),
+            'add_comment_form' => $addCommentForm->createView()
         ]);
     }
-
 }

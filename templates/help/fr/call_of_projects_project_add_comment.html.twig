@@ -1,0 +1,26 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_project_add_comment' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }} ou {{ 'app.acl.constant.manager'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+        </ul>
+    </div>
+
+    <ol>
+        <li>
+            Depuis la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_project_info_view'}) }}"><u>consultation des informations d'un projet</u></a> de votre appel à projets, cliquez sur le bouton <u>{{ 'app.project.action.add_comment'|trans }}</u>
+        </li>
+        <li>
+            Saisissez votre commentaire
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_form_move_widget' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+        </ul>
+    </div>
+    <ol>
+        <li>
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_form_config   '}) }}"><u>configuration du formulaire de dépôt de projets</u></a> d'un appel à projets
+        </li>
+        <li>
+            Cliquez sur le bouton <i class="fas fa-ellipsis-h"></i> qui se trouve au niveau du champ que vous souhaitez déplacer
+        </li>
+        <li>
+            Tout en restant appuyé sur le bouton, faites glisser le champ jusqu'à la position souhaitée
+        </li>
+        <li>
+            Relâchez le bouton
+        </li>
+    </ol>
+{% endblock %}

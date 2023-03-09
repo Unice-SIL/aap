@@ -11,6 +11,18 @@
         {% block help_title %}
             <h1 class="text-primary">{{ title|trans }}</h1>
         {% endblock %}
-        {% block help_content %}{% endblock %}
-    </div>
+        {% block help %}
+            <div class="text-right mb-2">
+                <a href="{{ path('app.help.summary') }}">
+                    <i class="fas fa-chevron-left"></i>
+                    {{ 'app.help.back'|trans }}
+                </a>
+            </div>
+            <div class="card shadow">
+                <div class="card-body">
+                    {% block help_content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
 {% endblock %}

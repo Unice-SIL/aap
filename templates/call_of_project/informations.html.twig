@@ -2,7 +2,12 @@
 
 {% block modals %}
     {{ parent() }}
-    {{ include('partial/modal/_call_of_project_informations_form.html.twig') }}
+    {% if help_new_call_of_projects == true %}
+        {{ include('partial/modal/_help_new_call_of_projects.html.twig') }}
+    {% endif %}
+    {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), call_of_project)  %}
+        {{ include('partial/modal/_call_of_project_informations_form.html.twig') }}
+    {% endif %}
 {% endblock %}
 
 {% block h1_content %}
@@ -17,14 +22,17 @@
                 <div>
                     <h4>{{ call_of_project }}</h4>
                     {% include('call_of_project/_status_badge.html.twig') %}
+                    {% include('call_of_project/_public_badge.html.twig') %}
                 </div>
-                <button  class="btn btn-primary align-self-start "
-                         data-toggle="modal"
-                         data-target="#call-of-project-information-form-modal"
-                         type="button"
-                >
-                    {{ 'app.action.edit'|trans }}
-                </button>
+                {% if is_granted(constant('App\\Security\\CallOfProjectVoter::EDIT'), call_of_project)  %}
+                    <button  class="btn btn-primary align-self-start "
+                             data-toggle="modal"
+                             data-target="#call-of-project-information-form-modal"
+                             type="button"
+                    >
+                        {{ 'app.action.edit'|trans }}
+                    </button>
+                {% endif %}
             </div>
             {{ call_of_project.description|raw }}
         </div>
@@ -88,6 +96,22 @@
     <hr class="my-4">
 
     <h4 class="text-gray">{{ 'app.call_of_project.dashboard.projects'|trans }}</h4>
+    <div class="card">
+        <div class="card-body">
+            <label for="callOfProjectSubmissionUrl" class="form-label">{{ 'app.call_of_project.dashboard.submission_url'|trans }}</label>
+            <div class="input-group">
+                <input id="callOfProjectSubmissionUrl" type="text" class="form-control" readonly
+                       aria-describedby="callOfProjectSubmissionUrlClipboard"
+                       value="{{ url('app.call_of_project.add_project', {id: call_of_project.id}) }}"
+                >
+                <div class="input-group-append">
+                    <span class="input-group-text" id="callOfProjectSubmissionUrlClipboard">
+                        <i class="fas fa-clipboard"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row mt-3">
         <div class="col-12 col-xl-8">
             <div class="card">
@@ -106,6 +130,7 @@
                     >
                         <thead>
                         <tr>
+                            <th>{{ 'app.project.property.number.label'|trans }}</th>
                             <th>{{ 'app.project.property.name.label'|trans }}</th>
                             <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                             <th>{{ 'app.project.property.status.label'|trans }}</th>
@@ -114,6 +139,11 @@
                         <tbody>
                         {% for project in call_of_project.projects %}
                             <tr>
+                                <td>
+                                    {{ project.callOfProject.number }}
+                                    {% if project.callOfProject.number is not empty and project.number is not empty %}-{% endif %}
+                                    {{project.number }}
+                                </td>
                                 <td>
                                     <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
                                         {{ project.name }}
@@ -260,6 +290,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
-

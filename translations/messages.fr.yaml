@@ -96,6 +96,7 @@ app:
           show_permissions: Liste de permissions
           label: Appel à projet
           delete_form: Supprimer
+          form_preview: Aperçu formulaire projet
         project:
           edit: Édition
           show: Vue
@@ -176,6 +177,12 @@ app:
     form:
       no_communicate: Non renseigné
   project:
+    add_comment:
+      modal_title: Ajouter un commentaire
+    detail:
+      card_header_title: Détail
+    comments:
+      card_header_title: Commentaires
     validation:
       validation:
         label: Retenir le projet
@@ -186,6 +193,7 @@ app:
         label: Envoie du mail automatique
     action:
       add_reporters: Ajouter des rapporteurs
+      add_comment: Ajouter un commentaire
     workflow:
       to_study:
         button: Lancer l'étude des projets
@@ -207,8 +215,16 @@ app:
         label: Statut
       name:
         label: Titre
+      number:
+        label: N°
+      comment:
+        label: Commentaire
+        contenu: Contenu
       call_of_project:
         label: Appel à projets
+    modal:
+      remove_warning_title: Êtes-vous sûr de vouloir retirer ce message du projet ?
+      remove_warning_label_button: Retirer
     index:
       h1: Liste de vos projets
       add_project: Déposer un projet
@@ -247,11 +263,16 @@ app:
       placeholder: Choisissez un appel à projets
     form:
         h1: Configuration du projet
+    form_preview:
+        h1: Aperçu du formulaire de dépôt de projet
     constant:
-      opened: Ouvert
-      closed: Fermé
-      review: En attente de résultat
+      opened: Dépôt projets ouvert
+      closed: Dépôt projets fermé
+      review: Etude en cours
+      finished: Appel clôturé
       archived: Archivé
+      public: Appel à projet public
+      not_public: Non public
     dashboard:
       h1: Tableau de bord
       organizing_center: Organisateur
@@ -259,6 +280,7 @@ app:
       end_date: Fermeture
       publication_date: Publication résultats
       projects: Projets
+      submission_url: Url pour le dépôt de projets
     informations:
       h1: Informations
     project_list:
@@ -268,6 +290,8 @@ app:
     new:
       h1: Création d'un nouvel appel à projets
     property:
+      public:
+        label: Public (si non public, l'appel ne sera pas visible dans la liste des appels ouverts, vous devrez communiquer le lien de l'appel aux intéressés)
       publication_date:
         label: Date de publication des résultats
       is_automatic_sending_validation_mail:
@@ -366,7 +390,10 @@ app:
       user:
         label: Mon profil
   action:
+    actions: Actions
     add: Ajouter
+    close_call_of_projects: Clôturer l'appel à projets
+    confirm: Confirmer
     label: Actions
     save: Enregistrer
     edit: Modifier
@@ -399,6 +426,7 @@ app:
         project_form: Configuration
         permissions: Permissions
         widget: Formulaire projet
+        form_preview: Apercu formulaire projet
         mail_template: Modèle email
         delete_form: Supprimer l'appel
     admin:
@@ -444,6 +472,9 @@ app:
         close: Annuler
         save: Enregistrer
         reactivate: Réactiver
+    close_call_of_project:
+      title: Clôturer l'appel à projet
+      text: Êtes-vous sûr(e) de vouloir clôturer cet appel à projet ?
     call_of_project_informations_form:
       title: Éditer l'appel à projets
     deadline:
@@ -469,6 +500,10 @@ app:
     success_project_refused: Refus du projet %item% réalisé avec succès
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
     invitation_resend_success: L'invitation "%invitation%" a bien été réenvoyée
+    add_comment_success: Ajout d'un commentaire avec succès pour le projet %item%
+    comment_delete_success: Le message a bien été supprimé de ce projet
+    comment_unauthorized_deletion: Vous n'êtes pas autorisé à supprimer ce message
+
 
   footer:
     copyright: Tous droits reservés
@@ -601,31 +636,96 @@ app:
   error_occured: Une erreur est survenue
 
   help:
+    back: Retour au sommaire
     title: Aide
     placeholder: Que souhaitez-vous faire ?
     results_not_found: Aucun résultats trouvés
     more_results: Voir plus de résultats
     labels:
+      call_of_projects_add_permission: Ajouter une permission d'accès à un appel pour un utilisateur
       call_of_projects_create: Créer un appel à projets
+      call_of_projects_delete_permission: Supprimer une permission d'accès à un appel pour un utilisateur
+      call_of_projects_finished: Clôturer un appel à projet
+      call_of_projects_form_add_widget: Ajouter un champ au formulaire de dépôt de projets d'un appel
+      call_of_projects_form_config: Configurer le formulaire de dépôt de projets d'un appel
+      call_of_projects_form_delete_widget: Supprimer un champ du formulaire de dépôt de projets d'un appel
+      call_of_projects_form_edit_widget: Modifier un champ du formulaire de dépôt de projets d'un appel
+      call_of_projects_form_move_widget: Changer la position d'un champ dans le formulaire de dépôt de projets d'un appel
+      call_of_projects_form_validations_types: Types de contraintes de validation
+      call_of_projects_form_widgets_types: Types de champs disponibles pour le formulaire de dépôt de projets
       call_of_projects_info_edit: Modifier les informations d'un appel à projets
       call_of_projects_info_view: Consulter les informations d'un appel à projets
+      call_of_projects_launch_projects_review: Démarrer l'étude des projets d'un appel
       call_of_projects_list: Consulter la liste de mes appels à projets
+      call_of_projects_mails_config: Personnalisez les mails de notification d'un appel à projets
+      call_of_projects_permissions_list: Consulter la liste des permissions d'accès à l'appel à projets
+      call_of_projects_project_add_comment: Ajouter des commentaires sur un projet
+      call_of_projects_project_add_reporter: Ajouter des rapporteurs à un projet
+      call_of_projects_project_delete_reporter: Supprimer un rapporteur
+      call_of_projects_project_info_view: Consulter les informations d'un projet d'un appel
+      call_of_projects_project_reporters_list: Consulter la liste des rapporteurs d'un projet
+      call_of_projects_project_validation: Retenir/Rejeter un projet d'un appel
       call_of_projects_projects_list: Consulter la liste des projets d'un appel
+      call_of_projects_submission_link: Récupérer le lien de soumission de projets d'un appel
+      index: Sommaire
       project_create: Déposer un projet
       project_info_edit: Modifier les informations d'un projet
       project_info_view: Consulter les informations d'un projet
       project_my_list: Consulter la liste de mes projets
-
+      validation_email: Validation de type "email"
+      validation_greater_than_or_equal: Validation de type "supérieur ou égal"
+      validation_length: Validation de type "longueur"
+      validation_less_than_or_equal: Validation de type "inférieur ou égal"
+      validation_url: Validation de type "Url"
+      widget_checkbox: Champ de type "Choix multiple"
+      widget_integer: Champ de type "Nombre"
+      widget_radiobox: Champ de type "Choix unique"
+      widget_range: Champ de type "Intervalle"
+      widget_text: Champ de type "Texte court"
+      widget_textarea: Champ de type "Texte long"
+      widget_unique_select: Champ de type "Liste déroulante"
   keyword:
+    access: accès
+    add: ajoute, ajouter, rajoute, rajouter
+    append: ajoute, ajouter, rajoute, rajouter
     call_of_projects: appel à projets
-    create: créer
-    edit: éditer, modifier
-    list: liste
+    comment: commente, commentaire, commenter
+    comments: commentaires
+    config: config, configure, configurer, configuration, personnalise, personnaliser, personnalisation
+    create: créer, création
+    delete: supprime, supprimer, suppression, enlève, enlever, enlèvement, retire, retirer, retirement
+    edit: édite, éditer, édition, modifie, modifier, modification
+    field: champ
+    fields: champs
+    finish: termine, terminer, clôture, clôturer, ferme, fermer
+    form: formulaire
+    launch: lance, lancer, exécute, exécuter, exécution, démarre, démarrer, démarrage
+    list: liste, lister
     information: informations
+    mail: mail, email, e-mail, courriel
+    mails: mails, emails, e-mails, courriels
+    move: bouge, bouger, déplace, déplacer, déplacement, change, changer, changement
+    my: ma, mon, mes
+    permission: permission
+    permissions: permissions
+    position: position, ordre
     project: projet
     projects: projets
-    submit: déposer, soumettre
-    view: consulter, vue, voir
+    reject: rejet, rejeter, ne pas retenir, invalider, invalidation
+    remove: supprime, supprimer, suppression, enlève, enlever, enlèvement, retire, retirer, retirement
+    report: rapport
+    reports: rapports
+    reporter: rapporteur
+    reporters: rapporteurs
+    review: revue, étude
+    start: lance, lancer, exécute, exécuter, exécution, démarre, démarrer, démarrage
+    study: étude, revue
+    submit: dépôt, dépose, déposer, soumis, soumet, soumettre, soumission, envoi, envoie, envoyer
+    user: utilisateur
+    validate: valide, valider, validation, retenir
+    view: consulte, consulter, consultation, vue, voir, visualiser
+    widget: widget
+    workflow: workflow
   registration:
     invitation_sent: Invitation envoyée avec succès
     invitation_link: Inviter une personne
@@ -664,6 +764,7 @@ app:
 
   message:
     first_connection: "<p>Bienvenue %firstname%,</p><p>Si vous avez besoin d'aide n'hésitez pas à cliquer sur l'icône <i class='far fa-question-circle'></i> située en haut à droite dans le menu de navigation</p>"
+    news: "<div class='text-left'><h3>Nouveau !</h3><p><strong>Gestionnaires d'appels à projets :</strong><ul><li>Choisissez si votre appel à projets est public ou non afin qu'il n'apparaisse plus dans la liste des appels ouverts (communiquez directement le lien de dépôt par mail à la population concernée)</li><li>Laissez des commentaires sur les projets de vos appels</li><li>Numérotation automatique des projets pour faciliter leur gestion au sein d'un appel</li><li>L'export d'un appel à projets contient désormais les rapports</li><li>Nouvelles ressources d'aide dans la documentation en ligne (accessible en cliquant sur <i class='far fa-question-circle'></i> en haut à droite du menu de navigation)</li></ul></div>"
   dictionary:
     property:
       name:

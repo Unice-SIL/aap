@@ -1,0 +1,33 @@
+{% set project = form.vars.data %}
+{% set isTemplate = project.callOfProject.ProjectFormLayout.isTemplate %}
+{% set form_attr = isTemplate ? {'onSubmit': 'return false;'} : {} %}
+
+<h4>  {{ 'app.call_of_project.form_preview.h1'|trans }} </h4>
+<div class="card">
+    <div class="card-body">
+        {{ form_start(form, {'attr' : form_attr}) }}
+
+        {{ form_row(form.name) }}
+        {% for project_form_widget in projectFormWidgets %}
+            <div class="form-group">
+                {{ include('partial/widget/_render_widget.html.twig') }}
+            </div>
+        {% endfor %}
+
+
+        {% if not isTemplate %}
+            <button type="submit" class="btn btn-primary mr-3 disabled">
+                {{ 'app.action.save'|trans }}
+            </button>
+        {% endif %}
+
+        {% set path = path('app.project.index', {'context': app.request.get('context')}) %}
+        {% if project.id != null %}
+            {% set path = path('app.project.show', {'id': project.id, 'context': app.request.get('context')}) %}
+        {% endif %}
+        <a href="{{ path('app.call_of_project.form', {'id': project.callOfProject.id}) }}" class="text-muted disabled">
+            {{ 'app.action.canceled'|trans }}
+        </a>
+        {{ form_end(form) }}
+    </div>
+</div>

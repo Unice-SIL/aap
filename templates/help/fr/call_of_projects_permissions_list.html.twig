@@ -1,0 +1,22 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_permissions_list' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}, {{ 'app.acl.constant.manager'|trans }} ou {{ 'app.acl.constant.viewer'|trans }}) au niveau de l'appel à projets ou du centre organisateur de l'appel
+            </li>
+        </ul>
+    </div>
+    <ol>
+        <li>
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations d'un appel à projets</u></a>
+        </li>
+        <li>
+            Dans le menu de gauche cliquez sur <u>{{ 'app.sidebar.item.admin.permissions'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

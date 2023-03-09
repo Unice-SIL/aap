@@ -1,15 +1,35 @@
 {% extends 'sidebar_layout.html.twig' %}
 
+{% block modals %}
+    {{ parent() }}
+    {% if is_granted(constant("App\\Security\\CallOfProjectVoter::FINISHED"), call_of_project) %}
+        {{ include('partial/modal/_close_call_of_project.html.twig') }}
+    {% endif %}
+{% endblock %}
+
 {% block after_header %}
-    <div class="buttons-toolbar container-fluid">
-        <a class="ml-2" href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
-            {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'text-info' : '' %}
-            {% set followingTitle = (call_of_project.subscribers.contains(app.user) ? 'app.action.toggle_subscription.off' : 'app.action.toggle_subscription.on') | trans %}
-            <i class="fas fa-eye {{ followingClass }}" title="{{ followingTitle }}"></i>
-        </a>
-        <a class="ml-2" href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">
-            <i class="fas fa-file-archive" title="{{ 'app.action.export'|trans }}"></i>
-        </a>
+    <div class="container-fluid text-right">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ 'app.action.actions'|trans }}</button>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="{{ path('app.call_of_project.toggle_subscription', {'id' : call_of_project.id }) }}">
+                    {% set followingClass = call_of_project.subscribers.contains(app.user) ? 'fas fa-eye-slash' : 'fas fa-eye' %}
+                    {% set followingTitle = (call_of_project.subscribers.contains(app.user) ? 'app.action.toggle_subscription.off' : 'app.action.toggle_subscription.on') | trans %}
+                    <i class="{{ followingClass }} mr-2"></i>
+                    {{ followingTitle }}
+                </a>
+                <a class="dropdown-item" href="{{ path('app.file.get_zip_from_call_of_project', {'id' : call_of_project.id }) }}">
+                    <i class="fas fa-download mr-2"></i>
+                    {{ 'app.action.export'|trans }}
+                </a>
+                {% if is_granted(constant("App\\Security\\CallOfProjectVoter::FINISHED"), call_of_project) %}
+                    <button class="dropdown-item text-danger" data-toggle="modal" data-target="#close-call-of-project-modal">
+                        <i class="fas fa-power-off"></i>
+                        {{ 'app.action.close_call_of_projects'|trans }}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -29,7 +49,8 @@
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
-                <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <ul class="nav nav-pills nav-child-indent nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
 
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::SHOW_INFORMATIONS'), call_of_project) %}
                         <li class="nav-item">
@@ -78,8 +99,7 @@
                         <li class="nav-item">
                             <a href="{{ path('app.call_of_project.show_permissions', { 'id' : call_of_project.id }) }}"
                                class="nav-link {{ 'app.call_of_project.show_permissions' == app.request.get('_route')
-                               or 'app.call_of_project.edit_permissions' == app.request.get('_route') ? 'active'
-                               }}"
+                               or 'app.call_of_project.edit_permissions' == app.request.get('_route') ? 'active' }}"
                             >
                                 <i class="fas fa-user-lock nav-icon"></i>
                                 <p>{{ 'app.sidebar.item.admin.permissions'|trans }}</p>
@@ -90,6 +110,7 @@
                     {% if is_granted(constant('App\\Security\\CallOfProjectVoter::ADMIN'), call_of_project) %}
                         {% set isConfigRoute = app.request.get('_route') in [
                             'app.call_of_project.form',
+                            'app.call_of_project.form_preview',
                             'app.call_of_project.mail_template',
                             'app.call_of_project.delete_form'
                         ] %}
@@ -107,7 +128,9 @@
 
                                 <li class="nav-item">
                                     <a href="{{ path('app.call_of_project.form', {'id' : call_of_project.id}) }}"
-                                       class="nav-link {{ app.request.get('_route') == 'app.call_of_project.form' ? 'active' }}">
+                                       class="nav-link {{ app.request.get('_route') == 'app.call_of_project.form' or
+                                       app.request.get('_route') == 'app.call_of_project.form_preview'
+                                       ? 'active'  }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ 'app.sidebar.item.admin.widget'|trans }}</p>
                                     </a>

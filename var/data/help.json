@@ -1,9 +1,48 @@
 [
-
+  {
+    "label": "app.help.labels.call_of_projects_add_permission",
+    "template": "call_of_projects_permissions_list",
+    "keywords": ["add", "append", "create", "call_of_projects", "permissions", "permission", "access", "user"]
+  },
   {
     "label": "app.help.labels.call_of_projects_create",
     "template": "call_of_projects_create",
     "keywords": ["submit", "create", "call_of_projects"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_delete_permission",
+    "template": "call_of_projects_delete_permission",
+    "keywords": ["remove", "delete", "call_of_projects", "permissions", "permission", "access", "user"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_finished",
+    "template": "call_of_projects_finished",
+    "keywords": ["finish", "call_of_projects"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_form_add_widget",
+    "template": "call_of_projects_form_add_widget",
+    "keywords": ["add", "append", "field", "widget", "form", "project"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_form_config",
+    "template": "call_of_projects_form_config",
+    "keywords": ["config", "form", "project"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_form_delete_widget",
+    "template": "call_of_projects_form_delete_widget",
+    "keywords": ["delete", "remove", "field", "widget", "form", "project"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_form_edit_widget",
+    "template": "call_of_projects_form_edit_widget",
+    "keywords": ["edit", "modify", "field", "widget", "form", "project"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_form_move_widget",
+    "template": "call_of_projects_form_move_widget",
+    "keywords": ["move", "position", "field", "widget", "form", "project"]
   },
   {
     "label": "app.help.labels.call_of_projects_info_edit",
@@ -16,14 +55,59 @@
     "keywords": ["view", "information", "call_of_projects"]
   },
   {
+    "label": "app.help.labels.call_of_projects_launch_projects_review",
+    "template": "call_of_projects_launch_projects_review",
+    "keywords": ["start", "launch", "study", "reporter", "reporters", "workflow", "call_of_projects", "projects"]
+  },
+  {
     "label": "app.help.labels.call_of_projects_list",
     "template": "call_of_projects_list",
-    "keywords": ["view", "list", "call_of_projects"]
+    "keywords": ["view", "my", "list", "call_of_projects"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_mails_config",
+    "template": "call_of_projects_mails_config",
+    "keywords": ["config", "mail", "mails", "call_of_projects"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_permissions_list",
+    "template": "call_of_projects_permissions_list",
+    "keywords": ["view", "call_of_projects", "permissions", "permission"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_project_add_comment",
+    "template": "call_of_projects_project_add_comment",
+    "keywords": ["add", "comment", "comments"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_project_add_reporter",
+    "template": "call_of_projects_project_add_reporter",
+    "keywords": ["add", "reporter", "reporters"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_project_delete_reporter",
+    "template": "call_of_projects_project_delete_reporter",
+    "keywords": ["delete", "remove", "reporter", "reporters"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_project_info_view",
+    "template": "call_of_projects_project_info_view",
+    "keywords": ["view", "information", "project"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_project_validation",
+    "template": "call_of_project_validation",
+    "keywords": ["validate", "reject", "project", "projects"]
   },
   {
     "label": "app.help.labels.call_of_projects_projects_list",
     "template": "call_of_projects_projects_list",
     "keywords": ["view", "list", "projects", "call_of_projects"]
+  },
+  {
+    "label": "app.help.labels.call_of_projects_submission_link",
+    "template": "call_of_projects_submission_link",
+    "keywords": ["submit", "link", "projects", "call_of_projects"]
   },
   {
     "label": "app.help.labels.project_create",
@@ -43,6 +127,6 @@
   {
     "label": "app.help.labels.project_my_list",
     "template": "project_my_list",
-    "keywords": ["view", "list", "projects"]
+    "keywords": ["view", "my", "list", "projects"]
   }
 ]

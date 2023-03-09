@@ -1,34 +1,57 @@
 version: '3.7'
+
 services:
     database:
+        container_name: ${PROJECT_NAME:-aap}_database
         image: 'mariadb:10.3.34'
         environment:
-            MYSQL_ROOT_PASSWORD: password
-            MYSQL_DATABASE: main
+            MARIADB_NAME: ${DATABASE_NAME:-aap}
+            MARIADB_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD:-password}
         ports:
-            - '3306'
+            - ${DATABASE_PORT:-3380}:3306
         volumes:
-            - ./dump:/docker-entrypoint-initdb.d
-            - persistent:/var/lib/mysql
+            - db-data:/var/lib/mysql:rw
         networks:
             - default
+
     phpmyadmin:
+        container_name: ${PROJECT_NAME:-aap}_phpmyadmin
         image: phpmyadmin
-        restart: always
-        depends_on:
-            - database
         ports:
-            - "9021:80"
+            - ${PHPMYADMIN_PORT:-9081}:80
         environment:
             PMA_HOST: database
+        depends_on:
+            - database
+        networks:
+            - default
+
     php:
-        build: php
+        container_name: ${PROJECT_NAME:-aap}_php
+        tty: true
+        build:
+            context: ./
+            dockerfile: ./docker/php/Dockerfile
+        env_file:
+            - .env.local
+        environment:
+            DATABASE_URL: mysql://root:${DATABASE_ROOT_PASSWORD:-password}@database/${DATABASE_NAME:-aap}?serverVersion=mariadb-${DATABASE_VERSION:-10.3.34}
         ports:
-            - "9020:8000"
+            - ${PHP_PORT:-9080}:8000
         volumes:
-            - .:/app
-            - /app/vendor # ignore vendor folder
+            - .:/web/app:cached
+            - /web/app/node_modules
+            - /web/app/var/cache
+            - /web/app/vendor
+        depends_on:
+            - database
+        networks:
+            - default
+
+networks:
+    default:
+
 volumes:
-    persistent:
+    db-data:
 
 

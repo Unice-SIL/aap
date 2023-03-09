@@ -1,0 +1,29 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_form_widgets_types' %}
+
+{% block help_content %}
+    <ul>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_text'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\TextWidget'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_textarea'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\TextAreaWidget'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_integer'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\IntegerWidget'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_range'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\RangeWidget'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_unique_select'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\UniqueSelectWidget'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_radiobox'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\RadioboxWidget'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'widget_checkbox'}) }}" target="_blank">Type {{ 'app.widget.App\\Widget\\FormWidget\\CheckboxWidget'|trans }}</a>
+        </li>
+    </ul>
+{% endblock %}

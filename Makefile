@@ -14,14 +14,14 @@ reinstall: ## Reinstall symfony project (dev)
 	make rebuild
 
 rebuild: ## Rebuild database (dev)
-	php bin/console doctrine:database:drop --force
+	php bin/console doctrine:database:drop --force --no-interaction
 	make build
 	rm -rf files
 
 build: ## Build database (dev)
-	php bin/console doctrine:database:create
+	php bin/console doctrine:database:create --if-not-exists --no-interaction
 	php bin/console doctrine:migrations:migrate --no-interaction
-	php bin/console doctrine:fixtures:load --no-interaction --append
+	php bin/console doctrine:fixtures:load --append --no-interaction
 
 build_assets: ## build assets (dev)
 	yarn install
@@ -31,6 +31,5 @@ install_prod: ## Install symfony project (prod)
 	composer install
 	yarn install
 	yarn encore prod
-	php bin/console doctrine:database:create
+	php bin/console doctrine:database:create --if-not-exists --no-interaction
 	php bin/console doctrine:migrations:migrate --no-interaction
-	php bin/console app:install:user-admin

@@ -87,4 +87,12 @@ class HelpController extends AbstractController
         return $this->render($template);
     }
 
+    /**
+     * @Route("/summary", name="summary", methods={"GET"})
+     * @return Response
+     */
+    public function summary(): Response
+    {
+        return $this->render('help/summary.html.twig');
+    }
 }

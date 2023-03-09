@@ -1,0 +1,39 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_project_add_reporter' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }} ou {{ 'app.acl.constant.manager'|trans }}) au niveau de l'appel à projets ou du centre organisateur
+            </li>
+            <li>
+                Le projet doit être à l'état "{{ 'app.project.constant.studying'|trans }}"
+            </li>
+        </ul>
+    </div>
+
+    <ol>
+        <li>
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_project_repoters_list'}) }}"><u>consultation de la liste des rapporteurs d'un projet</u></a> de votre appel à projets</u>
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.project.action.add_reporters'|trans }}</u>
+        </li>
+        <li>
+            Dans la fenêtre qui s'est ouverte, recherchez le(s) rapporteur(s) dans la liste des utilisateurs
+        </li>
+        <li>
+            Renseignez la date butoir de dépôt du rapport que devra respecter le rapporteur
+        </li>
+        <li>
+            Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>
+        </li>
+    </ol>
+
+    <div class="alert alert-info">
+        Si un utilisateur que vous souhaitez ajouter en tant que rapporteur n'est pas présent dans la liste, vous pouvez utiliser la fonctionnalité d'invitation
+    </div>
+{% endblock %}

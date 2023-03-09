@@ -4,14 +4,19 @@
 
 {% block help_content %}
     <div class="alert alert-warning">
-        Vous devez posséder les permissions nécessaires  au niveau de l'appel à projet ou du centre organisateur pour pouvoir consulter les informations d'un appel à projets
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}, {{ 'app.acl.constant.manager'|trans }} ou {{ 'app.acl.constant.viewer'|trans }}) au niveau de l'appel à projet ou du centre organisateur de l'appel
+            </li>
+        </ul>
     </div>
     <ol>
         <li>
-            Depuis la liste de vos appels à projets sélectionnez un appel à projets en cliquant sur son titre
+            Rendez-vous sur la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_info_view'}) }}"><u>consultation des informations de l'appel à projets</u></a>
         </li>
         <li>
-            Dans le menu de gauche cliquez sur <u>{{ 'app.sidebar.item.admin.infos'|trans }}</u>
+            Dans le menu de gauche cliquez sur <u>{{ 'app.sidebar.item.projects.label'|trans }}</u>
         </li>
     </ol>
 {% endblock %}

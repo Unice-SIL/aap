@@ -19,6 +19,7 @@ class CallOfProject extends Common
     const STATUS_CLOSED = 'closed';
     const STATUS_OPENED = 'opened';
     const STATUS_REVIEW = 'review';
+    const STATUS_FINISHED = 'finished';
     const STATUS_ARCHIVED = 'archived';
 
     const ADMIN_PERMISSIONS = [
@@ -102,6 +103,11 @@ class CallOfProject extends Common
      */
     private $publicationDate;
 
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default": 1})
+     */
+    private $public = true;
 
     /**
      * CallOfProject constructor.
@@ -304,14 +310,18 @@ class CallOfProject extends Common
      */
     public function getStatus(): string
     {
-        $currentDate = new DateTime();
-        if ($currentDate < $this->getStartDate()) {
-            return self::STATUS_CLOSED;
-        } elseif ($this->getStartDate() <= $currentDate and $currentDate <= $this->getEndDate()) {
-            return self::STATUS_OPENED;
-        } else {
-            return self::STATUS_REVIEW;
+        $status = parent::getStatus();
+        if ($status === self::STATUS_INIT) {
+            $currentDate = new DateTime();
+            if ($currentDate < $this->getStartDate()) {
+                return self::STATUS_CLOSED;
+            } elseif ($this->getStartDate() <= $currentDate and $currentDate <= $this->getEndDate()) {
+                return self::STATUS_OPENED;
+            } else {
+                return self::STATUS_CLOSED;
+            }
         }
+        return $status;
     }
 
     /**
@@ -425,6 +435,24 @@ class CallOfProject extends Common
     {
         $this->publicationDate = $publicationDate;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublic(): bool
+    {
+        return $this->public;
+    }
+
+    /**
+     * @param bool $public
+     * @return CallOfProject
+     */
+    public function setPublic(bool $public): CallOfProject
+    {
+        $this->public = $public;
         return $this;
     }
 }

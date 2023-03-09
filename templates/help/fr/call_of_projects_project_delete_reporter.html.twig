@@ -1,0 +1,26 @@
+{% extends 'help/help_layout.html.twig' %}
+
+{% set title = 'app.help.labels.call_of_projects_project_delete_reporter' %}
+
+{% block help_content %}
+    <div class="alert alert-warning">
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }} ou {{ 'app.acl.constant.manager'|trans }}) au niveau de l'appel à projets ou du centre organisateur
+            </li>
+        </ul>
+    </div>
+
+    <ol>
+        <li>
+            Rendez-vous la page de <a target="_blank" href="{{ path('app.help.show', {'locale': app.request.locale, 'template': 'call_of_projects_project_reporters_list'}) }}"><u>consultation de la liste des rapporteurs d'un projet</u></a> de votre appel à projets
+        </li>
+        <li>
+            Dans la liste des rapporteurs, cliquez sur l'icône en forme de poubelle en face du rapporteur que vous souhaitez supprimer
+        </li>
+        <li>
+            Confirmez la suppression en cliquant sur le bouton <u>{{ 'app.report.modal.remove_warning_label_button'|trans }}</u>
+        </li>
+    </ol>
+{% endblock %}

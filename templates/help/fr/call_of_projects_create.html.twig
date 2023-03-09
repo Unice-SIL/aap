@@ -4,14 +4,35 @@
 
 {% block help_content %}
     <div class="alert alert-warning">
-        Vous devez faire parti d'un centre organisateur et avoir les permissions nécessaires pour pouvoir créer un appel à projets
+        Les conditions suivantes sont nécessaires:
+        <ul>
+            <li>
+                Vous devez posséder les permissions nécessaires ({{ 'app.acl.constant.admin'|trans }}) au niveau du centre organisateur pour lequel vous souhaitez créer un appel à projets
+            </li>
+        </ul>
     </div>
+
     <ol>
         <li>
-            Depuis la liste de vos appels à projets cliquez sur le bouton <a href="{{ path('app.call_of_project.new') }}"><u>{{ 'app.dashboard.create_new_call_of_projects'|trans }}</u></a> ou depuis le tableau de bord cliquez sur le bouton <a href="{{ path('app.call_of_project.new') }}"><u>{{ 'app.dashboard.create_new_call_of_projects'|trans }}</u></a>
+            Depuis la <a target="_blank" href="{{ path('app.call_of_project.index') }}"><u>liste de vos appels à projets</u></a> cliquez sur le bouton <a href="{{ path('app.call_of_project.new') }}"><u>{{ 'app.dashboard.create_new_call_of_projects'|trans }}</u></a> ou depuis votre <a href="{{ path('app.homepage') }}"><u>tableau de bord</u></a> cliquez sur le bouton <a href="{{ path('app.call_of_project.new') }}"><u>{{ 'app.dashboard.create_new_call_of_projects'|trans }}</u></a>
         </li>
         <li>
-            Remplissez les différents champs du formulaire
+            Renseignez un {{ 'app.call_of_project.property.name.label'|trans }} pour votre appel
+        </li>
+        <li>
+            Sélectionnez le {{ 'app.call_of_project.property.organizing_center'|trans }} de l'appel à projets parmi les centres pour lesquels vous êtes identifié comme {{ 'app.acl.constant.admin'|trans }}. L'ensemble des utilisateurs identifiés au niveau du centre de gestion comme {{ 'app.acl.constant.admin'|trans }}, {{ 'app.acl.constant.manager'|trans }} ou {{ 'app.acl.constant.viewer'|trans }} auront ainsi accès à l'appel à projets
+        </li>
+        <li>
+            Choisissez si votre appel à projets sera public et donc visible dans la liste des appels à projets ouverts sur la plateforme. Dans le cas contraire votre appel n'apparaitra pas dans la liste des appels à projets, les utilisateurs pourront y accéder via le lien direct que vous devrez leur communiquer.
+        </li>
+        <li>
+            Définissez la période d'ouverture de votre appel durant laquelle les utilisateurs pourront y déposer des projets en renseignant une date d'ouverture et de fermeture
+        </li>
+        <li>
+            Si vous le souhaitez, vous pouvez initialiser le formulaire de dépôt de projets depuis un modèle ou depuis le formulaire d'un autre appel à projets. Vous pourrez ensuite modifier le formulaire de votre appel comme vous le souhaitez.
+        </li>
+        <li>
+            Les champs {{ 'app.call_of_project.property.description.label'|trans }} et {{ 'app.call_of_project.property.publication_date.label'|trans }}
         </li>
         <li>
             Cliquez sur le bouton <u>{{ 'app.action.save'|trans }}</u>

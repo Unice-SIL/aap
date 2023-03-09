@@ -19,6 +19,8 @@ class CallOfProjectVoter extends Voter
     const SHOW_INFORMATIONS = 'show_informations';
     const SHOW_PROJECTS = 'show_projects';
     const SHOW_PERMISSIONS = 'show_permissions';
+    const FINISHED = 'finished';
+
 
     /**
      * @var AuthorizationCheckerInterface
@@ -39,14 +41,15 @@ class CallOfProjectVoter extends Voter
     {
         // if the attribute isn't one we support, return false
         if (!in_array($attribute, [
-                self::TO_STUDY_MASS,
-                self::ADMIN,
-                self::EDIT,
-                self::OPEN,
-                self::SHOW_INFORMATIONS,
-                self::SHOW_PROJECTS,
-                self::SHOW_PERMISSIONS,
-            ])) {
+            self::TO_STUDY_MASS,
+            self::ADMIN,
+            self::EDIT,
+            self::OPEN,
+            self::SHOW_INFORMATIONS,
+            self::SHOW_PROJECTS,
+            self::SHOW_PERMISSIONS,
+            self::FINISHED
+        ])) {
             return false;
         }
 
@@ -80,7 +83,7 @@ class CallOfProjectVoter extends Voter
             case self::ADMIN:
                 return $this->canAdmin($callOfProject, $user);
             case self::EDIT:
-                return $this->cantEdit($callOfProject, $user);
+                return $this->canEdit($callOfProject, $user);
             case self::OPEN:
                 return $this->isOpen($callOfProject);
             case self::SHOW_INFORMATIONS:
@@ -89,6 +92,8 @@ class CallOfProjectVoter extends Voter
                 return $this->canSeeProjects($callOfProject, $user);
             case self::SHOW_PERMISSIONS:
                 return $this->canSeePermissions($callOfProject, $user);
+            case self::FINISHED:
+                return  $this->canFinished($callOfProject, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -108,7 +113,7 @@ class CallOfProjectVoter extends Voter
             return false;
         }
 
-        if (!$this->cantEdit($callOfProject, $user)) {
+        if (!$this->canEdit($callOfProject, $user)) {
             return false;
         }
 
@@ -150,12 +155,30 @@ class CallOfProjectVoter extends Voter
         return $this->canSeeInformations($callOfProject, $user);
     }
 
-    private function cantEdit(CallOfProject $callOfProject, User $user)
+    private function canEdit(CallOfProject $callOfProject, User $user)
     {
         $userPermissions = AbstractAclManager::getPermissions($user, $callOfProject);
         $userPermissions = array_merge(
             AbstractAclManager::getPermissions($user, $callOfProject->getOrganizingCenter())->toArray(), $userPermissions->toArray());
 
         return count(array_intersect($userPermissions, CallOfProject::EDIT_PERMISSIONS)) > 0;
+    }
+
+    /**
+     * @param CallOfProject $callOfProject
+     * @param User $user
+     * @return bool
+     */
+    private function canFinished(CallOfProject $callOfProject, User $user)
+    {
+        if (!$this->canAdmin($callOfProject, $user)) {
+            return false;
+        }
+
+        if (in_array($callOfProject->getStatus(), [CallOfProject::STATUS_FINISHED, CallOfProject::STATUS_ARCHIVED])) {
+            return false;
+        }
+
+        return true;
     }
 }

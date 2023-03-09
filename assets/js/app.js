@@ -18,7 +18,6 @@ require('../../public/bundles/tetranzselect2entity/js/select2entity');
 require('./custom')
 
 $(document).ready(function () {
-
     /**
      * Init
      */
@@ -76,7 +75,7 @@ $(document).ready(function () {
      * Datetime picker (or only Date)
      */
     function initDateTimePicker() {
-        $('input.datetimepicker-input[data-linked-target]').each(function() {
+        $('input.datetimepicker-input[data-linked-target]').each(function () {
 
             let first = $(this).closest('.dateimepicker-container');
             let id = $(this).data('linked-target');
@@ -148,7 +147,7 @@ $(document).ready(function () {
         let alertLabel = $(this).data('modal-warning-label');
         let alertClass = $(this).data('modal-warning-class');
 
-        let form = $(this).closest('form').clone().removeAttr('class').addClass('d-inline') ;
+        let form = $(this).closest('form').clone().removeAttr('class').addClass('d-inline');
         form.find('.alert-button-modal').removeAttr('class').addClass(alertClass).text(alertLabel);
 
         modal.find('.modal-title').text(title);
@@ -163,11 +162,11 @@ $(document).ready(function () {
      * ================================================================
      */
     //Add a listener on remove activity button
-    $(document).on('click', '.remove-collection-widget', function(e) {
+    $(document).on('click', '.remove-collection-widget', function (e) {
         e.preventDefault();
         let item = $(this).closest('.item-collection');
         let list = item.closest('ul');
-        item.slideUp(500, function() {
+        item.slideUp(500, function () {
             $(this).remove();
 
             let number = 1;
@@ -259,9 +258,9 @@ $(document).ready(function () {
             language: {
                 url: table.data('translation-url')
             },
-            "order": [[ defaultThOrder, "asc" ]],
+            "order": [[defaultThOrder, "asc"]],
             "columnDefs": [
-                { "orderable": false, "targets": thIndexes }
+                {"orderable": false, "targets": thIndexes}
             ],
             "dom": '<"row"' +
                 '<"col-sm-12 col-md-6"l>' +
@@ -278,22 +277,22 @@ $(document).ready(function () {
     /**
      * Sortable
      */
-    function initSortable () {
-        $( '.sortable' ).sortable({
+    function initSortable() {
+        $('.sortable').sortable({
             appendTo: document.body
         });
 
-        $( '#active-widget-container' ).sortable( "option", "handle", ".sortable-handle" );
+        $('#active-widget-container').sortable("option", "handle", ".sortable-handle");
     }
 
-    $( '#active-widget-container' ).on( "sortupdate", function( event, ui ) {
+    $('#active-widget-container').on("sortupdate", function (event, ui) {
         let item = ui.item;
 
         $.post(
             item.data('url'),
-            { 'position': item.parent().children().index(item) + 1 }
+            {'position': item.parent().children().index(item) + 1}
         );
-    } );
+    });
 
     /**
      * Call of Project edit modal
@@ -313,7 +312,7 @@ $(document).ready(function () {
     /**
      * Widget modal
      */
-    function chargeFormOnShowBsModal () {
+    function chargeFormOnShowBsModal() {
         $(this).modal({
             backdrop: 'static',
             show: false
@@ -338,7 +337,8 @@ $(document).ready(function () {
 
 
     }
-    let formOnShowBSModal =  [$('#import-widget-modal'), $('#widget-form-modal')]
+
+    let formOnShowBSModal = [$('#import-widget-modal'), $('#widget-form-modal')]
     $.each(formOnShowBSModal, chargeFormOnShowBsModal);
 
     /**
@@ -395,6 +395,7 @@ $(document).ready(function () {
             })
         }
     }
+
     $(document).on('change', '#form_choice_widget_dictionary', function () {
         toggleOptionContainer($(this))
     })
@@ -404,7 +405,7 @@ $(document).ready(function () {
      */
     let $initProject = $('#call_of_project_information_initProject');
     // When initProject gets selected ...
-    $initProject.change(function() {
+    $initProject.change(function () {
         // ... retrieve the corresponding form.
         let $form = $(this).closest('form');
         // Simulate form data, but only include the selected initProject value.
@@ -412,10 +413,10 @@ $(document).ready(function () {
         data[$initProject.attr('name')] = $initProject.val();
         // Submit data via AJAX to the form's action path.
         $.ajax({
-            url : $form.attr('action'),
+            url: $form.attr('action'),
             type: $form.attr('method'),
-            data : data,
-            success: function(html) {
+            data: data,
+            success: function (html) {
                 // Replace current #init-call-of-project-by field ...
                 $('#init-call-of-project-by').replaceWith(
                     // ... with the returned one from the AJAX response.
@@ -429,7 +430,7 @@ $(document).ready(function () {
     /**
      * Project/ValidationType
      */
-    $(document).on('switchChange.bootstrapSwitch', 'form.validation-form .automatic-sending-switch', function(e, state) {
+    $(document).on('switchChange.bootstrapSwitch', 'form.validation-form .automatic-sending-switch', function (e, state) {
         let $automaticSending = $(this);
         // ... retrieve the corresponding form.
         let $form = $(this).closest('form');
@@ -443,13 +444,12 @@ $(document).ready(function () {
         // Submit data via AJAX to the form's action path.
         $form.find('.submit-button').attr("disabled", true).addClass('disabled');
         $.ajax({
-            url : $form.attr('action'),
+            url: $form.attr('action'),
             type: $form.attr('method'),
-            data : data,
-            success: function(html) {
+            data: data,
+            success: function (html) {
                 let containerSelector = 'form[name ="' + $form.attr('name') + '"]' + ' .mail-template-container';
                 $(containerSelector).replaceWith(
-
                     $(html).find(containerSelector)
                 );
                 initSummernote();
@@ -505,9 +505,9 @@ $(document).ready(function () {
         batchActionButton.disable(entitiesField.find('option').length < 1);
     });
 
-    $(document).on('change', '.toggle-multiple-checkboxes', function() {
+    $(document).on('change', '.toggle-multiple-checkboxes', function () {
         let element = $(this);
-        $('input[type="checkbox"]').filter('[data-toggle-element="'+element.attr('id')+'"]').each(function() {
+        $('input[type="checkbox"]').filter('[data-toggle-element="' + element.attr('id') + '"]').each(function () {
             $(this).prop("checked", element.is(":checked"));
         });
     });
@@ -518,13 +518,12 @@ $(document).ready(function () {
     let timeoutReference;
     let helpSearchElement = $('#help-search');
 
-    helpSearchElement.on('paste keyup' ,function () {
-        if(helpSearchElement.val().length < 2)
-        {
+    helpSearchElement.on('paste keyup', function () {
+        if (helpSearchElement.val().length < 2) {
             return;
         }
         clearTimeout(timeoutReference);
-        timeoutReference = setTimeout(function() {
+        timeoutReference = setTimeout(function () {
             $.ajax({
                 'url': helpSearchElement.data('action'),
                 'data': {
@@ -555,15 +554,15 @@ $(document).ready(function () {
      * Dynamic import widget form modal
      */
 
-    $(document).on('change', '#import_widget_callOfProject', function() {
+    $(document).on('change', '#import_widget_callOfProject', function () {
         let $form = $(this).closest('form');
         let data = {};
         data[$(this).attr('name')] = $(this).val();
         $.ajax({
-            url : $form.attr('action'),
+            url: $form.attr('action'),
             type: $form.attr('method'),
-            data : data,
-            success: function(html) {
+            data: data,
+            success: function (html) {
 
                 $('#import_widget_projectFormWidget').replaceWith(
                     $(html).find('#import_widget_projectFormWidget')
@@ -605,14 +604,14 @@ $(document).ready(function () {
         }
 
         let splitFileName = file.name.split('.');
-        if (splitFileName[splitFileName.length -1] !== 'csv') {
+        if (splitFileName[splitFileName.length - 1] !== 'csv') {
             toastr.error(input.data('wrong-format-message'));
             return;
         }
 
         reader.readAsText(file);
 
-        reader.onload = function(event) {
+        reader.onload = function (event) {
             let csvData = event.target.result;
             data = $.csv.toArrays(csvData);
             if (data && data.length > 0) {
@@ -626,10 +625,42 @@ $(document).ready(function () {
             }
         };
 
-        reader.onerror = function() {
+        reader.onerror = function () {
             toastr.error(input.data('error-message'));
         };
 
 
-    })
+    });
+
+    $(document).on('click', '#callOfProjectSubmissionUrlClipboard i', function () {
+        let callOfProjectSubmissionUrl = document.getElementById("callOfProjectSubmissionUrl");
+        callOfProjectSubmissionUrl.select();
+        callOfProjectSubmissionUrl.setSelectionRange(0, 99999); // For mobile devices
+        document.execCommand("copy");
+        toastr.success('URL copiée');
+    });
+
+    $(document).on('submit', 'form[name="project_form_layout"]', function (e) {
+        e.preventDefault();
+        const url = $('#button_edit_title').data('url');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data:   $('form[name="project_form_layout"]').serialize(),
+            success: function (response) {
+                if(response.statut) {
+                    $('#edit_title_form_modal').modal('hide');
+                    $("#dynamic_widgets_name").prev("label").html(response.newLabel);
+                }
+            },
+            error: function () {
+                alert('Le label n\'a pas pu être modifié');
+            }
+        });
+    });
+
+    let $helpNewCallOfProjectModal = $('#help-new-call-of-project-modal');
+    if ($helpNewCallOfProjectModal.length) {
+        $helpNewCallOfProjectModal.modal('show');
+    }
 });

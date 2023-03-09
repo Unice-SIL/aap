@@ -41,7 +41,7 @@ class ProjectFormLayoutFixtures extends Fixture
          * FormLayout 1
          */
          $projectFormLayout = new ProjectFormLayout();
-         $projectFormLayout->setName(self::FORM_LAYOUT_1);
+         $projectFormLayout->setName(self::FORM_LAYOUT_1)->setTitleFieldLabel('Titre');
 
          $projectFormWidget1 = new ProjectFormWidget();
          $projectFormWidget1->setPosition(1);
@@ -65,7 +65,7 @@ class ProjectFormLayoutFixtures extends Fixture
          * FormLayout 2
          */
         $projectFormLayout = new ProjectFormLayout();
-        $projectFormLayout->setName(self::FORM_LAYOUT_2);
+        $projectFormLayout->setName(self::FORM_LAYOUT_2)->setTitleFieldLabel('Titre');
 
         $projectFormWidget = new ProjectFormWidget();
         $projectFormWidget->setPosition(1);
@@ -89,7 +89,7 @@ class ProjectFormLayoutFixtures extends Fixture
          * FormLayout 3
          */
         $projectFormLayout = new ProjectFormLayout();
-        $projectFormLayout->setName(self::FORM_LAYOUT_3);
+        $projectFormLayout->setName(self::FORM_LAYOUT_3)->setTitleFieldLabel('Titre');
         $projectFormLayout->setIsTemplate(true);
 
         $projectFormWidget = new ProjectFormWidget();

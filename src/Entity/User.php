@@ -109,12 +109,17 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=50, nullable=true)
      *
      */
-    private $auth;
+    private $auth = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $lastConnection;
+    private $lastConnection = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $news = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Common::class, mappedBy="createdBy")
@@ -131,6 +136,11 @@ class User implements UserInterface, \Serializable
     private $subscriptions;
 
     /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private $comments;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -141,6 +151,7 @@ class User implements UserInterface, \Serializable
         $this->notifications = new ArrayCollection();
         $this->elements = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
 
@@ -532,6 +543,24 @@ class User implements UserInterface, \Serializable
         );
     }
 
+    /**
+     * @return string|null
+     */
+    public function getNews(): ?string
+    {
+        return $this->news;
+    }
+
+    /**
+     * @param string|null $news
+     * @return User
+     */
+    public function setNews(?string $news): User
+    {
+        $this->news = $news;
+        return $this;
+    }
+
     public function serialize()
     {
         return serialize(array(
@@ -548,5 +577,35 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password,
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
