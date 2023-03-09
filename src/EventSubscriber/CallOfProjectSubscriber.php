@@ -31,6 +31,7 @@ class CallOfProjectSubscriber implements EventSubscriber
     /**
      * CallOfProjectSubscriber constructor.
      * @param ProjectFormLayoutManagerInterface $projectFormLayoutManager
+     * @param CallOfProjectRepository $callOfProjectRepository
      */
     public function __construct(ProjectFormLayoutManagerInterface $projectFormLayoutManager, CallOfProjectRepository  $callOfProjectRepository)
     {
@@ -62,8 +63,7 @@ class CallOfProjectSubscriber implements EventSubscriber
             $this->projectFormLayoutManager->create($callOfProject);;
         }
 
-        $lastCode = 1 + $this->callOfProjectRepository->getLastCode();
-        $callOfProject->setCode($lastCode);
+        $callOfProject->setNumber($this->callOfProjectRepository->getNumberMax() + 1);
     }
 
 }

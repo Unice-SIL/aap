@@ -213,6 +213,8 @@ app:
         label: Status
       name:
         label: Title
+      number:
+        label: N°
       call_of_project:
         label: Call of project
     index:

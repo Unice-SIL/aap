@@ -45,7 +45,6 @@ class ProjectDoctrineSubscriber implements EventSubscriber
             return;
         }
 
-        $numberLastProject = 1 + $this->projectRepository->getLastNumberProject($project->getCallOfProject()->getId());
-        $project->setNumber($numberLastProject);
+        $project->setNumber($this->projectRepository->getMaxNumber($project->getCallOfProject()) + 1);
     }
 }

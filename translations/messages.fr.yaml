@@ -216,7 +216,7 @@ app:
       name:
         label: Titre
       number:
-        label: N° du projet
+        label: N°
       comment:
         label: Commentaire
         contenu: Contenu

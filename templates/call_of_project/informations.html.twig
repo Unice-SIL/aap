@@ -130,6 +130,7 @@
                     >
                         <thead>
                         <tr>
+                            <th>{{ 'app.project.property.number.label'|trans }}</th>
                             <th>{{ 'app.project.property.name.label'|trans }}</th>
                             <th>{{ 'app.project.property.created_by.label'|trans }}</th>
                             <th>{{ 'app.project.property.status.label'|trans }}</th>
@@ -138,6 +139,11 @@
                         <tbody>
                         {% for project in call_of_project.projects %}
                             <tr>
+                                <td>
+                                    {{ project.callOfProject.number }}
+                                    {% if project.callOfProject.number is not empty and project.number is not empty %}-{% endif %}
+                                    {{project.number }}
+                                </td>
                                 <td>
                                     <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
                                         {{ project.name }}

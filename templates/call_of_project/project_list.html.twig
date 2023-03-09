@@ -38,7 +38,11 @@
                 {% for project in call_of_project.projects %}
                     <tr>
                         <td class="text-center fit">{{ batch_action_render_input(project.id, batch_action_form.vars.attr.id, {'data-toggle-element': 'toggle-projects'}) }}</td>
-                        <td>{{ project.callOfProject.code }}-{{project.number }}</td>
+                        <td>
+                            {{ project.callOfProject.number }}
+                            {% if project.callOfProject.number is not empty and project.number is not empty %}-{% endif %}
+                            {{project.number }}
+                        </td>
                         <td>
                             <a href="{{ path('app.project.show', { 'id' : project.id, 'context' : 'call_of_project' }) }}">
                                 {{ project.name }}

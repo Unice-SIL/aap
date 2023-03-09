@@ -6,6 +6,7 @@ use App\Entity\CallOfProject;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -84,14 +85,14 @@ class CallOfProjectRepository extends ServiceEntityRepository
 
     /**
      * @throws NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
+     * @throws NoResultException
      */
-    public function getLastCode (): int
+    public function getNumberMax (): int
     {
         $query = $this->createQueryBuilder('cop')
-            ->select('MAX(cop.code) AS max_code')
-              ->getQuery()
+            ->select('MAX(cop.number) AS max_number')
+            ->getQuery()
             ->getSingleResult();
-        return $query['max_code'] ?? 0;
+        return $query['max_number'] ?? 0;
     }
 }
