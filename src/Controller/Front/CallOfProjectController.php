@@ -644,11 +644,11 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @param CallOfProject $callOfProject
+     * @IsGranted(App\Security\CallOfProjectVoter::TO_STUDY_MASS, subject="callOfProject")
      * @return void
      */
     private function toReview(CallOfProject $callOfProject)
     {
-        $this->denyAccessUnlessGranted(CallOfProjectVoter::TO_STUDY_MASS, $callOfProject);
         foreach ($callOfProject->getProjects() as $project) {
             $stateMachine = $this->workflowRegistry->get($project, 'project_validation_process');
             try {
