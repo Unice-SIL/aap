@@ -122,7 +122,7 @@ class CallOfProjectController extends AbstractController
             $request->getSession()->set('app.call_of_project.new_help', true);
             $callOfProjectManager->save($callOfProject);
 
-            return $this->redirectToRoute('app.call_of_project.form', [
+            return $this->redirectToRoute('app.call_of_project.informations', [
                 'id' => $callOfProject->getId()
             ]);
         }

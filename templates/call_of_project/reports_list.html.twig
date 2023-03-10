@@ -44,7 +44,8 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="4">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="text-center" colspan="5">{{ 'app.table.no_results_found'|trans }}</td>
+                        <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
                         <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
                         <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
                         <td class="d-none">{{ 'app.table.no_results_found'|trans }}</td>
