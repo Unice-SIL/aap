@@ -498,6 +498,7 @@ app:
     error_project_to_study: Échec du passage à l'étude du projet %item%
     error_project_validate: Échec de la validation du projet %item%
     error_project_refused: Échec du refus du projet %item%
+    create_errror: Échec de création de l'élément %item%
     success_project_validate: Validation du projet %item% réalisée avec succès
     success_project_refused: Refus du projet %item% réalisé avec succès
     report_delete_success: Le rapporteur %reporter% a bien été retiré de ce projet
@@ -505,6 +506,7 @@ app:
     add_comment_success: Ajout d'un commentaire avec succès pour le projet %item%
     comment_delete_success: Le message a bien été supprimé de ce projet
     comment_unauthorized_deletion: Vous n'êtes pas autorisé à supprimer ce message
+    create_unauthorized: Vous avez déja déposé un projet !!
 
 
   footer:

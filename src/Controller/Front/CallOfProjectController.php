@@ -54,7 +54,7 @@ class CallOfProjectController extends AbstractController
      * @param TranslatorInterface $translator
      */
     public function __construct(
-        Registry $workflowRegistry,
+        Registry            $workflowRegistry,
         TranslatorInterface $translator
     )
     {
@@ -150,13 +150,16 @@ class CallOfProjectController extends AbstractController
      * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
      */
     public function addProject(
-        CallOfProject $callOfProject,
-        Request $request,
+        CallOfProject           $callOfProject,
+        Request                 $request,
         ProjectManagerInterface $projectManager,
-        WidgetManager $widgetManager,
-        TranslatorInterface $translator
+        WidgetManager           $widgetManager,
+        TranslatorInterface     $translator
     ): Response
     {
+        /**
+         * CallOfProject $callOfProject
+         */
         $this->denyAccessUnlessGranted(CallOfProjectVoter::OPEN, $callOfProject);
 
         $project = $projectManager->create($callOfProject);
@@ -175,6 +178,22 @@ class CallOfProjectController extends AbstractController
             return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
 
+        if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            if (!$callOfProject->isMultipleDeposit()) {
+                $heAlreadyHasProject = false;
+                foreach ($callOfProject->getProjects() as $project) {
+                    if ($project->getCreatedBy() === $this->getUser()) {
+                        $heAlreadyHasProject = true;
+                        break;
+                    }
+                }
+                if ($heAlreadyHasProject) {
+                    $this->addFlash('error', $translator->trans('app.flash_message.create_unauthorized'));
+                    return $this->redirectToRoute('app.call_of_project.presentation_before_adding_project', ['id' => $callOfProject->getId()]);
+                }
+            }
+        }
+
         return $this->render('call_of_project/add_project.html.twig', [
             'call_of_project' => $callOfProject,
             'dynamic_form_html' => $widgetManager->renderDynamicFormHtml(
@@ -183,7 +202,6 @@ class CallOfProjectController extends AbstractController
             ),
         ]);
     }
-
 
     /**
      * @Route("/{id}/informations", name="informations", methods={"GET", "POST"})
@@ -194,8 +212,8 @@ class CallOfProjectController extends AbstractController
      * @IsGranted(App\Security\CallOfProjectVoter::SHOW_INFORMATIONS, subject="callOfProject")
      */
     public function informations(
-        Request $request,
-        CallOfProject $callOfProject,
+        Request             $request,
+        CallOfProject       $callOfProject,
         TranslatorInterface $translator
     ): Response
     {
@@ -250,12 +268,9 @@ class CallOfProjectController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        if ($user->getSubscriptions()->contains($callOfProject))
-        {
+        if ($user->getSubscriptions()->contains($callOfProject)) {
             $user->removeSubscription($callOfProject);
-        }
-        else
-        {
+        } else {
             $user->addSubscription($callOfProject);
         }
 
@@ -274,11 +289,11 @@ class CallOfProjectController extends AbstractController
      * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
      */
     public function projects(
-        CallOfProject $callOfProject,
-        Request $request,
-        EntityManagerInterface $em,
+        CallOfProject               $callOfProject,
+        Request                     $request,
+        EntityManagerInterface      $em,
         BatchActionManagerInterface $batchManager,
-        TranslatorInterface $translator
+        TranslatorInterface         $translator
     ): Response
     {
         $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
@@ -286,7 +301,7 @@ class CallOfProjectController extends AbstractController
         if ($projectToStudyForm->isSubmitted() and $projectToStudyForm->isValid()) {
             $this->toReview($callOfProject);
             $em->flush();
-            return  $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
+            return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
         }
 
         $batchActionBlackList = [];
@@ -305,7 +320,7 @@ class CallOfProjectController extends AbstractController
                 $this->addFlash('error', $translator->trans('app.error_occured'));
                 return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
             }
-            return $this->redirectToRoute('app.call_of_project.batch_action', ['id'=> $callOfProject->getId()]);
+            return $this->redirectToRoute('app.call_of_project.batch_action', ['id' => $callOfProject->getId()]);
         }
 
         return $this->render('call_of_project/project_list.html.twig', [
@@ -339,11 +354,11 @@ class CallOfProjectController extends AbstractController
      * @return Response
      */
     public function batchAction(
-        CallOfProject $callOfProject,
+        CallOfProject               $callOfProject,
         BatchActionManagerInterface $batchActionManager,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
+        Request                     $request,
+        EntityManagerInterface      $entityManager,
+        TranslatorInterface         $translator
     )
     {
 
@@ -360,7 +375,7 @@ class CallOfProjectController extends AbstractController
         if ($form->isSubmitted() and $form->isValid()) {
 
             $className = null;
-            $ids = array_map(function ($entity) use (&$className){
+            $ids = array_map(function ($entity) use (&$className) {
 
                 if ($className === null) {
                     $className = get_class($entity);
@@ -413,10 +428,10 @@ class CallOfProjectController extends AbstractController
      * @return Response
      */
     public function editPermissions(
-        CallOfProject $callOfProject,
-        Request $request,
+        CallOfProject          $callOfProject,
+        Request                $request,
         EntityManagerInterface $em,
-        TranslatorInterface $translator
+        TranslatorInterface    $translator
     ): Response
     {
         $form = $this->createForm(CallOfProjectAclsType::class, $callOfProject);
@@ -450,8 +465,8 @@ class CallOfProjectController extends AbstractController
      * @throws \Exception
      */
     public function form(
-        CallOfProject $callOfProject,
-        WidgetManager $widgetManager,
+        CallOfProject           $callOfProject,
+        WidgetManager           $widgetManager,
         ProjectManagerInterface $projectManager
     ): Response
     {
@@ -480,10 +495,10 @@ class CallOfProjectController extends AbstractController
      * @return RedirectResponse|Response
      */
     public function editMailTemplate(
-        CallOfProject $callOfProject,
+        CallOfProject                 $callOfProject,
         CallOfProjectManagerInterface $callOfProjectManager,
-        Request $request,
-        TranslatorInterface $translator
+        Request                       $request,
+        TranslatorInterface           $translator
     )
     {
         $form = $this->createForm(MailTemplateType::class, $callOfProject);
@@ -497,7 +512,7 @@ class CallOfProjectController extends AbstractController
             return $this->redirectToRoute('app.call_of_project.mail_template', ['id' => $callOfProject->getId()]);
         }
 
-        return  $this->render('call_of_project/edit_mail_template.html.twig', [
+        return $this->render('call_of_project/edit_mail_template.html.twig', [
             'form' => $form->createView(),
             'call_of_project' => $callOfProject
         ]);
@@ -556,10 +571,10 @@ class CallOfProjectController extends AbstractController
      * @Route("/{id}/delete-form", name="delete_form", methods={"GET", "POST"})
      */
     public function deleteForm(
-        CallOfProject $callOfProject,
-        Request $request,
+        CallOfProject                 $callOfProject,
+        Request                       $request,
         CallOfProjectManagerInterface $callOfProjectManager,
-        TranslatorInterface $translator
+        TranslatorInterface           $translator
     )
     {
         $this->denyAccessUnlessGranted(OrganizingCenterVoter::ADMIN, $callOfProject->getOrganizingCenter());
@@ -594,8 +609,8 @@ class CallOfProjectController extends AbstractController
      * @throws \Exception
      */
     public function formPreview(
-        CallOfProject $callOfProject,
-        WidgetManager $widgetManager,
+        CallOfProject           $callOfProject,
+        WidgetManager           $widgetManager,
         ProjectManagerInterface $projectManager
     ): Response
     {
