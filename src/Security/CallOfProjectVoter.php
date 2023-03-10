@@ -99,21 +99,26 @@ class CallOfProjectVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canApplyToStudyMass(CallOfProject $callOfProject, User $user)
+    /**
+     * @param CallOfProject $callOfProject
+     * @param User $user
+     * @return bool
+     */
+    private function canApplyToStudyMass(CallOfProject $callOfProject, User $user): bool
     {
-        $projectStatuses = $callOfProject->getProjects()->map(function($project) {
-            return $project->getStatus();
+        if ($this->canAdmin($callOfProject, $user) === false) {
+            return false;
+        }
+
+        if ($callOfProject->getStatus() !== CallOfProject::STATUS_CLOSED) {
+            return false;
+        }
+
+        $projects = $callOfProject->getProjects()->filter(function(Project $project) {
+            return $project->getStatus() === Project::STATUS_WAITING;
         });
 
-        if ($callOfProject->getStatus() !== CallOfProject::STATUS_REVIEW) {
-            return false;
-        }
-
-        if (!in_array(Project::STATUS_WAITING, $projectStatuses->toArray())) {
-            return false;
-        }
-
-        if (!$this->canEdit($callOfProject, $user)) {
+        if ($projects->count() < 1) {
             return false;
         }
 
