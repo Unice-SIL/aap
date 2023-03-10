@@ -290,6 +290,8 @@ app:
     new:
       h1: Création d'un nouvel appel à projets
     property:
+      multipleDeposit:
+        label: Dépôt multiple de projet(si non, un utilisateur ne pourra déposer qu'un seul projet pour cette appel à projet)
       public:
         label: Public (si non public, l'appel ne sera pas visible dans la liste des appels ouverts, vous devrez communiquer le lien de l'appel aux intéressés)
       publication_date:

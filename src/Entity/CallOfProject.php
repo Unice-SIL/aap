@@ -110,6 +110,11 @@ class CallOfProject extends Common
     private $public = true;
 
     /**
+     * @ORM\Column(type="boolean", options={"default": 1})
+     */
+    private $multipleDeposit = true ;
+
+    /**
      * CallOfProject constructor.
      */
     public function __construct()
@@ -453,6 +458,25 @@ class CallOfProject extends Common
     public function setPublic(bool $public): CallOfProject
     {
         $this->public = $public;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMultipleDeposit(): bool
+    {
+        return $this-> multipleDeposit;
+    }
+
+    /**
+     * @param bool $multipleDeposit
+     * @return $this
+     */
+    public function setMultipleDeposit(bool $multipleDeposit): self
+    {
+        $this->multipleDeposit = $multipleDeposit;
+
         return $this;
     }
 }
