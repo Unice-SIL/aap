@@ -125,6 +125,11 @@ class CallOfProject extends Common
     private $notificationNewReportMailTemplate;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $notificationNewReportsMailTemplate;
+
+    /**
      * CallOfProject constructor.
      */
     public function __construct()
@@ -510,6 +515,18 @@ class CallOfProject extends Common
     public function setNotificationNewReportMailTemplate(string $notificationNewReportMailTemplate): self
     {
         $this->notificationNewReportMailTemplate = $notificationNewReportMailTemplate;
+
+        return $this;
+    }
+
+    public function getNotificationNewReportsMailTemplate(): ?string
+    {
+        return $this->notificationNewReportsMailTemplate;
+    }
+
+    public function setNotificationNewReportsMailTemplate(string $notificationNewReportsMailTemplate): self
+    {
+        $this->notificationNewReportsMailTemplate = $notificationNewReportsMailTemplate;
 
         return $this;
     }

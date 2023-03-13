@@ -29,6 +29,9 @@ class MailTemplateType extends AbstractType
             ->add('notificationNewReportMailTemplate', SummernoteType::class, [
                 'label' => 'app.call_of_project.property.notification_new_report_mail_template.label'
             ])
+            ->add('notificationNewReportsMailTemplate', SummernoteType::class, [
+                'label' => 'app.call_of_project.property.notification_new_reports_mail_template.label'
+            ])
             ->add('isAutomaticSendingRefusalMail', BootstrapSwitchType::class, [
                 'label' => 'app.call_of_project.property.is_automatic_sending_refusal_mail.label'
             ])
