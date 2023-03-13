@@ -178,20 +178,11 @@ class CallOfProjectController extends AbstractController
             return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
 
-        if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
-            if (!$callOfProject->isMultipleDeposit()) {
-                $heAlreadyHasProject = false;
-                foreach ($callOfProject->getProjects() as $project) {
-                    if ($project->getCreatedBy() === $this->getUser()) {
-                        $heAlreadyHasProject = true;
-                        break;
-                    }
-                }
-                if ($heAlreadyHasProject) {
+        if (!$callOfProject->isMultipleDeposit()) {
+               if(!$this->isGranted(CallOfProjectVoter::SUBMIT_PROJECT, $callOfProject )){
                     $this->addFlash('error', $translator->trans('app.flash_message.create_unauthorized'));
                     return $this->redirectToRoute('app.call_of_project.presentation_before_adding_project', ['id' => $callOfProject->getId()]);
-                }
-            }
+             }
         }
 
         return $this->render('call_of_project/add_project.html.twig', [

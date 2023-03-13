@@ -20,6 +20,7 @@ class CallOfProjectVoter extends Voter
     const SHOW_PROJECTS = 'show_projects';
     const SHOW_PERMISSIONS = 'show_permissions';
     const FINISHED = 'finished';
+    const SUBMIT_PROJECT = 'submit_project';
 
 
     /**
@@ -48,7 +49,8 @@ class CallOfProjectVoter extends Voter
             self::SHOW_INFORMATIONS,
             self::SHOW_PROJECTS,
             self::SHOW_PERMISSIONS,
-            self::FINISHED
+            self::FINISHED,
+            self::SUBMIT_PROJECT
         ])) {
             return false;
         }
@@ -94,6 +96,8 @@ class CallOfProjectVoter extends Voter
                 return $this->canSeePermissions($callOfProject, $user);
             case self::FINISHED:
                 return  $this->canFinished($callOfProject, $user);
+            case self::SUBMIT_PROJECT:
+                return  $this->canSubmitProject($callOfProject, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -185,5 +189,17 @@ class CallOfProjectVoter extends Voter
         }
 
         return true;
+    }
+
+    /**
+     * @param CallOfProject $callOfProject
+     * @param User $user
+     * @return bool
+     */
+    private function canSubmitProject(CallOfProject $callOfProject, User $user)
+    {
+        return $callOfProject->getProjects()->filter(function (Project $project) use ($user) {
+                return $project->getCreatedBy() === $user;
+            })->count() == 0;
     }
 }
