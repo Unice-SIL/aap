@@ -198,8 +198,9 @@ class CallOfProjectVoter extends Voter
      */
     private function canSubmitProject(CallOfProject $callOfProject, User $user)
     {
-        if($callOfProject->isMultipleDeposit())
+        if($callOfProject->isMultipleDeposit() || in_array('ROLE_ADMIN',  $user->getRoles())) {
             return true;
+        }
 
         return $callOfProject->getProjects()->filter(function (Project $project) use ($user) {
                 return $project->getCreatedBy() === $user;
