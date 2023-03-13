@@ -178,11 +178,9 @@ class CallOfProjectController extends AbstractController
             return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
 
-        if (!$callOfProject->isMultipleDeposit()) {
-               if(!$this->isGranted(CallOfProjectVoter::SUBMIT_PROJECT, $callOfProject )){
-                    $this->addFlash('error', $translator->trans('app.flash_message.create_unauthorized'));
-                    return $this->redirectToRoute('app.call_of_project.presentation_before_adding_project', ['id' => $callOfProject->getId()]);
-             }
+        if (!$this->isGranted(CallOfProjectVoter::SUBMIT_PROJECT, $callOfProject)) {
+            $this->addFlash('error', $translator->trans('app.flash_message.create_unauthorized'));
+            return $this->redirectToRoute('app.call_of_project.presentation_before_adding_project', ['id' => $callOfProject->getId()]);
         }
 
         return $this->render('call_of_project/add_project.html.twig', [
