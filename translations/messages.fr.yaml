@@ -304,6 +304,8 @@ app:
         label: Modèle d'email de validation
       refusal_mail_template:
         label: Modèle d'email de refus
+      notification_to_creator_new_project_mail_template:
+        label: Modèle d'email de notification à destination du créateur d'un nouveau projet
       organizing_center: Centre organisateur
       start_date:
         label: Date d'ouverture

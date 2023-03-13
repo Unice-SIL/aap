@@ -115,6 +115,11 @@ class CallOfProject extends Common
     private $multipleDeposit = true ;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $notificationToCreatorNewProjectMailTemplate;
+
+    /**
      * CallOfProject constructor.
      */
     public function __construct()
@@ -476,6 +481,18 @@ class CallOfProject extends Common
     public function setMultipleDeposit(bool $multipleDeposit): self
     {
         $this->multipleDeposit = $multipleDeposit;
+
+        return $this;
+    }
+
+    public function getNotificationToCreatorNewProjectMailTemplate(): ?string
+    {
+        return $this->notificationToCreatorNewProjectMailTemplate;
+    }
+
+    public function setNotificationToCreatorNewProjectMailTemplate(string $notificationToCreatorNewProjectMailTemplate): self
+    {
+        $this->notificationToCreatorNewProjectMailTemplate = $notificationToCreatorNewProjectMailTemplate;
 
         return $this;
     }

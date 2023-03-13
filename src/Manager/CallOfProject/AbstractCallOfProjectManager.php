@@ -36,6 +36,9 @@ abstract class AbstractCallOfProjectManager implements CallOfProjectManagerInter
         $refusalMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::REFUSAL_PROJECT);
         $callOfProject->setRefusalMailTemplate($refusalMailTemplate->getBody());
 
+        $notificationToCreatorNewProjectMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::NOTIFY_CREATOR_OF_A_NEW_PROJECT);
+        $callOfProject->setNotificationToCreatorNewProjectMailTemplate($notificationToCreatorNewProjectMailTemplate->getBody());
+
         return $callOfProject;
     }
 
