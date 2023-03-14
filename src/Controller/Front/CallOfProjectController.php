@@ -64,12 +64,12 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @Security("is_granted(constant('App\\Security\\UserVoter::VIEW_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST'))")
      * @param EntityManagerInterface $em
      * @return Response
      */
     public function index(EntityManagerInterface $em)
     {
+        dd('ops');
 
         return $this->render('call_of_project/index.html.twig', [
             'call_of_projects' => $em->getRepository(CallOfProject::class)->getIfUserHasOnePermissionAtLeast(
@@ -476,14 +476,28 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/mail-template", name="mail_template", methods={"GET", "POST"})
+     * @Route("/{id}/list-mail-template", name="list_mail_template", methods={"GET"})
+     * @return Response
+     * @Route(name="index", methods={"GET"})
+     */
+    public function listMailTemplate(CallOfProject $callOfProject)
+    {
+        return $this->render('call_of_project/list_mail_template.html.twig', [
+
+            'call_of_project' => $callOfProject,
+            'call_of_project_mail_templates' => $callOfProject->getCallOfProjectMailTemplate()
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/mail-template_ddd", name="mail_template", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @param Request $request
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-    public function editMailTemplate(
+   /* public function editMailTemplate(
         CallOfProject                 $callOfProject,
         CallOfProjectManagerInterface $callOfProjectManager,
         Request                       $request,
@@ -505,7 +519,7 @@ class CallOfProjectController extends AbstractController
             'form' => $form->createView(),
             'call_of_project' => $callOfProject
         ]);
-    }
+    }*/
 
     /**
      * @Route("/list-by-user-select-2", name="list_by_user_select_2", methods={"GET"})

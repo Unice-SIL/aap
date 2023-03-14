@@ -4,6 +4,7 @@
 namespace App\Manager\CallOfProject;
 
 
+use App\Entity\CallOfProjectMailTemplate;
 use App\Entity\MailTemplate;
 use App\Constant\MailTemplate as MailTemplateConstant;
 use App\Entity\CallOfProject;
@@ -16,6 +17,13 @@ abstract class AbstractCallOfProjectManager implements CallOfProjectManagerInter
      */
     protected $em;
 
+    protected const LIST_MAIL_TEMPLATES = [
+        MailTemplateConstant::VALIDATION_PROJECT,
+        MailTemplateConstant::REFUSAL_PROJECT,
+        MailTemplateConstant::NOTIFICATION_NEW_REPORT,
+        MailTemplateConstant::NOTIFICATION_NEW_REPORTS,
+        MailTemplateConstant::NOTIFY_MANAGERS_OF_A_NEW_PROJECT
+    ];
 
     /**
      * AbstractCallOfProjectManager constructor.
@@ -28,24 +36,21 @@ abstract class AbstractCallOfProjectManager implements CallOfProjectManagerInter
 
     public function create(): CallOfProject
     {
+        $mailTemplates = $this->em->getRepository(MailTemplate::class)->findBy(['name' => self::LIST_MAIL_TEMPLATES]);
+
+
         $callOfProject = new CallOfProject();
 
-        $validationMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::VALIDATION_PROJECT);
-        $callOfProject->setValidationMailTemplate($validationMailTemplate->getBody());
-
-        $refusalMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::REFUSAL_PROJECT);
-        $callOfProject->setRefusalMailTemplate($refusalMailTemplate->getBody());
-
-        $notificationToCreatorNewProjectMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::NOTIFY_CREATOR_OF_A_NEW_PROJECT);
-        $callOfProject->setNotificationToCreatorNewProjectMailTemplate($notificationToCreatorNewProjectMailTemplate->getBody());
-
-        $notificationNewReportMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::NOTIFICATION_NEW_REPORT);
-        $callOfProject->setNotificationNewReportMailTemplate($notificationNewReportMailTemplate->getBody());
-
-        $notificationNewReportsMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::NOTIFICATION_NEW_REPORTS);
-        $callOfProject->setNotificationNewReportsMailTemplate($notificationNewReportsMailTemplate->getBody());
-
-
+        foreach ($mailTemplates as $mailTemplate) {
+            $callOfProjectMailTemplate =  new CallOfProjectMailTemplate();
+            $callOfProjectMailTemplate
+                ->setBody($mailTemplate->getBody())
+                ->setName($mailTemplate->getName())
+                ->setSubject($mailTemplate->getSubject())
+                ->setCallOfProject($callOfProject);
+            $this->em->persist($callOfProjectMailTemplate);
+            $callOfProject->addCallOfProjectMailTemplate($callOfProjectMailTemplate);
+        }
         return $callOfProject;
     }
 

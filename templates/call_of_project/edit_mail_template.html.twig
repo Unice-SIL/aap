@@ -32,6 +32,8 @@
 
             {{ form_row(form.notificationNewReportsMailTemplate) }}
 
+            {{ form_row(form.notifyManagersOfNewProjectMailTemplate) }}
+
             {{ form_widget(form.isAutomaticSendingRefusalMail) }}
             <button class="btn btn-primary mr-3">{{ 'app.action.save'|trans }}</button>
             {{ form_end(form) }}

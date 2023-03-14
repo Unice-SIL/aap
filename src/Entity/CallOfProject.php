@@ -79,26 +79,6 @@ class CallOfProject extends Common
     private $organizingCenter;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $validationMailTemplate;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $refusalMailTemplate;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isAutomaticSendingValidationMail = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isAutomaticSendingRefusalMail = false;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $publicationDate;
@@ -115,19 +95,9 @@ class CallOfProject extends Common
     private $multipleDeposit = true ;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\OneToMany(targetEntity=CallOfProjectMailTemplate::class, mappedBy="callOfProject", orphanRemoval=true)
      */
-    private $notificationToCreatorNewProjectMailTemplate;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $notificationNewReportMailTemplate;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $notificationNewReportsMailTemplate;
+    private $callOfProjectMailTemplate;
 
     /**
      * CallOfProject constructor.
@@ -138,6 +108,7 @@ class CallOfProject extends Common
         $this->projects = new ArrayCollection();
         $this->projectFormLayouts = new ArrayCollection();
         $this->setStatus(self::STATUS_INIT);
+        $this->callOfProjectMailTemplate = new ArrayCollection();
     }
 
     /**
@@ -364,82 +335,6 @@ class CallOfProject extends Common
     }
 
     /**
-     * @return string|null
-     */
-    public function getValidationMailTemplate(): ?string
-    {
-        return $this->validationMailTemplate;
-    }
-
-    /**
-     * @param string $validationMailTemplate
-     * @return $this
-     */
-    public function setValidationMailTemplate(string $validationMailTemplate): self
-    {
-        $this->validationMailTemplate = $validationMailTemplate;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getRefusalMailTemplate(): ?string
-    {
-        return $this->refusalMailTemplate;
-    }
-
-    /**
-     * @param string $refusalMailTemplate
-     * @return $this
-     */
-    public function setRefusalMailTemplate(string $refusalMailTemplate): self
-    {
-        $this->refusalMailTemplate = $refusalMailTemplate;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getIsAutomaticSendingValidationMail(): ?bool
-    {
-        return $this->isAutomaticSendingValidationMail;
-    }
-
-    /**
-     * @param bool $isAutomaticSendingValidationMail
-     * @return $this
-     */
-    public function setIsAutomaticSendingValidationMail(bool $isAutomaticSendingValidationMail): self
-    {
-        $this->isAutomaticSendingValidationMail = $isAutomaticSendingValidationMail;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getIsAutomaticSendingRefusalMail(): ?bool
-    {
-        return $this->isAutomaticSendingRefusalMail;
-    }
-
-    /**
-     * @param bool $isAutomaticSendingRefusalMail
-     * @return $this
-     */
-    public function setIsAutomaticSendingRefusalMail(bool $isAutomaticSendingRefusalMail): self
-    {
-        $this->isAutomaticSendingRefusalMail = $isAutomaticSendingRefusalMail;
-
-        return $this;
-    }
-
-    /**
      * @return \DateTimeInterface|null
      */
     public function getPublicationDate(): ?\DateTimeInterface
@@ -495,38 +390,32 @@ class CallOfProject extends Common
         return $this;
     }
 
-    public function getNotificationToCreatorNewProjectMailTemplate(): ?string
+    /**
+     * @return Collection<int, CallOfProjectMailTemplate>
+     */
+    public function getCallOfProjectMailTemplate(): Collection
     {
-        return $this->notificationToCreatorNewProjectMailTemplate;
+        return $this->callOfProjectMailTemplate;
     }
 
-    public function setNotificationToCreatorNewProjectMailTemplate(string $notificationToCreatorNewProjectMailTemplate): self
+    public function addCallOfProjectMailTemplate(CallOfProjectMailTemplate $callOfProjectMailTemplate): self
     {
-        $this->notificationToCreatorNewProjectMailTemplate = $notificationToCreatorNewProjectMailTemplate;
+        if (!$this->callOfProjectMailTemplate->contains($callOfProjectMailTemplate)) {
+            $this->callOfProjectMailTemplate[] = $callOfProjectMailTemplate;
+            $callOfProjectMailTemplate->setCallOfProject($this);
+        }
 
         return $this;
     }
 
-    public function getNotificationNewReportMailTemplate(): ?string
+    public function removeCallOfProjectMailTemplate(CallOfProjectMailTemplate $callOfProjectMailTemplate): self
     {
-        return $this->notificationNewReportMailTemplate;
-    }
-
-    public function setNotificationNewReportMailTemplate(string $notificationNewReportMailTemplate): self
-    {
-        $this->notificationNewReportMailTemplate = $notificationNewReportMailTemplate;
-
-        return $this;
-    }
-
-    public function getNotificationNewReportsMailTemplate(): ?string
-    {
-        return $this->notificationNewReportsMailTemplate;
-    }
-
-    public function setNotificationNewReportsMailTemplate(string $notificationNewReportsMailTemplate): self
-    {
-        $this->notificationNewReportsMailTemplate = $notificationNewReportsMailTemplate;
+        if ($this->callOfProjectMailTemplate->removeElement($callOfProjectMailTemplate)) {
+            // set the owning side to null (unless already changed)
+            if ($callOfProjectMailTemplate->getCallOfProject() === $this) {
+                $callOfProjectMailTemplate->setCallOfProject(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,75 @@
+{% extends 'call_of_project/layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.call_of_project.mail_template.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.call_of_project.mail_template.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class="callout callout-info">
+                <strong>Variables disponibles :</strong>
+                <ul class="list-unstyled">
+                    {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS') %}
+                        <li>{{ placeholder }} => {{ legend|trans }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+     {#       {{ form_start(form) }}
+            {{ form_row(form.validationMailTemplate) }}
+
+            {{ form_widget(form.isAutomaticSendingValidationMail) }}
+
+            {{ form_row(form.refusalMailTemplate) }}
+
+            {{ form_row(form.notificationToCreatorNewProjectMailTemplate) }}
+
+            {{ form_row(form.notificationNewReportMailTemplate) }}
+
+            {{ form_row(form.notificationNewReportsMailTemplate) }}
+
+            {{ form_row(form.notifyManagersOfNewProjectMailTemplate) }}
+
+            {{ form_widget(form.isAutomaticSendingRefusalMail) }}
+            <button class="btn btn-primary mr-3">{{ 'app.action.save'|trans }}</button>
+            {{ form_end(form) }}#}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.mail_template.property.name.label'|trans }}</th>
+                    <th>{{ 'app.mail_template.property.subject.label'|trans }}</th>
+                    <th>{{ 'app.mail_template.property.body.label'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mail_template in call_of_project_mail_templates %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app.admin.mail_template.edit', { 'id' : mail_template.id}) }}">
+                                {{ mail_template.name|humanize_data|trans }}
+                            </a>
+                        </td>
+                        <td>{{ mail_template.subject }}</td>
+                        <td>{{ mail_template.body | raw }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

@@ -137,7 +137,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ path('app.call_of_project.mail_template', {'id' : call_of_project.id}) }}"
+                                    <a href="{{ path('app.call_of_project.list_mail_template', {'id' : call_of_project.id}) }}"
                                        class="nav-link {{ app.request.get('_route') == 'app.call_of_project.mail_template' ? 'active' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>{{ 'app.sidebar.item.admin.mail_template'|trans }}</p>
