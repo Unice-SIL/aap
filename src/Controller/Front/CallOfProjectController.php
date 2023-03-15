@@ -2,13 +2,14 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\CallOfProjectMailTemplate;
 use App\Entity\CallOfProject;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Form\CallOfProject\CallOfProjectAclsType;
 use App\Form\CallOfProject\CallOfProjectInformationType;
 use App\Form\CallOfProject\DeleteType;
-use App\Form\CallOfProject\MailTemplateType;
+use App\Form\CallOfProject\CallOfProjectMailTemplateType;
 use App\Form\Project\ProjectToStudyType;
 use App\Form\ProjectFormLayoutType;
 use App\Manager\CallOfProject\CallOfProjectManagerInterface;
@@ -64,15 +65,15 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @Security("is_granted(constant('App\\Security\\UserVoter::VIEW_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST'))")
      * @param EntityManagerInterface $em
      * @return Response
      */
     public function index(EntityManagerInterface $em)
     {
-        dd('ops');
-
         return $this->render('call_of_project/index.html.twig', [
-            'call_of_projects' => $em->getRepository(CallOfProject::class)->getIfUserHasOnePermissionAtLeast(
+            'call_of_projects' => $em->getRepository(CallOfProject::class)->
+            getIfUserHasOnePermissionAtLeast(
                 $this->getUser()
             ),
         ]);
@@ -477,49 +478,48 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/{id}/list-mail-template", name="list_mail_template", methods={"GET"})
+     * @param CallOfProject $callOfProject
      * @return Response
-     * @Route(name="index", methods={"GET"})
      */
-    public function listMailTemplate(CallOfProject $callOfProject)
+    public function listMailTemplate(CallOfProject $callOfProject): Response
     {
         return $this->render('call_of_project/list_mail_template.html.twig', [
-
             'call_of_project' => $callOfProject,
             'call_of_project_mail_templates' => $callOfProject->getCallOfProjectMailTemplate()
         ]);
     }
 
     /**
-     * @Route("/{id}/mail-template_ddd", name="mail_template", methods={"GET", "POST"})
-     * @param CallOfProject $callOfProject
+     * @Route("/{id}/edit-mail-template", name="edit_mail_template", methods={"GET", "POST"})
+     * @param CallOfProjectMailTemplate $callOfProjectMailTemplate
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @param Request $request
      * @param TranslatorInterface $translator
      * @return RedirectResponse|Response
      */
-   /* public function editMailTemplate(
-        CallOfProject                 $callOfProject,
+    public function editMailTemplate(
+        CallOfProjectMailTemplate     $callOfProjectMailTemplate,
         CallOfProjectManagerInterface $callOfProjectManager,
         Request                       $request,
-        TranslatorInterface           $translator
+        TranslatorInterface           $translator,
+        EntityManagerInterface        $entityManager
     )
     {
-        $form = $this->createForm(MailTemplateType::class, $callOfProject);
+        $form = $this->createForm(CallOfProjectMailTemplateType::class, $callOfProjectMailTemplate);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-
-            $callOfProjectManager->update($callOfProject);
-            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $callOfProject->getName()]));
-
-            return $this->redirectToRoute('app.call_of_project.mail_template', ['id' => $callOfProject->getId()]);
+            $entityManager->persist($callOfProjectMailTemplate);
+            $entityManager->flush();
+            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $this->translator->trans($callOfProjectMailTemplate->getName())]));
+            return $this->redirectToRoute('app.call_of_project.list_mail_template', ['id' => $callOfProjectMailTemplate->getCallOfProject()->getId()]);
         }
 
         return $this->render('call_of_project/edit_mail_template.html.twig', [
             'form' => $form->createView(),
-            'call_of_project' => $callOfProject
+            'call_of_project' => $callOfProjectMailTemplate->getCallOfProject()
         ]);
-    }*/
+    }
 
     /**
      * @Route("/list-by-user-select-2", name="list_by_user_select_2", methods={"GET"})
