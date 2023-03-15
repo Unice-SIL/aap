@@ -15,14 +15,14 @@ app:
       name: Refus de projet
     notification_new_report:
       name: Notifier un utilisateur qui a été identifié comme rapporteur d'un projet
-    notification_new_repports:
+    notification_new_reports:
       name: Notifier un utilisateur qui a été identifié comme rapporteur sur plusieurs projets en masse
     notification_creator_of_a_new_project:
       name: Notification à destination du créateur d'un nouveau projet
     invite_a_user:
       name: Inviter un utilisateur
     notify_managers_of_a_new_project:
-      name: Notification à destination des gestionnaires d\'un nouveau projet
+      name: Notification à destination des gestionnaires d'un nouveau projet
     placeholder:
       call_of_project_name: Nom de l'appel à projet
       project_name: Nom du projet
