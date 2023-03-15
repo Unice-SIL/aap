@@ -26,12 +26,12 @@ class CallOfProjectMailTemplateType extends AbstractType
                 'label' => 'app.mail_template.property.body.label'
             ]);
         if ($options['data']->getName() === MailTemplate::VALIDATION_PROJECT) {
-            $builder->add('isAutomaticSendingValidationMail', BootstrapSwitchType::class, [
+            $builder->add('isAutomaticSendingMail', BootstrapSwitchType::class, [
                 'label' => 'app.call_of_project.property.is_automatic_sending_validation_mail.label'
             ]);
         }
         if ($options['data']->getName() === MailTemplate::REFUSAL_PROJECT) {
-            $builder->add('isAutomaticSendingRefusalMail', BootstrapSwitchType::class, [
+            $builder->add('isAutomaticSendingMail', BootstrapSwitchType::class, [
                 'label' => 'app.call_of_project.property.is_automatic_sending_refusal_mail.label'
             ]);
         }

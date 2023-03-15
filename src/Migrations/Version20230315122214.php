@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230313160038 extends AbstractMigration
+final class Version20230315122214 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20230313160038 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE call_of_project ADD notify_managers_of_new_project_mail_template LONGTEXT NOT NULL');
+        $this->addSql('ALTER TABLE call_of_project_mail_template ADD is_automatic_sending_mail TINYINT(1) NOT NULL, DROP is_automatic_sending_validation_mail, DROP is_automatic_sending_refusal_mail');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +30,6 @@ final class Version20230313160038 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE call_of_project DROP notify_managers_of_new_project_mail_template');
+        $this->addSql('ALTER TABLE call_of_project_mail_template ADD is_automatic_sending_refusal_mail TINYINT(1) NOT NULL, CHANGE is_automatic_sending_mail is_automatic_sending_validation_mail TINYINT(1) NOT NULL');
     }
 }

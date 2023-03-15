@@ -20,12 +20,7 @@ class CallOfProjectMailTemplate
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isAutomaticSendingValidationMail = false;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isAutomaticSendingRefusalMail = false;
+    private $isAutomaticSendingMail = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -53,26 +48,14 @@ class CallOfProjectMailTemplate
         return $this->id;
     }
 
-    public function getIsAutomaticSendingValidationMail(): ?bool
+    public function getIsAutomaticSendingMail(): ?bool
     {
-        return $this->isAutomaticSendingValidationMail;
+        return $this->isAutomaticSendingMail;
     }
 
-    public function setIsAutomaticSendingValidationMail(bool $isAutomaticSendingValidationMail): self
+    public function setIsAutomaticSendingMail(bool $isAutomaticSendingMail): self
     {
-        $this->isAutomaticSendingValidationMail = $isAutomaticSendingValidationMail;
-
-        return $this;
-    }
-
-    public function getIsAutomaticSendingRefusalMail(): ?bool
-    {
-        return $this->isAutomaticSendingRefusalMail;
-    }
-
-    public function setIsAutomaticSendingRefusalMail(bool $isAutomaticSendingRefusalMail): self
-    {
-        $this->isAutomaticSendingRefusalMail = $isAutomaticSendingRefusalMail;
+        $this->isAutomaticSendingMail = $isAutomaticSendingMail;
 
         return $this;
     }
