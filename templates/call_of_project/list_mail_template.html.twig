@@ -38,7 +38,7 @@
                     <tr>
                         <td>
                             <a href="{{ path('app.call_of_project.edit_mail_template', { 'id' : mail_template.id}) }}">
-                                {{ mail_template.name|humanize_data|trans }}
+                                {{ (mail_template.name~'.name') |humanize_data|trans }}
                             </a>
                         </td>
                         <td>{{ mail_template.subject }}</td>

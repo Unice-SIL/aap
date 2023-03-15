@@ -26,7 +26,7 @@
                     <tr>
                         <td>
                             <a href="{{ path('app.admin.mail_template.edit', { 'id' : mail_template.id}) }}">
-                                {{ mail_template.name|humanize_data|trans }}
+                                {{ (mail_template.name~'.name') |humanize_data|trans }}
                             </a>
                         </td>
                         <td>{{ mail_template.subject }}</td>
