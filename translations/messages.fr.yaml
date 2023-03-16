@@ -310,7 +310,7 @@ app:
         label: Public (si non public, l'appel ne sera pas visible dans la liste des appels ouverts, vous devrez communiquer le lien de l'appel aux intéressés)
       publication_date:
         label: Date de publication des résultats
-      is_automatic_sending_validation_mail:
+      is_automatic_sending_validat_mail:
         label: Envoi automatique du mail de validation par défaut
       is_automatic_sending_refusal_mail:
         label: Envoi automatique du mail de refus par défaut

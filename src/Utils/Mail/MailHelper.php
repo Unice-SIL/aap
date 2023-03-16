@@ -10,8 +10,7 @@ use App\Entity\Project;
 use App\Entity\Report;
 use App\Entity\User;
 use App\Repository\MailTemplateRepository;
-use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\RFCValidation;
+use App\Repository\CallOfProjectMailTemplateRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
@@ -33,6 +32,10 @@ class MailHelper
      * @var MailTemplateRepository
      */
     private $mailTemplateRepository;
+    /**
+     * @var CallOfProjectMailTemplateRepository
+     */
+    private $callOfProjectMailTemplateRepository;
 
 
     /**
@@ -41,18 +44,21 @@ class MailHelper
      * @param string $mailFrom
      * @param UrlGeneratorInterface $urlGenerator
      * @param MailTemplateRepository $mailTemplateRepository
+     * @param CallOfProjectMailTemplateRepository $callOfProjectMailTemplateRepository
      */
     public function __construct(
         \Swift_Mailer $mailer,
         string $mailFrom,
         UrlGeneratorInterface $urlGenerator,
-        MailTemplateRepository $mailTemplateRepository
+        MailTemplateRepository $mailTemplateRepository,
+        CallOfProjectMailTemplateRepository $callOfProjectMailTemplateRepository
     )
     {
         $this->mailer = $mailer;
         $this->mailFrom = $mailFrom;
         $this->urlGenerator = $urlGenerator;
         $this->mailTemplateRepository = $mailTemplateRepository;
+        $this->callOfProjectMailTemplateRepository = $callOfProjectMailTemplateRepository;
     }
 
     /**
@@ -76,7 +82,12 @@ class MailHelper
      */
     public function notifyReporterAboutReport(Report $report)
     {
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORT);
+        $mailTemplate = $this->callOfProjectMailTemplateRepository->findOneBy(
+            [
+                'name' => MailTemplate::NOTIFICATION_NEW_REPORT,
+                'callOfProject' => $report->getProject()->getCallOfProject()
+            ]);
+
         $message = new \Swift_Message(
             $mailTemplate->getSubject(),
             self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject())
@@ -84,8 +95,7 @@ class MailHelper
         $message
             ->setFrom($this->mailFrom)
             ->setTo($report->getReporter()->getEmail())
-            ->setContentType('text/html')
-        ;
+            ->setContentType('text/html');
 
         $this->mailer->send($message);
     }
@@ -102,7 +112,12 @@ class MailHelper
         }
         $reportersNotified[] = $report->getReporter();
 
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORTS);
+        $mailTemplate = $this->callOfProjectMailTemplateRepository->findOneBy(
+            [
+                'name' => MailTemplate::NOTIFICATION_NEW_REPORTS,
+                'callOfProject' => $report->getProject()->getCallOfProject()
+            ]);
+
         $message = new \Swift_Message(
             $mailTemplate->getSubject(),
             self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject())
@@ -110,8 +125,7 @@ class MailHelper
         $message
             ->setFrom($this->mailFrom)
             ->setTo($report->getReporter()->getEmail())
-            ->setContentType('text/html')
-        ;
+            ->setContentType('text/html');
 
         $this->mailer->send($message);
     }
@@ -140,8 +154,7 @@ class MailHelper
         $message
             ->setFrom($this->mailFrom)
             ->setTo($invitation->getUser()->getEmail())
-            ->setContentType('text/html')
-        ;
+            ->setContentType('text/html');
 
         $this->mailer->send($message);
 
@@ -153,7 +166,12 @@ class MailHelper
      */
     public function notifyCreatorOfANewProject(Project $project)
     {
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFY_CREATOR_OF_A_NEW_PROJECT);
+        $mailTemplate = $this->callOfProjectMailTemplateRepository->findOneBy(
+            [
+                'name' => MailTemplate::NOTIFY_CREATOR_OF_A_NEW_PROJECT,
+                'callOfProject' => $project->getCallOfProject()
+            ]);
+
         $message = new \Swift_Message(
             $mailTemplate->getSubject(),
             self::parseMessageWithProject($mailTemplate->getBody(), $project)
@@ -161,8 +179,7 @@ class MailHelper
         $message
             ->setFrom($this->mailFrom)
             ->setTo($project->getCreatedBy()->getEmail())
-            ->setContentType('text/html')
-        ;
+            ->setContentType('text/html');
 
         $this->mailer->send($message);
     }

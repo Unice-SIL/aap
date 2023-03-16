@@ -33,7 +33,7 @@ class CallOfProjectMailTemplateType extends AbstractType
             ]);
         if (in_array($callOfProjectMailTemplate->getName(), self::MAIL_TEMPLATE_WITH_AUTO_SENDING_MAIL)) {
             $builder->add('isAutomaticSendingMail', BootstrapSwitchType::class, [
-                'label' => 'app.call_of_project.property.is_automatic_sending_validation_mail.label'
+                'label' => 'app.call_of_project.property.is_automatic_sending_'. substr($callOfProjectMailTemplate->getName(),18 ,7 )   .'_mail.label'
             ]);
         }
         $builder->add('Enregistrer', SubmitType::class, [

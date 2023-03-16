@@ -22,7 +22,7 @@ abstract class AbstractCallOfProjectManager implements CallOfProjectManagerInter
         MailTemplateConstant::REFUSAL_PROJECT,
         MailTemplateConstant::NOTIFICATION_NEW_REPORT,
         MailTemplateConstant::NOTIFICATION_NEW_REPORTS,
-        MailTemplateConstant::NOTIFY_MANAGERS_OF_A_NEW_PROJECT
+        MailTemplateConstant::NOTIFY_CREATOR_OF_A_NEW_PROJECT
     ];
 
     /**
