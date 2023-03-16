@@ -97,7 +97,8 @@ app:
             edit: Édition d'un modèle de mail
         call_of_project:
           presentation_before_adding_project: Récapitulatif de l'appel à projets
-          mail_template: Modèle d'email
+          list_mail_template: Modèle d'email
+          edit_mail_template: Modifier un modèle d'email
           batch_action: Actions Groupées
           all: Ouvert ou fermé
           edit_permissions: Édition des permissions
