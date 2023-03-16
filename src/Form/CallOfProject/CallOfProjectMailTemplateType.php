@@ -16,8 +16,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CallOfProjectMailTemplateType extends AbstractType
 {
 
+    private const MAIL_TEMPLATE_WITH_AUTO_SENDING_MAIL = [
+        MailTemplate::VALIDATION_PROJECT,
+        MailTemplate::REFUSAL_PROJECT
+    ];
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $callOfProjectMailTemplate = $builder->getData();
         $builder
             ->add('subject', TextType::class, [
                 'label' =>'app.mail_template.property.subject.label'
@@ -25,14 +31,9 @@ class CallOfProjectMailTemplateType extends AbstractType
             ->add('body', SummernoteType::class, [
                 'label' => 'app.mail_template.property.body.label'
             ]);
-        if ($options['data']->getName() === MailTemplate::VALIDATION_PROJECT) {
+        if (in_array($callOfProjectMailTemplate->getName(), self::MAIL_TEMPLATE_WITH_AUTO_SENDING_MAIL)) {
             $builder->add('isAutomaticSendingMail', BootstrapSwitchType::class, [
                 'label' => 'app.call_of_project.property.is_automatic_sending_validation_mail.label'
-            ]);
-        }
-        if ($options['data']->getName() === MailTemplate::REFUSAL_PROJECT) {
-            $builder->add('isAutomaticSendingMail', BootstrapSwitchType::class, [
-                'label' => 'app.call_of_project.property.is_automatic_sending_refusal_mail.label'
             ]);
         }
         $builder->add('Enregistrer', SubmitType::class, [

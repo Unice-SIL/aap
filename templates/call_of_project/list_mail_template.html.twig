@@ -11,18 +11,6 @@
 {% block content %}
     <div class="card">
         <div class="card-body">
-            <div class="callout callout-info">
-                <strong>Variables disponibles :</strong>
-                <ul class="list-unstyled">
-                    {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS') %}
-                        <li>{{ placeholder }} => {{ legend|trans }} </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
             <table class="table dataTable"
                    data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
             >
@@ -34,7 +22,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for mail_template in call_of_project_mail_templates %}
+                {% for mail_template in call_of_project.callOfProjectMailTemplate %}
                     <tr>
                         <td>
                             <a href="{{ path('app.call_of_project.edit_mail_template', { 'id' : mail_template.id}) }}">

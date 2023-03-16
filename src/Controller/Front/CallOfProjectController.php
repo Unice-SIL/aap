@@ -484,22 +484,20 @@ class CallOfProjectController extends AbstractController
     public function listMailTemplate(CallOfProject $callOfProject): Response
     {
         return $this->render('call_of_project/list_mail_template.html.twig', [
-            'call_of_project' => $callOfProject,
-            'call_of_project_mail_templates' => $callOfProject->getCallOfProjectMailTemplate()
+            'call_of_project' => $callOfProject
         ]);
     }
 
     /**
      * @Route("/{id}/edit-mail-template", name="edit_mail_template", methods={"GET", "POST"})
      * @param CallOfProjectMailTemplate $callOfProjectMailTemplate
-     * @param CallOfProjectManagerInterface $callOfProjectManager
      * @param Request $request
      * @param TranslatorInterface $translator
+     * @param EntityManagerInterface $entityManager
      * @return RedirectResponse|Response
      */
     public function editMailTemplate(
         CallOfProjectMailTemplate     $callOfProjectMailTemplate,
-        CallOfProjectManagerInterface $callOfProjectManager,
         Request                       $request,
         TranslatorInterface           $translator,
         EntityManagerInterface        $entityManager
@@ -509,7 +507,6 @@ class CallOfProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            $entityManager->persist($callOfProjectMailTemplate);
             $entityManager->flush();
             $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $this->translator->trans($callOfProjectMailTemplate->getName())]));
             return $this->redirectToRoute('app.call_of_project.list_mail_template', ['id' => $callOfProjectMailTemplate->getCallOfProject()->getId()]);
