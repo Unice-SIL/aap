@@ -3,6 +3,7 @@
 
 namespace App\Form\Project;
 
+use App\Constant\MailTemplate;
 use App\Entity\Project;
 use App\Form\Type\BootstrapSwitchType;
 use App\Form\Type\SummernoteType;
@@ -34,9 +35,15 @@ class ValidationType extends AbstractType
                 $project = $event->getData();
 
                 if ($options['context'] === Project::STATUS_VALIDATED) {
-                    $automaticSendingData = $project->getCallOfProject()->getIsAutomaticSendingValidationMail();
+                    $callOfProjectMailTemplateValidated = $project->getCallOfProject()->getCallOfProjectMailTemplate()->filter(function ($callOfProjectMailTemplate) {
+                        return $callOfProjectMailTemplate->getName() === MailTemplate::VALIDATION_PROJECT;
+                    });
+                    $automaticSendingData = $callOfProjectMailTemplateValidated->first()->getIsAutomaticSendingMail();
                 } elseif ($options['context'] === Project::STATUS_REFUSED) {
-                    $automaticSendingData = $project->getCallOfProject()->getIsAutomaticSendingRefusalMail();
+                    $callOfProjectMailTemplateRefusal = $project->getCallOfProject()->getCallOfProjectMailTemplate()->filter(function ($callOfProjectMailTemplate) {
+                        return $callOfProjectMailTemplate->getName() === MailTemplate::REFUSAL_PROJECT;
+                    });
+                    $automaticSendingData = $callOfProjectMailTemplateRefusal->first()->getIsAutomaticSendingMail();
                 }
                 $builder = $form
                     ->getConfig()
