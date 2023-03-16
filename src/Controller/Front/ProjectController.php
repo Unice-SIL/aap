@@ -5,6 +5,8 @@ namespace App\Controller\Front;
 
 
 use App\Entity\Comment;
+use App\Constant\MailTemplate;
+use App\Repository\CallOfProjectMailTemplateRepository;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Form\Project\AddCommentType;
@@ -117,13 +119,14 @@ class ProjectController extends AbstractController
      * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      */
     public function show(
-        Project                      $project,
-        Request                      $request,
-        EntityManagerInterface       $em,
-        TranslatorInterface          $translator,
-        Registry                     $workflowRegistry,
-        \Swift_Mailer                $mailer,
-        NotificationManagerInterface $notificationManager
+        Project                             $project,
+        Request                             $request,
+        EntityManagerInterface              $em,
+        TranslatorInterface                 $translator,
+        Registry                            $workflowRegistry,
+        \Swift_Mailer                       $mailer,
+        NotificationManagerInterface        $notificationManager,
+        CallOfProjectMailTemplateRepository $callOfProjectMailTemplateRepository
     )
     {
         $context = $request->query->get('context');
@@ -268,6 +271,16 @@ class ProjectController extends AbstractController
             $layout = 'call_of_project/layout.html.twig';
         }
 
+        $validationMailTemplate = $callOfProjectMailTemplateRepository->findOneBy([
+            "name" => MailTemplate::VALIDATION_PROJECT,
+            "callOfProject" => $project->getCallOfProject()
+        ]);
+
+        $refusalMailTemplate = $callOfProjectMailTemplateRepository->findOneBy([
+            "name" => MailTemplate::REFUSAL_PROJECT,
+            "callOfProject" => $project->getCallOfProject()
+        ]);
+
         return $this->render('project/show.html.twig', [
             'project' => $project,
             'call_of_project' => $project->getCallOfProject(),
@@ -277,7 +290,9 @@ class ProjectController extends AbstractController
             'reporter_added' => $reporterAdded,
             'validation_form' => $validationForm->createView(),
             'refusal_form' => $refusalForm->createView(),
-            'add_comment_form' => $addCommentForm->createView()
+            'add_comment_form' => $addCommentForm->createView(),
+            'validationMailTemplateBody' => $validationMailTemplate->getBody(),
+            'refusalMailTemplateBody' => $refusalMailTemplate->getBody()
         ]);
     }
 }

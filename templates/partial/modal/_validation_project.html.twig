@@ -9,8 +9,8 @@
                     {% if form.mailTemplate is defined %}
                         {% set value =
                             form.action.vars.data == constant('App\\Entity\\Project::STATUS_VALIDATED')
-                            ?  form.vars.data.callOfProject.getValidationMailTemplate
-                            :  form.vars.data.callOfProject.getRefusalMailTemplate
+                            ?  validationMailTemplateBody
+                            :  refusalMailTemplateBody
                         %}
                         {{ form_widget(form.mailTemplate, {'value' : value}) }}
                     {% endif %}

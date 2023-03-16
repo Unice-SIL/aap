@@ -5,12 +5,11 @@ namespace App\Form\Project;
 
 use App\Constant\MailTemplate;
 use App\Entity\Project;
+use App\Repository\CallOfProjectMailTemplateRepository;
 use App\Form\Type\BootstrapSwitchType;
 use App\Form\Type\SummernoteType;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -20,6 +19,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValidationType extends AbstractType
 {
+
+    /** @var CallOfProjectMailTemplateRepository * */
+    private $callOfProjectMailTemplateRepository;
+
+    public function __construct(CallOfProjectMailTemplateRepository $callOfProjectMailTemplateRepository)
+    {
+        $this->callOfProjectMailTemplateRepository = $callOfProjectMailTemplateRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -35,15 +43,18 @@ class ValidationType extends AbstractType
                 $project = $event->getData();
 
                 if ($options['context'] === Project::STATUS_VALIDATED) {
-                    $callOfProjectMailTemplateValidated = $project->getCallOfProject()->getCallOfProjectMailTemplate()->filter(function ($callOfProjectMailTemplate) {
-                        return $callOfProjectMailTemplate->getName() === MailTemplate::VALIDATION_PROJECT;
-                    });
-                    $automaticSendingData = $callOfProjectMailTemplateValidated->first()->getIsAutomaticSendingMail();
+
+                    $callOfProjectMailTemplateValidated = $this->callOfProjectMailTemplateRepository->findOneBy([
+                        "name" => MailTemplate::VALIDATION_PROJECT,
+                        "callOfProject" => $project->getCallOfProject()
+                    ]);
+                    $automaticSendingData = $callOfProjectMailTemplateValidated->getIsAutomaticSendingMail();
                 } elseif ($options['context'] === Project::STATUS_REFUSED) {
-                    $callOfProjectMailTemplateRefusal = $project->getCallOfProject()->getCallOfProjectMailTemplate()->filter(function ($callOfProjectMailTemplate) {
-                        return $callOfProjectMailTemplate->getName() === MailTemplate::REFUSAL_PROJECT;
-                    });
-                    $automaticSendingData = $callOfProjectMailTemplateRefusal->first()->getIsAutomaticSendingMail();
+                    $callOfProjectMailTemplateRefusal = $this->callOfProjectMailTemplateRepository->findOneBy([
+                        "name" => MailTemplate::REFUSAL_PROJECT,
+                        "callOfProject" => $project->getCallOfProject()
+                    ]);
+                    $automaticSendingData = $callOfProjectMailTemplateRefusal->getIsAutomaticSendingMail();
                 }
                 $builder = $form
                     ->getConfig()
@@ -64,9 +75,15 @@ class ValidationType extends AbstractType
 
                     if ($automaticSending) {
                         if ($options['context'] === Project::STATUS_VALIDATED) {
-                            $mailTemplateData = $validationForm->getData()->getCallOfProject()->getValidationMailTemplate();
+                            $mailTemplateData = $this->callOfProjectMailTemplateRepository->findOneBy([
+                                "name" => MailTemplate::VALIDATION_PROJECT,
+                                "callOfProject" => $validationForm->getData()->getCallOfProject()
+                            ]);
                         } elseif ($options['context'] === Project::STATUS_REFUSED) {
-                            $mailTemplateData = $validationForm->getData()->getCallOfProject()->getRefusalMailTemplate();
+                            $mailTemplateData = $this->callOfProjectMailTemplateRepository->findOneBy([
+                                "name" => MailTemplate::REFUSAL_PROJECT,
+                                "callOfProject" => $validationForm->getData()->getCallOfProject()
+                            ]);
                         }
                         $validationForm->add('mailTemplate', SummernoteType::class, [
                             'mapped' => false,
