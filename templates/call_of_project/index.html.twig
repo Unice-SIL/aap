@@ -26,6 +26,7 @@
                     <thead>
                     <tr>
                         <th>{{ 'app.call_of_project.property.name.label'|trans }}</th>
+                        <th>{{ 'app.call_of_project.property.organizing_center'|trans }}</th>
                         <th class="text-center">{{ 'app.call_of_project.property.status.label'|trans }}</th>
                     </tr>
                     </thead>
@@ -36,6 +37,9 @@
                                 <a href="{{ path('app.call_of_project.informations', {'id' : call_of_project.id}) }}">
                                     {{ call_of_project.name }}
                                 </a>
+                            </td>
+                            <td>
+                                    {{ call_of_project.organizingCenter }}
                             </td>
                             <td class="text-center">
                                 {{ include('call_of_project/_status_badge.html.twig', { 'call_of_project' : call_of_project}) }}
