@@ -2,44 +2,29 @@
 
 namespace App\Security\Provider;
 
-use App\DataTransformer\ShibbolethUserTransformer;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
-use UniceSIL\ShibbolethBundle\Security\User\ShibbolethUserProviderInterface;
+use UniceSIL\ShibbolethBundle\Security\Provider\AbstractShibbolethUserProvider;
 
-class ShibbolethUserProvider implements ShibbolethUserProviderInterface
+class ShibbolethUserProvider extends AbstractShibbolethUserProvider
 {
     /**
      * @var EntityManagerInterface
      */
     private $em;
-
+    
     /**
-     * @var ShibbolethUserTransformer
+     * @param ManagerRegistry $registry
+     * @param RequestStack $requestStack
      */
-    private $shibbolethUserTransformer;
-
-    /**
-     * @var string
-     */
-    private $shibbolethUsernameAttribute;
-
-    /**
-     * @param EntityManagerInterface $em
-     * @param ShibbolethUserTransformer $shibbolethUserTransformer
-     * @param string $shibbolethUsernameAttribute
-     */
-    public function __construct(
-        EntityManagerInterface $em,
-        ShibbolethUserTransformer $shibbolethUserTransformer,
-        string $shibbolethUsernameAttribute
-    ) {
-        $this->em = $em;
-        $this->shibbolethUserTransformer = $shibbolethUserTransformer;
-        $this->shibbolethUsernameAttribute = $shibbolethUsernameAttribute;
+    public function __construct(ManagerRegistry $registry, RequestStack $requestStack)
+    {
+        $this->em = $registry->getManager();
+        parent::__construct($requestStack);
     }
 
     /**
@@ -47,18 +32,9 @@ class ShibbolethUserProvider implements ShibbolethUserProviderInterface
      * @return User|UserInterface|null
      * @throws Exception
      */
-    public function loadUser(array $credentials)
+    public function loadUserByIdentifier(array $credentials)
     {
-        if (!array_key_exists($this->shibbolethUsernameAttribute, $credentials)) {
-            throw new UsernameNotFoundException();
-        }
-
-        $username = $credentials[$this->shibbolethUsernameAttribute];
-        $user = $this->loadUserByUsername($username);
-        $user = $this->shibbolethUserTransformer->transform(['user' => $user, 'attributes' => $credentials]);
-        $this->em->flush();
-
-        return $user;
+        return $this->loadUserByUsername($credentials);
     }
 
     /**
