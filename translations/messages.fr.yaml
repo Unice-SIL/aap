@@ -357,15 +357,15 @@ app:
     my_reports:
       title: Mes rapports
     h1: Tableau de bord
-    projects_dropped: ]-Inf,1]Projet déposé|]1,Inf]Projets déposés
-    call_of_projects_dropped: ]-Inf,1]Appel à projets|]1,Inf]Appels à projets
-    reports_complete: ]-Inf,1]Rapport complété ou terminé|]1,Inf]Rapports complétés ou terminés
-    reports_to_complete: ]-Inf,1]Rapport à compléter|]1,Inf]Rapports à compléter
+    projects_dropped: Projet(s) déposé(s)
+    call_of_projects_dropped: Appel(s) à projet(s)
+    reports_complete: Rapport(s) complété(s) ou terminé(s)
+    reports_to_complete: Rapport(s) à compléter
     drop_new_project: Déposer un nouveau projet
     create_new_call_of_projects: Créer un nouvel appel à projets
-    last_dropped_projects: ]-Inf,1]Dernier projet déposé|]1,Inf]Derniers projets déposés
+    last_dropped_projects: Dernier(s) projet(s) déposé(s)
     list_all_projects: Voir la liste complète de mes projets
-    last_dropped_call_of_project: ]-Inf,1]Dernier appel à projet déposé|]1,Inf]Derniers appels à projets déposés
+    last_dropped_call_of_project: Dernier(s) appel(s) à projet(s) déposé(s)
     list_all_call_of_projects: Voir la liste complète de mes appels à projets
   navbar:
     item:
@@ -388,7 +388,7 @@ app:
       my_invitations:
         label: Invitations envoyées
       notification:
-        label: ']-Inf,1]Notification|]1,Inf]Notifications'
+        label: Notification(s)
       user:
         label: Mon profil
   action:
