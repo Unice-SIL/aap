@@ -52,7 +52,7 @@ class CallOfProject extends Common
      * @var DateTime|null
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      */
     private $startDate;
 
@@ -60,7 +60,7 @@ class CallOfProject extends Common
      * @var DateTime|null
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
-     * @Assert\DateTime
+     * @Assert\Type("\DateTimeInterface")
      * @Assert\Expression("value > this.getStartDate()", message="app.call_of_project.errors.date_bigger_than_start_date")
      */
     private $endDate;
@@ -112,7 +112,7 @@ class CallOfProject extends Common
     /**
      * @ORM\Column(type="boolean", options={"default": 1})
      */
-    private $multipleDeposit = true ;
+    private $multipleDeposit = true;
 
     /**
      * CallOfProject constructor.
@@ -158,7 +158,7 @@ class CallOfProject extends Common
      */
     public function getProjectsByStatus(string $status)
     {
-        return $this->getProjects()->filter(function(Project $project) use ($status) {
+        return $this->getProjects()->filter(function (Project $project) use ($status) {
             return $project->getStatus() === $status;
         });
     }
@@ -170,11 +170,9 @@ class CallOfProject extends Common
     {
         $reports = new ArrayCollection();
         /** @var Project $project */
-        foreach ($this->projects as $project)
-        {
+        foreach ($this->projects as $project) {
             /** @var Report $report */
-            foreach ($project->getReports() as $report)
-            {
+            foreach ($project->getReports() as $report) {
                 $reports->add($report);
             }
         }
@@ -187,7 +185,7 @@ class CallOfProject extends Common
      */
     public function getProjectsReportsByStatus(string $status)
     {
-        return $this->getProjectsReports()->filter(function(Report $report) use ($status) {
+        return $this->getProjectsReports()->filter(function (Report $report) use ($status) {
             return $report->getStatus() === $status;
         });
     }
@@ -466,7 +464,7 @@ class CallOfProject extends Common
      */
     public function isMultipleDeposit(): bool
     {
-        return $this-> multipleDeposit;
+        return $this->multipleDeposit;
     }
 
     /**

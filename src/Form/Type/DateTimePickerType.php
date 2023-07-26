@@ -34,6 +34,7 @@ class DateTimePickerType extends AbstractType
         $resolver->setDefaults([
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy HH:mm',
+            'html5' => false
         ]);
     }
 }
