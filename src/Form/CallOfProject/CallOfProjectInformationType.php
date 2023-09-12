@@ -50,6 +50,11 @@ class CallOfProjectInformationType extends AbstractType
                 'label' => 'app.call_of_project.property.public.label',
                 'label_attr' => ['class' => 'switch-custom']
             ])
+            ->add('multipleDeposit', CheckboxType::class, [
+                'required' => false,
+                'label' => 'app.call_of_project.property.multipleDeposit.label',
+                'label_attr' => ['class' => 'switch-custom']
+            ])
             ->add('startDate', DateTimePickerType::class, [
                 'label' => 'app.call_of_project.property.start_date.label',
                 'attr' => [
