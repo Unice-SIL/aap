@@ -6,12 +6,25 @@ use App\Entity\OrganizingCenter;
 use App\Entity\User;
 use App\Manager\Acl\AbstractAclManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class OrganizingCenterVoter extends Voter
 {
-
     const ADMIN = 'admin';
+
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
 
     protected function supports($attribute, $subject)
     {
@@ -35,6 +48,10 @@ class OrganizingCenterVoter extends Voter
         if (!$user instanceof User) {
             // the user must be logged in; if not, deny access
             return false;
+        }
+
+        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            return true;
         }
 
         /** @var OrganizingCenter $organizingCenter */
