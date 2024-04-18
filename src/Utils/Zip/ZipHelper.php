@@ -5,11 +5,16 @@ namespace App\Utils\Zip;
 
 
 use App\Entity\CallOfProject;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Soundasleep\Html2Text;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+use ZipStream\Exception\FileNotFoundException;
+use ZipStream\Exception\FileNotReadableException;
+use ZipStream\Exception\OverflowException;
 use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 
@@ -39,11 +44,11 @@ class ZipHelper
     }
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \ZipStream\Exception\FileNotFoundException
-     * @throws \ZipStream\Exception\OverflowException
+     * @throws Exception
+     * @throws FileNotFoundException
+     * @throws OverflowException
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \ZipStream\Exception\FileNotReadableException
+     * @throws FileNotReadableException
      */
     public function createZipFromCallOfProject(CallOfProject $callOfProject, $options = [])
     {
@@ -78,7 +83,11 @@ class ZipHelper
                 //Sets dynamic headers
                 $sheetProject->setCellValueByColumnAndRow($columnProject, 1, $widget->getLabel());
                 //Set dynamic values depends on project and field
-                $sheetProject->setCellValueByColumnAndRow($columnProject, $rowProject, $this->translator->trans($projectContent->getStringContent()));
+                $sheetProject->setCellValueByColumnAndRow(
+                    $columnProject,
+                    $rowProject,
+                    Html2Text::convert($this->translator->trans($projectContent->getStringContent()))
+                );
 
                 //If the value we add the file in a directory with project name as name and we set an url into the cell
                 //to be able to open the file directly from index.xlsx

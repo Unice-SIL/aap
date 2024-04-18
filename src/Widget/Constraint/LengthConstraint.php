@@ -67,6 +67,9 @@ class LengthConstraint extends AbstractConstraint
         return [
             'min' => $this->getMin(),
             'max' => $this->getMax(),
+            'normalizer' => function ($value) {
+                return strip_tags(html_entity_decode(trim($value)));
+            }
         ];
     }
 

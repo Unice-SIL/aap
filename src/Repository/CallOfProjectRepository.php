@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Acl;
 use App\Entity\CallOfProject;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -73,11 +74,40 @@ class CallOfProjectRepository extends ServiceEntityRepository
 
     public function getByUserAndNameLikeQuery(?UserInterface $user, ?string $query)
     {
-        return $this->createQueryBuilder('cop')
-            ->andWhere('cop.createdBy = :user')
+        $qb = $this->createQueryBuilder('cop');
+        return $qb
+            ->leftJoin('cop.acls', 'copa')
+            ->leftJoin('copa.groupe', 'copag')
+            ->leftJoin('copag.members', 'copagm')
+            ->leftJoin('cop.organizingCenter', 'oc')
+            ->leftJoin('oc.acls', 'oca')
+            ->leftJoin('oca.groupe', 'ocag')
+            ->leftJoin('ocag.members', 'ocagm')
+            ->where($qb->expr()->like('cop.name', ':query'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('copa.permission', ':permission'),
+                        $qb->expr()->orX(
+                            $qb->expr()->eq('copa.user', ':user'),
+                            $qb->expr()->eq('copagm.id', ':user')
+                        )
+                    ),
+                    $qb->expr()->orX(
+                        $qb->expr()->andX(
+                            $qb->expr()->eq('oca.permission', ':permission'),
+                            $qb->expr()->orX(
+                                $qb->expr()->eq('oca.user', ':user'),
+                                $qb->expr()->eq('ocagm.id', ':user')
+                            )
+                        )
+                    )
+                )
+            )
             ->setParameter('user', $user)
-            ->andWhere('cop.name LIKE :query')
+            ->setParameter('permission', Acl::PERMISSION_ADMIN)
             ->setParameter('query', '%' . $query . '%')
+            ->distinct()
             ->getQuery()
             ->getResult()
             ;
