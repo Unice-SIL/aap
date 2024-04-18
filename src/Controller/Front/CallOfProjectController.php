@@ -634,19 +634,6 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * Route("/{id}/delete", name="delete", methods={"DELETE"})
-     */
-    /*public function delete(Request $request, CallOfProject $callOfProject): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$callOfProject->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($callOfProject);
-            $entityManager->flush();
-        }
-        return $this->redirectToRoute('index');
-    }*/
-
-    /**
      * @param CallOfProject $callOfProject
      * @IsGranted(App\Security\CallOfProjectVoter::TO_STUDY_MASS, subject="callOfProject")
      * @return void
