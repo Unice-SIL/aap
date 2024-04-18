@@ -25,12 +25,12 @@ class Project extends Common
     private $callOfProject;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProjectContent", mappedBy="project", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectContent", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $projectContents;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $reports;
 
@@ -38,7 +38,7 @@ class Project extends Common
     private $notifyReporters = true;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="project")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="project", orphanRemoval=true, cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
