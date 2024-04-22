@@ -3,9 +3,9 @@
 namespace App\EventSubscriber;
 
 use App\Entity\CallOfProject;
+use App\Entity\CallOfProjectMailTemplate;
 use App\Entity\Dictionary;
 use App\Entity\Group;
-use App\Entity\Invitation;
 use App\Entity\OrganizingCenter;
 use App\Entity\Project;
 use App\Entity\ProjectFormLayout;
@@ -86,6 +86,18 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
                 ],
 
             ],
+            'app.call_of_project.mail_template' => [
+                'path' =>'app.call_of_project.mail_template',
+            ],
+            'app.call_of_project.mail_template.edit' => [
+                'entity' => [
+                    'class' => CallOfProjectMailTemplate::class,
+                    'method' => 'find',
+                    'parameter' => 'mailTemplate',
+                    'path' => 'app.call_of_project.mail_template.edit',
+                    'labelBy' => 'name'
+                ],
+            ],
             'app.project' => [
                 'path' => 'app.project.index',
                 'entity' => [
@@ -162,64 +174,72 @@ class BreadcrumbSubscriber implements EventSubscriberInterface
         ];
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $routeParameters = array_filter($request->attributes->all(), function ($value, $key) {
+            return substr($key, 0, 1) !== '_';
+        }, ARRAY_FILTER_USE_BOTH);
+
         foreach ($items as $itemRoute => $info) {
 
             //base route
-            if (strpos($route, $itemRoute) !== false) {
+            if (strpos($route, $itemRoute) === false) {
+                continue;
+            }
 
+            if (isset($info['path'])) {
                 $breadcrumbItem = new BreadcrumbItem(
                     self::TRANSLATION_PREFIX . $itemRoute . '.label',
-                    $this->router->generate($info['path'])
+                    $this->router->generate($info['path'], $routeParameters)
                 );
-
                 $mainBreadCrumb->addItem($breadcrumbItem);
+            }
+
+            if (isset($info['parameters'])) {
+                $routeParameters = array_intersect_key($routeParameters, array_flip($info['parameters']));
             }
 
             //if entity concerned
             if (isset($info['entity'])) {
-                $pathAttributes = array_intersect_key($request->attributes->all(), array_flip([$info['entity']['parameter']]));
+                $infoEntity = $info['entity'];
+                $parameter = $routeParameters[$infoEntity['parameter']] ?? null;
+                if (empty($parameter)) continue;
 
-                if (count($pathAttributes) > 0) {
-                    $method = $info['entity']['method'];
-                    $parameter = $pathAttributes[$info['entity']['parameter']];
+                $class = $infoEntity['class'];
+                $method = $infoEntity['method'];
 
-                    $error = false;
-                    $entity = null;
-                    try {
-                        $entity = $this->em->getRepository($info['entity']['class'])->$method($parameter);
-                    } catch (\Exception $e)
-                    {
-                        $error = true;
-                    }
-
-                    if ($entity and !$error) {
-                        $label = $propertyAccessor->getValue($entity, $info['entity']['labelBy']);
-
-                        $breadcrumbItem = new BreadcrumbItem(
-                            $label,
-                            $this->router->generate($info['entity']['path'], $pathAttributes)
-                        );
-
-                        $mainBreadCrumb->addItem($breadcrumbItem);
-                    }
-
+                $entity = null;
+                try {
+                    $entity = $this->em->getRepository($class)->$method($parameter);
+                } catch (\Exception $e) {
+                    continue;
                 }
 
-            }
+                $entity = is_array($entity) ? $entity : [$entity];
+                if (empty($entity)) {
+                    continue;
+                }
 
+                $entity = $entity[0];
+                $label = $propertyAccessor->getValue($entity, $infoEntity['labelBy']);
+
+                $breadcrumbItem = new BreadcrumbItem(
+                    $label,
+                    $this->router->generate($infoEntity['path'], $routeParameters)
+                );
+                $mainBreadCrumb->addItem($breadcrumbItem);
+            }
         }
 
         //Deeper item
         $exceptionsRoutes = array_map(function ($item) {
-            return $item['path'];
+            return $item['path'] ?? null;
         }, $items);
         $exceptionsRoutes[] = 'app.homepage';
         $exceptionsRoutes[] = 'app.process_after_shibboleth_connection';
+        $exceptionsRoutes[] = 'app.call_of_project.mail_template.edit';
         if (strpos($route, 'app.') !== false and !in_array($route, $exceptionsRoutes)) {
-
             $breadcrumbItem = new BreadcrumbItem(
                 self::TRANSLATION_PREFIX . $route,
-                $this->router->generate($route, $pathAttributes ?? [])
+                $this->router->generate($route, $routeParameters ?? [])
             );
 
             $mainBreadCrumb->addItem($breadcrumbItem);

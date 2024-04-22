@@ -83,7 +83,9 @@ app:
             edit: Edit a mail template
         call_of_project:
           presentation_before_adding_project: Call of project's summary
-          mail_template: Mail template
+          mail_template:
+            label: Mail template
+            edit: Edit template
           batch_action: Batched actions
           all: Open or close
           edit_permissions: Edit permissions
@@ -325,6 +327,17 @@ app:
       h1: Batched actions
     mail_template:
       h1: Mail template
+      edit:
+        h1: Mail template edition
+      property:
+        name:
+          label: Name
+        subject:
+          label: Subject
+        body:
+          label: Body
+        enable:
+          label: Enabled
     presentation_before_adding_project:
       h1: Call of project's summary
     action:
