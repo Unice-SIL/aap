@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
 use App\Entity\CallOfProjectMailTemplate;
+use App\Entity\Interfaces\MailTemplateInterface;
 use App\Entity\MailTemplate;
 use App\Entity\Project;
 use App\Entity\User;
@@ -458,7 +459,7 @@ class CallOfProjectController extends AbstractController
         $genericMailTemplates = $this->em->getRepository(MailTemplate::class)->findAll();
         $copMailTemplates = $this->em->getRepository(CallOfProjectMailTemplate::class)->findByCallOfProject($callOfProject->getId());
 
-        $newMailTemplates = array_udiff($genericMailTemplates, $copMailTemplates, function (MailTemplate $mt1, MailTemplate $mt2) {
+        $newMailTemplates = array_udiff($genericMailTemplates, $copMailTemplates, function (MailTemplateInterface $mt1, MailTemplateInterface $mt2) {
             return in_array($mt1->getName(), CallOfProjectMailTemplate::ALLOWED_TEMPLATES) && $mt1->getName() <=> $mt2->getName();
         });
 

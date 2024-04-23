@@ -8,7 +8,7 @@ use App\Repository\CallOfProjectMailTemplateRepository;
 /**
  * @ORM\Entity(repositoryClass=CallOfProjectMailTemplateRepository::class)
  */
-class CallOfProjectMailTemplate extends MailTemplate
+class CallOfProjectMailTemplate extends AbstractMailTemplate
 {
     public const ALLOWED_TEMPLATES = [
         \App\Constant\MailTemplate::NOTIFICATION_USER_NEW_PROJECT,

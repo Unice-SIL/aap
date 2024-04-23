@@ -21,6 +21,15 @@ app:
         label: Sujet
       body:
         label: Corps
+    user:
+      refusal_project: Notification utilisateur projet non retenu
+      validation_project: Notification utilisateur projet retenu
+      invitation: Notification utilisateur nouvelle invitation
+      new_project: Notification utilisateur projet déposé
+      new_reporter: Notification utilisateur désigné rapporteur
+      new_reporters: Notification utilisateur désigné rapporteur sur plusieurs projet
+    cop_followers:
+      new_project: Notification followers nouveau projet déposé
 
   batch_action:
     add_reporter: Ajouter des rapporteurs
