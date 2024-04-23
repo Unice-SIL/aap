@@ -72,7 +72,7 @@ class InvitationController extends AbstractController
         if (
             $this->isCsrfTokenValid('resend_invitation'.$invitation->getId(), $request->request->get('_token'))
         ) {
-            $mailHelper->sendInvitationMail($invitation);
+            $mailHelper->notificationUserInvitation($invitation);
 
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', $translator->trans('app.flash_message.invitation_resend_success', ['%invitation%' => $invitation->getName()]));

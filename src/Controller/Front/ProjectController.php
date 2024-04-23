@@ -106,6 +106,7 @@ class ProjectController extends AbstractController
 
     /**
      * @Route("/{id}/show", name="show", methods={"GET", "POST"})
+     * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      * @param Project $project
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -114,7 +115,6 @@ class ProjectController extends AbstractController
      * @param \Swift_Mailer $mailer
      * @param NotificationManagerInterface $notificationManager
      * @return Response
-     * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      */
     public function show(
         Project                      $project,

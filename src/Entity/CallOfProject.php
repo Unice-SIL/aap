@@ -79,12 +79,12 @@ class CallOfProject extends Common
     private $organizingCenter;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $validationMailTemplate;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $refusalMailTemplate;
 
@@ -115,6 +115,11 @@ class CallOfProject extends Common
     private $multipleDeposit = true ;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CallOfProjectMailTemplate", mappedBy="callOfProject", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $mailTemplates;
+
+    /**
      * CallOfProject constructor.
      */
     public function __construct()
@@ -122,6 +127,7 @@ class CallOfProject extends Common
         parent::__construct();
         $this->projects = new ArrayCollection();
         $this->projectFormLayouts = new ArrayCollection();
+        $this->mailTemplates = new ArrayCollection();
         $this->setStatus(self::STATUS_INIT);
     }
 
@@ -476,6 +482,36 @@ class CallOfProject extends Common
     public function setMultipleDeposit(bool $multipleDeposit): self
     {
         $this->multipleDeposit = $multipleDeposit;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMailTemplates(): Collection
+    {
+        return $this->mailTemplates;
+    }
+
+    /**
+     * @param ArrayCollection $mailTemplates
+     */
+    public function setMailTemplates(Collection $mailTemplates): void
+    {
+        $this->mailTemplates = $mailTemplates;
+    }
+
+    /**
+     * @param CallOfProjectMailTemplate $mailTemplate
+     * @return $this
+     */
+    public function addMailTemplate(CallOfProjectMailTemplate $mailTemplate): self
+    {
+        if (!$this->mailTemplates->contains($mailTemplate)) {
+            $this->mailTemplates->add($mailTemplate);
+            $mailTemplate->setCallOfProject($this);
+        }
 
         return $this;
     }

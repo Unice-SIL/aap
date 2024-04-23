@@ -21,6 +21,15 @@ app:
         label: Sujet
       body:
         label: Corps
+    user:
+      refusal_project: Notification utilisateur projet non retenu
+      validation_project: Notification utilisateur projet retenu
+      invitation: Notification utilisateur nouvelle invitation
+      new_project: Notification utilisateur projet déposé
+      new_reporter: Notification utilisateur désigné rapporteur
+      new_reporters: Notification utilisateur désigné rapporteur sur plusieurs projet
+    cop_followers:
+      new_project: Notification followers nouveau projet déposé
 
   batch_action:
     add_reporter: Ajouter des rapporteurs
@@ -83,7 +92,9 @@ app:
             edit: Édition d'un modèle de mail
         call_of_project:
           presentation_before_adding_project: Récapitulatif de l'appel à projets
-          mail_template: Modèle d'email
+          mail_template:
+            label: Modèle d'email
+            edit: Edition du modèle
           batch_action: Actions Groupées
           all: Ouvert ou fermé
           edit_permissions: Édition des permissions
@@ -340,6 +351,17 @@ app:
       h1: Actions Groupées
     mail_template:
       h1: Modèle d'email
+      edit:
+        h1: Modification d'un modèle de mail
+      property:
+        name:
+          label: Nom
+        subject:
+          label: Sujet
+        body:
+          label: Corps
+        enable:
+          label: Activé
     presentation_before_adding_project:
       h1: Récapitulatif de l'appel à projets
     action:

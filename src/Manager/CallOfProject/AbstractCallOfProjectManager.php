@@ -4,9 +4,9 @@
 namespace App\Manager\CallOfProject;
 
 
-use App\Entity\MailTemplate;
-use App\Constant\MailTemplate as MailTemplateConstant;
 use App\Entity\CallOfProject;
+use App\Entity\CallOfProjectMailTemplate;
+use App\Entity\MailTemplate;
 use Doctrine\ORM\EntityManagerInterface;
 
 abstract class AbstractCallOfProjectManager implements CallOfProjectManagerInterface
@@ -30,11 +30,12 @@ abstract class AbstractCallOfProjectManager implements CallOfProjectManagerInter
     {
         $callOfProject = new CallOfProject();
 
-        $validationMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::VALIDATION_PROJECT);
-        $callOfProject->setValidationMailTemplate($validationMailTemplate->getBody());
-
-        $refusalMailTemplate = $this->em->getRepository(MailTemplate::class)->findOneByName(MailTemplateConstant::REFUSAL_PROJECT);
-        $callOfProject->setRefusalMailTemplate($refusalMailTemplate->getBody());
+        foreach ($this->em->getRepository(MailTemplate::class)->findAll() as $mailTemplate) {
+            if (in_array($mailTemplate->getName(), CallOfProjectMailTemplate::ALLOWED_TEMPLATES)) {
+                $callOfProjectMailTemplate = (new CallOfProjectMailTemplate())->initFromMailTemplate($mailTemplate);
+                $callOfProject->addMailTemplate($callOfProjectMailTemplate);
+            }
+        }
 
         return $callOfProject;
     }

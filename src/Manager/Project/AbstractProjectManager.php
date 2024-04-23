@@ -8,6 +8,7 @@ use App\Entity\CallOfProject;
 use App\Entity\Project;
 use App\Manager\ProjectContent\ProjectContentManagerInterface;
 use App\Widget\FormWidget\FormWidgetInterface;
+use Exception;
 
 abstract class AbstractProjectManager implements ProjectManagerInterface
 {
@@ -25,6 +26,9 @@ abstract class AbstractProjectManager implements ProjectManagerInterface
         $this->projectContentManager = $projectContentManager;
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(CallOfProject $callOfProject): Project
     {
         $project = new Project();
@@ -37,7 +41,7 @@ abstract class AbstractProjectManager implements ProjectManagerInterface
     /**
      * Add a ProjectContent for every ProjectFormWidget if doesn't exists
      * @param Project $project
-     * @throws \Exception
+     * @throws Exception
      */
     public function refreshProjectContents(Project $project): void
     {

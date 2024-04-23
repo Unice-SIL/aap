@@ -19,11 +19,11 @@ class MailTemplate
         'app.mail_template.placeholder.call_of_project_name' => self::PLACEHOLDER_CALL_OF_PROJECT_NAME,
     ];
 
-    const VALIDATION_PROJECT = 'Validation de projet';
-    const REFUSAL_PROJECT = 'Refus de projet';
-    const NOTIFICATION_NEW_REPORT = 'Notification pour un nouveau rapport';
-    const NOTIFICATION_NEW_REPORTS = 'Notification pour ajout de rapport en masse';
-    const INVITATION_MAIL = 'Inviter un utilisateur';
-    const NOTIFY_CREATOR_OF_A_NEW_PROJECT = 'Notification à destination du créateur d\'un nouveau projet';
-    const NOTIFY_MANAGERS_OF_A_NEW_PROJECT = 'Notification à destination des gestionnaires d\'un nouveau projet';
+    const NOTIFICATION_USER_VALIDATION_PROJECT = 'app.mail_template.user.validation_project';
+    const NOTIFICATION_USER_REFUSAL_PROJECT = 'app.mail_template.user.refusal_project';
+    const NOTIFICATION_USER_NEW_REPORTER = 'app.mail_template.user.new_reporter';
+    const NOTIFICATION_USER_NEW_REPORTERS = 'app.mail_template.user.new_reporters';
+    const NOTIFICATION_USER_INVITATION = 'app.mail_template.user.invitation';
+    const NOTIFICATION_USER_NEW_PROJECT = 'app.mail_template.user.new_project';
+    const NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT = 'app.mail_template.cop_followers.new_project';
 }

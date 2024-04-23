@@ -63,7 +63,7 @@ class RegistrationController extends AbstractController
             $invitation->setToken(uniqid());
             $user->setInvitation($invitation);
 
-            $mailHelper->sendInvitationMail($invitation);
+            $mailHelper->notificationUserInvitation($invitation);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

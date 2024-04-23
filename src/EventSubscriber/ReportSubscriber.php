@@ -24,7 +24,7 @@ class ReportSubscriber implements EventSubscriber
         $this->mailHelper = $mailHelper;
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::prePersist,
@@ -45,11 +45,11 @@ class ReportSubscriber implements EventSubscriber
         }
 
         if ($report->getNotifyReporters() === Report::NOTIFY_REPORT) {
-            $this->mailHelper->notifyReporterAboutReport($report);
+            $this->mailHelper->notificationUserNewReporter($report);
         }
 
         if ($report->getNotifyReporters() === Report::NOTIFY_REPORTS) {
-            $this->mailHelper->notifyReporterAboutReports($report);
+            $this->mailHelper->notificationUserNewReporters($report);
         }
 
     }

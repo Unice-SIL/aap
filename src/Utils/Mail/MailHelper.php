@@ -4,21 +4,26 @@
 namespace App\Utils\Mail;
 
 
-use App\Constant\MailTemplate;
+use App\Entity\CallOfProject;
+use App\Entity\CallOfProjectMailTemplate;
+use App\Entity\Interfaces\MailTemplateInterface;
 use App\Entity\Invitation;
+use App\Entity\MailTemplate;
 use App\Entity\Project;
 use App\Entity\Report;
-use App\Entity\User;
+use App\Repository\CallOfProjectMailTemplateRepository;
 use App\Repository\MailTemplateRepository;
-use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\RFCValidation;
+use Exception;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class MailHelper
 {
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
     /**
@@ -34,25 +39,60 @@ class MailHelper
      */
     private $mailTemplateRepository;
 
+    /**
+     * @var CallOfProjectMailTemplateRepository
+     */
+    private $callOfProjectMailTemplateRepository;
+
 
     /**
-     * MailHelper constructor.
-     * @param \Swift_Mailer $mailer
      * @param string $mailFrom
+     * @param MailerInterface $mailer
      * @param UrlGeneratorInterface $urlGenerator
      * @param MailTemplateRepository $mailTemplateRepository
+     * @param CallOfProjectMailTemplateRepository $callOfProjectMailTemplateRepository
      */
     public function __construct(
-        \Swift_Mailer $mailer,
         string $mailFrom,
+        MailerInterface $mailer,
         UrlGeneratorInterface $urlGenerator,
-        MailTemplateRepository $mailTemplateRepository
+        MailTemplateRepository $mailTemplateRepository,
+        CallOfProjectMailTemplateRepository $callOfProjectMailTemplateRepository
     )
     {
         $this->mailer = $mailer;
         $this->mailFrom = $mailFrom;
         $this->urlGenerator = $urlGenerator;
         $this->mailTemplateRepository = $mailTemplateRepository;
+        $this->callOfProjectMailTemplateRepository = $callOfProjectMailTemplateRepository;
+    }
+
+    /**
+     * @param string $name
+     * @param CallOfProject $callOfProject
+     * @return MailTemplateInterface|null
+     */
+    private function getEmailTemplateFromCallOfProject(string $name, CallOfProject $callOfProject): ?MailTemplateInterface
+    {
+        $mailTemplate = $this->callOfProjectMailTemplateRepository->findOneBy([
+            'callOfProject' => $callOfProject->getId(),
+            'name' => $name
+        ]);
+
+        if (!$mailTemplate instanceof CallOfProjectMailTemplate) {
+            $mailTemplate = $this->getGenericEmailTemplate($name);
+        }
+
+        return $mailTemplate;
+    }
+
+    /**
+     * @param string $name
+     * @return MailTemplate|null
+     */
+    private function getGenericEmailTemplate(string $name): ?MailTemplate
+    {
+        return $this->mailTemplateRepository->findOneByName($name);
     }
 
     /**
@@ -63,130 +103,162 @@ class MailHelper
     public static function parseMessageWithProject(string $message, Project $project)
     {
         $owner = $project->getCreatedBy();
-        $message = str_replace(MailTemplate::PLACEHOLDER_FIRSTNAME, $owner->getFirstname(), $message);
-        $message = str_replace(MailTemplate::PLACEHOLDER_LASTNAME, $owner->getLastname(), $message);
-        $message = str_replace(MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME, $project->getCallOfProject()->getName(), $message);
-        $message = str_replace(MailTemplate::PLACEHOLDER_PROJECT_NAME, $project->getName(), $message);
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_FIRSTNAME, $owner->getFirstname(), $message);
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_LASTNAME, $owner->getLastname(), $message);
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME, $project->getCallOfProject()->getName(), $message);
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_NAME, $project->getName(), $message);
 
         return $message;
     }
 
     /**
      * @param Report $report
+     * @return void
+     * @throws TransportExceptionInterface
      */
-    public function notifyReporterAboutReport(Report $report)
+    public function notificationUserNewReporter(Report $report)
     {
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORT);
-        $message = new \Swift_Message(
-            $mailTemplate->getSubject(),
-            self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject())
-        );
-        $message
-            ->setFrom($this->mailFrom)
-            ->setTo($report->getReporter()->getEmail())
-            ->setContentType('text/html')
-        ;
+        $callOfProject = $report->getProject()->getCallOfProject();
+        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_REPORTER, $callOfProject);
 
-        $this->mailer->send($message);
+        if (!$mailTemplate instanceof MailTemplateInterface) return;
+        if (!$mailTemplate->isEnable()) return;
+
+        $to = $report->getReporter()->getEmail();
+
+        if (empty($to)) return;
+
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->to($to)
+            ->subject($mailTemplate->getSubject())
+            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
+
+
+        $this->mailer->send($email);
     }
 
     /**
      * @param Report $report
+     * @return void
+     * @throws TransportExceptionInterface
      */
-    public function notifyReporterAboutReports(Report $report)
+    public function notificationUserNewReporters(Report $report)
     {
-
         static $reportersNotified = [];
         if (in_array($report->getReporter(), $reportersNotified)) {
             return;
         }
         $reportersNotified[] = $report->getReporter();
 
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFICATION_NEW_REPORTS);
-        $message = new \Swift_Message(
-            $mailTemplate->getSubject(),
-            self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject())
-        );
-        $message
-            ->setFrom($this->mailFrom)
-            ->setTo($report->getReporter()->getEmail())
-            ->setContentType('text/html')
-        ;
+        $callOfProject = $report->getProject()->getCallOfProject();
+        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_REPORTERS, $callOfProject);
 
-        $this->mailer->send($message);
+        if (!$mailTemplate instanceof MailTemplateInterface) return;
+        if (!$mailTemplate->isEnable()) return;
+
+        $to = $report->getReporter()->getEmail();
+
+        if (empty($to)) return;
+
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->to($to)
+            ->subject($mailTemplate->getSubject())
+            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
+
+        $this->mailer->send($email);
     }
 
     /**
      * @param Invitation $invitation
-     * @throws \Exception
+     * @return void
+     * @throws TransportExceptionInterface
+     * @throws Exception
      */
-    public function sendInvitationMail(Invitation $invitation)
+    public function notificationUserInvitation(Invitation $invitation)
     {
-
         if ($invitation->getToken() === null) {
-            throw new \Exception('The token is null');
+            throw new Exception('The token is null');
         }
         $url = $this->urlGenerator->generate('app.process_after_shibboleth_connection', ['token' => $invitation->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
         $user = $invitation->getUser();
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::INVITATION_MAIL);
 
-        $message = str_replace(MailTemplate::PLACEHOLDER_FIRSTNAME, $user->getFirstname(), $mailTemplate->getBody());
-        $message = str_replace(MailTemplate::PLACEHOLDER_LASTNAME, $user->getLastname(), $message);
-        $message = str_replace(MailTemplate::PLACEHOLDER_URL_INVITATION, $url, $message);
-        $message = new \Swift_Message(
-            $mailTemplate->getSubject(),
-            $message
-        );
-        $message
-            ->setFrom($this->mailFrom)
-            ->setTo($invitation->getUser()->getEmail())
-            ->setContentType('text/html')
-        ;
+        $mailTemplate = $this->getGenericEmailTemplate(\App\Constant\MailTemplate::NOTIFICATION_USER_INVITATION);
 
-        $this->mailer->send($message);
+        if (!$mailTemplate instanceof MailTemplateInterface) return;
+        if (!$mailTemplate->isEnable()) return;
+
+        $to = $invitation->getUser()->getEmail();
+
+        if (empty($to)) return;
+
+        $content = $mailTemplate->getBody();
+        $content = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_FIRSTNAME, $user->getFirstname(), $content);
+        $content = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_LASTNAME, $user->getLastname(), $content);
+        $content = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_URL_INVITATION, $url, $content);
+
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->to($to)
+            ->subject($mailTemplate->getSubject())
+            ->html($content);
+
+        $this->mailer->send($email);
 
         $invitation->setSentAt(new \DateTime());
     }
 
     /**
      * @param Project $project
+     * @return void
+     * @throws TransportExceptionInterface
      */
-    public function notifyCreatorOfANewProject(Project $project)
+    public function notificationUserNewProject(Project $project)
     {
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFY_CREATOR_OF_A_NEW_PROJECT);
-        $message = new \Swift_Message(
-            $mailTemplate->getSubject(),
-            self::parseMessageWithProject($mailTemplate->getBody(), $project)
-        );
-        $message
-            ->setFrom($this->mailFrom)
-            ->setTo($project->getCreatedBy()->getEmail())
-            ->setContentType('text/html')
-        ;
+        $callOfProject = $project->getCallOfProject();
+        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_PROJECT, $callOfProject);
 
-        $this->mailer->send($message);
+        if (!$mailTemplate instanceof MailTemplateInterface) return;
+        if (!$mailTemplate->isEnable()) return;
+
+        $to = $project->getCreatedBy()->getEmail();
+
+        if (empty($to)) return;
+
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->to($to)
+            ->subject($mailTemplate->getSubject())
+            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $project));
+
+        $this->mailer->send($email);
     }
 
     /**
      * @param Project $project
+     * @return void
+     * @throws TransportExceptionInterface
      */
-    public function notifyManagersOfANewProject(Project $project)
+    public function notificationCopFollowersNewProject(Project $project)
     {
-        $mails = $project->getCallOfProject()->getSubscribers()->map(function (User $subscriber)
-        {
-           return $subscriber->getEmail();
-        });
-        $mailTemplate = $this->mailTemplateRepository->findOneByName(MailTemplate::NOTIFY_MANAGERS_OF_A_NEW_PROJECT);
-        $message = new \Swift_Message(
-            $mailTemplate->getSubject(),
-            self::parseMessageWithProject($mailTemplate->getBody(), $project)
-        );
-        $message
-            ->setFrom($this->mailFrom)
-            ->setTo($mails->toArray())
-            ->setContentType('text/html')
-        ;
+        $callOfProject = $project->getCallOfProject();
+        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT, $callOfProject);
 
-        $this->mailer->send($message);
+        if (!$mailTemplate instanceof MailTemplateInterface) return;
+        if (!$mailTemplate->isEnable()) return;
+
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->subject($mailTemplate->getSubject())
+            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $project));
+
+        foreach ($project->getCallOfProject()->getSubscribers() as $subscriber) {
+            $address = $subscriber->getEmail();
+            if (empty($address)) continue;
+            $email->addTo($address);
+        }
+
+        $this->mailer->send($email);
     }
 }
