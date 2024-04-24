@@ -113,7 +113,6 @@ abstract class AbstractProjectManager implements ProjectManagerInterface
             }
 
         }
-
     }
 
     /**
