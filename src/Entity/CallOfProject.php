@@ -515,4 +515,15 @@ class CallOfProject extends Common
 
         return $this;
     }
+
+    /**
+     * @param string $name
+     * @return CallOfProjectMailTemplate|null
+     */
+    public function getMailTemplate(string $name): ?CallOfProjectMailTemplate
+    {
+        return $this->mailTemplates->filter(function (CallOfProjectMailTemplate $mailTemplate) use ($name){
+            return $mailTemplate->getName() === $name;
+        })->first();
+    }
 }

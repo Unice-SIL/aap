@@ -8,6 +8,8 @@ use App\Entity\Project;
 
 interface ProjectManagerInterface
 {
+    public function validateOrRefuse(Project $project, string $transition);
+
     public function create(CallOfProject $callOfProject): Project;
 
     public function refreshProjectContents(Project $project): void;

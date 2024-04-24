@@ -259,6 +259,53 @@ class MailHelper
             $email->addTo($address);
         }
 
+        if (empty($email->getTo())) return;
+
         $this->mailer->send($email);
+    }
+
+    /**
+     * @param Project $project
+     * @param string $mailTemplateName
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    private function notificationUserValidateRefuseProject(Project $project, string $mailTemplateName)
+    {
+        $mailTemplate = $this->getEmailTemplateFromCallOfProject($mailTemplateName, $project->getCallOfProject());
+        if (!$mailTemplate instanceof MailTemplateInterface) return;
+
+        $mailBody = empty($project->getValidateRejectMailContent()) ? $mailTemplate->getBody() : $project->getValidateRejectMailContent();
+
+        $to = $project->getCreatedBy()->getEmail();
+        if (empty($to)) return;
+
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->to($to)
+            ->subject($mailTemplate->getSubject())
+            ->html(self::parseMessageWithProject($mailBody, $project));
+
+        $this->mailer->send($email);
+    }
+
+    /**
+     * @param Project $project
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function notificationUserValidationProject(Project $project)
+    {
+        $this->notificationUserValidateRefuseProject($project, \App\Constant\MailTemplate::NOTIFICATION_USER_VALIDATION_PROJECT);
+    }
+
+    /**
+     * @param Project $project
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function notificationUserRefusalProject(Project $project)
+    {
+        $this->notificationUserValidateRefuseProject($project, \App\Constant\MailTemplate::NOTIFICATION_USER_REFUSAL_PROJECT);
     }
 }

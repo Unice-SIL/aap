@@ -7,6 +7,7 @@ namespace App\Controller\Front;
 use App\Entity\Comment;
 use App\Entity\Project;
 use App\Entity\User;
+use App\Exception\ProjectTransitionException;
 use App\Form\Project\AddCommentType;
 use App\Form\Project\AddReporterType;
 use App\Form\Project\ValidationType;
@@ -109,21 +110,17 @@ class ProjectController extends AbstractController
      * @IsGranted(App\Security\ProjectVoter::SHOW, subject="project")
      * @param Project $project
      * @param Request $request
+     * @param ProjectManagerInterface $projectManager
      * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
-     * @param Registry $workflowRegistry
-     * @param \Swift_Mailer $mailer
-     * @param NotificationManagerInterface $notificationManager
      * @return Response
      */
     public function show(
-        Project                      $project,
-        Request                      $request,
-        EntityManagerInterface       $em,
-        TranslatorInterface          $translator,
-        Registry                     $workflowRegistry,
-        \Swift_Mailer                $mailer,
-        NotificationManagerInterface $notificationManager
+        Project $project,
+        Request $request,
+        ProjectManagerInterface $projectManager,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator
     )
     {
         $context = $request->query->get('context');
@@ -174,93 +171,46 @@ class ProjectController extends AbstractController
 
             return $this->redirectToRoute('app.project.show', $routeParameters);
         }
-        /** @var User $user */
-        $user = $this->getUser();
 
-        $processValidationForm = function (FormInterface $form) use (
-            $workflowRegistry,
-            $translator,
-            $project,
-            $em,
-            $mailer,
-            $user,
-            $context,
-            $notificationManager
-        ) {
+        $validationForm = $this->createForm(ValidationType::class, $project, ['context' => Project::TRANSITION_VALIDATE]);
+        $validationForm->handleRequest($request);
 
+        $refusalForm = $this->createForm(ValidationType::class, $project, ['context' => Project::TRANSITION_REFUSE]);
+        $refusalForm->handleRequest($request);
+
+        // If validation or refusal project form is submit and valid
+        if ($validationForm->isSubmitted() and $validationForm->isValid() or $refusalForm->isSubmitted() and $refusalForm->isValid()) {
+
+            // Check permission
             $this->denyAccessUnlessGranted(CallOfProjectVoter::EDIT, $project->getCallOfProject());
             if ($project->getStatus() !== Project::STATUS_STUDYING) {
                 throw new AccessDeniedException();
             }
 
-            try {
+            // Get submitted form
+            $form = $validationForm->isSubmitted() ? $validationForm : $refusalForm;
+            if ($form->has('action')) {
+                $transition = $form->get('action')->getData();
+                if ($form->get('automaticSending')->getData()) {
+                    $project->setValidateRejectMailContent($form->get('mailTemplate')->getData());
+                }
 
-                $transition = $form->get('action')->getData() === Project::STATUS_VALIDATED ? 'validate' : 'refused';
-                $stateMachine = $workflowRegistry->get($project, 'project_validation_process');
-                $stateMachine->apply($project, $transition);
+                try {
+                    $projectManager->validateOrRefuse($project, $transition);
+                    $this->addFlash('success',
+                        $translator->trans(
+                            'app.flash_message.success_project_' . $transition, ['%item%' => $project->getName()]
+                        )
+                    );
+                } catch (ProjectTransitionException $e) {
+                    $this->addFlash('error', $e->getMessage());
+                }
 
-            } catch (LogicException $exception) {
-                $this->addFlash('error',
-                    $translator->trans(
-                        'app.flash_message.error_project_' . $transition, ['%item%' => $project->getName()]
-                    )
-                );
-            }
-
-            $this->addFlash('success',
-                $translator->trans(
-                    'app.flash_message.success_project_' . $transition, ['%item%' => $project->getName()]
-                )
-            );
-
-            $notification = $notificationManager->create();
-            $notificationTitle = $form->get('action')->getData() === Project::STATUS_VALIDATED ?
-                'app.notifications.project_validated' : 'app.notifications.project_refused';
-
-            $notification->setTitle($translator->trans($notificationTitle, ['%project%' => $project->getName()]));
-            $notification->setRouteName('app.project.show');
-            $notification->setRouteParams(['id' => $project->getId()]);
-            $project->getCreatedBy()->addNotification($notification);
-
-            $em->flush();
-
-
-            if ($form->get('automaticSending')->getData()) {
-                $message = new \Swift_Message(
-                    'Message de validation/refus',
-                    MailHelper::parseMessageWithProject($form->get('mailTemplate')->getData(), $project)
-                );
-                $message
-                    ->setFrom($user->getEmail())
-                    ->setTo($project->getCreatedBy()->getEmail())
-                    ->setContentType('text/html');
-
-                $mailer->send($message);
-            }
-
-
-            $routeParameters = ['id' => $project->getId()];
-            if ($context === 'call_of_project') {
-                $routeParameters['context'] = $context;
-            }
-            return $this->redirectToRoute('app.project.show', $routeParameters);
-
-        };
-
-        $validationForm = $this->createForm(ValidationType::class, $project, ['context' => Project::STATUS_VALIDATED]);
-        $validationForm->handleRequest($request);
-        if ($validationForm->isSubmitted() and $validationForm->isValid()) {
-            if ($validationForm->has('action') and $validationForm->get('action')->getData() === Project::STATUS_VALIDATED) {
-                return $processValidationForm($validationForm);
-            }
-        }
-
-        $refusalForm = $this->createForm(ValidationType::class, $project, ['context' => Project::STATUS_REFUSED]);
-        $refusalForm->handleRequest($request);
-
-        if ($refusalForm->isSubmitted() and $refusalForm->isValid()) {
-            if ($refusalForm->has('action') and $refusalForm->get('action')->getData() === Project::STATUS_REFUSED) {
-                return $processValidationForm($refusalForm);
+                $routeParameters = ['id' => $project->getId()];
+                if ($context === 'call_of_project') {
+                    $routeParameters['context'] = $context;
+                }
+                return $this->redirectToRoute('app.project.show', $routeParameters);
             }
         }
 
