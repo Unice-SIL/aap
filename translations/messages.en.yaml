@@ -11,7 +11,10 @@ app:
   mail_template:
     placeholder:
       call_of_project_name: Call of project's name
-      project_name: Project's name
+      call_of_project_manager_link: Call of project link for managers
+      project_name: Project name
+      project_user_link: Project link for project creator
+      project_manager_link: Project link for managers
       creator_firstname: Firstname of the project's creator
       creator_lastname: Lastname of the project's creator
     property:

@@ -88,7 +88,7 @@ class CallOfProjectController extends AbstractController
      * @Security("is_granted(constant('App\\Security\\UserVoter::VIEW_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST'))")
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
 
         return $this->render('call_of_project/index.html.twig', [

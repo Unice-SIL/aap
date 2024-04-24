@@ -121,8 +121,7 @@ class ProjectController extends AbstractController
         ProjectManagerInterface $projectManager,
         EntityManagerInterface $em,
         TranslatorInterface $translator
-    )
-    {
+    ): Response {
         $context = $request->query->get('context');
         $reporterAdded = $request->getSession()->remove('reporterAdded');
 

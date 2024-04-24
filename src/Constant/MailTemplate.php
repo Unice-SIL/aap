@@ -9,14 +9,20 @@ class MailTemplate
     const PLACEHOLDER_LASTNAME = '[__LASTNAME__]';
     const PLACEHOLDER_FIRSTNAME = '[__FIRSTNAME__]';
     const PLACEHOLDER_PROJECT_NAME = '[__PROJECT_NAME__]';
+    const PLACEHOLDER_PROJECT_USER_LINK = '[__PROJECT_USER_LINK__]';
+    const PLACEHOLDER_PROJECT_MANAGER_LINK = '[__PROJECT_MANAGER_LINK__]';
     const PLACEHOLDER_CALL_OF_PROJECT_NAME = '[__CALL_OF_PROJECT_NAME__]';
+    const PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK = '[__CALL_OF_PROJECT_MANAGER_LINK__]';
     const PLACEHOLDER_URL_INVITATION = '[__URL_INVITATION__]';
 
     const PLACEHOLDERS = [
         'app.mail_template.placeholder.creator_lastname' => self::PLACEHOLDER_LASTNAME,
         'app.mail_template.placeholder.creator_firstname' => self::PLACEHOLDER_FIRSTNAME,
         'app.mail_template.placeholder.project_name' => self::PLACEHOLDER_PROJECT_NAME,
+        'app.mail_template.placeholder.project_user_link' => self::PLACEHOLDER_PROJECT_USER_LINK,
+        'app.mail_template.placeholder.project_manager_link' => self::PLACEHOLDER_PROJECT_MANAGER_LINK,
         'app.mail_template.placeholder.call_of_project_name' => self::PLACEHOLDER_CALL_OF_PROJECT_NAME,
+        'app.mail_template.placeholder.call_of_project_manager_link' => self::PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK,
     ];
 
     const NOTIFICATION_USER_VALIDATION_PROJECT = 'app.mail_template.user.validation_project';

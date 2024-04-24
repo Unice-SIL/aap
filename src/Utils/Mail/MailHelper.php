@@ -100,13 +100,37 @@ class MailHelper
      * @param Project $project
      * @return string|string[]
      */
-    public static function parseMessageWithProject(string $message, Project $project)
+    public function parseMessageWithProject(string $message, Project $project)
     {
         $owner = $project->getCreatedBy();
         $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_FIRSTNAME, $owner->getFirstname(), $message);
         $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_LASTNAME, $owner->getLastname(), $message);
         $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME, $project->getCallOfProject()->getName(), $message);
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK,
+            $this->urlGenerator->generate(
+                'app.call_of_project.informations',
+                ['id' => $project->getCallOfProject()->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            $message
+        );
         $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_NAME, $project->getName(), $message);
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_USER_LINK,
+            $this->urlGenerator->generate(
+                'app.project.show',
+                ['id' => $project->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            $message
+        );
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_MANAGER_LINK,
+            $this->urlGenerator->generate(
+                'app.project.show',
+                ['id' => $project->getId(), 'context' => 'call_of_project'],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            $message
+        );
 
         return $message;
     }
@@ -132,7 +156,7 @@ class MailHelper
             ->from($this->mailFrom)
             ->to($to)
             ->subject($mailTemplate->getSubject())
-            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
+            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
 
 
         $this->mailer->send($email);
@@ -165,7 +189,7 @@ class MailHelper
             ->from($this->mailFrom)
             ->to($to)
             ->subject($mailTemplate->getSubject())
-            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
+            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
 
         $this->mailer->send($email);
     }
@@ -230,7 +254,7 @@ class MailHelper
             ->from($this->mailFrom)
             ->to($to)
             ->subject($mailTemplate->getSubject())
-            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $project));
+            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $project));
 
         $this->mailer->send($email);
     }
@@ -251,7 +275,7 @@ class MailHelper
         $email = (new Email())
             ->from($this->mailFrom)
             ->subject($mailTemplate->getSubject())
-            ->html(self::parseMessageWithProject($mailTemplate->getBody(), $project));
+            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $project));
 
         foreach ($project->getCallOfProject()->getSubscribers() as $subscriber) {
             $address = $subscriber->getEmail();
@@ -284,7 +308,7 @@ class MailHelper
             ->from($this->mailFrom)
             ->to($to)
             ->subject($mailTemplate->getSubject())
-            ->html(self::parseMessageWithProject($mailBody, $project));
+            ->html($this->parseMessageWithProject($mailBody, $project));
 
         $this->mailer->send($email);
     }
