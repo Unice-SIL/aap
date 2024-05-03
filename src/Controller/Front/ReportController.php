@@ -30,7 +30,7 @@ class ReportController extends AbstractController
      * @return Response
      * @Route(name="index", methods={"GET"})
      */
-    public function index(ReportRepository $reportRepository)
+    public function index(ReportRepository $reportRepository): Response
     {
         return $this->render('report/index.html.twig', [
             'reports' => $reportRepository->findByReporter($this->getUser()),
@@ -45,7 +45,7 @@ class ReportController extends AbstractController
      * @param TranslatorInterface $translator
      * @return Response
      */
-    public function show(Report $report, Request $request, TranslatorInterface $translator)
+    public function show(Report $report, Request $request, TranslatorInterface $translator): Response
     {
         $context = $request->query->get('context');
         if ($context === 'call_of_project') {

@@ -10,15 +10,19 @@ app:
   project_form_widget_label: Widget
   mail_template:
     placeholder:
-      call_of_project_name: Nom de l'appel à projet
+      recipient_firstname: Prénom du destinataire du mail
+      recipient_lastname: Nom du destinataire du mail
+      call_of_project_name: Titre de l'appel à projet
       call_of_project_manager_link: Lien vers l'appel à projets à destination des gestionnaires
       project_name: Nom du projet
       project_creator_firstname: Prénom du créateur du projet
       project_creator_lastname: Nom du créateur du projet
       project_user_link: Lien vers le projet à destination du créateur du projet
       project_manager_link: Lien vers le projet à destination des gestionnaires de l'appel
-      recipient_firstname: Prénom du destinataire du mail
-      recipient_lastname: Nom du destinataire du mail
+      report_name: Intitulé du rapport
+      report_link: Lien vers rapport
+      report_deadline: Date butoir pour le dépôt du rapport
+      invitation_link: Lien de l'invitation
     property:
       name:
         label: Nom
@@ -26,6 +30,8 @@ app:
         label: Sujet
       body:
         label: Corps
+    reporter:
+      update_report: Notification rapporteur rapport modifié
     user:
       refusal_project: Notification utilisateur projet non retenu
       validation_project: Notification utilisateur projet retenu

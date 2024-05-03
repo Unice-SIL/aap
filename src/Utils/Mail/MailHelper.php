@@ -197,6 +197,19 @@ class MailHelper
             );
         }
 
+        if ($report instanceof Report) {
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_REPORT_NAME, $report->getName(), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_REPORT_DEADLINE, $report->getDeadline()->format('d/m/Y H:i'), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_REPORT_LINK,
+                $this->urlGenerator->generate(
+                    'app.report.show',
+                    ['id' => $report->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                $message
+            );
+        }
+
         if ($invitation instanceof Invitation) {
             $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_URL_INVITATION,
                 $this->urlGenerator->generate('app.process_after_shibboleth_connection',
@@ -273,6 +286,16 @@ class MailHelper
         foreach ($project->getCallOfProject()->getSubscribers() as $recipient) {
             $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT, $project, $recipient);
         }
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function notificationReporterUpdateReport(Report $report)
+    {
+        $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_REPORTER_UPDATE_REPORT, $report, $report->getReporter());
     }
 
     /**
