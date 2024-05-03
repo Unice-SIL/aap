@@ -40,7 +40,8 @@ class MailTemplate
     const NOTIFICATION_USER_REFUSAL_PROJECT = 'app.mail_template.user.refusal_project';
     const NOTIFICATION_USER_NEW_REPORTER = 'app.mail_template.user.new_reporter';
     const NOTIFICATION_USER_NEW_REPORTERS = 'app.mail_template.user.new_reporters';
-    const NOTIFICATION_REPORTER_UPDATE_REPORT = 'app.mail_template.reporter.update_report';
+    const NOTIFICATION_REPORTER_REPORT_UPDATED = 'app.mail_template.reporter.report_updated';
+    const NOTIFICATION_COP_FOLLOWERS_REPORT_UPDATED = 'app.mail_template.cop_followers.report_updated';
     const NOTIFICATION_USER_INVITATION = 'app.mail_template.user.invitation';
     const NOTIFICATION_USER_NEW_PROJECT = 'app.mail_template.user.new_project';
     const NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT = 'app.mail_template.cop_followers.new_project';

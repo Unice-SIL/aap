@@ -71,7 +71,8 @@ class ReportSubscriber implements EventSubscriber
             return;
         }
 
-        $this->mailHelper->notificationReporterUpdateReport($report);
+        $this->mailHelper->notificationReporterReportUpdated($report);
+        $this->mailHelper->notificationCopFollowersReportUpdated($report);
     }
 
 }

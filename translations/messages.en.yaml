@@ -31,7 +31,7 @@ app:
       body:
         label: Content
     reporter:
-      update_report: Notification rapporteur rapport modifié
+      report_updated: Notification reporter report updated
     user:
       refusal_project: User notification project not selected
       validation_project: User notification project selected
@@ -41,6 +41,7 @@ app:
       new_reporters: User notification designated reporter on several projects
     cop_followers:
       new_project: Followers notification new project submitted
+      report_updated: Followers notification report updated
 
   batch_action:
     add_reporter: Add reporters

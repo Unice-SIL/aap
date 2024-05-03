@@ -26,11 +26,19 @@ final class Version20240422141951 extends AbstractMigration
         $this->addSql('ALTER TABLE mail_template ADD enable TINYINT(1) DEFAULT \'1\' NOT NULL');
         $this->addSql('INSERT INTO mail_template (name, subject, body) VALUES 
             (
-                "' . MailTemplate::NOTIFICATION_REPORTER_UPDATE_REPORT. '",
+                "' . MailTemplate::NOTIFICATION_REPORTER_REPORT_UPDATED. '",
                 "[UCA - AAP] Modification de votre rapport",
                 "<p>Bonjour ' . MailTemplate::PLACEHOLDER_FIRSTNAME . ',</p><p>Les modifications que vous venez d\'apporter à votre rapport pour le projet ""' . MailTemplate::PLACEHOLDER_PROJECT_NAME . '"" ont bien été enregistré. Vous avez la possibilité de le modifier de nouveau jusqu\'à la date butoir le ""' . MailTemplate::PLACEHOLDER_REPORT_DEADLINE . '"".</p><p>Bien cordialement.</p>"
             )
             ');
+        $this->addSql('INSERT INTO mail_template (name, subject, body) VALUES
+            (
+                "' . MailTemplate::NOTIFICATION_COP_FOLLOWERS_REPORT_UPDATED . '",
+                "[UCA - AAP] Rapport mis à jour",
+                "<p>Bonjour ' . MailTemplate::PLACEHOLDER_FIRSTNAME . ',</p><p>le rapport ""' . MailTemplate::PLACEHOLDER_REPORT_NAME . '"" de l\'appel ""' . MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME . '"" a été mis à jour.</p><p>Bien cordialement.</p>"
+            )
+
+        ');
     }
 
     public function down(Schema $schema) : void
@@ -39,6 +47,6 @@ final class Version20240422141951 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE mail_template DROP enable');
-        $this->addSql('DELETE FROM mail_template WHERE name = "'. MailTemplate::NOTIFICATION_REPORTER_UPDATE_REPORT .'"');
+        $this->addSql('DELETE FROM mail_template WHERE name = "'. MailTemplate::NOTIFICATION_REPORTER_REPORT_UPDATED .'"');
     }
 }
