@@ -16,7 +16,9 @@ class CallOfProjectMailTemplate extends AbstractMailTemplate
         \App\Constant\MailTemplate::NOTIFICATION_USER_NEW_REPORTERS,
         \App\Constant\MailTemplate::NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT,
         \App\Constant\MailTemplate::NOTIFICATION_USER_VALIDATION_PROJECT,
-        \App\Constant\MailTemplate::NOTIFICATION_USER_REFUSAL_PROJECT
+        \App\Constant\MailTemplate::NOTIFICATION_USER_REFUSAL_PROJECT,
+        \App\Constant\MailTemplate::NOTIFICATION_REPORTER_REPORT_UPDATED,
+        \App\Constant\MailTemplate::NOTIFICATION_COP_FOLLOWERS_REPORT_UPDATED
     ];
 
     /**

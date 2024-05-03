@@ -457,20 +457,20 @@ class CallOfProjectController extends AbstractController
     public function listMailTemplates(CallOfProject $callOfProject): Response
     {
         $genericMailTemplates = $this->em->getRepository(MailTemplate::class)->findAll();
-        $copMailTemplates = $this->em->getRepository(CallOfProjectMailTemplate::class)->findByCallOfProject($callOfProject->getId());
-
-        $newMailTemplates = array_udiff($genericMailTemplates, $copMailTemplates, function (MailTemplateInterface $mt1, MailTemplateInterface $mt2) {
-            return in_array($mt1->getName(), CallOfProjectMailTemplate::ALLOWED_TEMPLATES) && $mt1->getName() <=> $mt2->getName();
-        });
-
-        foreach ($newMailTemplates as $newMailTemplate) {
-            $newCopMailTemplate = (new CallOfProjectMailTemplate())
-                ->setCallOfProject($callOfProject)
-                ->setName($newMailTemplate->getName())
-                ->setSubject($newMailTemplate->getSubject())
-                ->setBody($newMailTemplate->getBody())
-                ->setEnable($newMailTemplate->isEnable());
-            $this->em->persist($newCopMailTemplate);
+        foreach ($genericMailTemplates as $genericMailTemplate) {
+            $copMailTemplate = $this->em->getRepository(CallOfProjectMailTemplate::class)->findOneBy([
+                'name' => $genericMailTemplate->getName(),
+                'callOfProject' => $callOfProject->getId(),
+            ]);
+            if (!$copMailTemplate instanceof MailTemplateInterface) {
+                $newCopMailTemplate = (new CallOfProjectMailTemplate())
+                    ->setCallOfProject($callOfProject)
+                    ->setName($genericMailTemplate->getName())
+                    ->setSubject($genericMailTemplate->getSubject())
+                    ->setBody($genericMailTemplate->getBody())
+                    ->setEnable($genericMailTemplate->isEnable());
+                $this->em->persist($newCopMailTemplate);
+            }
         }
         $this->em->flush();
 

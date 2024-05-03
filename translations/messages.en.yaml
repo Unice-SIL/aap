@@ -13,6 +13,8 @@ app:
       recipient_firstname: Firstname of email recipient
       recipient_lastname: Lastname of email recipient
       call_of_project_name: Call of project's name
+      call_of_project_start_date: Call of project start date
+      call_of_project_end_date: Call of project end date
       call_of_project_manager_link: Call of project link for managers
       project_name: Project name
       project_creator_firstname: Prénom du créateur du projet

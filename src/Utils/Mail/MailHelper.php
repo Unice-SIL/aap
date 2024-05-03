@@ -165,6 +165,8 @@ class MailHelper
 
         if ($callOfProject instanceof CallOfProject) {
             $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME, $callOfProject->getName(), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_START_DATE, $callOfProject->getStartDate()->format('d/m/Y H:i'), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_END_DATE, $callOfProject->getEndDate()->format('d/m/Y H:i'), $message);
             $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK,
                 $this->urlGenerator->generate(
                     'app.call_of_project.informations',

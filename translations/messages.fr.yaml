@@ -13,6 +13,8 @@ app:
       recipient_firstname: Prénom du destinataire du mail
       recipient_lastname: Nom du destinataire du mail
       call_of_project_name: Titre de l'appel à projet
+      call_of_project_start_date: Date d'ouverture de l'appel à projet
+      call_of_project_end_date: Date de fermeture de l'appel à projet
       call_of_project_manager_link: Lien vers l'appel à projets à destination des gestionnaires
       project_name: Nom du projet
       project_creator_firstname: Prénom du créateur du projet
