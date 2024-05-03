@@ -293,9 +293,21 @@ class MailHelper
      * @return void
      * @throws TransportExceptionInterface
      */
-    public function notificationReporterUpdateReport(Report $report)
+    public function notificationReporterReportUpdated(Report $report)
     {
-        $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_REPORTER_UPDATE_REPORT, $report, $report->getReporter());
+        $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_REPORTER_REPORT_UPDATED, $report, $report->getReporter());
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function notificationCopFollowersReportUpdated(Report $report)
+    {
+        foreach ($report->getProject()->getCallOfProject()->getSubscribers() as $recipient) {
+            $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_COP_FOLLOWERS_REPORT_UPDATED, $report, $recipient);
+        }
     }
 
     /**

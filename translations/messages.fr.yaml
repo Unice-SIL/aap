@@ -31,7 +31,7 @@ app:
       body:
         label: Corps
     reporter:
-      update_report: Notification rapporteur rapport modifié
+      report_updated: Notification rapporteur rapport modifié
     user:
       refusal_project: Notification utilisateur projet non retenu
       validation_project: Notification utilisateur projet retenu
@@ -41,6 +41,7 @@ app:
       new_reporters: Notification utilisateur désigné rapporteur sur plusieurs projet
     cop_followers:
       new_project: Notification followers nouveau projet déposé
+      report_updated: Notification followers rapport modifié
 
   batch_action:
     add_reporter: Ajouter des rapporteurs
