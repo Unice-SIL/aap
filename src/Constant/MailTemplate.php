@@ -15,6 +15,9 @@ class MailTemplate
     const PLACEHOLDER_PROJECT_MANAGER_LINK = '[__PROJECT_MANAGER_LINK__]';
     const PLACEHOLDER_CALL_OF_PROJECT_NAME = '[__CALL_OF_PROJECT_NAME__]';
     const PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK = '[__CALL_OF_PROJECT_MANAGER_LINK__]';
+    const PLACEHOLDER_REPORT_NAME = '[__PLACEHOLDER_REPORT_NAME__]';
+    const PLACEHOLDER_REPORT_LINK = '[__PLACEHOLDER_REPORT_LINK__]';
+    const PLACEHOLDER_REPORT_DEADLINE = '[__PLACEHOLDER_REPORT_DEADLINE__]';
     const PLACEHOLDER_URL_INVITATION = '[__URL_INVITATION__]';
 
     const PLACEHOLDERS = [
@@ -27,12 +30,17 @@ class MailTemplate
         'app.mail_template.placeholder.project_manager_link' => self::PLACEHOLDER_PROJECT_MANAGER_LINK,
         'app.mail_template.placeholder.call_of_project_name' => self::PLACEHOLDER_CALL_OF_PROJECT_NAME,
         'app.mail_template.placeholder.call_of_project_manager_link' => self::PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK,
+        'app.mail_template.placeholder.report_name' => self::PLACEHOLDER_REPORT_NAME,
+        'app.mail_template.placeholder.report_link' => self::PLACEHOLDER_REPORT_LINK,
+        'app.mail_template.placeholder.report_deadline' => self::PLACEHOLDER_REPORT_DEADLINE,
+        'app.mail_template.placeholder.invitation_link' => self::PLACEHOLDER_URL_INVITATION,
     ];
 
     const NOTIFICATION_USER_VALIDATION_PROJECT = 'app.mail_template.user.validation_project';
     const NOTIFICATION_USER_REFUSAL_PROJECT = 'app.mail_template.user.refusal_project';
     const NOTIFICATION_USER_NEW_REPORTER = 'app.mail_template.user.new_reporter';
     const NOTIFICATION_USER_NEW_REPORTERS = 'app.mail_template.user.new_reporters';
+    const NOTIFICATION_REPORTER_UPDATE_REPORT = 'app.mail_template.reporter.update_report';
     const NOTIFICATION_USER_INVITATION = 'app.mail_template.user.invitation';
     const NOTIFICATION_USER_NEW_PROJECT = 'app.mail_template.user.new_project';
     const NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT = 'app.mail_template.cop_followers.new_project';
