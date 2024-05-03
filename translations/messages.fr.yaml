@@ -13,10 +13,12 @@ app:
       call_of_project_name: Nom de l'appel à projet
       call_of_project_manager_link: Lien vers l'appel à projets à destination des gestionnaires
       project_name: Nom du projet
+      project_creator_firstname: Prénom du créateur du projet
+      project_creator_lastname: Nom du créateur du projet
       project_user_link: Lien vers le projet à destination du créateur du projet
       project_manager_link: Lien vers le projet à destination des gestionnaires de l'appel
-      creator_firstname: Prénom du créateur du projet
-      creator_lastname: Nom du créateur du projet
+      recipient_firstname: Prénom du destinataire du mail
+      recipient_lastname: Nom du destinataire du mail
     property:
       name:
         label: Nom

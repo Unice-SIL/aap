@@ -11,6 +11,7 @@ use App\Entity\Invitation;
 use App\Entity\MailTemplate;
 use App\Entity\Project;
 use App\Entity\Report;
+use App\Entity\User;
 use App\Repository\CallOfProjectMailTemplateRepository;
 use App\Repository\MailTemplateRepository;
 use Exception;
@@ -96,41 +97,115 @@ class MailHelper
     }
 
     /**
-     * @param string $message
-     * @param Project $project
-     * @return string|string[]
+     * @param string $templateName
+     * @param $entity
+     * @param User $recipient
+     * @return void
+     * @throws TransportExceptionInterface
      */
-    public function parseMessageWithProject(string $message, Project $project)
+    private function sendMail(string $templateName, $entity, User $recipient)
     {
-        $owner = $project->getCreatedBy();
-        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_FIRSTNAME, $owner->getFirstname(), $message);
-        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_LASTNAME, $owner->getLastname(), $message);
-        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME, $project->getCallOfProject()->getName(), $message);
-        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK,
-            $this->urlGenerator->generate(
-                'app.call_of_project.informations',
-                ['id' => $project->getCallOfProject()->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ),
-            $message
-        );
-        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_NAME, $project->getName(), $message);
-        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_USER_LINK,
-            $this->urlGenerator->generate(
-                'app.project.show',
-                ['id' => $project->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ),
-            $message
-        );
-        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_MANAGER_LINK,
-            $this->urlGenerator->generate(
-                'app.project.show',
-                ['id' => $project->getId(), 'context' => 'call_of_project'],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ),
-            $message
-        );
+        $callOfProject = null;
+
+        if ($entity instanceof CallOfProject) {
+            $callOfProject = $entity;
+        } elseif ($entity instanceof Project) {
+            $callOfProject = $entity->getCallOfProject();
+        } elseif ($entity instanceof Report) {
+            $callOfProject = $entity->getProject()->getCallOfProject();
+        }
+
+        $mailTemplate = null;
+        if ($callOfProject instanceof CallOfProject) {
+            $mailTemplate = $this->getEmailTemplateFromCallOfProject($templateName, $callOfProject);
+        }
+
+        if (!$mailTemplate instanceof MailTemplate or !$mailTemplate->isEnable()) return;
+        if (empty($recipient->getEmail())) return;
+
+        $email = (new Email())
+            ->from($this->mailFrom)
+            ->to($recipient->getEmail())
+            ->subject($mailTemplate->getSubject())
+            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $entity, $recipient));
+
+        $this->mailer->send($email);
+    }
+
+    /**
+     * @param string $message
+     * @param $entity
+     * @param User $recipient
+     * @return array|string|string[]
+     */
+    public function parseMessageWithProject(string $message, $entity, User $recipient)
+    {
+        $callOfProject = null;
+        $project = null;
+        $report = null;
+        $invitation = null;
+
+        if ($entity instanceof Invitation) {
+            $invitation = $entity;
+        }
+
+        if ($entity instanceof Report) {
+            $report = $entity;
+            $project = $report->getProject();
+            $callOfProject = $project->getCallOfProject();
+        }
+
+        if ($entity instanceof Project) {
+            $project = $entity;
+            $callOfProject = $project->getCallOfProject();
+        }
+
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_FIRSTNAME, $recipient->getFirstname(), $message);
+        $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_LASTNAME, $recipient->getLastname(), $message);
+
+        if ($callOfProject instanceof CallOfProject) {
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME, $callOfProject->getName(), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_MANAGER_LINK,
+                $this->urlGenerator->generate(
+                    'app.call_of_project.informations',
+                    ['id' => $callOfProject->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                $message
+            );
+        }
+
+        if ($project instanceof Project) {
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_NAME, $project->getName(), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_CREATOR_LASTNAME, $project->getCreatedBy()->getLastname(), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_CREATOR_FIRSTNAME, $project->getCreatedBy()->getFirstname(), $message);
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_USER_LINK,
+                $this->urlGenerator->generate(
+                    'app.project.show',
+                    ['id' => $project->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                $message
+            );
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_PROJECT_MANAGER_LINK,
+                $this->urlGenerator->generate(
+                    'app.project.show',
+                    ['id' => $project->getId(), 'context' => 'call_of_project'],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                $message
+            );
+        }
+
+        if ($invitation instanceof Invitation) {
+            $message = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_URL_INVITATION,
+                $this->urlGenerator->generate('app.process_after_shibboleth_connection',
+                    ['token' => $invitation->getToken()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+                $message
+            );
+        }
 
         return $message;
     }
@@ -142,24 +217,7 @@ class MailHelper
      */
     public function notificationUserNewReporter(Report $report)
     {
-        $callOfProject = $report->getProject()->getCallOfProject();
-        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_REPORTER, $callOfProject);
-
-        if (!$mailTemplate instanceof MailTemplateInterface) return;
-        if (!$mailTemplate->isEnable()) return;
-
-        $to = $report->getReporter()->getEmail();
-
-        if (empty($to)) return;
-
-        $email = (new Email())
-            ->from($this->mailFrom)
-            ->to($to)
-            ->subject($mailTemplate->getSubject())
-            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
-
-
-        $this->mailer->send($email);
+        $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_REPORTER, $report, $report->getReporter());
     }
 
     /**
@@ -175,23 +233,7 @@ class MailHelper
         }
         $reportersNotified[] = $report->getReporter();
 
-        $callOfProject = $report->getProject()->getCallOfProject();
-        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_REPORTERS, $callOfProject);
-
-        if (!$mailTemplate instanceof MailTemplateInterface) return;
-        if (!$mailTemplate->isEnable()) return;
-
-        $to = $report->getReporter()->getEmail();
-
-        if (empty($to)) return;
-
-        $email = (new Email())
-            ->from($this->mailFrom)
-            ->to($to)
-            ->subject($mailTemplate->getSubject())
-            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $report->getProject()));
-
-        $this->mailer->send($email);
+        $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_REPORTERS, $report, $report->getReporter());
     }
 
     /**
@@ -205,30 +247,8 @@ class MailHelper
         if ($invitation->getToken() === null) {
             throw new Exception('The token is null');
         }
-        $url = $this->urlGenerator->generate('app.process_after_shibboleth_connection', ['token' => $invitation->getToken()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $user = $invitation->getUser();
 
-        $mailTemplate = $this->getGenericEmailTemplate(\App\Constant\MailTemplate::NOTIFICATION_USER_INVITATION);
-
-        if (!$mailTemplate instanceof MailTemplateInterface) return;
-        if (!$mailTemplate->isEnable()) return;
-
-        $to = $invitation->getUser()->getEmail();
-
-        if (empty($to)) return;
-
-        $content = $mailTemplate->getBody();
-        $content = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_FIRSTNAME, $user->getFirstname(), $content);
-        $content = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_LASTNAME, $user->getLastname(), $content);
-        $content = str_replace(\App\Constant\MailTemplate::PLACEHOLDER_URL_INVITATION, $url, $content);
-
-        $email = (new Email())
-            ->from($this->mailFrom)
-            ->to($to)
-            ->subject($mailTemplate->getSubject())
-            ->html($content);
-
-        $this->mailer->send($email);
+        $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_USER_INVITATION, $invitation, $invitation->getUser());
 
         $invitation->setSentAt(new \DateTime());
     }
@@ -240,23 +260,7 @@ class MailHelper
      */
     public function notificationUserNewProject(Project $project)
     {
-        $callOfProject = $project->getCallOfProject();
-        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_PROJECT, $callOfProject);
-
-        if (!$mailTemplate instanceof MailTemplateInterface) return;
-        if (!$mailTemplate->isEnable()) return;
-
-        $to = $project->getCreatedBy()->getEmail();
-
-        if (empty($to)) return;
-
-        $email = (new Email())
-            ->from($this->mailFrom)
-            ->to($to)
-            ->subject($mailTemplate->getSubject())
-            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $project));
-
-        $this->mailer->send($email);
+        $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_USER_NEW_PROJECT, $project, $project->getCreatedBy());
     }
 
     /**
@@ -266,26 +270,9 @@ class MailHelper
      */
     public function notificationCopFollowersNewProject(Project $project)
     {
-        $callOfProject = $project->getCallOfProject();
-        $mailTemplate = $this->getEmailTemplateFromCallOfProject(\App\Constant\MailTemplate::NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT, $callOfProject);
-
-        if (!$mailTemplate instanceof MailTemplateInterface) return;
-        if (!$mailTemplate->isEnable()) return;
-
-        $email = (new Email())
-            ->from($this->mailFrom)
-            ->subject($mailTemplate->getSubject())
-            ->html($this->parseMessageWithProject($mailTemplate->getBody(), $project));
-
-        foreach ($project->getCallOfProject()->getSubscribers() as $subscriber) {
-            $address = $subscriber->getEmail();
-            if (empty($address)) continue;
-            $email->addTo($address);
+        foreach ($project->getCallOfProject()->getSubscribers() as $recipient) {
+            $this->sendMail(\App\Constant\MailTemplate::NOTIFICATION_COP_FOLLOWERS_NEW_PROJECT, $project, $recipient);
         }
-
-        if (empty($email->getTo())) return;
-
-        $this->mailer->send($email);
     }
 
     /**
@@ -301,14 +288,14 @@ class MailHelper
 
         $mailBody = empty($project->getValidateRejectMailContent()) ? $mailTemplate->getBody() : $project->getValidateRejectMailContent();
 
-        $to = $project->getCreatedBy()->getEmail();
-        if (empty($to)) return;
+        $recipient = $project->getCreatedBy();
+        if (!$recipient instanceof User or empty($recipient->getEmail())) return;
 
         $email = (new Email())
             ->from($this->mailFrom)
-            ->to($to)
+            ->to($recipient->getEmail())
             ->subject($mailTemplate->getSubject())
-            ->html($this->parseMessageWithProject($mailBody, $project));
+            ->html($this->parseMessageWithProject($mailBody, $project, $recipient));
 
         $this->mailer->send($email);
     }
