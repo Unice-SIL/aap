@@ -458,10 +458,13 @@ class CallOfProjectController extends AbstractController
     {
         $genericMailTemplates = $this->em->getRepository(MailTemplate::class)->findAll();
         foreach ($genericMailTemplates as $genericMailTemplate) {
+            if (!in_array($genericMailTemplate->getName(), CallOfProjectMailTemplate::ALLOWED_TEMPLATES)) continue;
+
             $copMailTemplate = $this->em->getRepository(CallOfProjectMailTemplate::class)->findOneBy([
                 'name' => $genericMailTemplate->getName(),
                 'callOfProject' => $callOfProject->getId(),
             ]);
+            
             if (!$copMailTemplate instanceof MailTemplateInterface) {
                 $newCopMailTemplate = (new CallOfProjectMailTemplate())
                     ->setCallOfProject($callOfProject)
