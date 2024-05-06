@@ -446,7 +446,7 @@ $(document).ready(function () {
         // ... retrieve the corresponding form.
         let $form = $(this).closest('form');
         let $action = $form.find('[name="validation[action]"]')
-        console.log(data);
+
         // Simulate form data, but only include the selected automaticSending value.
         let data = {};
         data[$automaticSending.attr('name')] = state;

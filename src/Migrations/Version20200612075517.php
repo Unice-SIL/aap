@@ -26,27 +26,27 @@ final class Version20200612075517 extends AbstractMigration
         $this->addSql('CREATE TABLE mail_template (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, subject VARCHAR(255) DEFAULT NULL, body LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('INSERT INTO mail_template (name, subject, body) VALUES 
             (
-                "' . MailTemplate::VALIDATION_PROJECT. '",
+                "' . MailTemplate::NOTIFICATION_USER_VALIDATION_PROJECT. '",
                 "[UCA - AAP] Proposition de projet retenue",
                 "<p>Bonjour ' . MailTemplate::PLACEHOLDER_FIRSTNAME . ',</p><p>Suite à l\'appel à projets ""' . MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME . '"" vous nous avez fait une proposition avec le projet ""' . MailTemplate::PLACEHOLDER_PROJECT_NAME . '"" et nous vous remercions. Nous sommes heureux de vous annoncer que votre proposition a été retenue.</p><p>Bien cordialement.</p>"
             ),
             (
-                "' . MailTemplate::REFUSAL_PROJECT. '",
+                "' . MailTemplate::NOTIFICATION_USER_REFUSAL_PROJECT. '",
                 "[UCA - AAP]  Proposition de projet non retenue",
                 "<p>Bonjour ' . MailTemplate::PLACEHOLDER_FIRSTNAME . ',</p><p>Suite à l\'appel à projets ""' . MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME . '"" vous nous avez fait une proposition avec le projet ""' . MailTemplate::PLACEHOLDER_PROJECT_NAME . '"" et nous vous remercions. Nous sommes malheureusement dans le regret de vous annoncer que votre proposition n\'a pas été retenue.</p><p>Bien cordialement.</p>"
             ),
             (
-                "' . MailTemplate::NOTIFICATION_NEW_REPORT. '",
+                "' . MailTemplate::NOTIFICATION_USER_NEW_REPORTER. '",
                 "[UCA - AAP] Vous êtes nommé comme rapporteur",
                 "<p>Bonjour ' . MailTemplate::PLACEHOLDER_FIRSTNAME . ',</p><p>Vous avez été identifié comme rapporteur pour le projet ""' . MailTemplate::PLACEHOLDER_PROJECT_NAME . '"" sur la plateforme Appel à Projet de Université Côte d\'Azur.</p><p>Bien cordialement.</p>"
             ),
             (
-                "' . MailTemplate::NOTIFICATION_NEW_REPORTS. '",
+                "' . MailTemplate::NOTIFICATION_USER_NEW_REPORTERS. '",
                 "[UCA - AAP] Vous êtes nommé comme rapporteur",
                 "<p>Bonjour ' . MailTemplate::PLACEHOLDER_FIRSTNAME . ',</p><p>Vous avez été identifié comme rapporteur sur un ou plusieurs projets de l\'appel à projet ""' . MailTemplate::PLACEHOLDER_CALL_OF_PROJECT_NAME . '"".</p><p>Bien cordialement.</p>"
             ),
             (
-                "' . MailTemplate::INVITATION_MAIL. '",
+                "' . MailTemplate::NOTIFICATION_USER_INVITATION. '",
                 "[UCA - AAP] Invitation à vous connecter",
                 "<p>Bonjour ' . MailTemplate::PLACEHOLDER_FIRSTNAME . ',</p><p>Vous avez été invité à créer un compte sur la plateforme d\'appel à projets de Université Côte d\'Azur. Rendez-vous à l\'adresse [__URL_INVITATION__] et connectez-vous avec vos identifiants UCA.</p><p>Bien cordialement.</p>"
             )

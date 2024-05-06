@@ -10,10 +10,21 @@ app:
   project_form_widget_label: Widget
   mail_template:
     placeholder:
-      call_of_project_name: Nom de l'appel à projet
+      recipient_firstname: Prénom du destinataire du mail
+      recipient_lastname: Nom du destinataire du mail
+      call_of_project_name: Titre de l'appel à projet
+      call_of_project_start_date: Date d'ouverture de l'appel à projet
+      call_of_project_end_date: Date de fermeture de l'appel à projet
+      call_of_project_manager_link: Lien vers l'appel à projets à destination des gestionnaires
       project_name: Nom du projet
-      creator_firstname: Prénom du créateur du projet
-      creator_lastname: Nom du créateur du projet
+      project_creator_firstname: Prénom du créateur du projet
+      project_creator_lastname: Nom du créateur du projet
+      project_user_link: Lien vers le projet à destination du créateur du projet
+      project_manager_link: Lien vers le projet à destination des gestionnaires de l'appel
+      report_name: Intitulé du rapport
+      report_link: Lien vers rapport
+      report_deadline: Date butoir pour le dépôt du rapport
+      invitation_link: Lien de l'invitation
     property:
       name:
         label: Nom
@@ -21,6 +32,18 @@ app:
         label: Sujet
       body:
         label: Corps
+    reporter:
+      report_updated: Notification rapporteur rapport modifié
+    user:
+      refusal_project: Notification utilisateur projet non retenu
+      validation_project: Notification utilisateur projet retenu
+      invitation: Notification utilisateur nouvelle invitation
+      new_project: Notification utilisateur projet déposé
+      new_reporter: Notification utilisateur désigné rapporteur
+      new_reporters: Notification utilisateur désigné rapporteur sur plusieurs projet
+    cop_followers:
+      new_project: Notification followers nouveau projet déposé
+      report_updated: Notification followers rapport modifié
 
   batch_action:
     add_reporter: Ajouter des rapporteurs
@@ -83,7 +106,9 @@ app:
             edit: Édition d'un modèle de mail
         call_of_project:
           presentation_before_adding_project: Récapitulatif de l'appel à projets
-          mail_template: Modèle d'email
+          mail_template:
+            label: Modèle d'email
+            edit: Edition du modèle
           batch_action: Actions Groupées
           all: Ouvert ou fermé
           edit_permissions: Édition des permissions
@@ -340,6 +365,17 @@ app:
       h1: Actions Groupées
     mail_template:
       h1: Modèle d'email
+      edit:
+        h1: Modification d'un modèle de mail
+      property:
+        name:
+          label: Nom
+        subject:
+          label: Sujet
+        body:
+          label: Corps
+        enable:
+          label: Activé
     presentation_before_adding_project:
       h1: Récapitulatif de l'appel à projets
     action:

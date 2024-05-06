@@ -30,7 +30,7 @@ class ReportController extends AbstractController
      * @return Response
      * @Route(name="index", methods={"GET"})
      */
-    public function index(ReportRepository $reportRepository)
+    public function index(ReportRepository $reportRepository): Response
     {
         return $this->render('report/index.html.twig', [
             'reports' => $reportRepository->findByReporter($this->getUser()),
@@ -38,14 +38,14 @@ class ReportController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/show", name="show", methods={"GET", "POST"})
+     * @IsGranted(App\Security\ReportVoter::SHOW, subject="report")
      * @param Report $report
      * @param Request $request
      * @param TranslatorInterface $translator
      * @return Response
-     * @Route("/{id}/show", name="show", methods={"GET", "POST"})
-     * @IsGranted(App\Security\ReportVoter::SHOW, subject="report")
      */
-    public function show(Report $report, Request $request, TranslatorInterface $translator)
+    public function show(Report $report, Request $request, TranslatorInterface $translator): Response
     {
         $context = $request->query->get('context');
         if ($context === 'call_of_project') {
@@ -80,14 +80,14 @@ class ReportController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET", "POST"})
+     * @IsGranted(App\Security\ReportVoter::EDIT, subject="report")
      * @param Request $request
      * @param Report $report
      * @param ReportManagerInterface $reportManager
      * @param TranslatorInterface $translator
      * @return Response
-     * @IsGranted(App\Security\ReportVoter::EDIT, subject="report")
      */
-    public function edit(Request $request, Report $report, ReportManagerInterface $reportManager, TranslatorInterface $translator)
+    public function edit(Request $request, Report $report, ReportManagerInterface $reportManager, TranslatorInterface $translator): Response
     {
         $context = $request->query->get('context');
         if ($context === 'call_of_project') {

@@ -18,6 +18,9 @@ class Project extends Common
     const STATUS_REFUSED = 'refused';
     const STATUS_VALIDATED = 'validated';
 
+    const TRANSITION_VALIDATE = 'validate';
+    const TRANSITION_REFUSE = 'refuse';
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CallOfProject", inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
@@ -25,20 +28,25 @@ class Project extends Common
     private $callOfProject;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProjectContent", mappedBy="project", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectContent", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $projectContents;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $reports;
+
+    /**
+     * @var null|string
+     */
+    private $validateRejectMailContent = null;
 
     /** @var bool */
     private $notifyReporters = true;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="project")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="project", orphanRemoval=true, cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
@@ -170,4 +178,21 @@ class Project extends Common
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getValidateRejectMailContent(): ?string
+    {
+        return $this->validateRejectMailContent;
+    }
+
+    /**
+     * @param string|null $validateRejectMailContent
+     * @return Project
+     */
+    public function setValidateRejectMailContent(?string $validateRejectMailContent): Project
+    {
+        $this->validateRejectMailContent = $validateRejectMailContent;
+        return $this;
+    }
 }

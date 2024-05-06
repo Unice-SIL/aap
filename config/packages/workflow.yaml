@@ -19,7 +19,7 @@ framework:
                 to_study:
                     from: !php/const App\Entity\Project::STATUS_WAITING
                     to:   !php/const App\Entity\Project::STATUS_STUDYING
-                refused:
+                refuse:
                     from: !php/const App\Entity\Project::STATUS_STUDYING
                     to:   !php/const App\Entity\Project::STATUS_REFUSED
                 validate:
