@@ -3,13 +3,13 @@
 
 namespace App\Form\Project;
 
+use App\Constant\MailTemplate;
+use App\Entity\Interfaces\MailTemplateInterface;
 use App\Entity\Project;
 use App\Form\Type\BootstrapSwitchType;
 use App\Form\Type\SummernoteType;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -33,15 +33,20 @@ class ValidationType extends AbstractType
                 /** @var Project $project */
                 $project = $event->getData();
 
-                if ($options['context'] === Project::STATUS_VALIDATED) {
-                    $automaticSendingData = $project->getCallOfProject()->getIsAutomaticSendingValidationMail();
-                } elseif ($options['context'] === Project::STATUS_REFUSED) {
-                    $automaticSendingData = $project->getCallOfProject()->getIsAutomaticSendingRefusalMail();
+                if ($options['context'] === Project::TRANSITION_VALIDATE) {
+                    $mailTemplate = $project->getCallOfProject()->getMailTemplate(MailTemplate::NOTIFICATION_USER_VALIDATION_PROJECT);
+                } elseif ($options['context'] === Project::TRANSITION_REFUSE) {
+                    $mailTemplate = $project->getCallOfProject()->getMailTemplate(MailTemplate::NOTIFICATION_USER_REFUSAL_PROJECT);
                 }
+
+                if (!$mailTemplate instanceof MailTemplateInterface) return;
+
+                $automaticSendingData = $mailTemplate->isEnable();
+
                 $builder = $form
                     ->getConfig()
                     ->getFormFactory()
-                    ->createNamedBuilder('automaticSending', BootstrapSwitchType::class, null, array(
+                    ->createNamedBuilder('automaticSending', BootstrapSwitchType::class, null, [
                         'auto_initialize' => false, // it's important!!!
                         'mapped' => false,
                         'data' => $automaticSendingData,
@@ -49,24 +54,17 @@ class ValidationType extends AbstractType
                             'class' => 'automatic-sending-switch',
                         ],
                         'label' => 'app.project.validation_form.automatic_sending.label',
-                    ));
+                    ]);
 
-                $formTransformer = function (FormInterface $form, bool $automaticSending) use ($options) {
-
+                $formTransformer = function (FormInterface $form, bool $automaticSending) use ($options, $mailTemplate) {
                     $validationForm = $form->getParent();
 
                     if ($automaticSending) {
-                        if ($options['context'] === Project::STATUS_VALIDATED) {
-                            $mailTemplateData = $validationForm->getData()->getCallOfProject()->getValidationMailTemplate();
-                        } elseif ($options['context'] === Project::STATUS_REFUSED) {
-                            $mailTemplateData = $validationForm->getData()->getCallOfProject()->getRefusalMailTemplate();
-                        }
                         $validationForm->add('mailTemplate', SummernoteType::class, [
                             'mapped' => false,
-                            'data' => $mailTemplateData,
+                            'data' => $mailTemplate->getBody(),
                             'required' => false
                         ]);
-
                     } else {
                         $validationForm->remove('mailTemplate');
                     }

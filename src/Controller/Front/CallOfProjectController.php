@@ -3,6 +3,9 @@
 namespace App\Controller\Front;
 
 use App\Entity\CallOfProject;
+use App\Entity\CallOfProjectMailTemplate;
+use App\Entity\Interfaces\MailTemplateInterface;
+use App\Entity\MailTemplate;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Form\CallOfProject\CallOfProjectAclsType;
@@ -22,12 +25,14 @@ use App\Utils\Batch\AddReportBatchAction;
 use App\Utils\Batch\BatchActionManagerInterface;
 use App\Widget\WidgetManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,14 +55,30 @@ class CallOfProjectController extends AbstractController
     private $translator;
 
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var Request|null
+     */
+    private $request;
+
+    /**
+     * @param EntityManagerInterface $em
+     * @param RequestStack $requestStack
      * @param Registry $workflowRegistry
      * @param TranslatorInterface $translator
      */
     public function __construct(
-        Registry            $workflowRegistry,
+        EntityManagerInterface $em,
+        RequestStack $requestStack,
+        Registry $workflowRegistry,
         TranslatorInterface $translator
     )
     {
+        $this->em = $em;
+        $this->request = $requestStack->getCurrentRequest();
         $this->translator = $translator;
         $this->workflowRegistry = $workflowRegistry;
     }
@@ -65,14 +86,13 @@ class CallOfProjectController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      * @Security("is_granted(constant('App\\Security\\UserVoter::VIEW_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST'))")
-     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function index(EntityManagerInterface $em)
+    public function index(): Response
     {
 
         return $this->render('call_of_project/index.html.twig', [
-            'call_of_projects' => $em->getRepository(CallOfProject::class)->getIfUserHasOnePermissionAtLeast(
+            'call_of_projects' => $this->em->getRepository(CallOfProject::class)->getIfUserHasOnePermissionAtLeast(
                 $this->getUser()
             ),
         ]);
@@ -80,13 +100,12 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/all", name="all", methods={"GET"})
-     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function all(EntityManagerInterface $em)
+    public function all(): Response
     {
         return $this->render('call_of_project/all.html.twig', [
-            'call_of_projects' => $em->getRepository(CallOfProject::class)->findAll(),
+            'call_of_projects' => $this->em->getRepository(CallOfProject::class)->findAll(),
         ]);
     }
 
@@ -95,7 +114,7 @@ class CallOfProjectController extends AbstractController
      * @param CallOfProject $callOfProject
      * @return Response
      */
-    public function presentationBeforeAddingProject(CallOfProject $callOfProject)
+    public function presentationBeforeAddingProject(CallOfProject $callOfProject): Response
     {
         return $this->render('call_of_project/presentation_before_adding_project.html.twig', [
             'call_of_project' => $callOfProject
@@ -105,21 +124,20 @@ class CallOfProjectController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      * @Security("is_granted(constant('App\\Security\\UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST'))")
-     * @param Request $request
      * @param CallOfProjectManagerInterface $callOfProjectManager
      * @return Response
      */
-    public function new(Request $request, CallOfProjectManagerInterface $callOfProjectManager): Response
+    public function new(CallOfProjectManagerInterface $callOfProjectManager): Response
     {
         $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST, $this->getUser());
 
         $callOfProject = $callOfProjectManager->create();
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $request->getSession()->set('app.call_of_project.new_help', true);
+            $this->request->getSession()->set('app.call_of_project.new_help', true);
             $callOfProjectManager->save($callOfProject);
 
             return $this->redirectToRoute('app.call_of_project.informations', [
@@ -128,7 +146,7 @@ class CallOfProjectController extends AbstractController
         }
 
         //If ajax request (means for dynamic field) we remove errors
-        if ($request->isXmlHttpRequest()) {
+        if ($this->request->isXmlHttpRequest()) {
             $form->clearErrors(true);
         }
 
@@ -141,21 +159,13 @@ class CallOfProjectController extends AbstractController
     /**
      * @Route("/{id}/add-project", name="add_project", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
-     * @param Request $request
      * @param ProjectManagerInterface $projectManager
      * @param WidgetManager $widgetManager
-     * @param TranslatorInterface $translator
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      * @IsGranted(App\Security\CallOfProjectVoter::OPEN, subject="callOfProject")
      */
-    public function addProject(
-        CallOfProject           $callOfProject,
-        Request                 $request,
-        ProjectManagerInterface $projectManager,
-        WidgetManager           $widgetManager,
-        TranslatorInterface     $translator
-    ): Response
+    public function addProject(CallOfProject $callOfProject, ProjectManagerInterface $projectManager, WidgetManager $widgetManager): Response
     {
         /**
          * CallOfProject $callOfProject
@@ -165,21 +175,21 @@ class CallOfProjectController extends AbstractController
         $project = $projectManager->create($callOfProject);
         $dynamicForm = $widgetManager->getDynamicForm($project);
 
-        $dynamicForm->handleRequest($request);
+        $dynamicForm->handleRequest($this->request);
 
         if ($dynamicForm->isSubmitted() and $dynamicForm->isValid()) {
             $widgetManager->hydrateProjectContentsByForm($project->getProjectContents(), $dynamicForm);
 
             $projectManager->save($project);
 
-            $this->addFlash('success', $translator->trans('app.flash_message.create_success', ['%item%' => $project->getName()]));
+            $this->addFlash('success', $this->translator->trans('app.flash_message.create_success', ['%item%' => $project->getName()]));
 
 
             return $this->redirectToRoute('app.project.show', ['id' => $project->getId()]);
         }
 
         if (!$this->isGranted(CallOfProjectVoter::SUBMIT_PROJECT, $callOfProject)) {
-            $this->addFlash('error', $translator->trans('app.flash_message.create_unauthorized'));
+            $this->addFlash('error', $this->translator->trans('app.flash_message.create_unauthorized'));
             return $this->redirectToRoute('app.call_of_project.presentation_before_adding_project', ['id' => $callOfProject->getId()]);
         }
 
@@ -194,19 +204,13 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/{id}/informations", name="informations", methods={"GET", "POST"})
-     * @param Request $request
      * @param CallOfProject $callOfProject
-     * @param TranslatorInterface $translator
      * @return Response
      * @IsGranted(App\Security\CallOfProjectVoter::SHOW_INFORMATIONS, subject="callOfProject")
      */
-    public function informations(
-        Request             $request,
-        CallOfProject       $callOfProject,
-        TranslatorInterface $translator
-    ): Response
+    public function informations(CallOfProject $callOfProject): Response
     {
-        $session = $request->getSession();
+        $session = $this->request->getSession();
         $helpNewCallOfProjects = false;
         if ($session->has('app.call_of_project.new_help')) {
             $session->remove('app.call_of_project.new_help');
@@ -215,7 +219,7 @@ class CallOfProjectController extends AbstractController
         $callOfProjectClone = clone $callOfProject;
 
         $form = $this->createForm(CallOfProjectInformationType::class, $callOfProject);
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
 
         $openEditionFormModal = false;
         if ($form->isSubmitted() && $this->isGranted(CallOfProjectVoter::EDIT, $callOfProject)) {
@@ -224,7 +228,7 @@ class CallOfProjectController extends AbstractController
 
                 $this->getDoctrine()->getManager()->flush();
 
-                $this->addFlash('success', $translator->trans(
+                $this->addFlash('success', $this->translator->trans(
                     'app.flash_message.edit_success', [
                     '%item%' => $callOfProject->getName()
                 ]));
@@ -249,10 +253,9 @@ class CallOfProjectController extends AbstractController
      * @Route("/{id}/toggle-subscription", name="toggle_subscription")
      * @param CallOfProject $callOfProject
      * @param UserManagerInterface $userManager
-     * @param Request $request
      * @return Response
      */
-    public function toggleSubscription(CallOfProject $callOfProject, UserManagerInterface $userManager, Request $request)
+    public function toggleSubscription(CallOfProject $callOfProject, UserManagerInterface $userManager)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -264,32 +267,23 @@ class CallOfProjectController extends AbstractController
         }
 
         $userManager->update($user);
-        return $this->redirect($request->headers->get('referer'));
+        return $this->redirect($this->request->headers->get('referer'));
     }
 
     /**
      * @Route("/{id}/projects", name="projects", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
-     * @param Request $request
-     * @param EntityManagerInterface $em
      * @param BatchActionManagerInterface $batchManager
-     * @param TranslatorInterface $translator
      * @return Response
      * @IsGranted(App\Security\CallOfProjectVoter::SHOW_PROJECTS, subject="callOfProject")
      */
-    public function projects(
-        CallOfProject               $callOfProject,
-        Request                     $request,
-        EntityManagerInterface      $em,
-        BatchActionManagerInterface $batchManager,
-        TranslatorInterface         $translator
-    ): Response
+    public function projects(CallOfProject $callOfProject, BatchActionManagerInterface $batchManager): Response
     {
         $projectToStudyForm = $this->createForm(ProjectToStudyType::class);
-        $projectToStudyForm->handleRequest($request);
+        $projectToStudyForm->handleRequest($this->request);
         if ($projectToStudyForm->isSubmitted() and $projectToStudyForm->isValid()) {
             $this->toReview($callOfProject);
-            $em->flush();
+            $this->em->flush();
             return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
         }
 
@@ -302,11 +296,11 @@ class CallOfProjectController extends AbstractController
             $batchActionBlackList[] = AddReportBatchAction::class;
         }
         $batchActionForm = $batchManager->getForm(Project::class, $batchActionBlackList);
-        $batchActionForm->handleRequest($request);
+        $batchActionForm->handleRequest($this->request);
         if ($batchActionForm->isSubmitted() and $batchActionForm->isValid()) {
-            $ok = $batchManager->saveDataInSession($batchActionForm, $request->getSession());
+            $ok = $batchManager->saveDataInSession($batchActionForm, $this->request->getSession());
             if (!$ok) {
-                $this->addFlash('error', $translator->trans('app.error_occured'));
+                $this->addFlash('error', $this->translator->trans('app.error_occured'));
                 return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
             }
             return $this->redirectToRoute('app.call_of_project.batch_action', ['id' => $callOfProject->getId()]);
@@ -337,29 +331,20 @@ class CallOfProjectController extends AbstractController
      * @Route("/{id}/batch-action", name="batch_action", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
      * @param BatchActionManagerInterface $batchActionManager
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function batchAction(
-        CallOfProject               $callOfProject,
-        BatchActionManagerInterface $batchActionManager,
-        Request                     $request,
-        EntityManagerInterface      $entityManager,
-        TranslatorInterface         $translator
-    )
+    public function batchAction(CallOfProject $callOfProject, BatchActionManagerInterface $batchActionManager): Response
     {
 
-        $entities = $batchActionManager->getEntitiesFromSession($request->getSession());
-        $batchAction = $batchActionManager->getBatchActionFromSession($request->getSession());
+        $entities = $batchActionManager->getEntitiesFromSession($this->request->getSession());
+        $batchAction = $batchActionManager->getBatchActionFromSession($this->request->getSession());
 
         if (empty($entities) or !$batchAction) {
-            throw new NotFoundHttpException($translator->trans('app.page_not_found'));
+            throw new NotFoundHttpException($this->translator->trans('app.page_not_found'));
         }
 
         $form = $this->createForm($batchAction->getFormClassName());
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
 
         if ($form->isSubmitted() and $form->isValid()) {
 
@@ -372,16 +357,16 @@ class CallOfProjectController extends AbstractController
                 return $entity->getId();
             }, $entities);
 
-            $entities = $entityManager->getRepository($className)->findBy(['id' => $ids]);
+            $entities = $this->em->getRepository($className)->findBy(['id' => $ids]);
 
             foreach ($entities as $entity) {
                 $batchAction->process($entity, $form);
             }
 
-            $batchActionManager->removeBatchActionFromSession($request->getSession());
+            $batchActionManager->removeBatchActionFromSession($this->request->getSession());
 
-            $entityManager->flush();
-            $this->addFlash('success', $translator->trans('app.batch_action.success'));
+            $this->em->flush();
+            $this->addFlash('success', $this->translator->trans('app.batch_action.success'));
 
             return $this->redirectToRoute('app.call_of_project.projects', ['id' => $callOfProject->getId()]);
         }
@@ -410,30 +395,22 @@ class CallOfProjectController extends AbstractController
     /**
      * @Route("/{id}/edit-permissions", name="edit_permissions", methods={"GET", "POST"})
      * @param CallOfProject $callOfProject
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
-     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
      * @return Response
+     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
      */
-    public function editPermissions(
-        CallOfProject          $callOfProject,
-        Request                $request,
-        EntityManagerInterface $em,
-        TranslatorInterface    $translator
-    ): Response
+    public function editPermissions(CallOfProject $callOfProject): Response
     {
         $form = $this->createForm(CallOfProjectAclsType::class, $callOfProject);
 
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
 
         if ($form->isSubmitted() and $form->isValid()) {
 
-            $em->flush();
+            $this->em->flush();
 
             $this->addFlash(
                 'success',
-                $translator->trans('app.flash_message.edit_success', ['%item%' => $callOfProject->getName()])
+                $this->translator->trans('app.flash_message.edit_success', ['%item%' => $callOfProject->getName()])
             );
 
             return $this->redirectToRoute('app.call_of_project.show_permissions', ['id' => $callOfProject->getId()]);
@@ -451,13 +428,9 @@ class CallOfProjectController extends AbstractController
      * @param ProjectManagerInterface $projectManager
      * @return Response
      * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
-     * @throws \Exception
+     * @throws Exception
      */
-    public function form(
-        CallOfProject           $callOfProject,
-        WidgetManager           $widgetManager,
-        ProjectManagerInterface $projectManager
-    ): Response
+    public function form(CallOfProject $callOfProject, WidgetManager $widgetManager, ProjectManagerInterface $projectManager): Response
     {
 
         $project = $projectManager->create($callOfProject);
@@ -477,48 +450,74 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/{id}/mail-template", name="mail_template", methods={"GET", "POST"})
+     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
      * @param CallOfProject $callOfProject
-     * @param CallOfProjectManagerInterface $callOfProjectManager
-     * @param Request $request
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
+     * @return Response
      */
-    public function editMailTemplate(
-        CallOfProject                 $callOfProject,
-        CallOfProjectManagerInterface $callOfProjectManager,
-        Request                       $request,
-        TranslatorInterface           $translator
-    )
+    public function listMailTemplates(CallOfProject $callOfProject): Response
     {
-        $form = $this->createForm(MailTemplateType::class, $callOfProject);
-        $form->handleRequest($request);
+        $genericMailTemplates = $this->em->getRepository(MailTemplate::class)->findAll();
+        foreach ($genericMailTemplates as $genericMailTemplate) {
+            if (!in_array($genericMailTemplate->getName(), CallOfProjectMailTemplate::ALLOWED_TEMPLATES)) continue;
 
-        if ($form->isSubmitted() and $form->isValid()) {
-
-            $callOfProjectManager->update($callOfProject);
-            $this->addFlash('success', $translator->trans('app.flash_message.edit_success', ['%item%' => $callOfProject->getName()]));
-
-            return $this->redirectToRoute('app.call_of_project.mail_template', ['id' => $callOfProject->getId()]);
+            $copMailTemplate = $this->em->getRepository(CallOfProjectMailTemplate::class)->findOneBy([
+                'name' => $genericMailTemplate->getName(),
+                'callOfProject' => $callOfProject->getId(),
+            ]);
+            
+            if (!$copMailTemplate instanceof MailTemplateInterface) {
+                $newCopMailTemplate = (new CallOfProjectMailTemplate())
+                    ->setCallOfProject($callOfProject)
+                    ->setName($genericMailTemplate->getName())
+                    ->setSubject($genericMailTemplate->getSubject())
+                    ->setBody($genericMailTemplate->getBody())
+                    ->setEnable($genericMailTemplate->isEnable());
+                $this->em->persist($newCopMailTemplate);
+            }
         }
+        $this->em->flush();
 
-        return $this->render('call_of_project/edit_mail_template.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('call_of_project/list_mails_templates.html.twig', [
             'call_of_project' => $callOfProject
         ]);
     }
 
     /**
+     * @Route("/{id}/mail-template/{mailTemplate}/edit", name="mail_template.edit", methods={"GET", "POST"})
+     * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
+     */
+    public function editMailTemplate(CallOfProject $callOfProject, CallOfProjectMailTemplate $mailTemplate)
+    {
+
+        $form = $this->createForm(MailTemplateType::class, $mailTemplate);
+        $form->handleRequest($this->request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $this->em->flush();
+            $this->addFlash('success', $this->translator->trans('app.flash_message.edit_success', ['%item%' => $mailTemplate->getName()]));
+
+            return $this->redirectToRoute('app.call_of_project.mail_template', [
+                'id' => $callOfProject->getId()
+            ]);
+        }
+
+        return  $this->render('call_of_project/edit_mail_template.html.twig', [
+            'call_of_project' => $callOfProject,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
      * @Route("/list-by-user-select-2", name="list_by_user_select_2", methods={"GET"})
-     * @param Request $request
      * @param CallOfProjectRepository $callOfProjectRepository
      * @return JsonResponse
      */
-    public function listByUserSelect2(Request $request, CallOfProjectRepository $callOfProjectRepository)
+    public function listByUserSelect2(CallOfProjectRepository $callOfProjectRepository): JsonResponse
     {
 
         $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_AT_LEAST, $this->getUser());
 
-        $query = $request->query->get('q');
+        $query = $this->request->query->get('q');
 
         $callOfProjects = array_map(function ($callOfProject) {
             return [
@@ -531,16 +530,15 @@ class CallOfProjectController extends AbstractController
 
     /**
      * @Route("/list-all-select-2", name="list_all_select_2", methods={"GET"})
-     * @param Request $request
      * @param CallOfProjectRepository $callOfProjectRepository
      * @return JsonResponse
      */
-    public function listAllSelect2(Request $request, CallOfProjectRepository $callOfProjectRepository)
+    public function listAllSelect2(CallOfProjectRepository $callOfProjectRepository): JsonResponse
     {
 
         $this->denyAccessUnlessGranted(UserVoter::ADMIN_ONE_ORGANIZING_CENTER_OR_CALL_OF_PROJECT_AT_LEAST, $this->getUser());
 
-        $query = $request->query->get('q');
+        $query = $this->request->query->get('q');
 
         $callOfProjects = array_map(function ($callOfProject) {
             return [
@@ -552,30 +550,23 @@ class CallOfProjectController extends AbstractController
     }
 
     /**
-     * @param CallOfProject $callOfProject
-     * @param Request $request
-     * @param CallOfProjectManagerInterface $callOfProjectManager
-     * @param TranslatorInterface $translator
-     * @return RedirectResponse|Response
      * @Route("/{id}/delete-form", name="delete_form", methods={"GET", "POST"})
+     * @param CallOfProject $callOfProject
+     * @param CallOfProjectManagerInterface $callOfProjectManager
+     * @return RedirectResponse|Response
      */
-    public function deleteForm(
-        CallOfProject                 $callOfProject,
-        Request                       $request,
-        CallOfProjectManagerInterface $callOfProjectManager,
-        TranslatorInterface           $translator
-    )
+    public function deleteForm(CallOfProject $callOfProject, CallOfProjectManagerInterface $callOfProjectManager)
     {
         $this->denyAccessUnlessGranted(OrganizingCenterVoter::ADMIN, $callOfProject->getOrganizingCenter());
 
         $form = $this->createForm(DeleteType::class, $callOfProject);
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
 
         if ($form->isSubmitted() and $form->isValid()) {
             $name = $callOfProject->getName();
             $callOfProjectManager->delete($callOfProject);
 
-            $this->addFlash('success', $translator->trans('app.flash_message.delete_success', [
+            $this->addFlash('success', $this->translator->trans('app.flash_message.delete_success', [
                 '%item%' => $name
             ]));
 
@@ -595,13 +586,9 @@ class CallOfProjectController extends AbstractController
      * @param ProjectManagerInterface $projectManager
      * @return Response
      * @IsGranted(App\Security\CallOfProjectVoter::ADMIN, subject="callOfProject")
-     * @throws \Exception
+     * @throws Exception
      */
-    public function formPreview(
-        CallOfProject           $callOfProject,
-        WidgetManager           $widgetManager,
-        ProjectManagerInterface $projectManager
-    ): Response
+    public function formPreview(CallOfProject $callOfProject, WidgetManager $widgetManager, ProjectManagerInterface $projectManager): Response
     {
         $project = $projectManager->create($callOfProject);
         $dynamicForm = $widgetManager->getDynamicForm($project);
@@ -620,13 +607,13 @@ class CallOfProjectController extends AbstractController
      * @IsGranted(App\Security\CallOfProjectVoter::FINISHED, subject="callOfProject")
      * @Route("/{id}/finished", name="finished", methods={"GET"})
      */
-    public function finished(CallOfProject $callOfProject, Request $request, EntityManagerInterface $em)
+    public function finished(CallOfProject $callOfProject): RedirectResponse
     {
-        $token = $request->query->get('token');
+        $token = $this->request->query->get('token');
         if ($this->isCsrfTokenValid('close-call-of-projects', $token)) {
 
             $callOfProject->setStatus(CallOfProject::STATUS_FINISHED);
-            $em->flush();
+            $this->em->flush();
         }
         return $this->redirectToRoute('app.call_of_project.informations', [
             'id' => $callOfProject->getId()
@@ -646,7 +633,7 @@ class CallOfProjectController extends AbstractController
                 if ($stateMachine->can($project, 'to_study')) {
                     $stateMachine->apply($project, 'to_study');
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->addFlash('error', $this->translator->trans('app.flash_message.error_project_to_study', ['%item%' => $project->getName()]));
             }
         }

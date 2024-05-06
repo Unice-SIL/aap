@@ -18,6 +18,9 @@ class Project extends Common
     const STATUS_REFUSED = 'refused';
     const STATUS_VALIDATED = 'validated';
 
+    const TRANSITION_VALIDATE = 'validate';
+    const TRANSITION_REFUSE = 'refuse';
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CallOfProject", inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
@@ -33,6 +36,11 @@ class Project extends Common
      * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="project", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $reports;
+
+    /**
+     * @var null|string
+     */
+    private $validateRejectMailContent = null;
 
     /** @var bool */
     private $notifyReporters = true;
@@ -170,4 +178,21 @@ class Project extends Common
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getValidateRejectMailContent(): ?string
+    {
+        return $this->validateRejectMailContent;
+    }
+
+    /**
+     * @param string|null $validateRejectMailContent
+     * @return Project
+     */
+    public function setValidateRejectMailContent(?string $validateRejectMailContent): Project
+    {
+        $this->validateRejectMailContent = $validateRejectMailContent;
+        return $this;
+    }
 }

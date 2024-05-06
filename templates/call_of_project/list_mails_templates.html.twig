@@ -1,0 +1,52 @@
+{% extends 'call_of_project/layout.html.twig' %}
+
+{% block title %}
+    {{ 'app.call_of_project.mail_template.h1'|trans }}
+{% endblock %}
+
+{% block h1_content %}
+    {{ 'app.admin.mail_template.index.h1'|trans }}
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table dataTable"
+                   data-translation-url="{{ asset('/build/dataTable.' ~ app.request.locale ~ '.json') }}"
+            >
+                <thead>
+                <tr>
+                    <th>{{ 'app.call_of_project.mail_template.property.name.label'|trans }}</th>
+                    <th>{{ 'app.call_of_project.mail_template.property.subject.label'|trans }}</th>
+                    <th>{{ 'app.call_of_project.mail_template.property.body.label'|trans }}</th>
+                    <th>{{ 'app.call_of_project.mail_template.property.enable.label'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mail_template in call_of_project.mailTemplates %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app.call_of_project.mail_template.edit', { 'id' : call_of_project.id, 'mailTemplate': mail_template.id}) }}">
+                                {{ mail_template.name|trans }}
+                            </a>
+                        </td>
+                        <td>{{ mail_template.subject }}</td>
+                        <td>{{ mail_template.body | raw }}</td>
+                        <td class="d-flex justify-content-center">
+                            {% if mail_template.enable  %}
+                                <span class="badge badge-pill badge-success">Oui</span>
+                            {% else %}
+                                <span class="badge badge-pill badge-danger">Non</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

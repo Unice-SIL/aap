@@ -7,6 +7,7 @@ use App\Utils\Mail\MailHelper;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class ReportSubscriber implements EventSubscriber
 {
@@ -24,16 +25,19 @@ class ReportSubscriber implements EventSubscriber
         $this->mailHelper = $mailHelper;
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::prePersist,
+            Events::postUpdate,
         ];
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function prePersist(LifecycleEventArgs $args)
     {
-        /** @var Report $report */
         $report = $args->getObject();
 
         if (!$report instanceof Report) {
@@ -45,13 +49,30 @@ class ReportSubscriber implements EventSubscriber
         }
 
         if ($report->getNotifyReporters() === Report::NOTIFY_REPORT) {
-            $this->mailHelper->notifyReporterAboutReport($report);
+            $this->mailHelper->notificationUserNewReporter($report);
         }
 
         if ($report->getNotifyReporters() === Report::NOTIFY_REPORTS) {
-            $this->mailHelper->notifyReporterAboutReports($report);
+            $this->mailHelper->notificationUserNewReporters($report);
         }
 
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $report = $args->getObject();
+
+        if (!$report instanceof Report) {
+            return;
+        }
+
+        $this->mailHelper->notificationReporterReportUpdated($report);
+        $this->mailHelper->notificationCopFollowersReportUpdated($report);
     }
 
 }

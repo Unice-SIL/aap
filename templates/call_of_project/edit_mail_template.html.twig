@@ -1,11 +1,11 @@
 {% extends 'call_of_project/layout.html.twig' %}
 
 {% block title %}
-    {{ 'app.call_of_project.mail_template.h1'|trans }}
+    {{ 'app.call_of_project.mail_template.edit.h1'|trans }}
 {% endblock %}
 
 {% block h1_content %}
-    {{ 'app.call_of_project.mail_template.h1'|trans }}
+    {{ 'app.call_of_project.mail_template.edit.h1'|trans }}
 {% endblock %}
 
 {% block content %}
@@ -14,22 +14,18 @@
             <div class="callout callout-info">
                 <strong>Variables disponibles :</strong>
                 <ul class="list-unstyled">
-                    {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS') %}
+                    {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS')[form.vars.data.name] %}
                         <li>{{ placeholder }} => {{ legend|trans }} </li>
                     {% endfor %}
                 </ul>
             </div>
             {{ form_start(form) }}
-            {{ form_row(form.validationMailTemplate) }}
-
-            {{ form_widget(form.isAutomaticSendingValidationMail) }}
-
-            {{ form_row(form.refusalMailTemplate) }}
-
-            {{ form_widget(form.isAutomaticSendingRefusalMail) }}
-            <button class="btn btn-primary mr-3">{{ 'app.action.save'|trans }}</button>
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary mr-3">{{ 'app.action.edit'|trans }}</button>
+            <a href="{{ path('app.admin.mail_template.index') }}" class="text-muted">
+                {{ 'app.action.canceled'|trans }}
+            </a>
             {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}
-

@@ -14,7 +14,7 @@
             <div class="callout callout-info">
                 <strong>Variables disponibles :</strong>
                 <ul class="list-unstyled">
-                    {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS') %}
+                    {% for legend, placeholder in constant('App\\Constant\\MailTemplate::PLACEHOLDERS')[form.vars.data.name] %}
                         <li>{{ placeholder }} => {{ legend|trans }} </li>
                     {% endfor %}
                 </ul>
