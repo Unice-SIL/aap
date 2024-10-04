@@ -120,7 +120,7 @@ class MailHelper
             $mailTemplate = $this->getEmailTemplateFromCallOfProject($templateName, $callOfProject);
         }
 
-        if (!$mailTemplate instanceof MailTemplate or !$mailTemplate->isEnable()) return;
+        if (!$mailTemplate instanceof MailTemplateInterface or !$mailTemplate->isEnable()) return;
         if (empty($recipient->getEmail())) return;
 
         $email = (new Email())
