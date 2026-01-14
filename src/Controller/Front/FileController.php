@@ -97,11 +97,11 @@ class FileController extends AbstractController
             $zipHelper->createZipFromCallOfProject($callOfProject, [
                 'sentHttpHeaders' => true
             ]);
+            exit;
 
         } catch (Exception $e) {
-            $this->addFlash('error', $e->getMessage());
+            $this->addFlash('error', $e->getTraceAsString());
             return $this->redirectToRoute($request->get('_route'));
         }
-        return new Response();
     }
 }
