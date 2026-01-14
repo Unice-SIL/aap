@@ -52,6 +52,10 @@ class ZipHelper
      */
     public function createZipFromCallOfProject(CallOfProject $callOfProject, $options = [])
     {
+        libxml_use_internal_errors(true);
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
 
         $options = array_merge([
             'sentHttpHeaders' => false
@@ -76,6 +80,7 @@ class ZipHelper
         $rowReport = 2;
 
         foreach ($callOfProject->getProjects() as $project) {
+            $projectDir = $this->cleanFileName($project->getName());
             $sheetProject->setCellValueByColumnAndRow(1, $rowProject, $project->getName());
             $columnProject = 2;
             foreach ($project->getProjectContents() as $projectContent) {
@@ -92,10 +97,15 @@ class ZipHelper
                 //If the value we add the file in a directory with project name as name and we set an url into the cell
                 //to be able to open the file directly from index.xlsx
                 if ($widget->isFileWidget() && $projectContent->getContent() !== null) {
+                    $path = $projectContent->getContent()->getPathName();
+                    if (!is_file($path) || !is_readable($path)) {
+                        throw new \RuntimeException("Fichier introuvable ou illisible : ".$path);
+                    }
                     //adds file in appropriate project directory
-                    $zip->addFileFromPath($project->getName() . '/Fichiers/' . $projectContent->getStringContent(), $projectContent->getContent()->getPathName());
+                    $fileName   = $this->cleanFileName($projectContent->getStringContent());
+                    $zip->addFileFromPath($projectDir . '/Fichiers/' . $fileName, $path);
                     //sets a link on the value to open directly the file
-                    $sheetProject->getCellByColumnAndRow($columnProject, $rowProject)->getHyperlink()->setUrl($project->getName() . DIRECTORY_SEPARATOR . 'Fichiers' . DIRECTORY_SEPARATOR . $projectContent->getStringContent());
+                    $sheetProject->getCellByColumnAndRow($columnProject, $rowProject)->getHyperlink()->setUrl($projectDir . DIRECTORY_SEPARATOR . 'Fichiers' . DIRECTORY_SEPARATOR . $projectContent->getStringContent());
                 }
                 $columnProject++;
             }
@@ -109,10 +119,15 @@ class ZipHelper
                     $sheetReport->setCellValueByColumnAndRow(3, $rowReport, $report->getComment());
                     $sheetReport->setCellValueByColumnAndRow(4, $rowReport, $report->getReport()->getOriginalName());
                     if ($report->getReport() instanceof File and $report->getReport()->getOriginalName() !== null) {
+                        $path = $this->projectDir . $this->uploaderHelper->asset($report, 'reportFile');
+                        if (!is_file($path) || !is_readable($path)) {
+                            throw new \RuntimeException("Rapport introuvable : ".$path);
+                        }
+
                         $reportName = 'Rapport ' . $reporterName . '.' . $this->getFileExtention($report->getReport()->getName());
-                        $zip->addFileFromPath($project->getName() . '/Rapports/' . $reportName, $this->projectDir . $this->uploaderHelper->asset($report, 'reportFile'));
+                        $zip->addFileFromPath($projectDir . '/Rapports/' . $reportName, $path);
                         //sets a link on the value to open directly the file
-                        $sheetReport->getCellByColumnAndRow(4, $rowReport)->getHyperlink()->setUrl($project->getName() . '/Rapports/' . $reportName);
+                        $sheetReport->getCellByColumnAndRow(4, $rowReport)->getHyperlink()->setUrl($projectDir . '/Rapports/' . $reportName);
                     }
                     $rowReport++;
                 }
@@ -124,7 +139,7 @@ class ZipHelper
         $temporaryLinkReport = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
         $writerReport->save($temporaryLinkReport);
         $zip->addFileFromPath('rapports.xlsx', $temporaryLinkReport);
-        unlink($temporaryLinkReport);
+
 
         //Saves temporary the xlsx file
         $writerProject = new Xlsx($spreadsheetProject);
@@ -134,14 +149,49 @@ class ZipHelper
         //Adds temporary xlsx file into the zip
         $zip->addFileFromPath('projets.xlsx', $temporaryLink);
 
-        //removes temporary xlsx from hard disk
-        unlink($temporaryLink);
+
 
         //finish the zip
         $zip->finish();
 
+        //removes temporary files
+        @unlink($temporaryLinkReport);
+        @unlink($temporaryLink);
+
         return $zip;
 
+    }
+
+    private function cleanFileName(string $name, int $maxLength = 80): string
+    {
+        if (class_exists(\Normalizer::class)) {
+            $name = \Normalizer::normalize($name, \Normalizer::FORM_C);
+        }
+
+        // Supprime caractères de contrôle (0x00–0x1F, 0x7F)
+        $name = preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
+
+        // Trim espaces et points (interdits en fin de nom sous Windows)
+        $name = trim($name);
+        $name = rtrim($name, '. ');
+
+        // Remplace les séparateurs interdits Windows
+        $name = preg_replace('/[\/\\\\:\*\?"<>\|]/u', '_', $name);
+
+        // Réduit les espaces multiples
+        $name = preg_replace('/\s+/u', ' ', $name);
+
+        // Limite la longueur
+        if (mb_strlen($name, 'UTF-8') > $maxLength) {
+            $name = mb_substr($name, 0, $maxLength, 'UTF-8');
+        }
+
+        // Sécurité ultime
+        if ($name === '' || $name === '.' || $name === '..') {
+            $name = 'fichier';
+        }
+
+        return $name;
     }
 
     public function getFileExtention(string $fileName): ?string
